@@ -1,0 +1,44 @@
+{
+    "params": [
+
+                {
+                    "type": "Label",
+                    "text": "VPN设置",
+                    "size": 16,
+                    "align": "left",
+                    "color": "0,168,233"
+                }, 
+                {
+                    "id": "vpnKey",
+                    "type": "RadioGroup",
+                    "list": "vpn,wifi,默认",
+                    "select": "0"
+                }, 
+                {
+                    "type": "Label",
+                    "text": "选择星级",
+                    "size": 16,
+                    "align": "left",
+                    "color": "0,168,233"
+                }, 
+                {
+                    "id": "starKey",
+                    "type": "RadioGroup",
+                    "list": "5星,4星,3星,2星,1星",
+                    "select": "0"
+                },
+                {
+                    "type": "Label",
+                    "text": "选择打量方式",
+                    "size": 16,
+                    "align": "left",
+                    "color": "0,168,233"
+                }, 
+                {
+                    "id": "AsoKey",
+                    "type": "RadioGroup",
+                    "list": "ASO方式,直接评论方式",
+                    "select": "0"
+                }
+            ]
+}

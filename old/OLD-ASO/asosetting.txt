@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>dama_username</key>
+		<string>xuetian123</string>
+		<key>dama_password</key>
+		<string>1234QWERasdf</string>
+		<key>dama_type</key>
+		<integer>1007</integer>
+		<key>username</key>
+		<string>asobj</string>
+		<key>password</key>
+		<string>qwertyuiop</string>
+	</dict>
+</plist>

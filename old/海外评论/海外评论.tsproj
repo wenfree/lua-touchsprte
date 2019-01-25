@@ -1,0 +1,12 @@
+[res]
+[lib]
+[file]
+tsp.lua
+main.lua
+
+
+api.lua
+get_name.lua
+nikename.lua
+
+ios10-5s.lua

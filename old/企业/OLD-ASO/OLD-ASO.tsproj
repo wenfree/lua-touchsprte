@@ -1,0 +1,11 @@
+[res]
+中文字库.txt
+英文字库.txt
+aso.tsl
+[lib]
+[file]
+tsp.lua
+Api.lua
+main.lua
+
+test.lua

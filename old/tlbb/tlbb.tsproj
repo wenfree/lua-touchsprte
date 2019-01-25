@@ -1,0 +1,17 @@
+[res]
+中文字库.txt
+[lib]
+[file]
+AWZ.lua
+tsp.lua
+main.lua
+str.lua
+event.lua
+
+qq.lua
+UI.lua
+
+orc.lua
+upload.lua
+str-test.lua
+qqhuakuai.lua

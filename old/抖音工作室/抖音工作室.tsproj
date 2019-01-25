@@ -1,0 +1,15 @@
+[res]
+中文字库.txt
+[lib]
+[file]
+lz-api.lua
+AWZ.lua
+tsp.lua
+main.lua
+
+iphone6.lua
+
+yzm.lua
+
+
+ui.lua

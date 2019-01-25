@@ -1,0 +1,12 @@
+[res]
+中文字库.txt
+[lib]
+[file]
+
+AWZ.lua
+main.lua
+nameStr.lua
+tsp.lua
+UI.lua
+
+alz.lua

@@ -1,0 +1,16 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+127.0.0.1 iphonesubmissions.apple.com
+127.0.0.1 radarsubmissions.apple.com
+127.0.0.1 is1.mzstatic.com
+127.0.0.1 is2.mzstatic.com
+127.0.0.1 is3.mzstatic.com
+127.0.0.1 is4.mzstatic.com
+127.0.0.1 is5.mzstatic.com
