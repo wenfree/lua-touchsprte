@@ -706,7 +706,8 @@ function all()
 		end
 	end
 
-
+--	Armybuilding()
+--	lua_exit() 
 	while (true) do
 		UIinit()
 		主线 = tonumber(values.game_main)

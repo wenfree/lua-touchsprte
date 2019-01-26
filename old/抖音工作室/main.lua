@@ -326,7 +326,7 @@ function follow()
 			elseif d('搜索界面_取消')then
 				
 --				local getdyid_url = 'http://idfa888.com/Public/dyid/?service=dyid.getdyid&sex='..UIv.sex
-				local getdyid_url = 'http://api.okayapi.com/?s=Ouwen000.Dyid.Getdyid&&app_key=90BB9337D7B1ACC0CA642C5726D227CB&sex='..UIv.sex
+				local getdyid_url = 'http://api.okayapi.com/?s=Ouwen000.Dyid.Getdyid&app_key=90BB9337D7B1ACC0CA642C5726D227CB&sex='..UIv.sex
 				local dyid_data = get(getdyid_url)
 --				input("1011723321")
 				if dyid_data ~= nil then
