@@ -55,7 +55,6 @@ function yiji_other()
 			elseif y < 250 then
 				moveTo(300,300,300,450,20,20)
 			end
-
 		else
 --			moveTo(500,600,400,700,20,20)
 --			delay(3)

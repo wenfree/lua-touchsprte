@@ -8,7 +8,7 @@ MyTable = {
 	["rettype"]      = "table",
 	["width"]        = w,
 	["height"]       = h,
-	["config"]       = "nike.dat",
+	["config"]       = "nike1.dat",
 	["timer"]        = 99,
 	["orient"]       = 0,
 	["pagetype"]     = "multi",
@@ -113,7 +113,7 @@ MyTable = {
 				["type"] =  "TextArea",         -- 必填，控件类型，输入框
 				["id"] = "mail",                  
 				-- 选填，无，控件ID 以 table格式返回返回值时必填,否则无法获取返回值
-				["text"] =  "shuaisports.com",
+				["text"] =  "@shuaisports.com\n@gmail.com\n@yahoo.com\n@hotmail.com\n@live.com\n@qq.com\n@163.com\n@163.net\n@21.com\n@126.com\n@mail.com",
 				["prompt"] =  "填入邮箱,一行一个",       -- 选填，无，提示文字
 				["size"] =  12,                 -- 选填，15，字体大小
 				["align"] =  "left",          -- 选填，居左，对齐方式
@@ -133,7 +133,7 @@ MyTable = {
 				["id"] = "password",
 				["type"] = "Edit",
 				["prompt"] = "这里是密码",
-				["text"] = "Shuai2018@",
+				["text"] = "Shuai2019tk",
 				["kbtype"] = "ascii",
 				["width"] = 475,
 			},

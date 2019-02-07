@@ -84,11 +84,14 @@ function llsGameToken()
 	local account = readFileString(AccountInfo)
 	local sz = require("sz")
 	local json = sz.json
-	if account ~= nil  and string.len(account) > 10 then
-		local newTable = json.decode(account)
-		return newTable[1].app_token
+	if type(account) == 'string' then
+		if account ~= nil  and string.len(account) > 10 then
+			local newTable = json.decode(account)
+			return newTable[1].app_token
+		end
 	end
 end
+
 function AccountInfo()
 	local appbid = 'com.lilithgame.sgame'
 	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"

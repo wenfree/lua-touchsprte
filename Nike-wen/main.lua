@@ -97,23 +97,35 @@ function backWirteFile(file_name,string,way)
 	f:close()
 end
 
+function local_token()
+	local appbid = 'com.nike.onenikecommerce'
+	local localPath = appDataPath(appbid).."/Documents/ifkc.plist" --设置 plist 路径
+	local toketext = readFileString(localPath)
+	local toketext = string.gsub(toketext,'&','|')
+	local toketext = string.gsub(toketext,'+','^')
+	return toketext
+end
+
 function updateNike()
-	local url = 'http://wenfree.cn/api/Public/tjj/?service=Nike.address'
+	local url = 'http://39.108.184.74/api/Public/tjj/?service=Nike.address'
 	local Arr={}
 	Arr.address_mail = var.account.login
 	Arr.address_pwd = var.account.pwd
 	Arr.address_phone = var.account.phone
-	Arr.address_xin = first_name_
-	Arr.address_ming = last_names_
-	Arr.address_sheng = '广东省'
-	Arr.address_shi = '深圳市'
-	Arr.address_qu = '罗湖区'
-	Arr.address_area = var.account.address_area
+--	Arr.address_xin = first_name_
+--	Arr.address_ming = last_names_
+--	Arr.address_sheng = '广东省'
+--	Arr.address_shi = '深圳市'
+--	Arr.address_qu = '罗湖区'
+--	Arr.address_area = var.account.address_area
 	Arr.note = getDeviceName()
-	Arr.token = var.account.login..".plist"
+	Arr.token = local_token()
 	log(Arr)
-	post(url,Arr)
-	backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
+	if post(url,Arr)then
+		return true
+	else
+		backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
+	end
 end
 
 function UpFtp()
@@ -130,8 +142,9 @@ function UpFtp()
 	end
 end
 
+
 function DownFtp()
-	local NewPath = "ftp://admin:AaDd112211@wenfree.cn/token/"..var.account.token --设置 plist 路径
+	local NewPath = "ftp://admin:AaDd112211@39.108.184.74/token/"..var.account.token --设置 plist 路径
 	local localPath = appDataPath(var.bid).."/Documents/ifkc.plist"
 	local ftp = sz.ftp--使用 FTP 模块前一定要插入这一句
 	_, err = ftp.download(NewPath, localPath)--文件名不可使用中文字符
@@ -143,7 +156,7 @@ function DownFtp()
 end
 
 function backId(state)
-	local postUrl = 'http://wenfree.cn/api/Public/tjj/?service=Nike.backId'
+	local postUrl = 'http://39.108.184.74/api/Public/tjj/?service=Nike.backId'
 	local postArr = {}
 	postArr.id = var.account.id
 	postArr.state = state
@@ -327,8 +340,7 @@ function reg()
 				d('输入您的电子邮件',true)
 			elseif d('主菜单_首页')then
 				if firstUp then
-					if UpFtp() then
-						updateNike()
+					if updateNike()then
 						delay(rd(2,5))
 						firstUp = false
 						click(300,300)
@@ -401,7 +413,7 @@ function login()
 	local outTimes = 3*60
 --	log(UIvalues.day)
 --	getIdUrl = 'http://wenfree.cn/api/Public/tjj/?service=Nike.getbydi'
-	getIdUrl = 'http://wenfree.cn/api/Public/tjj/?service=Nike.getId&day='..UIvalues.day.."&again="..UIvalues.again
+	getIdUrl = 'http://39.108.184.74/api/Public/tjj/?service=Nike.getId&day='..UIvalues.day.."&again="..UIvalues.again
 	
 	local data 	= get(getIdUrl);
 	if data ~= nil then
@@ -411,12 +423,11 @@ function login()
 			var.account.pwd = data.data.address_pwd
 			var.account.phone = data.data.address_phone
 			var.account.id = data.data.id
-			
 --			log('data.data.token'..data.data.token )
-			
 			if type(data.data.token) == 'string' then 
 				var.account.token = data.data.token
-				DownFtp()
+				local localPath = appDataPath(var.bid).."/Documents/ifkc.plist"
+				downFile(var.account.token, localPath)
 			else
 				var.account.token = ''
 			end
@@ -426,7 +437,6 @@ function login()
 			return false
 		end
 	end
-	
 	
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
@@ -447,10 +457,8 @@ function login()
 				end
 			elseif d('主菜单_首页') then
 				if string.len(var.account.token) < 5 then
-					if UpFtp()then
-						updateNike()
-						delay(rd(2,5))
-					end
+					updateNike()
+					delay(rd(2,5))
 				end
 				return true
 			elseif d('错误_登录失败')or d('错误_选对国家')or d('错误_验证手机号') then

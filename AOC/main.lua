@@ -107,6 +107,8 @@ t['弹窗_城堡内_科技完成']={ 0x45c446, "-106|-300|0xf4d765,100|2|0x2eb53
 t['弹窗_宝箱领取']={ 0x83eb42, "341|-500|0x861400,-352|-502|0x861400", 90, 246, 41, 1106, 648 } --多点找色
 t['弹窗_双蓝按钮_右左']={ 0x28abbe, "-341|-4|0x27a5bd,124|-48|0x49acca,22|35|0xd6fff9,-485|-18|0x8bd7ec", 90, 313, 392, 1008, 534 } --
 t['弹窗_魔像弹窗']={ 0xde8e3d, "-298|14|0x7eeb40,-300|-500|0xcd2b07", 90, 473, 71, 1159, 681 } --多点找色
+t['弹窗_魔镜借兵']={ 0x8ef043, "-118|-568|0x00b053,152|-562|0xebe891", 90, 126, 73, 1238, 700 } --弹窗_魔镜借兵
+t['弹窗_公会技能']={ 0x47c642, "-56|33|0x5ed84d,73|-24|0x18894c", 90, 592, 652, 745, 730 } --多点找色
 t['结算界面_战斗胜利']={ 0x5dda3d, "-410|-11|0x27a2bd,347|-21|0xf2f293", 90, 311, 638, 1255, 731}
 
 
@@ -426,7 +428,7 @@ aoc['other']={}
 	aoc['other']['蓝色按钮在中间_']={ 0x3ac2bb, "-59|-21|0x29a1be,-2|-48|0x1e87af", 90, 523, 457, 826, 735}
 	aoc['other']['绿色按钮在中间下面_']={ 0x85ec42, "-78|-24|0x47bd4f,-2|-53|0x34a55c", 90, 512, 606, 821, 732}
 	
-
+	
 aoc['宝箱']={}
 	aoc['宝箱']['未展开']={ 0x20ae95, "-7|0|0x49d0b7,0|2|0x1cb396", 90, 0, 350, 28, 398}
 	aoc['宝箱']['展开']={  0x22aa96, "5|0|0x21aa95", 90, 229, 341, 262, 402}
@@ -529,7 +531,14 @@ function other()
 	elseif UI('other','遗迹扫荡_无卷',true,1)then
 	elseif UI('新手','英雄结算画面',true,1)then
 	elseif UI('新手','战斗胜利',true,1)then
-	elseif UI_pic('other','触摸魔镜',true,1)then	
+	elseif UI_pic('other','触摸魔镜',true,1)then
+		delay(1)
+		if d('弹窗_魔镜借兵',false,1)then
+			click(208,278)
+			click(208,278)
+			click(208,278)
+			d('弹窗_魔镜借兵',true,1)
+		end
 	elseif UI('other','魔镜好东西',true,1)then
 	elseif UI('other','得到配方',true,1)then	
 	elseif UI('other','宝箱奖励',true,1)then	
@@ -563,6 +572,7 @@ function other()
 	elseif UI_pic('other','绿色按钮在中间下面_',true,1)then
 	elseif d('弹窗_双蓝按钮_右左',true,1)then
 	elseif d('结算界面_战斗胜利',true,1)then
+	elseif d('弹窗_公会技能',true,1)then
 	elseif UI_pic('宝箱','展开',true)then
 	else
 		other_click_mun = other_click_mun  or 1
@@ -580,8 +590,8 @@ function awz_re_name(txt)
 	if values.oneormore == '0' then
 		if setting[16] then
 			reName(getOnlineName()..'/'..txt)
-		else
-			reName(txt)
+--		else
+--			reName(txt)
 		end
 	end
 end

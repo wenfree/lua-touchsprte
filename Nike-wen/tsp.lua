@@ -343,7 +343,7 @@ function downFile(url, path)
         if file then
             file:write(body)
             file:close()
-            return status;
+            return true
         else
             return -1;
         end
@@ -650,7 +650,9 @@ function get(url)
 	local res, code = http.request(url);
 	if code == 200 then
 		local json = sz.json
-		return json.decode(res)
+		if res ~= nil then
+			return json.decode(res)
+		end
 	end
 end
 
