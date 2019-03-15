@@ -194,7 +194,7 @@ function find_kuang()
 					delay(2)
 					return true
 				end
-			elseif zy_mun == 1 then
+			elseif 主线 ~= 9 and zy_mun == 1 then
 				nLog(cx+979 ..",".. cy-25)
 				if c_pic(aoc['返回']['指向目标地'],'指向目标地',true)then
 					delay(2)

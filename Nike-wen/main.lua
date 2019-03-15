@@ -424,7 +424,9 @@ function login()
 			var.account.phone = data.data.address_phone
 			var.account.id = data.data.id
 --			log('data.data.token'..data.data.token )
-			if type(data.data.token) == 'string' then 
+	
+
+			if type(data.data.token) == 'string' and UIvalues.work == "1" then 
 				var.account.token = data.data.token
 				local localPath = appDataPath(var.bid).."/Documents/ifkc.plist"
 				downFile(var.account.token, localPath)
@@ -757,7 +759,7 @@ function main()
 				closeX(var.bid)
 				delay(2)
 			end
-		elseif UIvalues.work == "1" then
+		elseif UIvalues.work == "1" or UIvalues.work == "2" then
 			if login()then
 				if buy()then
 					backId()

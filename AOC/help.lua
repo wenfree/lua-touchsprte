@@ -84,6 +84,7 @@ t['返回箭头_世界地图_城市内_攻击']={ 0xf8f8f8, "33|-6|0x5d2320,-67|
 t['攻城界面'] ={ 0xe6e58d, "-10|6|0x28756f,-18|8|0xf1ed93,-35|10|0x2b7b73", 90, 4, 2, 100, 66}
 
 t['弹窗_公会_攻击']={ 0xdb7b40, "99|-32|0x9b1651,9|36|0xede03d,-78|-33|0xdc605e", 90, 0, 0, 1333, 749 } --多点找色
+t['弹窗_公会_攻击_']={ 0xe7bf39, "-330|-1|0x39bfbd,-131|-400|0xc72906", 90, 241, 124, 1148, 690 } --多点找色
 
 function attck()
 	local TimeLine = os.time()
@@ -150,6 +151,7 @@ function attck()
 			if d('弹窗_前往',true,1)then
 				delay(2)
 			elseif d('弹窗_公会_攻击',true,1)then
+			elseif d('弹窗_公会_攻击_',true,1)then
 			elseif d('弹窗_开战',true,1)then
 				delay(3)
 				return true

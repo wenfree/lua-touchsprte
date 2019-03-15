@@ -70,6 +70,7 @@ function city()
 	show = {}
 	城市中的爵位 = true
 	修墙一次 = true
+	活动计时 = os.time()
 	
 	while (os.time()-计时<超时) do
 		if active(app,5)then
@@ -91,7 +92,7 @@ function city()
 					delay(5)
 					UI('返回','返回图标',true,1)
 				end
-			elseif (UI('返回','挑战赛界面') or UI_pic('返回','活动中心界面')) and not(d('返回_城堡中'))  then
+			elseif os.time() - 活动计时 < 20 and  (UI('返回','挑战赛界面') or UI_pic('返回','活动中心界面')) and not(d('返回_城堡中'))  then
 				if not(UI_pic('返回','跨服公会战')) and UI_pic('返回','可以领奖',true)then
 					click(892,541)
 					mSleep(1000)
@@ -267,7 +268,8 @@ function city()
 					采集信息 = false
 					keepScreen(false)
 				end
-			elseif setting[22] and UI_pic('在地图中','活动奖励',true)then					--活动中心
+			elseif setting[22] and os.time() - 活动计时 < 20  and UI_pic('在地图中','活动奖励',true)then					--活动中心
+				活动计时 = os.time()
 			elseif setting[0] and UI_pic('城堡','邮件提醒',true,1)then		--邮件提示
 			elseif setting[1] and UI('城堡','商城红点',true,1)then		--商城提示
 			elseif 开箱一次 and setting[19] then

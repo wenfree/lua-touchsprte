@@ -1,4 +1,8 @@
-alz_url = 'http://api.ipadh.cn/do.php'
+alz_url = 'http://api.ygcake.com/do.php'
+id = 10116		--facebook
+token = "176ac85b-bad7-4f68-8d96-b0f89e71bb09"
+
+
 function ALZ()
 	--采用 cjson 构造请求头部 json
 	local sz = require("sz")
@@ -31,6 +35,8 @@ function ALZ()
 		nLog('time_out')
 	end
 end
+
+ALZ()
 
 function GET_Phone(id,token)
 	--采用 cjson 构造请求头部 json

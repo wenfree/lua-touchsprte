@@ -11,8 +11,7 @@ init('0',0);
 appbid = 'com.facebook.Facebook'
 appm = 'com.facebook.Messenger'
 local_path = '/User/Media/TouchSprite/lua/facebook.txt'
-id = 10116		--facebook
-token = "12698a4b-ada8-4ffd-94ff-12d833f33aa0"
+
 
 --[[
 nLog('登录 ALZ')
@@ -91,6 +90,7 @@ function reg()
 	
 	page['reg']['首页']={{381,1263,0x4267b2},{351,209,0xffffff},{382,128,0xfea100},{416,216,0x4267b2},} --多点比色
 	page['reg']['马上开始']={{382,583,0xffffff},{377,573,0x5990ff},{480,291,0x4267b2},{477,291,0xe9ebee},}	--1
+	page['reg']['开始']={ 0xffffff, "-311|-28|0x5890ff,352|32|0x5890ff", 90, 8, 426, 734, 552 } --多点找色
 	page['reg']['us+1']={{51,389,0x141823},{50,389,0xf0f0f1},{147,402,0x141823},{148,403,0xeaeaeb},}
 		--72,1018 点击中国
 		
@@ -111,9 +111,8 @@ function reg()
 	
 	page['reg']['请输入生日']={{457,241,0x4267b2},{454,244,0xe6e8ec},{425,247,0xe9ebee},{423,246,0x4267b2},}
 		-- 217,1000-214,1256
-		
-	page['reg']['请选择性别']={{459,288,0x4267b2},{447,289,0x4267b2},{447,303,0xe9ebee},{447,305,0x4267b2},}
 	page['reg']['请选择性别']={{253,433,0x46629e},{355,436,0xadb2bb},{356,436,0xe9ebee},{495,443,0x44619d},}
+	page['reg']['注册完成_注册']={ 0xffffff, "-342|24|0x5890ff,328|-28|0x5890ff,15|-284|0x4267b2", 90, 8, 222, 742, 665 } --多点找色
 		-- 251,484
 	page['reg']['添加头像']={{378,612,0x9eaacb},{443,1154,0x5890ff},{427,1253,0x5890ff},{382,1201,0xe1e3e7},}		--1跳过
 	page['reg']['跳过通讯录']={{355,199,0xc53332},{359,211,0xf5c700},{365,221,0xfefeff},{440,253,0x209f71},}						--1跳过
@@ -131,11 +130,13 @@ function reg()
 		
 	page['reg']['添加好友']={ 0x9197a3, "144|7|0x9197a3,-36|-20|0x9197a3,-221|6|0x9197a3,-41|34|0x9197a3,-219|1|0xffffff", 90, 52, 571, 642, 901}
 	page['reg']['右上角跳过']={0xffffff, "-2|-3|0x4267b2,-23|5|0xffffff,-23|4|0x4469b3", 90, 633, 55, 734, 113}
+	
 
 	while (os.time()-计时 < 超时) do
 		if active(appbid,3)then
 		elseif done(page['reg']['首页'],'首页',true,1) then
 		elseif done(page['reg']['马上开始'],'马上开始',true,1) then
+		elseif c_pic(page['reg']['开始'],'开始',true,1) then
 		elseif done(page['reg']['us+1'],'us+1',true,1) then
 			mSleep(1000)
 			click(72,1018)
@@ -182,6 +183,7 @@ function reg()
 			mSleep(1000* 5)
 			click(691,862)		
 		elseif done(page['reg']['请选择性别'],'请选择性别',true,1) then
+		elseif c_pic(page['reg']['注册完成_注册'],'注册完成_注册',true,1) then
 		elseif done(page['reg']['添加头像'],'添加头像',false,1) then
 			click(697,89)
 		elseif done(page['reg']['跳过通讯录'],'跳过通讯录',false,1) then
@@ -241,15 +243,47 @@ function reg()
 	end
 end
 
-input('fanchangwen@dianru.com')
-lua_exit()
 
-phonelist(200)
-if true or awzNew()then
+sys = {
+	clear_bid = (function(bid)
+		closeApp(bid)
+		delay(1)
+		os.execute("rm -rf "..(appDataPath(bid)).."/Documents/*") --Documents
+		os.execute("rm -rf "..(appDataPath(bid)).."/Library/*") --Library
+		os.execute("rm -rf "..(appDataPath(bid)).."/tmp/*") --tmp
+		clearPasteboard()
+		--[[
+		local path = _G.const.cur_resDir
+		os.execute(
+			table.concat(
+				{
+					string.format("mkdir -p %s/keychain", path),
+					'killall -SIGSTOP SpringBoard',
+					"cp -f -r /private/var/Keychains/keychain-2.db " .. path .. "/keychain/keychain-2.db",
+					"cp -f -r /private/var/Keychains/keychain-2.db-shm " .. path .. "/keychain/keychain-2.db-shm",
+					"cp -f -r /private/var/Keychains/keychain-2.db-wal " .. path .. "/keychain/keychain-2.db-wal",
+					'killall -SIGCONT SpringBoard',
+				},
+				'\n'
+			)
+		)
+		
+		]]
+		clearAllKeyChains()
+		clearIDFAV() 
+		--clearCookies()
+	end)
+}
+
+
+
+phonelist(10)
+if true or sys.clear_bid(appbid) then
 	mSleep(1000)
-	reName('reg-ing')
-	NewPlace(lxly())
+--	reName('reg-ing')
+--	NewPlace(lxly())
 	mSleep(1000)
+	log("即将开始")
 	if reg()then
 		messenger()
 	end
