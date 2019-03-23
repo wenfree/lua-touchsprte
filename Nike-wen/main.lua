@@ -83,7 +83,13 @@ var.bid='com.nike.onenikecommerce'
 var.account={}
 var.account.login = 'bcuvpqbc@hotmail.com'
 var.account.pwd = 'Shuai128@'
-var.account.pwd = UIvalues.password
+
+if UIvalues.password_key == '0' then
+	var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)
+else
+	var.account.pwd = UIvalues.password
+end
+
 var.account.phone = '18124522139'
 
 var.looktime = 5
@@ -248,8 +254,14 @@ function reg()
 	vCode.login()
 	firstUp = true
 	local sendsms = 0
-	var.account.login = mail_rand(rd(7,10))
 	
+	var.account.login = mail_rand(rd(7,10))
+	if UIvalues.password_key == '0' then
+		var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)
+	else
+		var.account.pwd = UIvalues.password
+	end
+
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
 			if d('开屏登录',true,2)then

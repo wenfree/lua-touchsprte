@@ -124,6 +124,19 @@ MyTable = {
 			},
 			{
 				["type"] = "Label",
+				["text"] = "随机密码",
+				["size"] = 16,
+				["align"] = "left",
+				["color"] = "0,0,0",
+			},
+			{
+                ["id"] = "password_key",
+                ["type"] = "RadioGroup",
+                ["list"] = "0_随机密码,1_固定密码",
+                ["select"] = "0",
+            },
+			{
+				["type"] = "Label",
 				["text"] = "输入密码",
 				["size"] = 16,
 				["align"] = "left",
