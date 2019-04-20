@@ -9,6 +9,8 @@ local sz = require("sz")
 local json = sz.json
 local ts = require("ts")
 
+
+
 sys = {
 	clear_bid = (function(bid)
 		closeApp(bid)
@@ -77,9 +79,9 @@ function _vCode_zs(User,Pass,PID) --众享平台
 end
 
 
+
 var={}
 var.bid='com.nike.onenikecommerce'
-
 var.account={}
 var.account.login = 'bcuvpqbc@hotmail.com'
 var.account.pwd = 'Shuai128@'
@@ -91,7 +93,6 @@ else
 end
 
 var.account.phone = '18124522139'
-
 var.looktime = 5
 var.wifitime = 30
 
@@ -175,7 +176,7 @@ t['开屏登录']={ 0xffffff, "-375|2|0x111111,149|3|0x111111,-177|-1|0x111111,-
 t['登录Nike+帐号']={ 0xffffff, "302|6|0x000000,-334|4|0x000000,-9|-38|0x000000,295|-705|0x363636", 90, 46, 24, 716, 860 } --登录_x
 	t['登录Nike+帐号_使用电子邮件登录']={ 0x8d8d8d, "-13|-192|0x111111,-11|-194|0xefefef,1|-195|0x111111,2|-199|0xefefef", 
 											90, 43, 240, 305, 533 } --多点找色
-	t['登录Nike+帐号_电子邮件']={ 0x8d8d8d, "45|-11|0x8d8d8d,83|-23|0x8d8d8d,54|-1|0x8d8d8d", 90, 70, 282, 233, 337 }
+	t['登录Nike+帐号_电子邮件']={ 0x8d8d8d, "7|-13|0xffffff,9|-18|0x8d8d8d,98|4|0x8d8d8d,430|-9|0xffffff", 90, 72, 289, 660, 327}
 	t['登录Nike+帐号_密码']={ 0x8d8d8d, "44|-22|0x8d8d8d", 90, 83, 385, 152, 449 } --多点找色
 	----------------注册用-----------
 	t['登录Nike+帐号_手机号码']={ 0xffffff, "-208|-17|0xa9a9a9,-300|-4|0xa9a9a9,-389|-2|0x111111", 90, 63, 425, 510, 493 } --多点找色
@@ -196,11 +197,17 @@ t['输入您的生日']={ 0xffffff, "9|-44|0x000000,-306|-8|0x000000,329|-10|0x0
 		90, 24, 531, 727, 810 } --多点找色
 t['个人页面']={ 0x000000, "-188|5|0xb8b8b8,-375|-4|0xb8b8b8,-564|-3|0xb8b8b8,18|11|0xffffff", 90, 22, 1274, 728, 1306 } --多点找色
 	t['个人页面_设置按钮']={ 0xffffff, "10|0|0xb8b8b8,-10|0|0xb8b8b8,-17|0|0xffffff", 90, 668, 55, 731, 108 } --多点找色
-	t['个人页面_鞋码选择']={ 0xffffff, "19|-588|0x000000,-15|-715|0xbcbcbc,23|-769|0xd8d8d8", 90, 15, 137, 737, 1174 } --多点找色
+--	t['个人页面_鞋码选择']={ 0xffffff, "19|-588|0x000000,-15|-715|0xbcbcbc,23|-769|0xd8d8d8", 90, 15, 137, 737, 1174 } --多点找色
+	t['个人页面_鞋码选择']={ 0xfdfdfd, "3|-3|0x000000,-51|16|0xffffff,-49|24|0x000000,-46|21|0xffffff", 90, 12, 934, 111, 1006} --多点找色
 	t['个人页面_鞋码滑表']={ 0x000000, "3|161|0xffffff,-47|554|0x000000", 90, 639, 715, 742, 1319 } --多点找色
 	t['个人页面_通知设置']={ 0x000000, "2|0|0xffffff,3|-53|0xc8c7cc,-3|48|0xc8c7cc,2|-98|0xf7f7f7,-8|88|0xf7f7f7", 90, 15, 190, 172, 761 } --多点找色
 	t['个人页面_启动通知']={ 0xffffff, "-620|-59|0xf7f7f7,-623|153|0xf7f7f7,-626|582|0xf7f7f7,45|582|0xf7f7f7", 90, 19, 190, 717, 884 } --多点找色
 	t['个人页面_通知开启']={ 0x4bd763, "-3|291|0x4cd864,-9|393|0x4cd964,-2|489|0x4cd864", 90, 567, 190, 739, 807 } --多点找色
+	
+	t['个人页面_未设头像']={ 0x000000, "0|7|0xffffff,0|17|0xe4e4e4,12|-98|0xbcbcbc,12|-111|0xd8d8d8", 90, 168, 155, 568, 450}
+	
+t['个人页面_照片']={ 0xc7c7cc, "-54|-136|0x007aff,-366|-146|0x000000,-367|-139|0xf9f9f9", 90, 24, 45, 737, 278}	
+t['个人页面_时刻']={ 0x1b86fb, "-284|-11|0x000000,-318|7|0x000000,-636|-3|0x007aff", 90, 1, 33, 737, 117}
 	
 	
 t['弹窗_出错了']={ 0xffffff, "3|4|0x000000,-299|48|0x000000,355|-39|0x000000,339|-311|0x363636", 90, 2, 63, 742, 495 } --多点找色	
@@ -208,8 +215,14 @@ t['弹窗_出错了_']={ 0x000000, "-238|-16|0xffffff,362|41|0x5c5c5c,360|-263|0
 t['弹窗_出错了__']={ 0x000000, "-232|-70|0xaaaaaa,200|-70|0xaaaaaa", 90, 100, 402, 654, 1069 } --多点找色
 t['登录_出错了']={ 0x363636, "-5|-12|0xffffff,11|14|0x363636,8|230|0xfe0000", 90, 567, 33, 732, 556 } --多点找色
 
+
+t['弹窗_选择照片']={ 0x007aff, "-87|-5|0x007aff,-128|-6|0x007aff,-124|-7|0xf9f9f9", 90, 233, 976, 491, 1051}
+t['弹窗_照片确认选取']={  0xffffff, "-2|2|0x141414", 90, 680, 1253, 699, 1267}
+
 function errors()
-	if d('弹窗_出错了',true)then
+	if d('弹窗_选择照片',true)then
+	elseif d('弹窗_照片确认选取',true)then
+	elseif d('弹窗_出错了',true)then
 	elseif d('错误_未中签',true)then
 	elseif d('登录_出错了',true)then
 	elseif d('弹窗_出错了',true)then
@@ -250,14 +263,18 @@ function reg()
 	local 验证码 = false
 	local sms = nil
 	local 登录 = false
-	vCode  = _vCode_gx('s-o7u5ut4x','Shuai888','10395')
+	if UIvalues.smsPT == "0" then
+		vCode = _vCode_hy()
+	else
+		vCode  = _vCode_gx('s-o7u5ut4x','Shuai888','10395')
+	end
 	vCode.login()
 	firstUp = true
 	local sendsms = 0
 	
 	var.account.login = mail_rand(rd(7,10))
 	if UIvalues.password_key == '0' then
-		var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)
+		var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)..myRand(1,2)
 	else
 		var.account.pwd = UIvalues.password
 	end
@@ -340,26 +357,25 @@ function reg()
 						click(515,1004,0.2)
 					end
 				end
-				d('弹窗_输入的完成',true)
-				click(376,613)
-				d('输入您的生日',true)
-				
+				if d('弹窗_输入的完成',true)then
+					click(  373,  562)
+					d('输入您的生日',true)
+				end
+
 			elseif d('输入您的电子邮件')then
 				click(639,408)
 				input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
 				input(var.account.login)
 				delay(1)
 				d('输入您的电子邮件',true)
+				backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
 			elseif d('主菜单_首页')then
 				if firstUp then
 					if updateNike()then
 						delay(rd(2,5))
 						firstUp = false
 						click(300,300)
-					else
-						backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
 					end
-
 				elseif d('鞋子详情页面_心_点亮')then
 					moveTo(300,200,300,800-rd(500,600),rd(20,30))	--下滑
 					click(30,83)
@@ -379,7 +395,16 @@ function reg()
 					delay(rd(4,8))
 					return true
 				else
-					if d('个人页面_鞋码选择',true)then
+					t['个人页面_姓别']={
+						0x000000, 
+						"3|22|0xfcfcfc,3|23|0x000000,-41|23|0x222222,-43|23|0xffffff,-45|23|0x000000", 
+						90, 14, 844, 100, 888
+					}
+					d('个人页面_姓别',true)
+			
+					if d('个人页面_未设头像',true)then
+					
+					elseif d('个人页面_鞋码选择',true)then
 						if d('个人页面_鞋码滑表')then
 							for i=1,rd(1,6) do
 								click(374,1116,0.5)
@@ -387,7 +412,7 @@ function reg()
 						end
 						if d('个人页面_鞋码滑表',true)then
 							delay(2)
-							moveTo(300,900,300,300,10)
+							moveTo(300,900,300,300,20)
 							delay(3)
 						end
 					end
@@ -395,6 +420,12 @@ function reg()
 					delay(1)
 					d('个人页面_启动通知',true)
 				end
+			elseif d('个人页面_照片',true,1)then
+			elseif d('个人页面_时刻',false,1)then
+				moveTo(300,200,300,800-rd(200,600),rd(20,30))	--下滑
+				delay(5)
+				click(rd(31,723),rd(235,1119))
+				click(696, 1265)
 			else
 				log('tips')
 				if d('弹窗_输入的完成',true)then
@@ -414,6 +445,8 @@ function reg()
 		delay(1)
 	end
 end
+
+
 
 t['错误_登录失败']={ 0xfe2020, "249|-7|0xfe0000,324|-2|0xfe0000", 90, 20, 140, 723, 703 } --多点找色
 t['错误_选对国家']={ 0x000000, "-72|-5|0xffffff,-339|1|0x000000,340|49|0xb2b2b2", 90, 8, 48, 733, 165 } --多点找色
@@ -452,6 +485,9 @@ function login()
 		end
 	end
 	
+	local loginKey = true
+	local pwdKey = true
+	
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
 			if d('开屏登录',true)then
@@ -460,10 +496,13 @@ function login()
 				return false
 			elseif d('登录Nike+帐号')then
 				if d('登录Nike+帐号_使用电子邮件登录',true)then
-				elseif d('登录Nike+帐号_电子邮件',true)then
+				elseif loginKey and d('登录Nike+帐号_电子邮件',true)then
+					input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
 					input(var.account.login)
-				elseif d('登录Nike+帐号_密码',true)then
+					loginKey = false
+				elseif pwdKey and d('登录Nike+帐号_密码',true)then
 					input(var.account.pwd)
+					pwdKey = false
 				else
 					if d('登录Nike+帐号',true)then
 						delay(rd(2,5))
@@ -633,7 +672,7 @@ function buy()
 				elseif d('弹窗_添加配送地址',true)then
 				elseif d('弹窗_继续选择码_继续黑') and d('弹窗_添加配送地址_上部分')then
 					local inputf = function(txt)
-									input('\b\b\b\b\b\b\b\b\b\b\b\b\b')
+									input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
 									inputStr(txt)
 									d('弹窗_输入地址的完成',true)
 									end
@@ -643,8 +682,14 @@ function buy()
 					for i,v in ipairs(loc)do
 						click(v[1],v[2])
 						if i == 1 then
+							local str_len = utf8.len(first_names)
+							local str_rnd = (math.random(1,str_len) -1) * 3
+							first_name_ = utf8.char(utf8.codepoint(first_names,str_rnd + 1,str_rnd + 2))
 							inputf(first_name_ or '张')
 						elseif i == 2 then
+							local str_len = utf8.len(first_names)
+							local str_rnd = (math.random(1,str_len) -1) * 3
+							last_names_ = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2 + rd(0,1)*3 ))
 							inputf(last_names_ or '三')
 						elseif i == 3 then
 							input('\b\b\b\b\b\b\b\b\b\b\b\b\b')
@@ -653,11 +698,11 @@ function buy()
 						elseif i == 4 or i == 5 or i == 6 then
 							delay(2)
 							if i == 4 then
-								clici__i = 9
+								clici__i = rd(1,30)
 							elseif i == 5 then
-								clici__i = 6
+								clici__i = rd(1,6)
 							elseif i == 6 then
-								clici__i = 7
+								clici__i = rd(1,6)
 							end
 							for i_=1,clici__i do
 								click(382,1181,0.5)
@@ -698,7 +743,7 @@ function buy()
 							var.account.address_area = where[rd(1,#where)]
 							inputf(var.account.address_area)
 						elseif i == 8 then
-							inputf('518000')
+							inputf(tostring(rd(100000,999999)))
 						end
 						delay(1)
 					end	
@@ -754,6 +799,9 @@ end
 --log(dataPath)
 --d('弹窗_输入的完成')
 --d('登录Nike+帐号')
+
+--reg()
+--lua_exit()
 
 function main()
 	while (true) do

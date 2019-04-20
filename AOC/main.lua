@@ -97,6 +97,9 @@ t['返回']={ 0xf4f491, "24|-17|0x2d6477,41|1|0x257370,28|9|0xb2c3c3,16|21|0x3c9
 	t['返回_公会界面']={ 0x2d6018, "2|96|0x2c5e17,4|202|0x2a6218,175|11|0x498926", 90, 1041, 77, 1295, 731 } --多点找色
 	t['返回_宝库界面']={ 0xedec9e, "-76|31|0xadae7f,-21|-12|0xdbdb99", 90, 574, 41, 1253, 157 } --多点找色
 		t['返回_宝库界面_宝箱激活']={ 0xffff91, "0|-8|0xffff91", 90, 746, 72, 807, 126 } --多点找色
+	
+	t['返回_活动中心_报名活动']={ 0x49c540, "84|-37|0xc62827,373|-516|0xf9e2af", 90, 328, 130, 1011, 695}
+	
 -----------------------------------------战斗界面下的东西----------------
 t['战斗界面_预设未展开']={ 0xfdfdfd, "25|0|0xfafbfb,12|21|0x48bf8b,12|23|0xd1fcea", 90, 1122, 63, 1169, 113 } --多点找色
 t['战斗界面_预设已展开']={ 0x369170, "17|2|0xffffff,31|-3|0x359071,16|-5|0x1c4d3d", 90, 1122, 63, 1169, 113 } --多点找色
@@ -109,6 +112,9 @@ t['弹窗_双蓝按钮_右左']={ 0x28abbe, "-341|-4|0x27a5bd,124|-48|0x49acca,2
 t['弹窗_魔像弹窗']={ 0xde8e3d, "-298|14|0x7eeb40,-300|-500|0xcd2b07", 90, 473, 71, 1159, 681 } --多点找色
 t['弹窗_魔镜借兵']={ 0x8ef043, "-118|-568|0x00b053,152|-562|0xebe891", 90, 126, 73, 1238, 700 } --弹窗_魔镜借兵
 t['弹窗_公会技能']={ 0x47c642, "-56|33|0x5ed84d,73|-24|0x18894c", 90, 592, 652, 745, 730 } --多点找色
+
+t['弹窗_报名活动_选择参赛时间']={  0xf6971d, "-17|133|0x919f2a,0|271|0x34c996", 90, 525, 227, 667, 581}
+
 t['结算界面_战斗胜利']={ 0x5dda3d, "-410|-11|0x27a2bd,347|-21|0xf2f293", 90, 311, 638, 1255, 731}
 
 
@@ -557,6 +563,7 @@ function other()
 	elseif d('弹窗_魔像弹窗')then
 		click(40,40)
 	elseif UI('other','绿色赠品',true,1)then
+	elseif d('弹窗_报名活动_选择参赛时间',true)then
 	elseif UI('other','捡到英雄',true,1)then
 	elseif UI_pic('other','领取_',true,1)then
 	elseif UI_pic('other','绿色按钮_',true,1)then
@@ -587,11 +594,9 @@ function other()
 end
 
 function awz_re_name(txt)
-	if values.oneormore == '0' then
+	if iphonename ~= 'noawz' and values.oneormore == '0' then
 		if setting[16] then
 			reName(getOnlineName()..'/'..txt)
---		else
---			reName(txt)
 		end
 	end
 end
@@ -727,7 +732,13 @@ function all()
 		
 		iphonename = getDeviceName()
 		imei = sz.system.serialnumber()
-		awz_mun,idfa = getTrueName_awz()
+		if iphonename == "noawz" then
+			
+		else
+			imei = sz.system.serialnumber()
+			awz_mun,idfa = getTrueName_awz()
+		end
+
 	
 		if 主线 == 0 then		--创号
 			if backhome()then
@@ -812,7 +823,14 @@ function all()
 					LastName = awz_mun_list[1]
 				until LastName == 'RecordID:Art of Conquest'
 			else
-				awz_next()
+				iphonename = getDeviceName()
+				if iphonename == "noawz" then
+					log('next')
+					openURL("IGG://cmd/nextrecord");
+					delay(2)
+				else
+					awz_next()
+				end
 			end
 			toast(轮回,1)
 			delay(2)

@@ -150,6 +150,19 @@ MyTable = {
 				["kbtype"] = "ascii",
 				["width"] = 475,
 			},
+			{
+				["type"] = "Label",
+				["text"] = "短信平台",
+				["size"] = 16,
+				["align"] = "left",
+				["color"] = "0,0,0",
+			},
+			{
+                ["id"] = "smsPT",
+                ["type"] = "RadioGroup",
+                ["list"] = "0_火云平台,1_开放云平台",
+                ["select"] = "0",
+            },
 
 		}
 	}   

@@ -1,8 +1,9 @@
 require("TSLib")
 awzbid = 'AWZ'
+require("tsp")
 
 function locks()
-	local flag = deviceIsLock();
+	flag = deviceIsLock();
 	if flag == 0 then
 	--	log("未锁定");
 	else
@@ -232,18 +233,28 @@ function getTrueName_awz()
 		local sz = require("sz");
 		local http = require("szocket.http");
 		local res, code = http.request("http://127.0.0.1:1688/cmd?fun=getcurrentrecordparam");
-		
-		nLog(res)
-		nLog(code)
-		
-		
 		if code == 200 then
 			local resJson = sz.json.decode(res);
 			local result = resJson.result;
 			--nLog("the result is: " .. result);
 			if tonumber(result) == 1 then
 				jg = readFile('/var/mobile/iggparams.txt')
-				return jg[1],jg[4]		--name,idfa
+				jg[8]= (strSplit(jg[8],":"))[2]
+				phoneList = { 
+					"iPhone7,2",
+					"iPhone7,1",
+					"iPhone8,1",
+					"iPhone8,2",
+					"iPhone8,4",
+					"iPhone9,1",
+					"iPhone9,3",
+					"iPhone9,2",
+					"iPhone10,1",
+					"iPhone10,4",
+					"iPhone10,2",
+					"iPhone10,5",
+				}
+				return phoneList[rd(1,#phoneList)],jg[8]		--name,idfa
 			end
 		end	
 	end
@@ -271,22 +282,6 @@ end
 
 
 
-
-
 nLog('AWZ 加截完成')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -53,3 +53,68 @@ function _vCode_gx(User,Pass,PID) --共享平台
         end),
     }
 end
+
+
+--火云平台
+function _vCode_hy() --火云平台
+	local User = 'api-306292-rnrEXT9'
+	local Pass = 'shuai888'
+	local PID = '945'
+    local token,uid,number = "",""
+    return {
+	    login=(function() 
+            local RetStr
+			for i=1,5,1 do
+				toast("获取token\n"..i.."次共5次")
+                mSleep(1500)
+                RetStr = httpGet('http://huoyun888.cn/api/do.php?action=loginIn&name='..User..'&password='..Pass)
+				if RetStr then
+					nLog(RetStr)
+					RetStr = strSplit(RetStr,"|")
+					if RetStr[1] == 1 or RetStr[1] == '1' then
+						token = RetStr[2]
+						log('token='..token,true)
+						break
+					end
+				end
+			end
+			return RetStr;
+        end), 
+		getPhone=(function()
+            local RetStr=""
+			RetStr = httpGet("http://huoyun888.cn/api/do.php?action=getPhone&sid="..PID.."&token="..token)
+			if RetStr ~= "" and  RetStr ~= nil then
+				RetStr = strSplit(RetStr,"|")
+			end
+			if RetStr[1] == 1 or RetStr[1]== '1' then
+				number = RetStr[2]
+				return number
+			end
+        end),
+	    getMessage=(function()
+			local Msg
+            for i=1,25,1 do
+                mSleep(3000)
+                RetStr = httpGet("http://huoyun888.cn/api/do.php?action=getMessage&sid="..PID.."&token="..token.."&phone="..number)
+				if RetStr then
+					local arr = strSplit(RetStr,"|") 
+					if arr[1] == '1' then 
+						Msg = arr[2]
+						local i,j = string.find(Msg,"%d+")
+						Msg = string.sub(Msg,i,j)
+					end
+					if type(tonumber(Msg))== "number" then return Msg end
+				end
+                toast(tostring(RetStr).."\n"..i.."次共25次")
+            end
+            return ""
+        end),
+        addBlack=(function()
+            return httpGet("http://huoyun888.cn/api/do.php?action=getMessage&sid="..PID.."&token="..token.."&phone="..number)
+        end),
+    }
+end
+
+
+
+

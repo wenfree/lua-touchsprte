@@ -92,10 +92,11 @@ function city()
 					delay(5)
 					UI('返回','返回图标',true,1)
 				end
-			elseif os.time() - 活动计时 < 20 and  (UI('返回','挑战赛界面') or UI_pic('返回','活动中心界面')) and not(d('返回_城堡中'))  then
+			elseif os.time() - 活动计时 < 45 and  (UI('返回','挑战赛界面') or UI_pic('返回','活动中心界面')) and not(d('返回_城堡中'))  then
 				if not(UI_pic('返回','跨服公会战')) and UI_pic('返回','可以领奖',true)then
 					click(892,541)
 					mSleep(1000)
+				elseif d('返回_活动中心_报名活动',true)then
 				elseif UI('返回','活动中心可以抽奖',true)then
 				elseif UI_pic('返回','活动右侧例表',true)then
 					right_red_tips = right_red_tips or 1
