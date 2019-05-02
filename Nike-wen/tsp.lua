@@ -659,18 +659,33 @@ end
 function inputword(key)
 	if key ~= nil then
 		for i = 1,string.len(key) do
-			nLog(string.sub(key,i,i))
+			log(string.sub(key,i,i))
 			inputkey = string.sub(key,i,i)
-			inputkey = tonumber(inputkey)
-			if type(inputkey) == 'number' then
-				--nLog('munber->'..inputkey)
+			if type(tonumber(inputkey)) == 'number' then
+				log('munber->'..inputkey)
+				keyDown(inputkey)
+				keyUp(inputkey)
 			else
-				inputkey = string.sub(key,i,i)
-				inputkey = string.lower(inputkey)
+				if inputkey ~= string.lower(inputkey) then
+					log('输入大写')
+					keyDown("CapsLock")
+					keyDown(string.lower(inputkey))
+					keyUp(string.lower(inputkey))
+					keyUp("CapsLock")
+				else
+					if inputkey == '@' then
+						log('输入符号')
+						keyDown("LeftShift")
+						keyDown(2)
+						keyUp(2)
+						keyUp("LeftShift")
+					else
+						keyDown(string.lower(inputkey))
+						keyUp(string.lower(inputkey))
+					end
+				end
 			end
-			keyDown(inputkey)
-			keyUp(inputkey)
-			mSleep(100)
+			mSleep(500)
 		end
 	else
 		log('一个空值',true)
