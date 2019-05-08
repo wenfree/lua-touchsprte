@@ -126,7 +126,7 @@ function updateNike()
 --	Arr.address_qu = '罗湖区'
 --	Arr.address_area = var.account.address_area
 	Arr.note = getDeviceName()
---	Arr.token = local_token()
+	Arr.token = local_token()
 	log(Arr)
 	if post(url,Arr)then
 		return true
@@ -156,9 +156,9 @@ function DownFtp()
 	local ftp = sz.ftp--使用 FTP 模块前一定要插入这一句
 	_, err = ftp.download(NewPath, localPath)--文件名不可使用中文字符
 	if err then
-	 dialog(err, 1)
+		dialog(err, 1)
 	else
-	 dialog("token 文件已下载成功", 1)
+		dialog("token 文件已下载成功", 1)
 	end
 end
 
@@ -218,6 +218,8 @@ t['登录_出错了']={ 0x363636, "-5|-12|0xffffff,11|14|0x363636,8|230|0xfe0000
 
 t['弹窗_选择照片']={ 0x007aff, "-87|-5|0x007aff,-128|-6|0x007aff,-124|-7|0xf9f9f9", 90, 233, 976, 491, 1051}
 t['弹窗_照片确认选取']={  0xffffff, "-2|2|0x141414", 90, 680, 1253, 699, 1267}
+t['弹窗_密码无效']={  0x000000, "40|6|0x000000,121|334|0x000000,121|336|0xffffff,123|338|0x000000,34|203|0x000000,35|203|0xffffff", 
+								90, 110, 457, 641, 868}
 
 function errors()
 	if d('弹窗_选择照片',true)then
@@ -574,6 +576,7 @@ t['鞋子详情页面']={ 0x000000, "12|0|0xffffff,11|-10|0x000000,11|11|0x00000
 	t['鞋子详情页面_下单按钮']={ 0x000000, "-4|2|0xf5f5f5,-28|-4|0x000000,-6|-37|0x000000,-7|28|0x000000,-6|69|0xffffff", 90, 13, 17, 87, 1250 } --多点找色
 		
 t['为你的订单付款_x']={ 0x000000, "-449|1215|0x00aaef,-674|1165|0x1a1a1a,5|1259|0x1a1a1a,11|1252|0x1a1a1a", 90, 10, 12, 738, 1320 } --多点找色
+t['为你的订单付款_x_wechat']={ 0x000000, "-429|1196|0x00c800,-420|1218|0x00c800,-667|1249|0x1a1a1a", 90, 13, 8, 736, 1315 } --多点找色
 t['搜索页面_取消']={ 0x000000, "-1|43|0xb2b2b2,-676|-5|0x111111,-663|-4|0xffffff,-659|-4|0x111111", 90, 10, 41, 742, 163 } --多点找色		
 		
 t['弹窗_右上角的x']={ 0xffffff, "-23|1|0x545454,-1|-22|0x545455,21|0|0x545454,0|22|0x535354", 90, 640, 42, 711, 101 } --多点找色
@@ -598,7 +601,8 @@ t['弹窗_填地址_上滑了']={ 0xffffff, "-15|0|0x1a1a1a,-316|-51|0x1a1a1a,36
 t['弹窗_卖光了']={ 0x000000, "-137|-68|0xaaaaaa,107|-68|0xaaaaaa,4|-226|0x000000", 90, 114, 487, 633, 854 } --多点找色
 
 t['弹窗_普通达']={ 0x1a1a1a, "0|3|0xffffff,-322|-153|0xffffff,-318|-150|0x000000,303|-151|0x000000", 90, 10, 1055, 743, 1327}
-
+t['分享按钮']={ 0x000000, "-2|-8|0xffffff,-1|-8|0x000000,0|-13|0x000000,-2|9|0xffffff,0|10|0x000000,-24|10|0x000000,18|0|0x000000", 
+				90, 247, 418, 312, 1221}
 
 
 function buy()
@@ -613,6 +617,8 @@ function buy()
 	local hotSalls = 0
 	local 精选times = 0
 	local but_other_tips = 0
+	local share_key = true
+	
 	
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
@@ -665,11 +671,26 @@ function buy()
 						end
 					elseif d('鞋子详情页面_心',true)then
 					elseif d('鞋子详情页面_心_点亮')then
-						for i=1,rd(2,3) do
-							moveTo(300,300,300,600+rd(300,500),rd(15,20))
-							delay(1)
+						if share_key then
+							if d("分享按钮",true)then
+								delay(3)
+								t["微信朋友圈"]={ 0x9fce16, "-212|-35|0x3bbb07,223|45|0xf9cb1e", 90, 18, 935, 733, 1319}
+								if d('微信朋友圈',true)then
+									delay(8)
+									t["发表按钮"]={ 0x07c160, "1|-9|0xffffff,-5|-21|0x07c160", 90, 542, 42, 744, 139}
+									if d("发表按钮",true)then
+										delay(5)
+									end
+									share_key = false
+								end
+							end
+						else
+							for i=1,rd(2,3) do
+								moveTo(300,300,300,600+rd(300,500),rd(15,20))
+								delay(1)
+							end
+							liksreds = true
 						end
-						liksreds = true
 					else
 						if d('未收藏的鞋子',true)then
 							showmode = '小图'
@@ -694,7 +715,7 @@ function buy()
 					delay(2)
 				end
 			elseif d('搜索页面_取消',true)then
-			elseif d('为你的订单付款_x',true)then
+			elseif d('为你的订单付款_x',true) or d("为你的订单付款_x_wechat",true) then
 --				updateNike()
 				return true
 			else
@@ -702,7 +723,6 @@ function buy()
 				if d('弹窗_右上角的x',true)then
 				elseif d('弹窗_普通达',true)then
 				elseif d('弹窗_删除错误地址',false)  and d('弹窗_删除错误地址_红色框')then
-					
 					
 					for i = 4,6 do
 						delay(2)
@@ -726,49 +746,23 @@ function buy()
 					d('修改地址_完成',true)
 					delay(3)
 				
-				
-				elseif d('弹窗_立即购买弹窗',true)then
+				elseif d('弹窗_立即购买弹窗',false)then
+					t["支付宝"]={ 0x00aaef, "8|-13|0xffffff,13|-15|0x00aaef", 90, 509, 710, 734, 799}
+					t["支付宝微信"]={ 0x00c800, "-1|-131|0x01aaef,-2|-136|0xffffff", 90, 22, 782, 364, 999}
+					local playKey = math.random(1,100)
+					if d('支付宝',true)then
+						delay(2)
+						if playKey >= 30 then
+							d('支付宝微信',true)
+						end
+						d('弹窗_立即购买弹窗',true)
+					end
+					d('弹窗_立即购买弹窗',true)
 				elseif d('弹窗_添加配送地址',true)then
 				elseif d('弹窗_继续选择码_继续黑') and d('弹窗_添加配送地址_上部分')then
 					local inputf = function(txt)
 									input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
 --									inputText(txt)
-
-local jp = {
-	{   36,  958, 0xffffff},
-	{  112,  964, 0xffffff},
-	{  192,  957, 0xfbfbfb},
-	{  262,  960, 0xfefefe},
-	{  344,  959, 0xffffff},
-	{  412,  959, 0xffffff},
-	{  481,  956, 0xffffff},
-	{  557,  956, 0xffffff},
-	{  631,  963, 0xffffff},
-	{  712,  960, 0xffffff},
-
-	{   75, 1069, 0xfefefe},
-	{  143, 1069, 0xffffff},
-	{  225, 1065, 0xffffff},
-	{  297, 1068, 0x000000},
-	{  374, 1076, 0xffffff},
-	{  453, 1067, 0xffffff},
-	{  521, 1066, 0xffffff},
-	{  605, 1066, 0xffffff},
-	{  669, 1066, 0xffffff},
-
-	{  154, 1180, 0xffffff},
-	{  224, 1176, 0x000000},
-	{  298, 1179, 0xffffff},
-	{  376, 1177, 0xffffff},
-	{  444, 1177, 0xfefefe},
-	{  526, 1176, 0xffffff},
-	{  601, 1176, 0x000000},
-	{  605, 1066, 0xffffff},
-	{  669, 1066, 0xffffff},
-}
-
-
-
 									inputStr(txt)
 									d('弹窗_输入地址的完成',true)
 									end
@@ -854,7 +848,7 @@ local jp = {
 						click(29,80)
 					end
 				elseif d('弹窗_继续选择码_继续黑') and d('弹窗_继续选择码_继续黑_编辑',true)then
-				elseif d('弹窗_继续选择码_继续黑',true)then
+				elseif d('弹窗_继续选择码_继续黑',true)then					
 				elseif d('弹窗_输入地址后上拉一下')then
 					moveTo(300,1215,300,733,rd(5,20))
 				elseif d('弹窗_请输入密码')then
@@ -866,6 +860,9 @@ local jp = {
 					delay(1)
 					d('弹窗_请输入密码',true)
 				elseif d('弹窗_输入地址的完成',true)then
+				elseif d('弹窗_密码无效')then
+					backId('封号')
+					return false
 				else
 					if d('弹窗_填地址_上滑了',true)then
 					elseif d('弹窗_卖光了',true)then
@@ -895,7 +892,7 @@ end
 --input('s8r60593ue3p@icloud.com')
 ----sys.clear_bid(var.bid)
 ----login()
-----buy()
+--buy()
 --lua_exit()
 --dataPath = appDataPath(var.bid)
 --log(dataPath)
@@ -905,8 +902,9 @@ end
 --delay(2)
 --inputword('Shuai888')
 --input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
+
 --input('Shuai888')
-------reg()
+
 --lua_exit()
 
 if UIvalues.smsPT == "0" then
