@@ -6,12 +6,22 @@ function yiji_other()
 	if UI('新手','战斗界面中',false,1)then
 		if UI_pic('新手','战斗准备',false,1)then
 			
-			预设位置={{1045,162,0x0a0c04},{1220,166,0x0d0e08},{1041,257,0x060c07},
-				{1220,252,0xffffff},{1048,350,0xdbdbdb},{1227,348,0x090c08},{1044,442,0x0d0f05},{1222,443,0x111609},}
+			预设位置={
+				{1045,162,0x0a0c04},
+				{1220,166,0x0d0e08},
+				{1041,257,0x060c07},
+				{1220,252,0xffffff},
+				{1048,350,0xdbdbdb},
+				{1227,348,0x090c08},
+				{1044,442,0x0d0f05},
+				{1222,443,0x111609},
+				{1044,536,0x0d0f05},
+				{1222,536,0x0d0f05},
+			}
 			--values.yiji_arm 预设编号(0,1,2,3)设置1,设置2,设置3,全上
-			if tonumber(values.yiji_arm) == 8 then
+			if tonumber(values.yiji_arm) >= 10 then
 				if c_p(aoc['新手']['超出队伍'],'超出队伍',false)then
-					click(178,31)		--撤回
+					click(178,31) --撤回
 					if 主线 == 12 then
 						t['战斗_上龙']={ 0xf0c589, "98|8|0xeabc91", 90, 365, 644, 789, 678}
 						if d('战斗_上龙')then
@@ -19,7 +29,6 @@ function yiji_other()
 						end
 					end
 					click(1238,673)		--攻击
-					
 					delay(2)
 				else
 					上兵统计 = 上兵统计 + 1
