@@ -19,6 +19,7 @@ require("ocr")
 local sz = require("sz")
 
 function UI(name1,name2,clicks,oder,s)
+--	log("name1-> ".. name1 .. "  name2->".. name2)
 	clicks = clicks or false
 	oder = oder or 1
 	s = s or 95
@@ -840,7 +841,7 @@ function all()
 end
 
 
---d('返回箭头_世界地图')
+--auto_get()
 --lua_exit()
 
 while (true) do
