@@ -135,9 +135,11 @@ function attck()
 				{1051,439,0x0f100a},
 				{1228,441,0xffffff},
 				{1104,661,0xb9bfbe},
+				{1044,536,0x0d0f05},
+				{1222,536,0x0d0f05},
 			} --多点比色
 
-			if values.yiji_arm == '8' then
+			if values.yiji_arm == '10' then
 				for i = 1,20 do
 					click(1076-math.random(0,3)*117,662)
 					d('弹窗_体力',true)
