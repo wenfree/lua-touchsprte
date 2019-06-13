@@ -19,6 +19,7 @@ require("ocr")
 local sz = require("sz")
 
 function UI(name1,name2,clicks,oder,s)
+--	log("name1-> ".. name1 .. "  name2->".. name2)
 	clicks = clicks or false
 	oder = oder or 1
 	s = s or 95
@@ -708,7 +709,7 @@ function all()
 			values.world = worldlist[UIdata.world]
 			local kejilist = {['枪']=0,['弓']=1,['剑']=2,['骑']=3,['牧']=4,['车']=5}
 			values.keji_setting=kejilist[UIdata.keji_setting]
-			local yiji_armlist = {['0']=0,['1']=1,['2']=2,['3']=3,['4']=4,['5']=5,['6']=6,['近1']=7,['近2']=8,['全上']=9}
+			local yiji_armlist = {['0']=0,['1']=1,['2']=2,['3']=3,['4']=4,['5']=5,['6']=6,['7']=7,['8']=8,['近1']=9,['近2']=10,['全上']=11}
 			values.yiji_arm = yiji_armlist[UIdata.yiji_arm]-1
 			if #UIdata.kuang_setting>0 then
 				kuang_setting = {}
@@ -840,7 +841,7 @@ function all()
 end
 
 
---d('返回箭头_世界地图')
+--auto_get()
 --lua_exit()
 
 while (true) do
