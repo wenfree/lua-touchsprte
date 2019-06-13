@@ -1,0 +1,14 @@
+[res]
+中文字库.txt
+[lib]
+[file]
+UI.lua
+tsp.lua
+token.lua
+postsss.lua
+nameStr.lua
+ftp.lua
+AWZ.lua
+api.lua
+alz.lua
+main.lua
