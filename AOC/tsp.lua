@@ -51,6 +51,7 @@ function print_r(t)
 			else
 				nLog(indent..tostring(t))
 			end
+			mSleep(50)
 		end
 	end
 	if (type(t)=="table") then
@@ -577,7 +578,6 @@ function post(url,arr)
 	local post_escaped = http.build_request(post_send)
 	local status_resp, headers_resp, body_resp = http.post(url, 5, headers_send, post_escaped)
 	if status_resp == 200 then
---		dialog(body_resp)
 		local json = sz.json
 		return json.decode(body_resp)
 	end

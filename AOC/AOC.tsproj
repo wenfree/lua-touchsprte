@@ -1,16 +1,4 @@
 [res]
-sj.png
-my.png
-xz.png
-修女.png
-枪.png
-骑.png
-剑.png
-弓.png
-车.png
-水.png
-木.png
-金.png
 [lib]
 [file]
 清理文件.lua
