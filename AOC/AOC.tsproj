@@ -1,7 +1,7 @@
 [res]
 [lib]
 [file]
-清理文件.lua
+file.lua
 AWZ.lua
 tsp.lua
 AOC-iphone6.lua

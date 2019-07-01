@@ -39,7 +39,7 @@ MyTable = {
             {
                 ["id"] = "whos",
                 ["type"] = "Edit",
-                ["width"] = 200,
+                ["width"] = 400,
                 ["prompt"] = "后台显示帐号",
                 ["text"] = "admin",
             },   

@@ -1,13 +1,19 @@
 --unlockDevice()
 require("TSLib")
 
+--res, code = http.request("http://ip.chinaz.com/getip.aspx");
 --用http.get实现下载文件功能
-function downFile(url, path)
-    local sz = require("sz")
-    local cjson = sz.json
-    local http = sz.i82.http
-    local status, headers, body = http.get(url)
-    if status == 200 then
+function downFile(name, path)
+	local sz = require("sz")
+	local http = require("szocket.http")
+	local url = "http://dajin.yzdingding.com/phalapi/public/?s=Wgithub.get&name="..name
+	local res, code = http.request(url);
+	
+    if code == 200 then
+		local json = sz.json
+		local data = json.decode(res)
+		body = data.data
+--		log(body)
         file = io.open(path, "wb")
         if file then
             file:write(body)
@@ -23,36 +29,48 @@ end
 --downFile("http://mu1234.applinzi.com/wechat-reply.txt",
 --"/User/Media/TouchSprite/lua/wechat-reply.txt")
 
+--检测指定文件是否存在
+function file_exists(file_name)
+    local f = io.open(file_name, "r")
+    return f ~= nil and f:close()
+end
 
+game_lua = {
+	"tsp",
+	"AWZ",
+	"rob",
+	"service",
+	"newplay",
+	"city",
+	"map",
+	"fuzhu",
+	"arm",
+	"help",
+	"ocr",
+	"file",
+	"game_ui",
+	}
 
+t1=os.time();
+nLog(t1)
+for i,v in ipairs(game_lua)do
+	if not(file_exists("/User/Media/TouchSprite/lua/aoc/"..v..".lua"))then
+		downFile(v,"/User/Media/TouchSprite/lua/aoc/"..v..".lua")
+	end
+	mSleep(30)
+end
+nLog(os.time()-t1)
 
+t={}
+aoc={}
+require("tsp")
+require("AWZ")
+for i,v in ipairs(game_lua)do
+	require("/aoc/"..v)
+	mSleep(30)
+end
+local sz = require("sz")
 
-
-
-
-
-
-
-
-
---require("TSLib")
---require("tsp")
---require("AWZ")
-
---t={}
---aoc={}
-
---require("rob")
---require("service")
---require("newplay")
---require("city")
---require("map")
---require("help")
---require("arm")
---require("清理文件")
---require("fuzhu")
---require("ocr")
---local sz = require("sz")
 
 
 --function UI(name1,name2,clicks,oder,s)
