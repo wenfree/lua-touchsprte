@@ -167,7 +167,6 @@ function city()
 						show['imei']=imei
 						show['idfa']=idfa
 						show['awz']= awz_mun
-						show['who']= values.who
 						show['token']= llsGameToken()
 						show['account']= AccountInfo()
 						
