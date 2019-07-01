@@ -197,6 +197,7 @@ while (true) do
 	local ret,errMessage = pcall(all)
 	if ret then
 	else
+		log(errMessage)
 		dialog(errMessage, 10)
 		mSleep(2000)
 	end
