@@ -83,8 +83,8 @@ function yiji_other()
 	elseif UI('新手','英雄升级',true,1)then
 	elseif UI('新手','英雄结算画面',true,1)then
 	elseif UI('other','暂停界面',true,1)then		--误点暂停,继续开始
-	elseif setting[4] and UI('other','死伤较重',true,1)then
-	elseif setting[4] and UI('新手','战斗胜利',true,1)then
+	elseif UI('other','死伤较重',true,1)then
+	elseif UI('新手','战斗胜利',true,1)then
 	elseif UI('新手','战斗胜利',false,1)then
 		vibrator()
 		delay(5)
