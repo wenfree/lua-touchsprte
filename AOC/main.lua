@@ -80,10 +80,10 @@ for i,v in ipairs(game_lua)do
 	mSleep(50)
 end
 local sz = require("sz")
-require("game_ui")
+require("/aoc/game_ui")
 
 local imeis = sz.system.serialnumber()
-if imeis == "" then
+if string.len(imeis) < 5 then
 	dialog("请用main启动游戏脚本", 60)
 	lua_exit()
 end
