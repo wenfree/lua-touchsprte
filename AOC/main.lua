@@ -83,7 +83,7 @@ local sz = require("sz")
 require("/aoc/game_ui")
 
 local imeis = sz.system.serialnumber()
-if string.len(imeis) < 5 then
+if (imeis) == nil or imeis == '' or string.len(imeis) <5 then
 	dialog("请用main启动游戏脚本", 60)
 	lua_exit()
 end
