@@ -45,7 +45,7 @@ function box()
 end
 
 function 商店购买()
-	if setting[12] then
+	if UIdata.shop then
 		if UI_pic('返回','金币可以购买',false)then
 			金币不足 = {0xff4b4b,"",90,x+29,y-3,x+136,y+35}
 			if c_p(金币不足,'金币不足',false) then
@@ -58,19 +58,22 @@ function 商店购买()
 end
 
 function city()
+	if not(UIdata.city)then
+		return false
+	end
+	
 	local 计时 = os.time()
 	local 超时 = 60*5
-	优先主城 = setting[13]
-	不造仓库的轮回 = 0
-	开箱一次 = true
-	活动星星打开一次 = true
+	local 优先主城 = true
+	local 不造仓库的轮回 = 0
+	local 开箱一次 = true
+	local 活动星星打开一次 = true
 	local 采集信息 = true
 	local 上传信息 = true
-	--local 技能bug = true
 	show = {}
-	城市中的爵位 = true
-	修墙一次 = true
-	活动计时 = os.time()
+	local 城市中的爵位 = true
+	local 修墙一次 = true
+	local 活动计时 = os.time()
 	
 	while (os.time()-计时<超时) do
 		if active(app,5)then
@@ -113,12 +116,12 @@ function city()
 						UI('返回','返回图标',true,1)
 					end
 				end
-			elseif setting[0] and d('返回_邮件界面')then
+			elseif UIdata.citySetting.mail and d('返回_邮件界面')then
 				if UI_pic('返回','邮件界面_一键',true)then
 				else
 					UI('返回','返回图标',true,1)
 				end
-			elseif setting[1] and d('返回_商城界面')then
+			elseif UIdata.citySetting.box and d('返回_商城界面')then
 				if d('返回_商城界面_宝箱翻页',true,1)then
 				elseif UI_pic('返回','免费宝箱',false)and d('返回_商城界面_宝箱页面',true,1)then
 					click(40,40,1.5)
@@ -137,7 +140,7 @@ function city()
 				else
 					UI('返回','返回图标',true,1)
 				end
-			elseif setting[3] and 城市中的爵位 and UI('城堡','技能提示',true)then
+			elseif UIdata.citySetting.jw and 城市中的爵位 and UI('城堡','技能提示',true)then
 			elseif 城市中的爵位 and UI_pic('城堡','技能提示_爵位展开',false,1)then
 				if UI_pic('城堡','英雄技能',true) then
 					
@@ -152,16 +155,15 @@ function city()
 					UI('返回','返回图标',true,1)
 					click(250,371)
 				end
-
 				--点击城堡-----------------------------------------
 			elseif d('返回_城堡中') and d('返回_城堡中_右下角对话按钮')then				
-				if 上传信息 and values.oneormore ~= '1' then
+				if 上传信息 then
 					get_info(aoc_zy['city'])
 					click(622,75,2)
 					if d('弹窗_城堡内_资源列表')then
 						keepScreen(true)
 						get_info(aoc_zy['资源'])
-						show['iphonename']= iphonename
+						show['iphonename'] = iphonename
 						show['imei']=imei
 						show['idfa']=idfa
 						show['awz']= awz_mun
@@ -174,15 +176,15 @@ function city()
 						end
 						keepScreen(false)
 						upAoc_yzlilith(show)
-						upAoc_wenfree(show)
+--						upAoc_wenfree(show)
 						click(622,75,1)
 						上传信息 = false
 					end
 				else
 					delay(1.5)
-					if kuang_setting[5]==false and UI_pic('城堡','木材',true)then	end
-					if kuang_setting[4]==false and UI_pic('城堡','金币',true)then	end
-					if kuang_setting[3]==false and UI_pic('城堡','泉水',true)then	end
+					UI_pic('城堡','木材',true)
+					UI_pic('城堡','金币',true)
+					UI_pic('城堡','泉水',true)
 					
 					if UI_pic('返回','城堡中_深渊',true)then
 					else
@@ -269,11 +271,11 @@ function city()
 					采集信息 = false
 					keepScreen(false)
 				end
-			elseif setting[22] and os.time() - 活动计时 < 20  and UI_pic('在地图中','活动奖励',true)then					--活动中心
+			elseif os.time() - 活动计时 < 20  and UI_pic('在地图中','活动奖励',true)then					--活动中心
 				活动计时 = os.time()
-			elseif setting[0] and UI_pic('城堡','邮件提醒',true,1)then		--邮件提示
-			elseif setting[1] and UI('城堡','商城红点',true,1)then		--商城提示
-			elseif 开箱一次 and setting[19] then
+			elseif UIdata.citySetting.mail and UI_pic('城堡','邮件提醒',true,1)then		--邮件提示
+			elseif UI('城堡','商城红点',true,1)then		--商城提示
+			elseif 开箱一次 and UIdata.citySetting.bag then
 				box()
 				开箱一次 = false
 			end

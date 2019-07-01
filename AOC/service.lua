@@ -85,9 +85,12 @@ giftlist={
 }
 
 function gift()
-	计时 = os.time()
-	超时 = 4*60
-	兑换券 = values.xchange
+	if not(UIdata.xchange)then
+		return false
+	end
+	local 计时 = os.time()
+	local 超时 = 4*60
+	local 兑换券 = UIdata.xchange_txt
 	log(兑换券)
 	local gift_mun = 1
 	
@@ -107,8 +110,7 @@ function gift()
 		elseif UI('换服','礼包兑换',false,1)then
 			click(738,295)
 			input("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
-			--input(兑换券)
-			input(giftlist[gift_mun])
+			input(兑换券)
 			UI_pic('换服','输入完成',true)
 			UI('换服','礼包兑换',true,1)
 			gift_mun = gift_mun + 1
@@ -116,12 +118,7 @@ function gift()
 		elseif UI('换服','兑换成功',true,1)then
 			toast('兑换成功',1)
 			delay(2)
-			--[[]]
-			if gift_mun > #giftlist then
-				return true
-			end
-			--]]
-			--return true
+			return true
 		else
 			log('other')
 			other()

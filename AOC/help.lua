@@ -1,5 +1,9 @@
 
 function backhome()
+	if not(UIdata.home)then
+		return true
+	end
+	
 	local outTime = os.time()
 	while (os.time()-outTime <= 60 ) do
 		if active(app,10)then
@@ -22,6 +26,10 @@ end
 
 
 function ad()
+	if not(UIdata.ad)then
+		return false
+	end
+	
 	local out_time = os.time()
 	local doing = 0
 	local 发送ad = false
@@ -87,6 +95,9 @@ t['弹窗_公会_攻击']={ 0xdb7b40, "99|-32|0x9b1651,9|36|0xede03d,-78|-33|0xd
 t['弹窗_公会_攻击_']={ 0xe7bf39, "-330|-1|0x39bfbd,-131|-400|0xc72906", 90, 241, 124, 1148, 690 } --多点找色
 
 function attck()
+	if not(UIdata.attck)then
+		return false
+	end
 	local TimeLine = os.time()
 	local usedTime = 60*3
 
@@ -172,6 +183,9 @@ t['弹窗_技能选择框_城门修复']={ 0x85f3f1, "29|-30|0x68ccd1,-9|3|0xe9f
 t['弹窗_技能选择框_使用']={ 0x124d5d, "-75|26|0x3095c0,69|4|0x1470a6", 90, 845, 362, 1113, 591 } --多点找色
 
 function fixWall()
+	if not(UIdata.wall)then
+		return false
+	end
 	local TimeLine = os.time()
 	local usedTime = 35*1
 	while (os.time()-TimeLine < usedTime) do

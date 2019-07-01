@@ -411,7 +411,6 @@ aoc['回城']={}
 --弹窗处理-----------
 function other()
 	yijicw = yijicw or 0
-
 	if UI('other','运送矿点',true,1)then
 	elseif UI('other','拦劫',true,1)then
 	elseif UI('other','成功抢车',true,1)then
@@ -468,11 +467,11 @@ function other()
 	elseif UI('other','国家发展宝箱-领取',true,1)then
 	elseif UI_pic('other','打开礼物',true)then
 	elseif UI('other','选择国家界面')then
-		国家选择 = tonumber(values.world)+1
+		国家选择 = tonumber(UIdata.world)
 		click(aoc['国家位置'][国家选择][1],aoc['国家位置'][国家选择][2])
 		UI('other','选国界面',true,1)
 	elseif UI('other','开始旅程',false,2)then
-		英雄选择 = tonumber(values.hero)+1
+		英雄选择 = tonumber(UIdata.hero)
 		click(aoc['英雄位置'][英雄选择][1],aoc['英雄位置'][英雄选择][2])
 		UI('other','开始旅程',true,1)
 		delay(8)

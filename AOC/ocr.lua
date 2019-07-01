@@ -93,30 +93,23 @@ end
 --上传到yzdd
 function upAoc_yzlilith(t)
 	local sz = require("sz")
-	local cjson = sz.json
-	local http = sz.i82.http
-	local aoc_url = 'http://dajin.yzdingding.com/api_/Public/aoc/?service=User.game'
-	local safari = 'Mozilla/5.0'
-	local headers = {}
-	headers['User-Agent'] = safari
-	headers['Referer'] = aoc_url
-	local headers_send = cjson.encode(headers)
-
-	local post_send = cjson.encode(t)
-	nLog(post_send)
-	local post_escaped = http.build_request(post_send)
-	local status_resp, headers_resp, body_resp = http.post(aoc_url, 10, headers_send, post_escaped)
-	
-	nLog(body_resp)
-	if status_resp == 200 then
-		return true
-	end
+	local json = sz.json
+	local url = 'http://dajin.yzdingding.com/phalapi/public/'
+	local postArr = {}
+	postArr.s="Wadd.Add"
+	postArr.imei = sz.system.serialnumber()
+	postArr.whos = UI_v.whos
+	postArr.token = llsGameToken()
+	postArr.name = getDeviceName()
+	postArr.arr = json.encode(t)
+	local imeiwebuidata = post(url,postArr)
 end
 --根据imei取脚本设置
 function getImeiUi()
 	local sz = require("sz")
-	local url = 'http://dajin.yzdingding.com/api_/Public/aoc/?service=User.getUiByimei'
+	local url = 'http://dajin.yzdingding.com/phalapi/public/'
 	local postArr = {}
+	postArr.s="Wgetui.getUiByimei"
 	postArr.imei = sz.system.serialnumber()
 	postArr.whos = UI_v.whos
 	local imeiwebuidata = post(url,postArr)
@@ -149,9 +142,11 @@ function getTokenUi()
 	end
 end
 
-----nLog(appDataPath(frontAppBid()))
+--UI_v={}
+--UI_v.whos = "ouwen000"
+--nLog(appDataPath(frontAppBid()))
 --require("TSLib")
---require("tsp")
+--require("/aoc/tsp")
 --log(getTokenUi())
 --log(getImeiUi())
 

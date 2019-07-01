@@ -19,7 +19,7 @@ function yiji_other()
 				{1222,536,0x0d0f05},
 			}
 			--values.yiji_arm 预设编号(0,1,2,3)设置1,设置2,设置3,全上
-			if tonumber(values.yiji_arm) >= 10 then
+			if tonumber(UIdata.arm_setting) >= 10 then
 				if c_p(aoc['新手']['超出队伍'],'超出队伍',false)then
 					click(178,31) --撤回
 					if 主线 == 12 then
@@ -49,7 +49,7 @@ function yiji_other()
 			else
 				if d('战斗界面_预设未展开',true,1)then
 				elseif d('战斗界面_预设已展开')then
-					click(预设位置[tonumber(values.yiji_arm)+1][1],预设位置[tonumber(values.yiji_arm)+1][2])
+					click(预设位置[tonumber(UIdata.arm_setting)][1],预设位置[tonumber(UIdata.arm_setting)][2])
 					delay(3)
 					d('战斗界面_可以开战',true,1)
 				end
@@ -58,14 +58,6 @@ function yiji_other()
 		elseif UI_pic('新手','寻找英雄',false)then
 			if x < 700 and y > 250 then
 				log('英雄位置正常')
-				--[[
-				if UI_pic('战斗','英勇跳跃',true) or UI_pic('战斗','箭雨',true) then
-					if UI_pic('战斗','攻击目标',false)then
-						click(x-50,y+20)
-					end
-					UI_pic('战斗','取消',true)
-				end
-				--]]
 			elseif x > 700 then
 				moveTo(450,300,300,300,20,20)
 			elseif y < 250 then
@@ -139,7 +131,8 @@ function find_kuang()
 	t['任务菜单未激活']={ 0x4a8526, "-86|26|0x2c621b,-85|-28|0x2c611c,-65|4|0x16310e", 90, 1086, 107, 1308, 198 } --多点找色
 	d('任务菜单未激活',true)
 	
-	if setting[2] and  UI_pic('新手','领取奖励',true)then
+	if UI_pic('新手','领取奖励',true)then
+		find_kuang()
 	end
 	
 	aoc['返回']['感叹号'][7] = 670
@@ -147,7 +140,6 @@ function find_kuang()
 
 	for i=1,4 do
 		if UI_pic('返回','感叹号')then
-			
 			keepScreen(true)
 			log('第'..i..'个感叹号'..x..","..y,false,2)
 			aoc['返回']['感叹号'][7] = y - 120
@@ -166,51 +158,28 @@ function find_kuang()
 			aoc['资源']['水晶']={ 0xe240d3, "", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
 			aoc['资源']['密银']={ 0x50f7ec, "14|-4|0xafffb0,19|8|0xb9ffa2", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
 			aoc['返回']['指向目标地']={ 0x9ea495, "1|29|0x999f82", 90, x+686, y-54, x+841, y+29}
-			if setting[21] then
-				aoc['资源']['魔镜']={ 0xf7f9fa, "1|0|0x15425a,3|0|0xd9e0e4,-3|0|0xe3e8eb,-3|7|0xe3e8eb", 90, x+75, y-17, x+558, y+26}
-			end
-			zy_mun = 0
+			aoc['资源']['魔镜']={ 0xf7f9fa, "1|0|0x15425a,3|0|0xd9e0e4,-3|0|0xe3e8eb,-3|7|0xe3e8eb", 90, x+75, y-17, x+558, y+26}
+			local zy_mun = 0
 			for k,v in pairs(aoc['资源'])do
 				if k == '水' or k == '密银' or k == '魔镜' then
 					if c_pic(v,k,false)then
-						if kuang_setting[0] and k == '水' then
-							zy_mun = zy_mun + 2
-							log('水跳过')
-						elseif kuang_setting[7] and k == '密银' then
-							zy_mun = zy_mun + 2
-							log('密银跳过')
-						else
-							zy_mun = zy_mun + 1
-						end
+						zy_mun = zy_mun + 1
 					end
 				else
 					if c_p(v,k,false)then
-						if kuang_setting[1] and k == '金' then
-							zy_mun = zy_mun + 2
-						elseif kuang_setting[2] and k == '木' then
-							zy_mun = zy_mun + 2
-						elseif kuang_setting[6] and k == '血钻' then
-							zy_mun = zy_mun + 2
-							log('血钻跳过')						
-						elseif kuang_setting[8] and k == '水晶' then
-							zy_mun = zy_mun + 2
-							log('水晶跳过')
-						else
-							zy_mun = zy_mun + 1
-						end
+						zy_mun = zy_mun + 1
 					end
 				end
 			end
 			keepScreen(false)
-			
-			if setting[20] and zy_mun >= 2 then
+			if UIdata.old and zy_mun >= 2 then
 				log("准备找遗迹")
 				nLog(cx+979 ..",".. cy-25)
 				if c_pic(aoc['返回']['指向目标地'],'指向目标地',true)then
 					delay(2)
 					return true
 				end
-			elseif 主线 ~= 9 and zy_mun == 1 then
+			elseif zy_mun == 1 then
 				nLog(cx+979 ..",".. cy-25)
 				if c_pic(aoc['返回']['指向目标地'],'指向目标地',true)then
 					delay(2)
@@ -229,11 +198,15 @@ function find_kuang()
 	else
 		return '没有任务'
 	end
-	delay(0.5)
+	delay(0.8)
 end
 
 
 function auto_get()
+	if not(UIdata.work)then
+		return false
+	end
+	
 	local 计时 = os.time()
 	local 超时 = 60*15
 	轮换 = 1
@@ -241,10 +214,9 @@ function auto_get()
 	采矿数量 = 0
 	查找次数 = 0
 	找图失败次数 = 0
-	倒着找矿 = true
-	开一次地图 = true
-	魔镜设置 = true
-	公会领取_ = true
+	local 开一次地图 = true
+	local 魔镜设置 = true
+	local 公会领取_ = true
 	
 	while (os.time()-计时< 60 * 15 ) do
 		if active(app,10)then
@@ -260,7 +232,7 @@ function auto_get()
 			elseif UI('在地图中','战争结束',true,2)then
 			else
 				map_time = os.time()
-				while (点矿 and (os.time()-map_time < 40)) do
+				while (点矿 and (os.time() - map_time < 40)) do
 					keepScreen(true)
 --					if UI_pic('地图','正在跑路',false)or UI_pic('地图','正在跑路小',false)then
 					if UI_pic('地图','正在跑路',false) then
@@ -350,7 +322,7 @@ function auto_get()
 				if UI('car','误点城堡') == false then
 					if UI('城堡','在城堡中',false,1) or UI('other','公会信息',false,1)then
 						UI('返回','返回图标',true,1)
-					elseif setting[14] and 找图失败次数 <= 4 and 找金币()then
+					elseif UIdata.maps and 找图失败次数 <= 4 and 找金币()then
 						delay(1)
 						if map_one()==false then
 							找图失败次数 = 找图失败次数 + 1
@@ -391,8 +363,8 @@ function auto_get()
 			点矿 = false
 		else
 			nLog('-other-')
-			if setting[20] then
-				nLog('--other--')
+			if UIdata.old then
+				nLog('old-other-')
 				if yiji_other()then
 					other()
 				end

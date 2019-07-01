@@ -99,11 +99,11 @@ function new_other()
 	elseif UI('other','聊天退出',true,1)then
 	elseif UI('other','暂停界面',true,1)then
 	elseif UI('other','选择国家界面')then
-		国家选择 = tonumber(values.world)+1
+		国家选择 = tonumber(UIdata.world)
 		click(aoc['国家位置'][国家选择][1],aoc['国家位置'][国家选择][2])
 		click(1048,662)
 	elseif UI('other','开始旅程',false,2)then
-		英雄选择 = tonumber(values.hero)+1
+		英雄选择 = tonumber(UIdata.hero)
 		click(aoc['英雄位置'][英雄选择][1],aoc['英雄位置'][英雄选择][2])
 		UI('other','开始旅程',true,1)
 		delay(10)
@@ -251,6 +251,10 @@ end
 
 
 function newplay()
+	if not(UIdata.new)then
+		return false
+	end
+	
 	local 计时 = os.time()
 	local 超时 = 60*20
 	local other_mun = 0

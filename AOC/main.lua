@@ -73,12 +73,11 @@ aoc={}
 require("/aoc/tsp")
 for i,v in ipairs(game_lua)do
 	local path = "/aoc/"..v
-	log(path)
+	log(i.."->"..path)
 	if not(v == "game_ui" or v == "main" ) then
 		require(path)
 	end
-	log(i)
-	mSleep(50)
+	mSleep(20)
 end
 local sz = require("sz")
 require("/aoc/game_ui")
@@ -100,7 +99,6 @@ if not(ret) then
 end
 
 function UI(name1,name2,clicks,oder,s)
---	log("name1-> ".. name1 .. "  name2->".. name2)
 	local clicks = clicks or false
 	local oder = oder or 1
 	local s = s or 95
@@ -140,6 +138,7 @@ function click(x,y,times)
 	mSleep(1000*times)
 end
 
+
 init('0',1);--横屏
 toast('剑与家园-希望之光',1)
 local app = 'com.lilithgame.sgame'
@@ -154,14 +153,56 @@ function 在地图界面(clicks,clickMun,stayTime)
 	end
 end
 
-while (true) do
-	local ret,errMessage = pcall(all)
-	if ret then
+
+
+iphonename = getDeviceName()
+imei = sz.system.serialnumber()
+awz_mun,idfa = getTrueName_awz()
+
+UIdata = getTokenUi()
+if UIdata and UIdata.delivery then
+	log(UIdata)
+	toast("启用token配置",2)
+else
+	UIdata = getImeiUi()
+	if UIdata and UIdata.delivery then
+		log('查看手机web设置',2)
+		log(UIdata)
 	else
-		dialog(errMessage, 10)
-		mSleep(2000)
+		UIdata = false
+		dialog('暂无手机本地UI配置,请后台设置',60)
+		lua_exit()
 	end
 end
+if UIdata then
+	newplay()	--新手/当新手没有开启时会自动跳过
+	backhome()	--回城
+	keji()		--科技
+	city()		--升城
+	auto_get()	--采矿/包函遗迹
+	gift()		--兑换
+	ad()		--广告
+	fixWall()	--修墙
+	attck()		--反击
+end
+clearOneAccount()
+awz_next()
+
+
+
+
+
+
+
+
+--while (true) do
+--	local ret,errMessage = pcall(all)
+--	if ret then
+--	else
+--		dialog(errMessage, 10)
+--		mSleep(2000)
+--	end
+--end
 
 
 
