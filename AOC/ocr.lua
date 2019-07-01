@@ -103,6 +103,7 @@ function upAoc_yzlilith(t)
 	postArr.name = getDeviceName()
 	postArr.arr = json.encode(t)
 	local imeiwebuidata = post(url,postArr)
+	log(imeiwebuidata)
 end
 --根据imei取脚本设置
 function getImeiUi()
