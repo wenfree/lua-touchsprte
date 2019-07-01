@@ -437,8 +437,8 @@ function other()
 	elseif UI('other','暂停界面',true,2)then
 	elseif UI('other','死伤较重',true,1)then
 	elseif UI('other','研究会员',true,3)then
-	elseif setting[12] and UI('other','购买物品',true,1)then
-	elseif setting[12] and UI('other','购买3折稀有',true,1)then
+	elseif UI('other','购买物品',true,1)then
+	elseif UI('other','购买3折稀有',true,1)then
 	elseif UI('other','学习技能',true,1)then
 		click(40,40)
 		click(276,236)

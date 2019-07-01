@@ -141,7 +141,7 @@ end
 
 init('0',1);--横屏
 toast('剑与家园-希望之光',1)
-local app = 'com.lilithgame.sgame'
+app = 'com.lilithgame.sgame'
 
 function 在地图界面(clicks,clickMun,stayTime)
 	local clicks = clicks or false
@@ -154,55 +154,53 @@ function 在地图界面(clicks,clickMun,stayTime)
 end
 
 
+function all()
 
-iphonename = getDeviceName()
-imei = sz.system.serialnumber()
-awz_mun,idfa = getTrueName_awz()
+	iphonename = getDeviceName()
+	imei = sz.system.serialnumber()
+	awz_mun,idfa = getTrueName_awz()
 
-UIdata = getTokenUi()
-if UIdata and UIdata.delivery then
-	log(UIdata)
-	toast("启用token配置",2)
-else
-	UIdata = getImeiUi()
+	UIdata = getTokenUi()
 	if UIdata and UIdata.delivery then
-		log('查看手机web设置',2)
 		log(UIdata)
+		toast("启用token配置",2)
 	else
-		UIdata = false
-		dialog('暂无手机本地UI配置,请后台设置',60)
-		lua_exit()
+		UIdata = getImeiUi()
+		if UIdata and UIdata.delivery then
+			log('查看手机web设置',2)
+			log(UIdata)
+		else
+			UIdata = false
+			dialog('暂无手机本地UI配置,请后台设置',60)
+			lua_exit()
+		end
+	end
+	if UIdata then
+		newplay()	--新手/当新手没有开启时会自动跳过
+		backhome()	--回城
+		keji()		--科技
+		city()		--升城
+		auto_get()	--采矿/包函遗迹
+		gift()		--兑换
+		ad()		--广告
+		fixWall()	--修墙
+		attck()		--反击
+	end
+	clearOneAccount()
+	awz_next()
+	delay(2)
+
+end
+
+
+while (true) do
+	local ret,errMessage = pcall(all)
+	if ret then
+	else
+		dialog(errMessage, 10)
+		mSleep(2000)
 	end
 end
-if UIdata then
-	newplay()	--新手/当新手没有开启时会自动跳过
-	backhome()	--回城
-	keji()		--科技
-	city()		--升城
-	auto_get()	--采矿/包函遗迹
-	gift()		--兑换
-	ad()		--广告
-	fixWall()	--修墙
-	attck()		--反击
-end
-clearOneAccount()
-awz_next()
-
-
-
-
-
-
-
-
---while (true) do
---	local ret,errMessage = pcall(all)
---	if ret then
---	else
---		dialog(errMessage, 10)
---		mSleep(2000)
---	end
---end
 
 
 
