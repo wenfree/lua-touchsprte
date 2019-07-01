@@ -49,6 +49,7 @@ game_lua = {
 	"ocr",
 	"file",
 	"game_ui",
+	"main",
 	}
 
 t1=os.time();
@@ -57,19 +58,37 @@ for i,v in ipairs(game_lua)do
 	if not(file_exists("/User/Media/TouchSprite/lua/aoc/"..v..".lua"))then
 		downFile(v,"/User/Media/TouchSprite/lua/aoc/"..v..".lua")
 	end
+	if v == "main" then
+		if not(file_exists("/User/Media/TouchSprite/lua/main.lua"))then
+			downFile(v,"/User/Media/TouchSprite/lua/"..v..".lua")
+		end
+	end
 	mSleep(30)
 end
 nLog(os.time()-t1)
 
 t={}
 aoc={}
-require("tsp")
-require("AWZ")
+require("/aoc/tsp")
 for i,v in ipairs(game_lua)do
-	require("/aoc/"..v)
-	mSleep(30)
+	local path = "/aoc/"..v
+	log(path)
+	if not(v == "game_ui" or v == "main" ) then
+		require(path)
+	end
+	log(i)
+	mSleep(50)
 end
 local sz = require("sz")
+require("game_ui")
+
+local imeis = sz.system.serialnumber()
+if imeis == "" then
+	dialog("请用main启动游戏脚本", 60)
+	lua_exit()
+end
+dialog(imeis, 2)
+dialog(UI_v.whos, 2)
 
 
 

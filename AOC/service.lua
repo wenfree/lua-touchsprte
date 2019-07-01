@@ -69,19 +69,19 @@ function new_account()
 end
 
 giftlist={
-"cj9258r44a",
-"bqngm2drd3",
-"cjh6vh8ip9",
-"cjvafe8exg",
-"cj2wgd4n8x",
-"cjjqfi2qhz",
-"c6rjh9y26w",
-"c6b8in6wm4",
-"c6czhumt4j",
-"c69gcqr8vx",
-"c67nz8qi6a",
-"c6uz7iq4xb",
-"c6awsdm9cz",
+	"cj9258r44a",
+	"bqngm2drd3",
+	"cjh6vh8ip9",
+	"cjvafe8exg",
+	"cj2wgd4n8x",
+	"cjjqfi2qhz",
+	"c6rjh9y26w",
+	"c6b8in6wm4",
+	"c6czhumt4j",
+	"c69gcqr8vx",
+	"c67nz8qi6a",
+	"c6uz7iq4xb",
+	"c6awsdm9cz",
 }
 
 function gift()
@@ -133,22 +133,22 @@ end
 
 
 --[[
-87tv84cjim
-87ifvuzeq8
-7upd87vc4j
-7uqz9qt9ij
-7a5ss5ufw9
-7arehztvgk
-7awabq9pn7
-7akn9bscv6
-7ai3r8akvz
-7ax6i7tg6z
-7ashyjfe2w
-7avpt4qi4w
-87ivhskn7f
-7uct6sciaq
-7u6vvvx5my
-7zzw8j4zx5
-87sbd7gy3r
-87e28phme9
+	87tv84cjim
+	87ifvuzeq8
+	7upd87vc4j
+	7uqz9qt9ij
+	7a5ss5ufw9
+	7arehztvgk
+	7awabq9pn7
+	7akn9bscv6
+	7ai3r8akvz
+	7ax6i7tg6z
+	7ashyjfe2w
+	7avpt4qi4w
+	87ivhskn7f
+	7uct6sciaq
+	7u6vvvx5my
+	7zzw8j4zx5
+	87sbd7gy3r
+	87e28phme9
 --]]
