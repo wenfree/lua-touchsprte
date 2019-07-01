@@ -163,7 +163,7 @@ function all()
 	UIdata = getTokenUi()
 	if UIdata and UIdata.delivery then
 		log(UIdata)
-		toast("启用token配置",2)
+		log("启用token配置",2)
 	else
 		UIdata = getImeiUi()
 		if UIdata and UIdata.delivery then

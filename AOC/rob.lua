@@ -220,7 +220,7 @@ function auto_get()
 	
 	while (os.time()-计时< 60 * 15 ) do
 		if active(app,10)then
-		elseif setting[14] and 开一次地图 and UI('在地图中','在地图界面',true,3)then
+		elseif UIdata.maps and 开一次地图 and UI('在地图中','在地图界面',true,3)then
 			delay(2)
 			开一次地图 = false
 		elseif UI('在地图中','在地图界面',false,3,80)then
