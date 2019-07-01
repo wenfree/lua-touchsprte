@@ -1,5 +1,4 @@
 require("TSLib")
-
 main_path = '/var/mobile/awzdata/com.lilithgame.sgame/'
 --遍历文件
 function getList(path)
@@ -12,8 +11,8 @@ function getList(path)
     return f
 end
 
-list = getList(main_path)	--文件夹例表
-sonlist={
+local list = getList(main_path)	--文件夹例表
+local sonlist={
 	'/Documents/head/',
 	'/Documents/blocktexcache/',
 	'/tmp/',
@@ -45,16 +44,6 @@ function clearOneAccount()
 		delFile(AllPath)
 	end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 --清理()
