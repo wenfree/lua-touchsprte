@@ -44,7 +44,7 @@ function ad()
 					return true
 				elseif UI_pic('聊天','聊天界面_世界频道_界面_发言位置')then
 					click(x+200,y)
-					input(values.ad)
+					input(UIdata.adTxt)
 					click(675,712)
 				end
 			end
