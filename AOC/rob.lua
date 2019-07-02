@@ -19,7 +19,7 @@ function yiji_other()
 				{1222,536,0x0d0f05},
 			}
 			--values.yiji_arm 预设编号(0,1,2,3)设置1,设置2,设置3,全上
-			if tonumber(UIdata.arm_setting) >= 10 then
+			if tonumber(UIdata.arm_setting) >= 11 then
 				if c_p(aoc['新手']['超出队伍'],'超出队伍',false)then
 					click(178,31) --撤回
 					if 主线 == 12 then

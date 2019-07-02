@@ -149,7 +149,7 @@ function attck()
 				{1222,536,0x0d0f05},
 			} --多点比色
 
-			if UIdata.arm_setting == '10' then
+			if UIdata.arm_setting == '11' then
 				for i = 1,20 do
 					click(1076-math.random(0,3)*117,662)
 					d('弹窗_体力',true)
