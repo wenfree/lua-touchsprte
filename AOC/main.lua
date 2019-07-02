@@ -172,7 +172,7 @@ function all()
 		else
 			UIdata = false
 			dialog('暂无手机本地UI配置,请后台设置',60)
-			lua_exit()
+--			lua_exit()
 		end
 	end
 	if UIdata then
