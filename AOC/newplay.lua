@@ -6,7 +6,7 @@ function new_other()
 	if UI('新手','战斗界面中_新手',false,1)  or UI('新手','战斗界面中',false,1) then
 		if UI_pic('新手','战斗准备',false,1)then
 			
-			预设位置=={
+			预设位置={
 				{1045,162,0x0a0c04},
 				{1220,166,0x0d0e08},
 				{1041,257,0x060c07},
