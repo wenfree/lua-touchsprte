@@ -149,13 +149,13 @@ function attck()
 				{1222,536,0x0d0f05},
 			} --多点比色
 
-			if values.yiji_arm == '10' then
+			if UIdata.yiji_arm == '10' then
 				for i = 1,20 do
 					click(1076-math.random(0,3)*117,662)
 					d('弹窗_体力',true)
 				end
 			else
-				click(预设位置[tonumber(values.yiji_arm)+1][1],预设位置[tonumber(values.yiji_arm)+1][2])
+				click(预设位置[tonumber(UIdata.yiji_arm)+1][1],预设位置[tonumber(UIdata.yiji_arm)+1][2])
 				delay(3)
 			end
 			click(1212,661)	--开始 战斗力位置
