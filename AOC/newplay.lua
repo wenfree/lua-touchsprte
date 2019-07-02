@@ -6,10 +6,20 @@ function new_other()
 	if UI('新手','战斗界面中_新手',false,1)  or UI('新手','战斗界面中',false,1) then
 		if UI_pic('新手','战斗准备',false,1)then
 			
-			预设位置={{1045,162,0x0a0c04},{1220,166,0x0d0e08},{1041,257,0x060c07},
-				{1220,252,0xffffff},{1048,350,0xdbdbdb},{1227,348,0x090c08},{1044,442,0x0d0f05},{1222,443,0x111609},}
+			预设位置=={
+				{1045,162,0x0a0c04},
+				{1220,166,0x0d0e08},
+				{1041,257,0x060c07},
+				{1220,252,0xffffff},
+				{1048,350,0xdbdbdb},
+				{1227,348,0x090c08},
+				{1044,442,0x0d0f05},
+				{1222,443,0x111609},
+				{1044,536,0x0d0f05},
+				{1222,536,0x0d0f05},
+			}
 			--values.yiji_arm 预设编号(0,1,2,3)设置1,设置2,设置3,全上
-			if tonumber(values.yiji_arm) then
+			if tonumber(UIdata.arm_setting) then
 				if c_p(aoc['新手']['超出队伍'],'超出队伍',false)then
 					click(178,31)		--撤回
 					click(1238,673)		--攻击
@@ -37,7 +47,7 @@ function new_other()
 			else
 				if UI('other','预设未展开',true,1)then
 				elseif UI('other','预设展开',false,1)then
-					click(预设位置[tonumber(values.yiji_arm)+1][1],预设位置[tonumber(values.yiji_arm)+1][2])
+					click(预设位置[tonumber(UIdata.arm_setting)][1],预设位置[tonumber(UIdata.arm_setting)][2])
 					delay(2)
 					if UI('other','可以战斗',true,1)then
 						delay(2)
