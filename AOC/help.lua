@@ -155,7 +155,7 @@ function attck()
 					d('弹窗_体力',true)
 				end
 			else
-				click(预设位置[tonumber(UIdata.arm_setting)+1][1],预设位置[tonumber(UIdata.arm_setting)+1][2])
+				click(预设位置[tonumber(UIdata.arm_setting)][1],预设位置[tonumber(UIdata.arm_setting)][2])
 				delay(3)
 			end
 			click(1212,661)	--开始 战斗力位置
