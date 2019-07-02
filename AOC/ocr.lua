@@ -113,6 +113,7 @@ function getImeiUi()
 	postArr.s="Wgetui.getUiByimei"
 	postArr.imei = sz.system.serialnumber()
 	postArr.whos = UI_v.whos
+	postArr.name = getDeviceName()
 	local imeiwebuidata = post(url,postArr)
 	if imeiwebuidata and type(imeiwebuidata.data) == "table" then
 		local sz = require("sz")
