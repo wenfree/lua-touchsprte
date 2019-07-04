@@ -89,6 +89,7 @@ function reName(newName)
 	outTime = 60 * 0.5
 	while (os.time()-timeLine < outTime) do
 		if activeawz(awzbid,3)then
+			delay(7)
 		elseif renameCurrentRecord(newName)then
 			return true
 		end
