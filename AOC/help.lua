@@ -197,7 +197,7 @@ function fixWall()
 		elseif d('弹窗_技能选择框')then	
 			if d('弹窗_技能选择框_使用',true)then
 				delay(15)
-				return '修复成功'
+				return awz_re_name("修复成功")
 			elseif d('弹窗_技能选择框_城门修复',true)then
 			else
 				return '没有技能'
@@ -208,7 +208,7 @@ function fixWall()
 			other()
 		end
 	end
-	return '修复超时or不要修复'
+	return awz_re_name("修复超时or不要修复")
 end
 
 

@@ -510,11 +510,7 @@ function other()
 end
 
 function awz_re_name(txt)
-	if iphonename ~= 'noawz' and values.oneormore == '0' then
-		if setting[16] then
-			reName(getOnlineName()..'/'..txt)
-		end
-	end
+	reName(getOnlineName()..'/'..txt)
 end
 
 aoc['造兵']={}
