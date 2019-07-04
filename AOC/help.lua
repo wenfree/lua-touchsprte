@@ -167,7 +167,7 @@ function attck()
 			elseif d('弹窗_公会_攻击_',true,1)then
 			elseif d('弹窗_开战',true,1)then
 				delay(3)
-				return true
+				return awz_re_name("反击成功")
 			else
 				if other() then
 					click(97,33)
@@ -176,6 +176,7 @@ function attck()
 		end
 		delay(1)
 	end
+	awz_re_name("反击失败")
 end
 
 t['在地图_技能']={ 0x6c6a49, "14|-19|0xf6f694,207|-3|0x22a695", 90, 1, 110, 263, 658 } --多点找色
