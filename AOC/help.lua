@@ -189,7 +189,7 @@ function fixWall()
 		return false
 	end
 	local TimeLine = os.time()
-	local usedTime = 60*1
+	local usedTime = 45*1
 	while (os.time()-TimeLine < usedTime) do
 		if active(app,5)then
 		elseif 在地图界面(false,clickMun,stayTime)then
