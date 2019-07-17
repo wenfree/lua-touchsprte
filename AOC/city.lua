@@ -73,6 +73,7 @@ function city()
 	show = {}
 	local 城市中的爵位 = true
 	local 修墙一次 = true
+	local 商店滑动key = 0
 	local 活动计时 = os.time()
 	
 	while (os.time()-计时<超时) do
@@ -131,11 +132,13 @@ function city()
 				elseif UI_pic('返回','宝箱红点',true)then
 				elseif d('返回_商城界面_商城')then
 					if 商店购买() then
-					elseif UI_pic('返回','最右端',false)then
+--					elseif UI_pic('返回','最右端',false)then
+					elseif 商店滑动key > 8 then
 						toast('购买完成',1)
 						UI('返回','返回图标',true,1)
 					else
 						moveTo(600,375,400,375,10)
+						商店滑动key = 商店滑动key + 1
 					end
 				else
 					UI('返回','返回图标',true,1)
