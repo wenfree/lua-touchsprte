@@ -274,6 +274,7 @@ function reg()
 	local 登录 = false
 	local 填地址 = true
 	local 付款信息 = true
+	local error_times = 0
 	
 	firstUp = true
 	local sendsms = 0
@@ -575,7 +576,12 @@ function reg()
 						errors()
 					end
 				else
-					errors()
+					if errors()then
+						error_times = error_times + 1
+						if error_times%5 == 0 then
+							click(20,20)
+						end
+					end
 				end
 			end
 		end
@@ -673,9 +679,11 @@ function login()
 				var.account.phone =  vCode.getPhone()
 				if var.account.phone then
 					
-					t['验证你的手机号_手机号码']={ 0xadadad, "11|-9|0xffffff,24|-10|0xa9a9a9", 90, 155, 481, 327, 527}
+					t['验证你的手机号_手机号码']={ 0xb3b3b3, "8|-4|0xffffff,8|-6|0xa9a9a9,17|-22|0xa9a9a9,-83|-15|0xa9a9a9,-83|-12|0xffffff,-66|-9|0xa9a9a9,-49|-15|0xffffff,-45|-19|0xfafafa", 90, 155, 475, 514, 537}
 					
-					if d('验证你的手机号_手机号码',true)then
+					if d('验证你的手机号_手机号码',false)then
+						click(  471,  503 )
+						input("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
 						inputword(var.account.phone)
 						delay(3)
 					end
