@@ -169,7 +169,7 @@ function find_kuang()
 					if c_pic(v,k,false)then
 						zy_mun = zy_mun + 1
 					end
-				elseif UIdata.resource.wood and k == 'wood' then
+				elseif UIdata.resource.wood and k == '木' then
 					if c_pic(v,k,false)then
 						zy_mun = zy_mun + 1
 					end				
