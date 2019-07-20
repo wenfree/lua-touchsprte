@@ -204,12 +204,12 @@ end
 
 
 function find_kuang()
-	if UIdata.resource.gold == 'true' and d('任务下_金',true) then
-	elseif UIdata.resource.wood == 'true' and d('任务下_木',true) then
-	elseif UIdata.resource.water == 'true' and d('任务下_水',true) then
-	elseif UIdata.resource.blood == 'true' and d('任务下_血钻',true) then
-	elseif UIdata.resource.silver == 'true'  and d('任务下_秘银',true) then
-	elseif UIdata.resource.crystal == 'true' and d('任务下_水晶',true) then
+	if UIdata.resource.gold and d('任务下_金',true) then
+	elseif UIdata.resource.wood  and d('任务下_木',true) then
+	elseif UIdata.resource.water  and d('任务下_水',true) then
+	elseif UIdata.resource.blood  and d('任务下_血钻',true) then
+	elseif UIdata.resource.silver  and d('任务下_秘银',true) then
+	elseif UIdata.resource.crystal  and d('任务下_水晶',true) then
 	else
 		log('上滑动一次')
 		if touch_move_look() then
