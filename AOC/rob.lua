@@ -125,7 +125,7 @@ function touch_move_look()
 	touchUp(1, h/2,w/2-155)
 end
 
-
+--[[
 function find_kuang()
 	
 	t['任务菜单未激活']={ 0x4a8526, "-86|26|0x2c621b,-85|-28|0x2c611c,-65|4|0x16310e", 90, 1086, 107, 1308, 198 } --多点找色
@@ -164,31 +164,7 @@ function find_kuang()
 				if k == '水' or k == '密银' or k == '魔镜' then
 					if c_pic(v,k,false)then
 						zy_mun = zy_mun + 1
-					end
---				if UIdata.resource.water and k == '水' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
---				elseif UIdata.resource.wood and k == '木' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end				
---				elseif UIdata.resource.gold and k == '金' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
---				elseif UIdata.resource.blood and k == '血钻' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
---				elseif UIdata.resource.crystal and k == '水晶' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
---				elseif UIdata.resource.silver and k == '密银' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end				
+					end			
 				else
 					if c_p(v,k,false)then
 						zy_mun = zy_mun + 1
@@ -224,6 +200,34 @@ function find_kuang()
 	end
 	delay(0.8)
 end
+--]]
+
+function find_kuang()
+	t['任务下_墨镜']={ 0xa1af91, "-1|27|0xa0ac8e,-659|-61|0xeff7fb,-692|-66|0x249aca,-436|-34|0x206c90", 90, 88, 94, 1014, 718 } --多点找色
+	t['任务下_水晶']={ 0x9eac8f, "-1|27|0xa0ac8e,-647|23|0x1f3038,-640|0|0x62c7ca,-508|13|0x6040e1,-363|17|0x173852", 90, 88, 94, 1014, 718 } --多点找色
+	t['任务下_木']={ 0xa3b1a1, "-2|29|0xa0ad8e,-651|26|0xa9b9ca,-640|2|0x57c6c6,-507|16|0xc09461,-363|19|0x183851", 90, 88, 94, 1014, 718 } --多点找色
+	t['任务下_血钻']={ 0x9cab8a, "-2|26|0xa0ad8e,-646|21|0x25343c,-641|-4|0x2173a7,-509|17|0xbd101b,-372|15|0x183851", 90, 88, 94, 1014, 718 } --多点找色
+	t['任务下_金']={ 0xa1ae9c, "-1|28|0xa0ac8e,-648|24|0x203037,-640|0|0x4abfc4,-506|17|0xab7e29,-361|19|0x153b54", 90, 88, 94, 1014, 718 } --多点找色
+	t['任务下_秘银']={ 0x9fae93, "0|27|0xa2ae90,-646|25|0x1a2b34,-638|0|0x4fc0c3,-505|20|0x65fbdb,-368|14|0x183a4f", 90, 88, 94, 1014, 718 } --多点找色
+	t['任务下_水']={ 0xa3b1a3, "-1|28|0xa2ae90,-647|25|0x233337,-640|0|0x43d3cd,-504|29|0x3fd6eb,-364|18|0x173850", 90, 88, 94, 1014, 718 } --多点找色
+	
+	if d('任务下_金','任务下_金',true) then
+	elseif d('任务下_木','任务下_木',true) then
+	elseif d('任务下_水','任务下_水',true) then
+	elseif d('任务下_血钻','任务下_血钻',true) then
+	elseif d('任务下_秘银','任务下_秘银',true) then
+	elseif d('任务下_水晶','任务下_水晶',true) then
+	else
+		log('上滑动一次')
+		if touch_move_look() then
+			log('还有任务')
+		else
+			return '没有任务'
+		end
+		delay(0.8)
+	end
+	
+end	
 
 
 function auto_get()
