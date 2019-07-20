@@ -161,14 +161,14 @@ function find_kuang()
 			aoc['资源']['魔镜']={ 0xf7f9fa, "1|0|0x15425a,3|0|0xd9e0e4,-3|0|0xe3e8eb,-3|7|0xe3e8eb", 90, x+75, y-17, x+558, y+26}
 			local zy_mun = 0
 			for k,v in pairs(aoc['资源'])do
---				if k == '水' or k == '密银' or k == '魔镜' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
-				if UIdata.resource.water and k == '水' then
+				if k == '水' or k == '密银' or k == '魔镜' then
 					if c_pic(v,k,false)then
 						zy_mun = zy_mun + 1
 					end
+--				if UIdata.resource.water and k == '水' then
+--					if c_pic(v,k,false)then
+--						zy_mun = zy_mun + 1
+--					end
 --				elseif UIdata.resource.wood and k == '木' then
 --					if c_pic(v,k,false)then
 --						zy_mun = zy_mun + 1
