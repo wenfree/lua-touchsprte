@@ -204,12 +204,12 @@ end
 
 
 function find_kuang()
-	if d('任务下_金','任务下_金',true) then
-	elseif d('任务下_木','任务下_木',true) then
-	elseif d('任务下_水','任务下_水',true) then
-	elseif d('任务下_血钻','任务下_血钻',true) then
-	elseif d('任务下_秘银','任务下_秘银',true) then
-	elseif d('任务下_水晶','任务下_水晶',true) then
+	if d('任务下_金',true) then
+	elseif d('任务下_木',true) then
+	elseif d('任务下_水',true) then
+	elseif d('任务下_血钻',true) then
+	elseif d('任务下_秘银',true) then
+	elseif d('任务下_水晶',true) then
 	else
 		log('上滑动一次')
 		if touch_move_look() then
