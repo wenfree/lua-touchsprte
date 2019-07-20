@@ -165,30 +165,6 @@ function find_kuang()
 					if c_pic(v,k,false)then
 						zy_mun = zy_mun + 1
 					end
---				if UIdata.resource.water and k == '水' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
---				elseif UIdata.resource.wood and k == '木' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end				
---				elseif UIdata.resource.gold and k == '金' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
---				elseif UIdata.resource.blood and k == '血钻' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
---				elseif UIdata.resource.crystal and k == '水晶' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
---				elseif UIdata.resource.silver and k == '密银' then
---					if c_pic(v,k,false)then
---						zy_mun = zy_mun + 1
---					end
 				else
 					if c_p(v,k,false)then
 						zy_mun = zy_mun + 1
