@@ -210,6 +210,7 @@ function find_kuang()
 	elseif UIdata.resource.blood  and d('任务下_血钻',true) then
 	elseif UIdata.resource.silver  and d('任务下_秘银',true) then
 	elseif UIdata.resource.crystal  and d('任务下_水晶',true) then
+	elseif UIdata.mj and d('任务下_魔镜',true) then
 	else
 		log('上滑动一次')
 		if touch_move_look() then
