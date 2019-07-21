@@ -149,7 +149,7 @@ function call_back()
 	local sz = require("sz")
 	local url = 'http://dajin.yzdingding.com/phalapi/public/'
 	local postArr = {}
-	postArr.s="Wgetui.Call_back"
+	postArr.s="Wadd.Call_back"
 	postArr.token = llsGameToken()
 	postArr.whos = UI_v.whos
 	log(post(url,postArr))
