@@ -187,9 +187,9 @@ function all()
 		attck()		--反击
 	end
 	clearOneAccount()
+	call_back()
 	awz_next()
 	delay(2)
-
 end
 
 

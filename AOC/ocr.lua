@@ -144,6 +144,18 @@ function getTokenUi()
 	end
 end
 
+--根据帐号取 脚本设置
+function call_back()
+	local sz = require("sz")
+	local url = 'http://dajin.yzdingding.com/phalapi/public/'
+	local postArr = {}
+	postArr.s="Wgetui.Call_back"
+	postArr.token = llsGameToken()
+	postArr.whos = UI_v.whos
+	post(url,postArr)
+end
+
+
 --UI_v={}
 --UI_v.whos = "ouwen000"
 --nLog(appDataPath(frontAppBid()))
