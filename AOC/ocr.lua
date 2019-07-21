@@ -152,7 +152,7 @@ function call_back()
 	postArr.s="Wgetui.Call_back"
 	postArr.token = llsGameToken()
 	postArr.whos = UI_v.whos
-	post(url,postArr)
+	log(post(url,postArr))
 end
 
 
