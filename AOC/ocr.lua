@@ -160,7 +160,7 @@ require("/aoc/tsp")
 --log(getImeiUi())
 
 
---取帐号全部
+--取帐空闲帐号
 function AccountInfoBack()
 	
 	local sz = require("sz")
@@ -168,7 +168,7 @@ function AccountInfoBack()
 	local postArr = {}
 	postArr.s="App.Wadd.Get_rest"
 	postArr.whos = UI_v.whos
-	postArr.whos = "ouwen000"
+--	postArr.whos = "ouwen000"
 	local game_data = post(url,postArr)
 
 	local json = sz.json	
