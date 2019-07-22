@@ -60,7 +60,6 @@ function get_info(t)
 		nLog('K--'..k.."--"..show[k])
 	end
 end
-
 --取帐号token
 function llsGameToken()
 	local appbid = 'com.lilithgame.sgame'
@@ -131,19 +130,15 @@ function getTokenUi()
 	postArr.s="Wgetui.getUiBytoken"
 	postArr.token = llsGameToken()
 	postArr.whos = UI_v.whos
---	postArr.token = 'Z2oJ5c0b2DqQdXLhYMUwnsXZ2ZzSKBGn'
 	local imeiwebuidata = post(url,postArr)
 	if imeiwebuidata and type(imeiwebuidata.data) == "table" then
---		log(imeiwebuidata)
 		local sz = require("sz")
 		local json = sz.json
 		if type(imeiwebuidata.data.webui)== 'string' and string.len(imeiwebuidata.data.webui) > 10 then
---		if imeiwebuidata.data.webui ~= '' and imeiwebuidata.data.webui ~= nil then
 			return json.decode(imeiwebuidata.data.webui)
 		end
 	end
 end
-
 --根据帐号取 脚本设置
 function call_back()
 	local sz = require("sz")
