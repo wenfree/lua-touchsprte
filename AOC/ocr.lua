@@ -154,15 +154,62 @@ end
 --UI_v={}
 --UI_v.whos = "ouwen000"
 --nLog(appDataPath(frontAppBid()))
---require("TSLib")
---require("/aoc/tsp")
+require("TSLib")
+require("/aoc/tsp")
 --log(getTokenUi())
 --log(getImeiUi())
 
 
+--取帐号全部
+function AccountInfoBack()
+	
+	local sz = require("sz")
+	local url = 'http://dajin.yzdingding.com/phalapi/public/'
+	local postArr = {}
+	postArr.s="App.Wadd.Get_rest"
+	postArr.whos = UI_v.whos
+	postArr.whos = "ouwen000"
+	local game_data = post(url,postArr)
+
+	local json = sz.json	
+	if game_data then
+--		game_date = json.decode(game_date)
+		log(game_data)
+		log(game_data.data.account)
+		local game_arr = strSplit(game_data.data.account,"|")
+		app_token = game_arr[1]
+		app_uid = game_arr[2]
+		player_id = game_arr[3]
+	end
+	
+	local appbid = 'com.lilithgame.sgame'
+	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"
+
+--	app_token = "qCOcHlziQlIVaEKWUlhwA37lme6PjEbt"
+--	app_uid = "19430454"
+--	player_id = "E76A9205-BCE5-4F51-B746-CB5D83E6AE3C"
+	
+	local account_ = {}
+	account_['app_token'] = app_token
+	account_['user_password'] = ""
+	account_['app_uid'] = app_uid
+	account_['player_id'] = player_id
+	account_['nickname'] = "游客"
+	account_['user_type'] = 1
 
 
+	
+	account_ = json.encode(account_)
+	account_ = "["..account_.."]"
 
+	log(account_)
+	
+	writeFileString(AccountInfo,account_)
+	closeApp(appbid)
+	mSleep(2000)
+end
+
+--AccountInfoBack()
 
 
 
