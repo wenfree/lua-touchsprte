@@ -154,8 +154,8 @@ end
 --UI_v={}
 --UI_v.whos = "ouwen000"
 --nLog(appDataPath(frontAppBid()))
-require("TSLib")
-require("/aoc/tsp")
+--require("TSLib")
+--require("/aoc/tsp")
 --log(getTokenUi())
 --log(getImeiUi())
 
