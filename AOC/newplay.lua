@@ -37,6 +37,7 @@ function new_other()
 							return '战斗失败'
 						else
 							if UI_pic('新手','战斗_选择2级兵',false)then
+								delay(5)
 								click(587,613,2) 	--点兵
 								click(811,611,2) 	--点兵
 								click(811,611,2) 	--点兵
