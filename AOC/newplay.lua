@@ -36,8 +36,15 @@ function new_other()
 						if UI_pic('战斗','受伤英雄',false)then
 							return '战斗失败'
 						else
-							if UI_pic('新手','战斗_选择2级兵',true)then
---								click(1086,663,0.2) 	--点英雄
+							if UI_pic('新手','战斗_选择2级兵',false)then
+								click(811,611,0.2) 	--点兵
+								click(811,611,0.2) 	--点兵
+								click(811,611,0.2) 	--点兵
+								click(811,611,0.2) 	--点兵
+								click(811,611,0.2) 	--点兵
+								click(1086,663,0.2) 	--点英雄
+								click(1086,663,0.2) 	--点英雄
+								click(1086,663,0.2) 	--点英雄
 							else
 								click(1086,663,0.2) 	--点英雄
 								log('点英雄')
