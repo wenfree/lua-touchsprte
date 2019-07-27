@@ -88,6 +88,7 @@ function city()
 					else 
 						click(267,642)
 					end
+				elseif d('返回_龙巢界面_喂养多次',true) then
 				elseif d('返回_龙巢界面_喂养',true) then
 				elseif d('返回_龙巢界面_进阶',true) then
 				elseif d('返回_龙巢界面_天赋升级',true) then
