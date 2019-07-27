@@ -97,7 +97,10 @@ function city()
 					UI('返回','返回图标',true,1)
 				end
 			elseif d('返回_深渊界面')then
-				if UI_pic('返回','返回_深渊界面_英雄宝箱',true)then
+				if d('返回_深渊界面_上阵英雄',true)then
+					delay(2)
+					click(351,419)
+				elseif UI_pic('返回','返回_深渊界面_英雄宝箱',true)then
 					delay(2)
 				else
 					local right_left ={{1196,171,0xe7b646}, {1231,376,0xe1ad3c}, {1088,560,0xf0bf4b}, 
