@@ -101,7 +101,7 @@ function city()
 					x,y = findMultiColorInRegionFuzzy( 0x202841, "2|27|0x20223a,-12|-23|0x6b4d76,44|51|0x3d3551,15|53|0x814c6b", 90, 86, 96, 1275, 618)
 					click((x+10),(y+10))
 					delay(2)
-					click(351,419)
+					click(631,392)
 				elseif UI_pic('返回','返回_深渊界面_英雄宝箱',true)then
 					delay(2)
 				else
