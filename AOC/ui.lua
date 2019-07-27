@@ -517,7 +517,6 @@ function other()
 	elseif d('结算界面_战斗胜利',true,1)then
 	elseif d('弹窗_公会技能',true,1)then
 	elseif d('tips_龙巢_巨龙进阶',true,1)then
-	elseif d('tips_深渊探险新号点击',true,1)then
 	elseif UI_pic('宝箱','展开',true)then
 	else
 		other_click_mun = other_click_mun  or 1
