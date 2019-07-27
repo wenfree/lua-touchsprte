@@ -81,7 +81,21 @@ function city()
 	while (os.time()-计时<超时) do
 		if active(app,5)then
 		elseif d('返回')then
-			if d('返回_深渊界面')then
+			if d('返回_龙巢界面') then
+				if d('返回_龙巢界面_新手界面') then
+					if d('返回_龙巢界面_新手界面_点击孵化',true) then
+					else 
+						click(267,642)
+					end
+				elseif d('返回_龙巢界面_喂养',true) then
+				elseif d('返回_龙巢界面_进阶',true) then
+				elseif d('返回_龙巢界面_天赋升级',true) then
+				elseif d('返回_龙巢界面_红点',true) then
+				else
+					UIdata.dragon = false
+					UI('返回','返回图标',true,1)
+				end
+			elseif d('返回_深渊界面')then
 				if UI_pic('返回','返回_深渊界面_英雄宝箱',true)then
 					delay(2)
 				else
@@ -189,8 +203,8 @@ function city()
 					UI_pic('城堡','木材',true)
 					UI_pic('城堡','金币',true)
 					UI_pic('城堡','泉水',true)
-					
-					if UI_pic('返回','城堡中_深渊',true)then
+					if UIdata.dragon and d('返回_城堡中_龙巢',true) then
+					elseif UI_pic('返回','城堡中_深渊',true)then
 					else
 						if UI_pic('城堡','主城升级中',false)or UI_pic('城堡','主城等待中',false)then
 							return true
