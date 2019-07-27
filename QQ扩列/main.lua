@@ -42,6 +42,8 @@ t['work_扩列界面']={ 0x4082ff, "367|-1|0x4082ff,362|52|0x4082ff,195|17|0xfff
 t['work_匹配中']={ 0x002455, "-43|-12|0x002455,34|3|0x274875,28|-1|0xc9e0ff", 90, 298, 1127, 444, 1186 } --多点找色
 t['work_扩列聊天界面']={ 0xdeeeff, "1|5|0x03081a,1|14|0xdeeeff,2|18|0x03081a,4|21|0xdfeeff", 90, 663, 56, 722, 111 } --多点找色
 
+
+
 function tips()
 	if d('tips_绑定手机号关闭',true) then
 	elseif d('tips_勋章',true) then
@@ -58,15 +60,21 @@ function tips()
 end
 
 function update()
+	
 	if d('login_主界面',false) then
+		if 等待手机号弹窗key then
+			等待手机号弹窗key = false
+			delay(10)
+		end
 		click(62,79)
+		
 		if d('update_设置界面',false) then
 			click(402,233)
 		end
 	elseif d('update_选择出生日期界面',false) then	
 		
 		for i = 1 , math.random(3,12) do
-			click(228,1180)
+			click(244,1057)
 		end
 		for i = 1 , math.random(1,11) do
 			click(366,1180)
@@ -80,17 +88,20 @@ function update()
 		年龄key = false
 		d('tips_返回',true)
 	elseif d('tips_编辑资料',true) then	
-	elseif d('update_编辑资料界面',false) then	
+	elseif d('update_编辑资料界面',false) then		
 		if 年龄key then
 			d('update_编辑资料界面_选择生日',true)
-		elseif namekey then
+		elseif namekey < 2 then
 			d('update_编辑资料界面_选择昵称',true)
-			for i = 1, 8 do
+			for i = 1, 10 do
 				click(707,1192)
 			end
+			click(465,1295)
+			click(707,1192)
 			delay(3)
 			input(qq_name)
-			namekey = false
+			delay(3)
+			namekey = namekey + 1
 		elseif 头像key then
 			d('update_编辑资料界面_选择头像',true)
 			
@@ -101,12 +112,13 @@ function update()
 end
 
 function login()
-	local account = '1978716956'
-	local password = 'tz29rr7x02g'
+	local account = '3412295874'
+	local password = 'z00r4202'
 		  qq_name = '非诚勿扰'
 		  年龄key = true
-		  namekey = true
+		  namekey = 0
 		  头像key = true
+		  等待手机号弹窗key = true	
 	local timeout = os.time()
 	local timeline = 60*3
 	
@@ -125,8 +137,7 @@ function login()
 					click(387,638)
 				end
 			elseif d('login_验证码界面',false) then						
-				moveTo(146,709,554,700)
-									
+				moveTo(146,709,580,700)			
 			elseif d('tips_从相册选择照片完成',true) then
 				头像key = false
 				return true	
@@ -146,15 +157,25 @@ function work()
 	local timeout = os.time()
 	local timeline = 60*3
 	local 聊天key = true
+		  等待扩列加载key = true	
 	while os.time() - timeout < timeline do	
 		if active(appbid,5) then
 			if d('login_主界面',false) then
 				if d('login_主界面_点动态',true) then
 				elseif d('login_主界面_动态界面',false) then
-					d('login_主界面_动态界面_点扩列',true)
+					delay(3)
+					if d('login_主界面_动态界面_点扩列',true) then
+					else
+						toast('没有扩列权限',3)
+						return true
+					end
 				end
 			elseif d('work_匹配中',false) then
 			elseif d('work_扩列界面',false) then
+				if 等待扩列加载key then
+					delay(20)
+					等待扩列加载key = false
+				end	
 				delay(3)
 				if d('work_扩列界面_有任务',true) then
 --					click(524,357)
@@ -165,12 +186,13 @@ function work()
 			elseif 聊天key and d('work_扩列聊天界面',false) then
 				click(158,1186)
 				delay(2)
-				click(683,1292)
+				click(146,678)
 				input(话述[1])
 				click(683,1292)
 				input(话述[2])
 				click(683,1292)
 				input(话述[3])
+				click(683,1292)
 				delay(3)
 				聊天key = false
 			else
@@ -185,9 +207,6 @@ end
 if login() then
 	work()
 end
-
-
-
 
 
 
