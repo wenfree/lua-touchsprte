@@ -84,6 +84,7 @@ function city()
 			if d('返回_龙巢界面') then
 				if d('返回_龙巢界面_新手界面') then
 					if d('返回_龙巢界面_新手界面_点击孵化',true) then
+					elseif d('返回_龙巢界面_新手界面_抚养',true) then
 					else 
 						click(267,642)
 					end
