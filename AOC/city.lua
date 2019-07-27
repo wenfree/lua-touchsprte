@@ -51,7 +51,9 @@ function 商店购买()
 			if c_p(金币不足,'金币不足',false) then
 				return false
 			else
-				UI_pic('返回','金币可以购买',true)
+				if UI_pic('返回','金币可以购买1',true) then
+				elseif UI_pic('返回','金币可以购买2',true) then
+				end
 			end
 		end
 	end
