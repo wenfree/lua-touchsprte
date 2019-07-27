@@ -46,7 +46,7 @@ end
 
 function 商店购买()
 	if UIdata.shop then
-		if UI_pic('返回','金币可以购买1',false)then
+		if UI_pic('返回','金币可以购买1',false) or UI_pic('返回','金币可以购买2',false) then
 			金币不足 = {0xff4b4b,"",90,x+29,y-3,x+136,y+35}
 			if c_p(金币不足,'金币不足',false) then
 				return false
