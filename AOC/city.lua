@@ -135,7 +135,7 @@ function city()
 				elseif d('返回_商城界面_商城')then
 					if 商店购买() then
 --					elseif UI_pic('返回','最右端',false)then
-					elseif 商店滑动key > 8 then
+					elseif 商店滑动key > 9 then
 						toast('购买完成',1)
 						UI('返回','返回图标',true,1)
 					else
