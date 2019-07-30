@@ -305,6 +305,7 @@ aoc['新手']['战斗界面中_新手']={{40,32,0xf1f192}, {48,32,0x2db8ab}, {58
 
 
 aoc['other']={}
+	t['other_连接失败确定']={ 0xffffff, "-123|-5|0xf2f1f6,-130|-12|0xfbfbfb,-150|-36|0x2d97bd,102|25|0x2994bd,219|3|0x47b94e,212|3|0xdfdce2", 90, 337, 410, 991, 533 } --多点找色
 	aoc['other']['运送矿点']={{844,497,0x8aef43},{472,492,0x39bebd},}
 	aoc['other']['拦劫']={{869,501,0x99f347},{504,493,0x3fc6b6},}
 	aoc['other']['成功抢车']={{647,676,0x65df3d},{666,663,0x256520},{567,667,0xe6e4ed},}
@@ -431,7 +432,8 @@ aoc['回城']={}
 --弹窗处理-----------
 function other()
 	yijicw = yijicw or 0
-	if UI('other','运送矿点',true,1)then
+	if d('other_连接失败确定',true)then
+	elseif UI('other','运送矿点',true,1)then
 	elseif UI('other','拦劫',true,1)then
 	elseif UI('other','成功抢车',true,1)then
 		return true
