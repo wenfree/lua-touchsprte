@@ -163,6 +163,7 @@ function city()
 						moveTo(600,375,400,375,10)
 						商店滑动key = 商店滑动key + 1
 					end
+				elseif d('返回_商城界面_会员翻页',true)then
 				else
 					UI('返回','返回图标',true,1)
 				end
