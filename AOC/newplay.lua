@@ -39,12 +39,19 @@ function new_other()
 							if UI_pic('新手','战斗_选择2级兵',false)then
 								delay(5)
 								click(587,613,2) 	--点兵
+								delay(2)
 								click(811,611,2) 	--点兵
+								delay(2)
 								click(811,611,2) 	--点兵
+								delay(2)
 								click(811,611,2) 	--点兵
+								delay(2)
 								click(811,611,2) 	--点兵
+								delay(2)
 								click(1086,663,2) 	--点英雄
+								delay(2)
 								click(1086,663,2) 	--点英雄
+								delay(2)
 								click(1086,663,2) 	--点英雄
 							else
 								click(1086,663,0.2) 	--点英雄
