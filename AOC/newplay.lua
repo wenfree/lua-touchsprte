@@ -55,8 +55,8 @@ function new_other()
 								delay(2)
 								click(1086,663) 	--点英雄
 							else
---								click(1086,663,0.2) 	--点英雄
---								log('点英雄')
+								click(1086,663,0.2) 	--点英雄
+								log('点英雄')
 							end
 						end
 					end
