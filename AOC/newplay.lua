@@ -34,9 +34,7 @@ function new_other()
 							return '战斗失败'
 						end
 					else
-						if UI_pic('新手','战斗_选择2级兵',true,1)then
-							log('休息5秒')
-							delay(5)
+						if UI_pic('新手','战斗_选择2级兵',false)then
 							click( 810,  614) 	--点兵
 							delay(2)
 							click( 810,  614) 	--点兵
@@ -52,9 +50,9 @@ function new_other()
 							click(1086,663) 	--点英雄
 							delay(2)
 							click(1086,663) 	--点英雄
---						else
---							click(1086,663,0.2) 	--点英雄
---							log('点英雄')
+						else
+							click(1086,663,0.2) 	--点英雄
+							log('点英雄')
 						end
 					end
 				end
