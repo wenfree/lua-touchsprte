@@ -37,15 +37,15 @@ function new_other()
 						if UI_pic('新手','战斗_选择2级兵',true,1)then
 							log('休息5秒')
 							delay(5)
-							click(587,613) 	--点兵
+							click( 810,  614) 	--点兵
 							delay(2)
-							click(811,611) 	--点兵
+							click( 810,  614) 	--点兵
 							delay(2)
-							click(811,611) 	--点兵
+							click( 810,  614) 	--点兵
 							delay(2)
-							click(811,611) 	--点兵
+							click( 810,  614) 	--点兵
 							delay(2)
-							click(811,611) 	--点兵
+							click( 810,  614) 	--点兵
 							delay(2)
 							click(1086,663) 	--点英雄
 							delay(2)
