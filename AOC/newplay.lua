@@ -20,6 +20,7 @@ function new_other()
 			}
 			--values.yiji_arm 预设编号(0,1,2,3)设置1,设置2,设置3,全上
 			if tonumber(UIdata.arm_setting) then
+
 				if c_p(aoc['新手']['超出队伍'],'超出队伍',false)then
 					click(178,31)		--撤回
 					click(1238,673)		--攻击
@@ -33,31 +34,27 @@ function new_other()
 							return '战斗失败'
 						end
 					else
-						if UI_pic('战斗','受伤英雄',false)then
-							return '战斗失败'
+						if UI_pic('新手','战斗_选择2级兵',false)then
+							log('休息5秒')
+							delay(5)
+							click(587,613) 	--点兵
+							delay(2)
+							click(811,611) 	--点兵
+							delay(2)
+							click(811,611) 	--点兵
+							delay(2)
+							click(811,611) 	--点兵
+							delay(2)
+							click(811,611) 	--点兵
+							delay(2)
+							click(1086,663) 	--点英雄
+							delay(2)
+							click(1086,663) 	--点英雄
+							delay(2)
+							click(1086,663) 	--点英雄
 						else
-							if UI_pic('新手','战斗_选择2级兵',false)then
-								log('休息5秒')
-								delay(5)
-								click(587,613) 	--点兵
-								delay(2)
-								click(811,611) 	--点兵
-								delay(2)
-								click(811,611) 	--点兵
-								delay(2)
-								click(811,611) 	--点兵
-								delay(2)
-								click(811,611) 	--点兵
-								delay(2)
-								click(1086,663) 	--点英雄
-								delay(2)
-								click(1086,663) 	--点英雄
-								delay(2)
-								click(1086,663) 	--点英雄
-							else
-								click(1086,663,0.2) 	--点英雄
-								log('点英雄')
-							end
+							click(1086,663,0.2) 	--点英雄
+							log('点英雄')
 						end
 					end
 				end
