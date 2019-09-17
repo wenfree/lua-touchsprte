@@ -271,9 +271,12 @@ function city()
 					elseif UI_pic('城堡','主城建筑',true)then
 					end
 				end
-
+				
 			else
-				UI('返回','返回图标',true,1)
+				if d('返回_城防内容tips',true) then
+				else
+					UI('返回','返回图标',true,1)
+				end
 			end
 
 		elseif 在地图界面(false,clickMun,stayTime)then
