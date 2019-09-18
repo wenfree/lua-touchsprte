@@ -160,7 +160,7 @@ MyTable = {
 			{
                 ["id"] = "smsPT",
                 ["type"] = "RadioGroup",
-                ["list"] = "0_火云,1_共享云,2_多米",
+                ["list"] = "0_火云,1_共享云,2_165",
                 ["select"] = "0",
             },
 			{

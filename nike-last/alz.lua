@@ -117,13 +117,13 @@ end
 
 
 
---多米
+--165
 function _vCode_dm()
-	local User = '6g0vAM0HoZhHr'
-	local Pass = 'Shuai888'
-	local PID = '11256'
+	local User = 'api-235018-rBGkUMQ'
+	local Pass = 'shuai888'
+	local PID = '18312'
     local token,uid,number = "",""
-	local api_url = "http://api.duomi01.com/api"
+	local api_url = "http://api.lianxins.com/api/do.php"
     return {
 	    login=(function() 
             local RetStr
@@ -173,7 +173,7 @@ function _vCode_dm()
             return ""
         end),
         addBlack=(function()
-            return httpGet("http://huoyun888.cn/api/do.php?action=getMessage&sid="..PID.."&token="..token.."&phone="..number)
+            return httpGet( api_url.."?action=getMessage&sid="..PID.."&token="..token.."&phone="..number)
         end),
     }
 end
