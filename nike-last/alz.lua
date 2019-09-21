@@ -1,5 +1,18 @@
 
 
+function get(url)
+	local sz = require("sz")
+	local http = require("szocket.http")
+	local res, code = http.request(url);
+	if code == 200 then
+		local json = sz.json
+		if res ~= nil then
+			return json.decode(res)
+		end
+	end
+end
+
+
 function _vCode_gx(User,Pass,PID) --共享平台
     local token,uid,number = "",""
     return {
@@ -132,7 +145,7 @@ function _vCode_dm()
 			for i=1,5,1 do
 				toast("获取token\n"..i.."次共5次")
                 mSleep(1500)
-				local urls = api_url..'reg/login?loginIn&username='..User..'&password='..Pass
+				local urls = api_url..'reg/login?username='..User..'&password='..Pass
 				nLog(urls)
                 RetStr = get(urls)
 				if RetStr then
@@ -151,13 +164,13 @@ function _vCode_dm()
         end), 
 		getPhone=(function()
             local RetStr=""
-			local urls = api_url..'clients/online/setWork?loginIn&token='..token..'&t=1&pid='..PID
+			local urls = api_url..'clients/online/setWork?token='..token..'&t=1&pid='..PID
 			nLog(urls)
 			RetStr = get(urls)
 			if RetStr then
 				if RetStr['errno'] == 0 then
 					number = RetStr['ret']['number']
---					log('token='..token,true)
+					toast('number='..number)
 					nLog('number='..number)
 					return number
 				else
@@ -171,7 +184,7 @@ function _vCode_dm()
 			local Msg
             for i=1,25,1 do
                 mSleep(3000)
-				local urls = api_url..'clients/sms/getSms?loginIn&type=1&token='..token..'&project='..PID..'&number='..number
+				local urls = api_url..'clients/sms/getSms?type=1&token='..token..'&project='..PID..'&number='..number
 				nLog(urls)
 				RetStr = get(urls)
 				if RetStr then
@@ -196,6 +209,10 @@ function _vCode_dm()
         end),
     }
 end
+
+--code = _vCode_dm()
+--code.login()
+--code.getPhone()
 
 
 
