@@ -160,7 +160,7 @@ MyTable = {
 			{
                 ["id"] = "smsPT",
                 ["type"] = "RadioGroup",
-                ["list"] = "0_火云,1_共享云,2_165",
+                ["list"] = "0_易码,1_来信,2_165",
                 ["select"] = "0",
             },
 			{
@@ -283,7 +283,7 @@ end
 
 if UIret == 1 then
 	nLog(UIvalues.mail)
-	mailheader = strSplit(UIvalues.mail,"\n")
+--	mailheader = strSplit(UIvalues.mail,"\n")
 	log(mailheader)
 else
 	lua_exit()

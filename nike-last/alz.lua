@@ -1,4 +1,8 @@
 
+require("TSLib")
+require("tsp")
+
+
 
 function get(url)
 	local sz = require("sz")
@@ -13,7 +17,10 @@ function get(url)
 end
 
 
-function _vCode_gx(User,Pass,PID) --共享平台
+function _vCode_gx(User,Pass,PID) --易码平台
+	local User = 'shuaishuai1983'
+	local Pass = 'shuai888'
+	local PID = '723'
     local token,uid,number = "",""
     return {
         login=(function() 
@@ -21,14 +28,17 @@ function _vCode_gx(User,Pass,PID) --共享平台
 			for i=1,5,1 do
 				toast("获取token\n"..i.."次共5次")
                 mSleep(1500)
-                RetStr = httpGet('http://api.ndd001.com/do.php?action=loginIn&name='..User..'&password='..Pass.."&author=yangmian")
+                RetStr = httpGet('http://i.fxhyd.cn:8080/UserInterface.aspx?action=login&username='..User..'&password='..Pass.."&author=yangmian")
 				if RetStr then
 					nLog(RetStr)
 					RetStr = strSplit(RetStr,"|")
-					if RetStr[1] == 1 or RetStr[1] == '1' then
+					if RetStr[1] == 'success' then
 						token = RetStr[2]
 						log('token='..token,true)
 						break
+					else
+						toast("fail--"..RetStr[1])
+						mSleep(1500)
 					end
 				end
 			end
@@ -36,24 +46,29 @@ function _vCode_gx(User,Pass,PID) --共享平台
         end),
 	    getPhone=(function()
             local RetStr=""
-			RetStr = httpGet("http://api.ndd001.com/do.php?action=getPhone&sid="..PID.."&token="..token.."&author=yangmian")
+			RetStr = httpGet("http://i.fxhyd.cn:8080/UserInterface.aspx?action=getmobile&excludeno=165&itemid="..PID.."&token="..token.."&timestamp="..os.time())
 			if RetStr ~= "" and  RetStr ~= nil then
+				log(RetStr,true)
 				RetStr = strSplit(RetStr,"|")
 			end
-			if RetStr[1] == 1 or RetStr[1]== '1' then
+			if RetStr[1]== 'success' then
 				number = RetStr[2]
+				log(number,true)
 				return number
+			else
+				log(RetStr[1],true)
 			end
         end),
 	    getMessage=(function()
 			local Msg
             for i=1,25,1 do
                 mSleep(3000)
-                RetStr = httpGet("http://api.ndd001.com/do.php?action=getMessage&token="..token.."&phone="..number.."&sid="..PID.."&author=yangmian")
+                RetStr = httpGet("http://i.fxhyd.cn:8080/UserInterface.aspx?action=getsms&token="..token.."&mobile="..number.."&itemid="..PID.."&release=1&timestamp="..os.time())
 				if RetStr then
 					local arr = strSplit(RetStr,"|") 
-					if arr[1] == '1' then 
+					if arr[1] == 'success' then 
 						Msg = arr[2]
+						log(Msg,true)
 						local i,j = string.find(Msg,"%d+")
 						Msg = string.sub(Msg,i,j)
 					end
@@ -70,11 +85,11 @@ function _vCode_gx(User,Pass,PID) --共享平台
 end
 
 
---火云平台
-function _vCode_hy() --火云平台
-	local User = 'api-306292-rnrEXT9'
+--来信平台
+function _vCode_hy() --来信
+	local User = 'APIJT31uDT3XwaGl'
 	local Pass = 'shuai888'
-	local PID = '945'
+	local PID = '1018'
     local token,uid,number = "",""
     return {
 	    login=(function() 
@@ -82,9 +97,8 @@ function _vCode_hy() --火云平台
 			for i=1,5,1 do
 				toast("获取token\n"..i.."次共5次")
                 mSleep(1500)
-                RetStr = httpGet('http://huoyun888.cn/api/do.php?action=loginIn&name='..User..'&password='..Pass)
+                RetStr = httpGet('http://api.smskkk.com/api/do.php?action=loginIn&name='..User..'&password='..Pass)
 				if RetStr then
-					nLog(RetStr)
 					RetStr = strSplit(RetStr,"|")
 					if RetStr[1] == 1 or RetStr[1] == '1' then
 						token = RetStr[2]
@@ -97,12 +111,13 @@ function _vCode_hy() --火云平台
         end), 
 		getPhone=(function()
             local RetStr=""
-			RetStr = httpGet("http://huoyun888.cn/api/do.php?action=getPhone&sid="..PID.."&token="..token)
+			RetStr = httpGet("http://api.smskkk.com/api/do.php?action=getPhone&sid="..PID.."&token="..token)
 			if RetStr ~= "" and  RetStr ~= nil then
 				RetStr = strSplit(RetStr,"|")
 			end
 			if RetStr[1] == 1 or RetStr[1]== '1' then
 				number = RetStr[2]
+				log(number,true)
 				return number
 			end
         end),
@@ -110,7 +125,7 @@ function _vCode_hy() --火云平台
 			local Msg
             for i=1,25,1 do
                 mSleep(3000)
-                RetStr = httpGet("http://huoyun888.cn/api/do.php?action=getMessage&sid="..PID.."&token="..token.."&phone="..number)
+                RetStr = httpGet("http://api.smskkk.com/api/do.php?action=getMessage&sid="..PID.."&token="..token.."&phone="..number)
 				if RetStr then
 					local arr = strSplit(RetStr,"|") 
 					if arr[1] == '1' then 
@@ -210,9 +225,11 @@ function _vCode_dm()
     }
 end
 
---code = _vCode_dm()
+--code = _vCode_hy()
 --code.login()
---code.getPhone()
+--delay(3)
+--log(
+--code.getPhone() )
 
 
 
