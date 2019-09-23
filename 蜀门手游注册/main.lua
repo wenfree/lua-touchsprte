@@ -91,7 +91,7 @@ function reg()
 	while os.time() - timeline < outtime do
 		if active(appbid,5) then
 			if d('reg_注册失败') then
---				return false
+				return false
 			elseif d('reg_账号注册',true) then
 			elseif 注册确认key and d('reg_账号注册界面',true) then
 			elseif d('reg_账号注册界面') then
@@ -140,27 +140,6 @@ function reg()
 	return false
 end
 
-----注册
---[[
-while true do
---	setAirplaneMode(true);  --打开飞行模式
---	delay(15)
---	setAirplaneMode(false); --关闭飞行模式
---	delay(15)
-	vpnx()
-	delay(3)
-	if false or vpn() then
-		if awzNew() then
-			if openU() then
-				if reg() then
-					reName('完成')
-					upidfa('蜀门手游','注册完成')
-				end
-			end
-		end
-	end	
-end
---]]--
 
 function reg1()
 	account = myRand(4,8)
@@ -220,17 +199,43 @@ function reg1()
 	end	
 	return true
 end
-----复登
 
+
+
+
+----注册
+--[[
+while true do
+	setAirplaneMode(true);  --打开飞行模式
+	delay(15)
+	setAirplaneMode(false); --关闭飞行模式
+	delay(15)
+--	vpnx()
+--	delay(3)
+	if true or vpn() then
+		if awzNew() then
+			if openU() then
+				if reg() then
+					reName('完成')
+					upidfa('蜀门手游','注册完成')
+				end
+			end
+		end
+	end	
+end
+--]]--
+
+
+----复登
 --[[]]
 while true do
---	setAirplaneMode(true);  --打开飞行模式
---	delay(15)
---	setAirplaneMode(false); --关闭飞行模式
---	delay(15)
-	vpnx()
-	delay(3)
-	if false or vpn() then
+	setAirplaneMode(true);  --打开飞行模式
+	delay(15)
+	setAirplaneMode(false); --关闭飞行模式
+	delay(15)
+--	vpnx()
+--	delay(3)
+	if true or vpn() then
 		if awz_next() then
 --			if openU() then
 				if reg1() then
