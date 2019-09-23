@@ -548,13 +548,13 @@ function other()
 	elseif d('tips_深渊探险新号点击',true,1)then
 	elseif UI_pic('宝箱','展开',true)then
 	else
-		other_click_mun = other_click_mun  or 1
-		other_click_mun = other_click_mun + 1
-		if other_click_mun%10 ==0 then
-			click(h/2,w/2)
-		elseif other_click_mun%2 == 0 then
-			click(40,40)
-		end
+--		other_click_mun = other_click_mun  or 1
+--		other_click_mun = other_click_mun + 1
+--		if other_click_mun%10 ==0 then
+--			click(h/2,w/2)
+--		elseif other_click_mun%2 == 0 then
+--			click(40,40)
+--		end
 	end
 	
 end
