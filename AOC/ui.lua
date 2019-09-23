@@ -517,6 +517,7 @@ function other()
 --			click(aoc['国家位置'][国家选择][1],aoc['国家位置'][国家选择][2])
 --			UI('other','选国界面',true,1)
 --		end
+
 	elseif UI('other','开始旅程',false,2)then
 		英雄选择 = tonumber(UIdata.hero)
 		click(aoc['英雄位置'][英雄选择][1],aoc['英雄位置'][英雄选择][2])
