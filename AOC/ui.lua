@@ -512,10 +512,10 @@ function other()
 			UI('other','选国界面',true,1)
 			delay(4)
 			click(903,488) ---不在原公会国家点确认
-		elseif UIdata.new then	
-			国家选择 = tonumber(UIdata.world)
-			click(aoc['国家位置'][国家选择][1],aoc['国家位置'][国家选择][2])
-			UI('other','选国界面',true,1)
+--		elseif UIdata.new then	
+--			国家选择 = tonumber(UIdata.world)
+--			click(aoc['国家位置'][国家选择][1],aoc['国家位置'][国家选择][2])
+--			UI('other','选国界面',true,1)
 		end
 	elseif UI('other','开始旅程',false,2)then
 		英雄选择 = tonumber(UIdata.hero)
