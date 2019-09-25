@@ -123,7 +123,7 @@ function new_other()
 	elseif UI('other','选择国家界面')then
 		if d('龙牙大陆选国界面') then
 			龙牙国家选择 = tonumber(UIdata.world)
-			click(t['龙牙国家位置'][龙牙国家选择][1],aoc['龙牙国家位置'][龙牙国家选择][2])
+			click(t['龙牙国家位置'][龙牙国家选择][1],t['龙牙国家位置'][龙牙国家选择][2])
 			UI('other','选国界面',true,1)
 			delay(4)
 			click(903,488) ---不在原公会国家点确认
