@@ -121,9 +121,17 @@ function new_other()
 	elseif UI('other','聊天退出',true,1)then
 	elseif UI('other','暂停界面',true,1)then
 	elseif UI('other','选择国家界面')then
-		国家选择 = tonumber(UIdata.world)
-		click(aoc['国家位置'][国家选择][1],aoc['国家位置'][国家选择][2])
-		click(1048,662)
+		if d('龙牙大陆选国界面') then
+			龙牙国家选择 = tonumber(UIdata.world)
+			click(t['龙牙国家位置'][龙牙国家选择][1],aoc['龙牙国家位置'][龙牙国家选择][2])
+			UI('other','选国界面',true,1)
+			delay(4)
+			click(903,488) ---不在原公会国家点确认
+		elseif UIdata.new then	
+			国家选择 = tonumber(UIdata.world)
+			click(aoc['国家位置'][国家选择][1],aoc['国家位置'][国家选择][2])
+			UI('other','选国界面',true,1)
+		end
 	elseif UI('other','开始旅程',false,2)then
 		英雄选择 = tonumber(UIdata.hero)
 		click(aoc['英雄位置'][英雄选择][1],aoc['英雄位置'][英雄选择][2])
