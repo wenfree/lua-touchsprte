@@ -510,7 +510,7 @@ function other()
 			click(t['龙牙国家位置'][龙牙国家选择][1],t['龙牙国家位置'][龙牙国家选择][2])
 			d('龙牙大陆选国界面_进入',true)
 			delay(4)
-			click(903,488) ---不在原公会国家点确认
+			click(903,488) ---不在原公会国家点确认 
 		elseif UIdata.new then	
 			国家选择 = tonumber(UIdata.world)
 			click(aoc['国家位置'][国家选择][1],aoc['国家位置'][国家选择][2])
