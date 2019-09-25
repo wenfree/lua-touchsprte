@@ -506,6 +506,7 @@ function other()
 	elseif UI_pic('other','打开礼物',true)then
 	elseif UI('other','选择国家界面')then
 		nLog('进入下一级')
+		
 --		if d('龙牙大陆选国界面') then
 --			龙牙国家选择 = tonumber(UIdata.world)
 --			click(t['龙牙国家位置'][龙牙国家选择][1],aoc['龙牙国家位置'][龙牙国家选择][2])
