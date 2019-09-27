@@ -17,9 +17,9 @@ function get(url)
 end
 
 
-function _vCode_gx(User,Pass,PID) --易码平台
+function _vCode_ym(User,Pass,PID) --易码平台
 	local User = 'shuaishuai1983'
-	local Pass = 'shuai888'
+	local Pass = 'shuai888@'
 	local PID = '723'
     local token,uid,number = "",""
     return {
@@ -86,9 +86,9 @@ end
 
 
 --来信平台
-function _vCode_hy() --来信
+function _vCode_lx() --来信
 	local User = 'APIJT31uDT3XwaGl'
-	local Pass = 'shuai888'
+	local Pass = 'shuai888@'
 	local PID = '1018'
     local token,uid,number = "",""
     return {
