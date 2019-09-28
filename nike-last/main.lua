@@ -1137,9 +1137,9 @@ end
 
 
 if UIvalues.smsPT == "0" then
-	vCode = _vCode_hy()
+	vCode = _vCode_ym()
 elseif UIvalues.smsPT == "1" then
-	vCode  = _vCode_gx('s-o7u5ut4x','Shuai888','10395')
+	vCode  = _vCode_lx()
 elseif UIvalues.smsPT == "2" then
 	vCode = _vCode_dm()
 end
