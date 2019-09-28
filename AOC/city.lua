@@ -212,7 +212,9 @@ function city()
 					UI_pic('城堡','木材',true)
 					UI_pic('城堡','金币',true)
 					UI_pic('城堡','泉水',true)
-					if UIdata.dragon and d('返回_城堡中_龙巢',true) then
+					if UIdata.dragon then
+--						d('返回_城堡中_龙巢',true) 
+						click(1237,587)
 					elseif UI_pic('返回','城堡中_深渊',true)then
 					else
 						if UI_pic('城堡','主城升级中',false)or UI_pic('城堡','主城等待中',false)then
