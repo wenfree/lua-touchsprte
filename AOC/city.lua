@@ -278,6 +278,7 @@ function city()
 				if d('返回_城防内容tips',true) then
 				elseif d('tips_深渊探险新号点击',true,1) then
 				else
+					log('11111111111111111111111')
 					UI('返回','返回图标',true,1)
 				end
 			end
