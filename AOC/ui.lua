@@ -391,7 +391,7 @@ aoc['other']={}
 	aoc['other']['绿色按钮在中间下面_']={ 0x85ec42, "-78|-24|0x47bd4f,-2|-53|0x34a55c", 90, 512, 606, 821, 732}
 	--tips
 	t['tips_龙巢_巨龙进阶']={ 0xffffff, "-145|-40|0xc64609,46|21|0xd56a10,-114|1|0xdddbe4", 90, 797, 564, 1084, 694 } --多点找色
-	t['tips_深渊探险新号点击']={ 0x8a8a8b, "-1|30|0x7d7c7b,141|-1|0x636264,148|11|0xc8c8c8,148|30|0xa4a3a1", 90, 139, 12, 303, 54 } --多点找色
+	t['tips_深渊探险新号点击']={ 0xc8c8c8, "-1|29|0x7d7c7b,141|-2|0x636264,149|10|0x504f51,148|29|0xa4a3a1", 90, 140, 8, 299, 57 } --多点找色
 aoc['宝箱']={}
 	aoc['宝箱']['未展开']={ 0x20ae95, "-7|0|0x49d0b7,0|2|0x1cb396", 90, 0, 350, 28, 398}
 	aoc['宝箱']['展开']={  0x22aa96, "5|0|0x21aa95", 90, 229, 341, 262, 402}
@@ -544,7 +544,7 @@ function other()
 	elseif d('结算界面_战斗胜利',true,1)then
 	elseif d('弹窗_公会技能',true,1)then
 	elseif d('tips_龙巢_巨龙进阶',true,1)then
-	elseif d('tips_深渊探险新号点击',true,1)then
+--	elseif d('tips_深渊探险新号点击',true,1)then
 	elseif UI_pic('宝箱','展开',true)then
 	else
 		other_click_mun = other_click_mun  or 1
