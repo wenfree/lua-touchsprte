@@ -80,8 +80,9 @@ function city()
 	
 	while (os.time()-计时<超时) do
 		if active(app,5)then
-		elseif d('返回')then
-			if d('返回_龙巢界面') then
+		elseif d('返回')
+			if d('tips_深渊探险新号点击',true,1) then
+			elseif d('返回_龙巢界面') then
 				if d('返回_龙巢界面_新手界面') then
 					if d('返回_龙巢界面_新手界面_点击孵化',true) then
 					elseif d('返回_龙巢界面_新手界面_抚养',true) then
@@ -276,7 +277,6 @@ function city()
 				
 			else
 				if d('返回_城防内容tips',true) then
-				elseif d('tips_深渊探险新号点击',true,1) then
 				else
 					log('11111111111111111111111')
 					UI('返回','返回图标',true,1)
