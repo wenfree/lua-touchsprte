@@ -88,7 +88,7 @@ end
 --来信平台
 function _vCode_lx() --来信
 	local User = 'APIJT31uDT3XwaGl'
-	local Pass = 'shuai888'
+	local Pass = 'Shuai888%40'
 	local PID = '1018'
     local token,uid,number = "",""
     return {
@@ -97,7 +97,9 @@ function _vCode_lx() --来信
 			for i=1,5,1 do
 				toast("获取token\n"..i.."次共5次")
                 mSleep(1500)
-                RetStr = httpGet('http://api.smskkk.com/api/do.php?action=loginIn&name='..User..'&password='..Pass)
+				local lx_url = 'http://api.smskkk.com/api/do.php?action=loginIn&name='..User..'&password='..Pass
+				log(lx_url)
+                RetStr = httpGet(lx_url)
 				if RetStr then
 					RetStr = strSplit(RetStr,"|")
 					if RetStr[1] == 1 or RetStr[1] == '1' then
@@ -105,6 +107,8 @@ function _vCode_lx() --来信
 						log('token='..token,true)
 						break
 					end
+				else
+					log(RetStr)
 				end
 			end
 			return RetStr;
@@ -117,7 +121,17 @@ function _vCode_lx() --来信
 			end
 			if RetStr[1] == 1 or RetStr[1]== '1' then
 				number = RetStr[2]
-				log(number,true)
+				log(number)
+				local phone_title = (string.sub(number,1,3))
+				local blackPhone = {'165','144','141','142','143','144','145','146','147'}
+				for k,v in ipairs(blackPhone) do
+					if phone_title == v then
+						local lx_url =	'http://api.smskkk.com/api/do.php?action=addBlacklist&sid='..PID..'&phone='..number..'&token='..token
+						httpGet(lx_url);
+						log("拉黑")
+						return false
+					end
+				end
 				return number
 			end
         end),
@@ -140,7 +154,8 @@ function _vCode_lx() --来信
             return ""
         end),
         addBlack=(function()
-            return httpGet("http://huoyun888.cn/api/do.php?action=getMessage&sid="..PID.."&token="..token.."&phone="..number)
+			local lx_url =	'http://api.smskkk.com/api/do.php?action=addBlacklist&sid='..PID..'&phone='..number..'&token='..token
+            return httpGet(lx_url)
         end),
     }
 end

@@ -217,13 +217,14 @@ t['弹窗_出错了']={ 0xffffff, "3|4|0x000000,-299|48|0x000000,355|-39|0x00000
 t['弹窗_出错了_']={ 0x000000, "-238|-16|0xffffff,362|41|0x5c5c5c,360|-263|0x5c5c5c", 90, 95, 498, 743, 839 } --多点找色
 t['弹窗_出错了__']={ 0x000000, "-232|-70|0xaaaaaa,200|-70|0xaaaaaa", 90, 100, 402, 654, 1069 } --多点找色
 t['登录_出错了']={ 0x363636, "-5|-12|0xffffff,11|14|0x363636,8|230|0xfe0000", 90, 567, 33, 732, 556 } --多点找色
-
+t['登录_出错了_国家/地区']={ 0x000000, "-12|0|0xffffff,-14|0|0x000000,-14|-13|0x000000,-14|13|0x000000,-14|14|0xebebeb,-121|-10|0xffffff,-124|-13|0x000000", 90, 285, 22, 467, 73 } --多点找色
+t['登录_出错了_国家/地区_中国']={ 0xfcfcfc, "-2|-2|0x1d1d1d,7|-3|0xf6f6f6,8|-7|0x131313,8|64|0xc8c7cc,8|125|0x111111,38|132|0x111111,38|133|0xe8e8e8", 90, 33, 1121, 125, 1301 } --多点找色
+t['登录_出错了_语言']={ 0x1b1b1b, "8|-2|0xf6f6f6,-7|-235|0x000000,315|-234|0xffffff,318|-234|0x000000", 90, 6, 7, 510, 324 } --多点找色
 
 t['弹窗_选择照片']={ 0x007aff, "-87|-5|0x007aff,-128|-6|0x007aff,-124|-7|0xf9f9f9", 90, 233, 976, 491, 1051}
 t['弹窗_照片确认选取']={  0xffffff, "-2|2|0x141414", 90, 680, 1253, 699, 1267}
 t['弹窗_密码无效']={  0x000000, "40|6|0x000000,121|334|0x000000,121|336|0xffffff,123|338|0x000000,34|203|0x000000,35|203|0xffffff", 
 								90, 110, 457, 641, 868}
-
 
 t['我_付款信息_界面']={ 0x01aaef, "0|129|0x00c800,3|251|0x1a1a1a", 90, 94, 138, 198, 558}
 
@@ -240,6 +241,13 @@ function errors()
 		moveTo(300,200,300,733,rd(5,20))
 		delay(2)
 		click(29,80)
+	elseif d('登录_出错了_国家/地区')then
+		moveTo(300,800,300,800-rd(100,200),rd(5,8))	--上滑
+		delay(rd(2,3))
+		d('登录_出错了_国家/地区_中国')
+	elseif d('登录_出错了_语言')then
+		click(42,1174)
+		click(376,1269,2)
 	else
 		return true
 	end
@@ -310,7 +318,6 @@ function reg()
 							return false
 						else
 							if d('登录Nike+帐号_发送验证码',true)then
-								
 								sms = vCode.getMessage()
 								if sms ~= "" then
 									log(sms,true)
@@ -323,8 +330,7 @@ function reg()
 							end
 						end
 					end
-				elseif 登录 then
-					d('登录Nike+帐号_继续',true)
+				elseif d('登录Nike+帐号_继续',true) then
 				end
 			elseif d('注册返回界面')then
 				local NameAndPwd ={{191,420,0xffffff},{554,427,0xffffff},{320,523,0xffffff},}
@@ -390,7 +396,7 @@ function reg()
 				elseif d('鞋子详情页面_心_点亮')then
 					moveTo(300,200,300,800-rd(500,600),rd(20,30))	--下滑
 					click(30,83)
-					d('主菜单_首页',true,4)
+					d('主菜单_首页',true,1)
 				elseif d('未收藏的鞋子',true)then
 				elseif d('鞋子详情页面_心',true)then
 				else
@@ -651,7 +657,6 @@ function login()
 			var.account.id = data.data.id
 --			log('data.data.token'..data.data.token )
 	
-
 			if type(data.data.token) == 'string' and UIvalues.work == "1" then 
 				var.account.token = data.data.token
 				local localPath = appDataPath(var.bid).."/Documents/ifkc.plist"
@@ -675,11 +680,10 @@ function login()
 			if d('开屏登录',true)then
 				delay(5)
 			elseif d('错误_验证手机号')then
---				backId('封号')
 				var.account.phone =  vCode.getPhone()
 				if var.account.phone then
-					
-					t['验证你的手机号_手机号码']={ 0xb3b3b3, "8|-4|0xffffff,8|-6|0xa9a9a9,17|-22|0xa9a9a9,-83|-15|0xa9a9a9,-83|-12|0xffffff,-66|-9|0xa9a9a9,-49|-15|0xffffff,-45|-19|0xfafafa", 90, 155, 475, 514, 537}
+					t['验证你的手机号_手机号码']={ 0xb3b3b3, 
+						"8|-4|0xffffff,8|-6|0xa9a9a9,17|-22|0xa9a9a9,-83|-15|0xa9a9a9,-83|-12|0xffffff,-66|-9|0xa9a9a9,-49|-15|0xffffff,-45|-19|0xfafafa", 90, 155, 475, 514, 537}
 					
 					if d('验证你的手机号_手机号码',false)then
 						click(  471,  503 )
@@ -688,10 +692,8 @@ function login()
 						delay(3)
 					end
 				end
-				
 				t['验证你的手机号_发送验证码']={ 0x111111, "3|2|0xe5e5e5,7|6|0x111111", 90, 535, 376, 686, 435}
-				
-				if d('验证你的手机号_发送验证码')then
+				if var.account.phone and d('验证你的手机号_发送验证码')then
 					if d('验证你的手机号_发送验证码',true)then
 						sms = vCode.getMessage()
 						if sms ~= "" then
@@ -704,9 +706,8 @@ function login()
 						end
 					end
 				end
-				
 				t['验证你的手机号_继续']={ 0xffffff, "-2|-4|0x000000,-311|-44|0x000000,315|26|0x000000", 90, 33, 203, 733, 966}
-				if d('验证你的手机号_继续',true)then
+				if var.account.phone and d('验证你的手机号_继续',true)then
 					delay(rd(8,10))
 				end
 
@@ -732,10 +733,6 @@ function login()
 				input(var.account.pwd)
 				delay(2)
 			elseif d('主菜单_首页') then
---				if string.len(var.account.token) < 5 then
---					updateNike()
---					delay(rd(2,5))
---				end
 				return true
 			elseif lookPwd and d('错误_密码错误')or d('错误_选对国家') then
 				backId('封号')

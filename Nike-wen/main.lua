@@ -34,7 +34,6 @@ sys = {
 				'\n'
 			)
 		)
-		
 		]]
 		clearAllKeyChains()
 		clearIDFAV() 
@@ -173,7 +172,7 @@ end
 
 t={}
 t['开屏登录']={ 0xffffff, "-375|2|0x111111,149|3|0x111111,-177|-1|0x111111,-536|-4|0xb8b8b8", 90, 16, 1066, 740, 1315 } --登录_加入
-t['登录Nike+帐号']={ 0xffffff, "302|6|0x000000,-334|4|0x000000,-9|-38|0x000000,295|-705|0x363636", 90, 46, 24, 716, 860 } --登录_x
+t['登录Nike+帐号']={ 0x363636, "-347|-11|0x000000,-342|-16|0xffffff,-490|76|0x111111,-101|87|0xffffff,-96|82|0x111111", 90, 0, 0, 749, 1333 } --登录页面X
 	t['登录Nike+帐号_使用电子邮件登录']={ 0x8d8d8d, "-13|-192|0x111111,-11|-194|0xefefef,1|-195|0x111111,2|-199|0xefefef", 
 											90, 43, 240, 305, 533 } --多点找色
 	t['登录Nike+帐号_电子邮件']={ 0x8d8d8d, "7|-13|0xffffff,9|-18|0x8d8d8d,98|4|0x8d8d8d,430|-9|0xffffff", 90, 72, 289, 660, 327}
@@ -279,7 +278,7 @@ function reg()
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
 			if d('开屏登录',true,2)then
-			elseif d('登录Nike+帐号') or d('登录Nike+帐号_红框') then
+			elseif d('登录Nike+帐号') then
 				if 取号 then
 					var.account.phone =  vCode.getPhone()
 					if var.account.phone then
@@ -309,38 +308,37 @@ function reg()
 							end
 						end
 					end
-				elseif 登录 then
-					d('登录Nike+帐号_继续',true)
-				end
-			elseif d('注册返回界面')then
-				local NameAndPwd ={{191,420,0xffffff},{554,427,0xffffff},{320,523,0xffffff},}
-				for i,v in ipairs(NameAndPwd) do
-					click(v[1],v[2])
-					if i == 1 then
-						local str_len = utf8.len(first_names)
-						local str_rnd = (math.random(1,str_len) -1) * 3
-						first_name_ = utf8.char(utf8.codepoint(first_names,str_rnd + 1,str_rnd + 2))
-						input('\b\b\b\b\b\b\b\b\b\b')
-						input(first_name_)
-						d('弹窗_输入的完成',true)
-					elseif i == 2 then
-						local str_len = utf8.len(last_names)
-						local str_rnd = (math.random(1,str_len) -1) * 3
-						last_names_ = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2 + rd(0,1)*3 ))
-						input('\b\b\b\b\b\b\b\b\b\b')
-						input(last_names_)
-						d('弹窗_输入的完成',true)
-					elseif i == 3 then
-						input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
-						input(var.account.pwd)
-						d('弹窗_输入的完成',true)
+				elseif d('登录Nike+帐号_继续',true) then
+				elseif d('注册返回界面')then			--注册 和 返回界面
+					local NameAndPwd ={{191,420,0xffffff},{554,427,0xffffff},{320,523,0xffffff},}
+					for i,v in ipairs(NameAndPwd) do
+						click(v[1],v[2])
+						if i == 1 then
+							local str_len = utf8.len(first_names)
+							local str_rnd = (math.random(1,str_len) -1) * 3
+							first_name_ = utf8.char(utf8.codepoint(first_names,str_rnd + 1,str_rnd + 2))
+							input('\b\b\b\b\b\b\b\b\b\b')
+							input(first_name_)
+							d('弹窗_输入的完成',true)
+						elseif i == 2 then
+							local str_len = utf8.len(last_names)
+							local str_rnd = (math.random(1,str_len) -1) * 3
+							last_names_ = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2 + rd(0,1)*3 ))
+							input('\b\b\b\b\b\b\b\b\b\b')
+							input(last_names_)
+							d('弹窗_输入的完成',true)
+						elseif i == 3 then
+							input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
+							input(var.account.pwd)
+							d('弹窗_输入的完成',true)
+						end
+						delay(1)
 					end
-					delay(1)
+					local sex ={{220,760,0x8d8d8d},{510,760,0x131313},} --男,女
+					click(sex[rd(1,2)][1],sex[1][2])
+					click(126,867)
+					d('注册返回界面',true)
 				end
-				local sex ={{220,760,0x8d8d8d},{510,760,0x131313},} --男,女
-				click(sex[rd(1,2)][1],sex[1][2])
-				click(126,867)
-				d('注册返回界面',true)
 			elseif d('输入您的生日')then
 				click(182,404,2)
 				if d('弹窗_输入的完成')then
@@ -908,9 +906,9 @@ end
 --lua_exit()
 
 if UIvalues.smsPT == "0" then
-	vCode = _vCode_hy()
+	vCode = _vCode_ym()
 else
-	vCode  = _vCode_gx('s-o7u5ut4x','Shuai888','10395')
+	vCode  = _vCode_lx()
 end
 vCode.login()
 

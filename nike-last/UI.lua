@@ -283,7 +283,7 @@ end
 
 if UIret == 1 then
 	nLog(UIvalues.mail)
---	mailheader = strSplit(UIvalues.mail,"\n")
+	mailheader = strSplit(UIvalues.mail,"\n")
 	log(mailheader)
 else
 	lua_exit()
