@@ -1,20 +1,20 @@
 --unlockDevice()
 require("TSLib")
+--require("tsp")
 
 --res, code = http.request("http://ip.chinaz.com/getip.aspx");
 --用http.get实现下载文件功能
-function downFile(name, path)
+function downFile(url, path)
 	local sz = require("sz")
 	local http = require("szocket.http")
-	local url = "http://dajin.yzdingding.com/phalapi/public/?s=Wgithub.get&name="..name
+	local url = "http://wenfree.cn/api/Public/idfa/?service=Git.Get&url="..url
 	local res, code = http.request(url);
-	
+--	nLog(res)
     if code == 200 then
 		local json = sz.json
 		local data = json.decode(res)
-		body = data.data
---		log(body)
-        file = io.open(path, "wb")
+		local body = data.data
+        local file = io.open(path, "wb")
         if file then
             file:write(body)
             file:close()
@@ -29,6 +29,7 @@ end
 --downFile("http://mu1234.applinzi.com/wechat-reply.txt",
 --"/User/Media/TouchSprite/lua/wechat-reply.txt")
 
+
 --检测指定文件是否存在
 function file_exists(file_name)
     local f = io.open(file_name, "r")
@@ -36,45 +37,67 @@ function file_exists(file_name)
 end
 
 game_lua = {
-	"tsp",
-	"ui",
-	"AWZ",
-	"rob",
-	"service",
-	"newplay",
-	"city",
-	"map",
-	"fuzhu",
-	"arm",
-	"help",
-	"ocr",
-	"file",
-	"game_ui",
-	"main",
+	{"tsp",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/tsp.lua'},
+	{"ui",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/ui.lua'},
+	{"AWZ",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/AWZ.lua'},
+	{"rob",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/rob.lua'},
+	{"service",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/service.lua'},
+	{"newplay",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/newplay.lua'},
+	{"city",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/city.lua'},
+	{"map",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/map.lua'},
+	{"fuzhu",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/fuzhu.lua'},
+	{"arm",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/arm.lua'},
+	{"help",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/help.lua'},
+	{"ocr",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/ocr.lua'},
+	{"file",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/file.lua'},
+	{"game_ui",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/game_ui.lua'},
+	{"main",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/main.lua'},
 	}
 
-t1=os.time();
-nLog(t1)
-for i,v in ipairs(game_lua)do
-	if not(file_exists("/User/Media/TouchSprite/lua/aoc/"..v..".lua"))then
-		downFile(v,"/User/Media/TouchSprite/lua/aoc/"..v..".lua")
-	end
-	if v == "main" then
-		if not(file_exists("/User/Media/TouchSprite/lua/main.lua"))then
-			downFile(v,"/User/Media/TouchSprite/lua/"..v..".lua")
+
+local ver_ =  2
+local name_ = "aoc"
+local v_url = 'http://wenfree.cn/api/Public/idfa/?service=Git.Update&name='..name_..'&v='..ver_
+
+function get_(url)
+	local sz = require("sz")
+	local http = require("szocket.http")
+	local res, code = http.request(url);
+	if code == 200 then
+		local json = sz.json
+		if res ~= nil then
+			return json.decode(res)
 		end
 	end
-	mSleep(30)
 end
-nLog(os.time()-t1)
+
+local version = get_(v_url)
+if version then
+	if version.data then
+		
+		t1=os.time();
+		nLog(t1)
+		for i,v in ipairs(game_lua)do
+			nLog(v[1])
+			nLog(v[2])
+			if v[1] == 'main' then
+				downFile(v[2],"/User/Media/TouchSprite/lua/"..v[1]..".lua")
+			end
+			downFile(v[2],"/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua")
+			mSleep(30)
+			toast(v[1],1)
+		end
+		nLog('end->'..os.time()-t1)
+	end
+end
 
 t={}
 aoc={}
 require("/aoc/tsp")
 for i,v in ipairs(game_lua)do
-	local path = "/aoc/"..v
+	local path = "/aoc/"..v[1]
 	log(i.."->"..path)
-	if not(v == "game_ui" or v == "main" ) then
+	if not(v == "game_ui" or v[1] == "main" ) then
 		require(path)
 	end
 	mSleep(20)

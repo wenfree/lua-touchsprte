@@ -244,7 +244,7 @@ function errors()
 	elseif d('登录_出错了_国家/地区')then
 		moveTo(300,800,300,800-rd(100,200),rd(5,8))	--上滑
 		delay(rd(2,3))
-		d('登录_出错了_国家/地区_中国')
+		d('登录_出错了_国家/地区_中国',true)
 	elseif d('登录_出错了_语言')then
 		click(42,1174)
 		click(376,1269,2)
@@ -686,7 +686,7 @@ function login()
 						"8|-4|0xffffff,8|-6|0xa9a9a9,17|-22|0xa9a9a9,-83|-15|0xa9a9a9,-83|-12|0xffffff,-66|-9|0xa9a9a9,-49|-15|0xffffff,-45|-19|0xfafafa", 90, 155, 475, 514, 537}
 					
 					if d('验证你的手机号_手机号码',false)then
-						click(  471,  503 )
+						click(  471,  503 ,rd(3,5))
 						input("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
 						inputword(var.account.phone)
 						delay(3)
@@ -715,6 +715,7 @@ function login()
 				if d('登录Nike+帐号_使用电子邮件登录',true)then
 					delay(3)
 				elseif loginKey and d('登录Nike+帐号_电子邮件',true)then
+					delay(rd(2,3))
 					input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
 					input(var.account.login)
 					delay(3)
@@ -1094,7 +1095,7 @@ function look()
 
 	while (os.time()-timeline < outTimes) do
 		if active(var.bid,3) then
-			if d('主菜单_首页') then
+			if true or d('主菜单_首页') then
 				if rd(1,100) < 40 then
 					--80%机率去点击顶部的1,2,3,4
 					local tops_ = {

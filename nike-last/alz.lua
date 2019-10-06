@@ -128,11 +128,20 @@ function _vCode_lx() --来信
 					if phone_title == v then
 						local lx_url =	'http://api.smskkk.com/api/do.php?action=addBlacklist&sid='..PID..'&phone='..number..'&token='..token
 						httpGet(lx_url);
-						log("拉黑")
+						log("拉黑->"..number)
 						return false
 					end
 				end
-				return number
+				local self_phone = get('http://39.108.184.74/api/Public/tjj/?service=Nike.Checkphone&phone='..number)
+				if self_phone.data then
+					log("手机号可以使用")
+					return number
+				else
+					toast('自己顶号\n准备拉黑');
+					local lx_url =	'http://api.smskkk.com/api/do.php?action=addBlacklist&sid='..PID..'&phone='..number..'&token='..token
+					httpGet(lx_url);
+					log("拉黑->"..number)
+				end
 			end
         end),
 	    getMessage=(function()

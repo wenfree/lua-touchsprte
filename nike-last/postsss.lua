@@ -28,4 +28,6 @@ function updateNike()
 	tb.address_phone = 123123123
 	return post(url,tb)
 end
-updateNike()
+
+
+
