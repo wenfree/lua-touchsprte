@@ -55,7 +55,7 @@ game_lua = {
 	}
 
 
-local ver_ =  4
+local ver_ =  5
 local name_ = "aoc"
 local v_url = 'http://wenfree.cn/api/Public/idfa/?service=Git.Update&name='..name_..'&v='..ver_
 
@@ -63,6 +63,7 @@ function get_(url)
 	local sz = require("sz")
 	local http = require("szocket.http")
 	local res, code = http.request(url);
+--	nLog(res);
 	if code == 200 then
 		local json = sz.json
 		if res ~= nil then
@@ -71,10 +72,9 @@ function get_(url)
 	end
 end
 
-local version = get_(v_url)
+local version = get_(v_url);
 if version then
 	if version.data then
-		
 		t1=os.time();
 		nLog(t1)
 		for i,v in ipairs(game_lua)do
@@ -88,6 +88,8 @@ if version then
 			toast(v[1],1)
 		end
 		nLog('end->'..os.time()-t1)
+	else
+		nLog('无需更新')
 	end
 end
 
