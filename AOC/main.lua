@@ -93,6 +93,9 @@ if version then
 			if not(file_exists("/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua"))then
 				nLog('文件不存，下载一个')
 				downFile(v[2],"/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua")
+				if v[1] == 'main' then
+					downFile(v[2],"/User/Media/TouchSprite/lua/"..v[1]..".lua")
+				end
 			end
 		end
 	end
