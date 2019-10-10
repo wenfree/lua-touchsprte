@@ -204,7 +204,10 @@ end
 
 
 function find_kuang()
-	if UIdata.resource.gold and d('任务下_金',true) then
+	
+	if UI_pic('新手','领取奖励',true) then
+	
+	elseif UIdata.resource.gold and d('任务下_金',true) then
 	elseif UIdata.resource.wood  and d('任务下_木',true) then
 	elseif UIdata.resource.water  and d('任务下_水',true) then
 	elseif UIdata.resource.blood  and d('任务下_血钻',true) then
