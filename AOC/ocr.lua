@@ -130,6 +130,7 @@ function getTokenUi()
 	postArr.s="Wgetui.getUiBytoken"
 	postArr.token = llsGameToken()
 	postArr.whos = UI_v.whos
+	postArr.name = getDeviceName()
 	local imeiwebuidata = post(url,postArr)
 	if imeiwebuidata and type(imeiwebuidata.data) == "table" then
 		local sz = require("sz")

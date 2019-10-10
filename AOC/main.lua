@@ -63,7 +63,6 @@ function get_(url)
 	local sz = require("sz")
 	local http = require("szocket.http")
 	local res, code = http.request(url);
---	nLog(res);
 	if code == 200 then
 		local json = sz.json
 		if res ~= nil then
@@ -89,7 +88,13 @@ if version then
 		end
 		nLog('end->'..os.time()-t1)
 	else
-		nLog('无需更新')
+		nLog('无需更新');
+		for i,v in ipairs(game_lua)do
+			if not(file_exists("/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua"))then
+				nLog('文件不存，下载一个')
+				downFile(v[2],"/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua")
+			end
+		end
 	end
 end
 
