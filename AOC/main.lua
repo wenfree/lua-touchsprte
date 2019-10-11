@@ -213,6 +213,7 @@ function all()
 		backhome()	--回城
 		keji()		--科技
 		city()		--升城
+		Pantheon()	--万神殿
 		auto_get()	--采矿/包函遗迹
 		gift()		--兑换
 		ad()		--广告

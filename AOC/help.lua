@@ -318,7 +318,7 @@ t['弹窗_神石宝库']={ 0xdfffe5, "-320|41|0xffffff,-505|0|0x82a8a7", 90, 166
 function Pantheon()
 	local 计时 = os.time()
 	local 超时 = 60*15
-	if setting[6] then
+	if UIdata.citySetting.wsd then
 		while (os.time()-计时< 超时) do
 
 			if active(app,3)then
