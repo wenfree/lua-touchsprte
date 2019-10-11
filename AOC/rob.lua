@@ -485,79 +485,81 @@ function dragon()
 	优先天赋_ = true
 	优先龙巢_ = true
 	
-	while ((os.time()-计时<超时 )) do
-		if active(app,5)then
-		elseif UI('在地图中','在地图界面',true,2)then
-		elseif UI('返回','返回图标',false,1) and not(UI('新手','战斗界面中',false,1)) then
-			if d('返回_城堡中')then
-				if d('返回_城堡中_深渊按钮',true)then
-					delay(math.random(3,5))
-				else
-					if d('返回_城堡中_龙巢位置',true)then
-						click(x,y+80)
-					end
-				end
-			elseif d('返回_深渊界面') then
-				if 优先龙巢_ and d('返回_深渊界面_龙巢位置',true) then
-					优先龙巢_ = false
-				else
-					local heroTime = os.time()
-					local Nohero_ = true
-					while os.time()-heroTime < 8 do
-						if d('返回_深渊界面_可选英雄',true)then
-							Nohero_ = false
-							break
+	if dragon then
+		while ((os.time()-计时<超时 )) do
+			if active(app,5)then
+			elseif UI('在地图中','在地图界面',true,2)then
+			elseif UI('返回','返回图标',false,1) and not(UI('新手','战斗界面中',false,1)) then
+				if d('返回_城堡中')then
+					if d('返回_城堡中_深渊按钮',true)then
+						delay(math.random(3,5))
+					else
+						if d('返回_城堡中_龙巢位置',true)then
+							click(x,y+80)
 						end
 					end
-					d('返回_深渊界面_下一关',true)
-						
-				end
-			elseif d('返回_巨龙巢穴')then
-					if d('返回_巨龙巢穴_开赋界面')then
-						if d('返回_巨龙巢穴_开赋界面_升级',true)then
-						elseif d('返回_巨龙巢穴_开赋界面_进阶',true)then
-						else
-							click(1097,194)
-						end
-						优先天赋_ = false
-					elseif d('返回_巨龙巢穴_喂养界面')then
-						if 优先天赋_ then
-							click(1178,299)
-						else
-							if d('返回_巨龙巢穴_喂养界面_喂养_',true)then
-							elseif d('返回_巨龙巢穴_喂养界面_喂养',true)then
-							elseif d('返回_巨龙巢穴_喂养界面_进阶',true)then
-							else
-								UI('返回','返回图标',true,1)
-								UI('返回','返回图标',true,1)
+				elseif d('返回_深渊界面') then
+					if 优先龙巢_ and d('返回_深渊界面_龙巢位置',true) then
+						优先龙巢_ = false
+					else
+						local heroTime = os.time()
+						local Nohero_ = true
+						while os.time()-heroTime < 8 do
+							if d('返回_深渊界面_可选英雄',true)then
+								Nohero_ = false
+								break
 							end
 						end
-					elseif d('返回_巨龙巢穴_孵化',true)then
-					elseif d('返回_巨龙巢穴_抚养',true)then
-					else
-						click(256,603)
+						d('返回_深渊界面_下一关',true)
+							
 					end
-			elseif d('返回_迷途之渊',true)then
-			else
-				UI('返回','返回图标',true,1)
-			end
-		elseif UI('other','战斗失败',true,2)then
-			return true
-		elseif d('弹窗_巨龙升级',true)then
-			优先天赋_ = true
-		elseif d('弹窗_天赋进阶',true)then
-		elseif d('弹窗_英雄选择')then
-			click(x,y-80)
-		else
-			f_yiji = yiji_other()
-			if f_yiji == '战斗失败' then
+				elseif d('返回_巨龙巢穴')then
+						if d('返回_巨龙巢穴_开赋界面')then
+							if d('返回_巨龙巢穴_开赋界面_升级',true)then
+							elseif d('返回_巨龙巢穴_开赋界面_进阶',true)then
+							else
+								click(1097,194)
+							end
+							优先天赋_ = false
+						elseif d('返回_巨龙巢穴_喂养界面')then
+							if 优先天赋_ then
+								click(1178,299)
+							else
+								if d('返回_巨龙巢穴_喂养界面_喂养_',true)then
+								elseif d('返回_巨龙巢穴_喂养界面_喂养',true)then
+								elseif d('返回_巨龙巢穴_喂养界面_进阶',true)then
+								else
+									UI('返回','返回图标',true,1)
+									UI('返回','返回图标',true,1)
+								end
+							end
+						elseif d('返回_巨龙巢穴_孵化',true)then
+						elseif d('返回_巨龙巢穴_抚养',true)then
+						else
+							click(256,603)
+						end
+				elseif d('返回_迷途之渊',true)then
+				else
+					UI('返回','返回图标',true,1)
+				end
+			elseif UI('other','战斗失败',true,2)then
 				return true
-			elseif f_yiji then
-				other()
-				nLog('other')
+			elseif d('弹窗_巨龙升级',true)then
+				优先天赋_ = true
+			elseif d('弹窗_天赋进阶',true)then
+			elseif d('弹窗_英雄选择')then
+				click(x,y-80)
+			else
+				f_yiji = yiji_other()
+				if f_yiji == '战斗失败' then
+					return true
+				elseif f_yiji then
+					other()
+					nLog('other')
+				end
 			end
+			mSleep(500)
 		end
-		mSleep(500)
 	end
 end
 

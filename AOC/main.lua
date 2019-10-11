@@ -219,6 +219,7 @@ function all()
 		ad()		--广告
 		fixWall()	--修墙
 		attck()		--反击
+		dragon()	--开龙
 	end
 	clearOneAccount()
 	call_back()
