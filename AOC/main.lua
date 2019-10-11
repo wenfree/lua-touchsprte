@@ -91,7 +91,7 @@ if version then
 		nLog('无需更新');
 		for i,v in ipairs(game_lua)do
 			if not(file_exists("/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua"))then
-				nLog('文件不存，下载一个')
+				nLog('文件不存，下载一个->'..v[1])
 				downFile(v[2],"/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua")
 				if v[1] == 'main' then
 					downFile(v[2],"/User/Media/TouchSprite/lua/"..v[1]..".lua")

@@ -125,14 +125,14 @@ function touch_move_look()
 	touchUp(1, h/2,w/2-155)
 end
 
---[[
+--[[]]
 function find_kuang()
 	
 	t['任务菜单未激活']={ 0x4a8526, "-86|26|0x2c621b,-85|-28|0x2c611c,-65|4|0x16310e", 90, 1086, 107, 1308, 198 } --多点找色
 	d('任务菜单未激活',true)
 	
 	if UI_pic('新手','领取奖励',true)then
-		find_kuang()
+		return false
 	end
 	
 	aoc['返回']['感叹号'][7] = 670
@@ -158,15 +158,29 @@ function find_kuang()
 			aoc['资源']['水晶']={ 0xe240d3, "", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
 			aoc['资源']['密银']={ 0x50f7ec, "14|-4|0xafffb0,19|8|0xb9ffa2", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
 			aoc['返回']['指向目标地']={ 0x9ea495, "1|29|0x999f82", 90, x+686, y-54, x+841, y+29}
-			aoc['资源']['魔镜']={ 0xf7f9fa, "1|0|0x15425a,3|0|0xd9e0e4,-3|0|0xe3e8eb,-3|7|0xe3e8eb", 90, x+75, y-17, x+558, y+26}
+--			aoc['资源']['魔镜']={ 0xf7f9fa, "1|0|0x15425a,3|0|0xd9e0e4,-3|0|0xe3e8eb,-3|7|0xe3e8eb", 90, x+75, y-17, x+558, y+26}
 			local zy_mun = 0
 			for k,v in pairs(aoc['资源'])do
 				if k == '水' or k == '密银' or k == '魔镜' then
 					if c_pic(v,k,false)then
+						if UIdata.resource.water and k == '水' then
+							zy_mun = zy_mun + 1
+						elseif UIdata.resource.silver and k == '密银' then
+							zy_mun = zy_mun + 1
+						end
 						zy_mun = zy_mun + 1
 					end			
 				else
 					if c_p(v,k,false)then
+						if UIdata.resource.wood and k == "木" then
+							zy_mun = zy_mun + 1
+						elseif UIdata.resource.gold and k == "金" then
+							zy_mun = zy_mun + 1
+						elseif UIdata.resource.blood and k == "血钻" then
+							zy_mun = zy_mun + 1
+						elseif UIdata.resource.crystal and k == "水晶" then
+							zy_mun = zy_mun + 1
+						end
 						zy_mun = zy_mun + 1
 					end
 				end
@@ -202,17 +216,17 @@ function find_kuang()
 end
 --]]
 
-
+--[[
 function find_kuang()
 	
 	if UI_pic('新手','领取奖励',true) then
 	
-	elseif UIdata.resource.gold and d('任务下_金',true) then
 	elseif UIdata.resource.wood  and d('任务下_木',true) then
-	elseif UIdata.resource.water  and d('任务下_水',true) then
 	elseif UIdata.resource.blood  and d('任务下_血钻',true) then
 	elseif UIdata.resource.silver  and d('任务下_秘银',true) then
 	elseif UIdata.resource.crystal  and d('任务下_水晶',true) then
+	elseif UIdata.resource.gold and d('任务下_金',true) then
+	elseif UIdata.resource.water  and d('任务下_水',true) then
 	elseif UIdata.mj and d('任务下_魔镜',true) then
 	else
 		log('上滑动一次')
@@ -225,7 +239,7 @@ function find_kuang()
 	end
 	
 end	
-
+--]]
 
 function auto_get()
 	if not(UIdata.work)then
