@@ -21,7 +21,7 @@ function yiji_other()
 			--values.yiji_arm 预设编号(0,1,2,3)设置1,设置2,设置3,全上
 			if tonumber(UIdata.arm_setting) >= 11 then
 				if c_p(aoc['新手']['超出队伍'],'超出队伍',false)then
-					click(178,31) --撤回
+					click(178,31) 		--撤回
 					click(1238,673)		--攻击
 					delay(2)
 				else
@@ -29,15 +29,11 @@ function yiji_other()
 					if 上兵统计 >= 18 then
 						if UI_pic('战斗','可以出战',true,1)then
 							delay(2)
-						else
-							return '战斗失败'
 						end
 					else
-						if UI_pic('战斗','受伤英雄',false)then
-							return '战斗失败'
-						else
-							click(1086,663,0.2) 	--点英雄
-						end
+						clickhero_n = clickhero_n or 7
+						clickhero_n = clickhero_n +1
+						click(1086-clickhero_n%8*98,663,0.2) 	--点英雄
 					end
 				end
 			else
