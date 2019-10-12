@@ -26,6 +26,7 @@ function yiji_other()
 					delay(2)
 				else
 					上兵统计 = 上兵统计 + 1
+					log("上兵统计->"..上兵统计)
 					if 上兵统计 >= 18 then
 						if UI_pic('战斗','可以出战',true,1)then
 							delay(2)
