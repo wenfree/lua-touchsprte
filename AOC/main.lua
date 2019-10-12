@@ -14,7 +14,7 @@ function downFile(url, path)
 		local json = sz.json
 		local data = json.decode(res)
 		local body = data.data
-        local file = io.open(path, "w")
+        local file = io.open(path, "w+")
         if file then
             file:write(body)
             file:close()

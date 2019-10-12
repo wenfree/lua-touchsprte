@@ -292,7 +292,7 @@ function downFile(url, path)
     local http = sz.i82.http
     local status, headers, body = http.get(url)
     if status == 200 then
-        file = io.open(path, "wb")
+        file = io.open(path, "w+")
         if file then
             file:write(body)
             file:close()
