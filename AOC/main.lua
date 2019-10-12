@@ -14,7 +14,7 @@ function downFile(url, path)
 		local json = sz.json
 		local data = json.decode(res)
 		local body = data.data
-        local file = io.open(path, "wb")
+        local file = io.open(path, "w")
         if file then
             file:write(body)
             file:close()
@@ -29,6 +29,9 @@ end
 --downFile("http://mu1234.applinzi.com/wechat-reply.txt",
 --"/User/Media/TouchSprite/lua/wechat-reply.txt")
 
+function delFile(path)--帮你玩平台禁用此函数
+    os.execute("rm -rf "..path);
+end
 
 --检测指定文件是否存在
 function file_exists(file_name)
@@ -55,7 +58,7 @@ game_lua = {
 	}
 
 
-local ver_ =  6
+local ver_ =  5
 local name_ = "aoc"
 local v_url = 'http://wenfree.cn/api/Public/idfa/?service=Git.Update&name='..name_..'&v='..ver_
 
@@ -80,9 +83,15 @@ if version then
 			nLog(v[1])
 			nLog(v[2])
 			if v[1] == 'main' then
-				downFile(v[2],"/User/Media/TouchSprite/lua/"..v[1]..".lua")
+				local path = "/User/Media/TouchSprite/lua/"..v[1]..".lua"
+				delFile(path)
+				downFile(v[2],path)
+				
 			end
-			downFile(v[2],"/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua")
+			local path = "/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua"
+			delFile(path)
+			downFile(v[2],path)
+			
 			mSleep(30)
 			toast(v[1],1)
 		end
