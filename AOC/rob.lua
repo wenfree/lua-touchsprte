@@ -22,12 +22,6 @@ function yiji_other()
 			if tonumber(UIdata.arm_setting) >= 11 then
 				if c_p(aoc['新手']['超出队伍'],'超出队伍',false)then
 					click(178,31) --撤回
-					if 主线 == 12 then
-						t['战斗_上龙']={ 0xf0c589, "98|8|0xeabc91", 90, 365, 644, 789, 678}
-						if d('战斗_上龙')then
-							click(x+60,y)
-						end
-					end
 					click(1238,673)		--攻击
 					delay(2)
 				else
@@ -485,7 +479,7 @@ function dragon()
 	优先天赋_ = true
 	优先龙巢_ = true
 	
-	if dragon then
+	if UIdata.dragon then
 		while ((os.time()-计时<超时 )) do
 			if active(app,5)then
 			elseif UI('在地图中','在地图界面',true,2)then

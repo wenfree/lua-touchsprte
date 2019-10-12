@@ -81,25 +81,7 @@ function city()
 	while (os.time()-计时<超时) do
 		if active(app,5)then
 		elseif d('返回') then
-			if d('tips_深渊探险新号点击') then
-				click(331,387)
-			elseif d('返回_龙巢界面') then
-				if d('返回_龙巢界面_新手界面') then
-					if d('返回_龙巢界面_新手界面_点击孵化',true) then
-					elseif d('返回_龙巢界面_新手界面_抚养',true) then
-					else 
-						click(267,642)
-					end
-				elseif d('返回_龙巢界面_喂养多次',true) then
-				elseif d('返回_龙巢界面_喂养',true) then
-				elseif d('返回_龙巢界面_进阶',true) then
-				elseif d('返回_龙巢界面_天赋升级',true) then
-				elseif d('返回_龙巢界面_红点',true) then
-				else
-					UIdata.dragon = false
-					UI('返回','返回图标',true,1)
-				end
-			elseif d('返回_深渊界面')then
+			if d('返回_深渊界面')then
 				if d('返回_深渊界面_上阵英雄')then
 					x,y = findMultiColorInRegionFuzzy( 0x202841, "2|27|0x20223a,-12|-23|0x6b4d76,44|51|0x3d3551,15|53|0x814c6b", 90, 86, 96, 1275, 618)
 					click((x+10),(y+10))
@@ -214,10 +196,8 @@ function city()
 					UI_pic('城堡','木材',true)
 					UI_pic('城堡','金币',true)
 					UI_pic('城堡','泉水',true)
-					if UIdata.dragon then
---						d('返回_城堡中_龙巢',true) 
-						click(1237,587)
-					elseif UI_pic('返回','城堡中_深渊',true)then
+					
+					if UI_pic('返回','城堡中_深渊',true)then
 					else
 						if UI_pic('城堡','主城升级中',false)or UI_pic('城堡','主城等待中',false)then
 							return true
@@ -279,7 +259,7 @@ function city()
 			else
 				if d('返回_城防内容tips',true) then
 				else
-					log('11111111111111111111111')
+					log('1------------------------')
 					UI('返回','返回图标',true,1)
 				end
 			end
