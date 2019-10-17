@@ -87,8 +87,8 @@ end
 
 --来信平台
 function _vCode_lx() --来信
-	local User = 'APIJT31uDT3XwaGl'
-	local Pass = 'Shuai888%40'
+	local User = 'yxs123456'
+	local Pass = 'a123456789'
 	local PID = '1018'
     local token,uid,number = "",""
     return {

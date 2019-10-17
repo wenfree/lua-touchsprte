@@ -1,0 +1,7 @@
+[res]
+[lib]
+[file]
+main.lua
+tsp.lua
+game.lua
+ui.lua
