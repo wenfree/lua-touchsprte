@@ -242,6 +242,10 @@ end
 --比色合集d
 function d(name,clicks,order,stayTime,hd,hdtable,orient)
 --	print_r(t[name])
+	if not t[name][1]  then
+		log(name)
+		return 
+	end
 	if type(t[name][1]) == 'table' then
 		return 多点比色(name,clicks,order,stayTime,hd,hdtable,orient)
 	else

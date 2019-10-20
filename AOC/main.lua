@@ -217,6 +217,10 @@ function all()
 --			lua_exit()
 		end
 	end
+	
+	dragon()	--开龙
+	lua_exit()
+	
 	if UIdata then
 		newplay()	--新手/当新手没有开启时会自动跳过
 		backhome()	--回城
