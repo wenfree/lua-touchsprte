@@ -1,7 +1,9 @@
 [res]
 [lib]
 [file]
+AWZ.lua
 main.lua
 tsp.lua
 game.lua
 ui.lua
+game_ui.lua
