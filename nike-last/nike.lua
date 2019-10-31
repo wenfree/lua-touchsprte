@@ -85,11 +85,11 @@ var.account={}
 var.account.login = 'bcuvpqbc@hotmail.com'
 var.account.pwd = 'Shuai888'
 
-if UIvalues.password_key == '0' then
-	var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)
-else
-	var.account.pwd = UIvalues.password
-end
+--if UIvalues.password_key == '0' then
+--	var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)
+--else
+--	var.account.pwd = UIvalues.password
+--end
 
 var.account.phone = '18124522139'
 var.looktime = 5
@@ -205,7 +205,7 @@ t['个人页面']={ 0x000000, "-188|5|0xb8b8b8,-375|-4|0xb8b8b8,-564|-3|0xb8b8b8
 	
 	t['个人页面_未设头像']={ 0x000000, "0|7|0xffffff,0|17|0xe4e4e4,12|-98|0xbcbcbc,12|-111|0xd8d8d8", 90, 168, 155, 568, 450}
 	
-t['个人页面_照片']={ 0xc7c7cc, "-54|-136|0x007aff,-366|-146|0x000000,-367|-139|0xf9f9f9", 90, 24, 45, 737, 278}	
+t['个人页面_照片']={0xc7c7cc, "-5|-1|0xffffff,-9|-11|0xc7c7cc,-62|-139|0x007aff,-358|-147|0x000000,-682|-132|0xf9f9f9",90,6,26,742,298} --多点找色
 t['个人页面_时刻']={ 0x1b86fb, "-284|-11|0x000000,-318|7|0x000000,-636|-3|0x007aff", 90, 1, 33, 737, 117}
 	
 t['配送地址_新地址']={ 0x1a1a1a, "224|1082|0x000000,-337|1069|0xb8b8b8,-394|-47|0x1a1a1a", 90, 12, 53, 734, 1321}
@@ -295,6 +295,14 @@ function reg()
 
 	t['登录Nike+帐号']={ 0x000000, "-185|94|0x111111,296|766|0x000000,218|90|0xffffff,213|85|0x111111", 90, 14, 14, 727, 1024}
 	t['登录Nike+帐号_发送验证码']={ 0xe5e5e5, "13|-9|0xe5e5e5,4|-5|0x111111,19|-12|0x111111,-61|-28|0xe5e5e5", 90, 503, 323, 719, 724}
+	t['输入您的电子邮件']={0x363636, "-124|92|0xf0f0f0,-123|91|0x111111,-124|108|0xffffff,-123|107|0x111111,-197|104|0xffffff,-198|102|0x111111",90,102,3,716,238} --多点找色
+	t['输入您的电子邮件_保存']={0xffffff, "-3|-2|0x000000,-307|-33|0x000000,312|-33|0x000000,308|31|0x000000",90,25,487,719,716} --多点找色
+	t['输入您的出生日期']={0x363636, "-119|89|0xffffff,-120|90|0x333333,-124|78|0x111111,-169|84|0xf6f6f6,-168|82|0x111111,-191|114|0xf8f8f8,-192|123|0x111111",90,148,24,725,246} --多点找色
+	t['创建您的NIKE帐户_男子']={0x939393, "-1|-17|0x8d8d8d,-26|-49|0xe5e5e5,37|29|0xe5e5e5",90,47,724,373,1156} --多点找色
+	t['创建您的NIKE帐户_男子_']={0x8d8d8d, "-144|-43|0xfe0000,121|34|0xfe0000",90,46,545,376,1225} --多点找色
+	t['创建您的NIKE帐户_男子__']={0x939393, "0|-9|0x939393,-58|-49|0xe5e5e5,67|-49|0xe5e5e5,10|29|0xe5e5e5",90,39,689,366,1093} --多点找色
+	t['创建您的NIKE帐户_注册']={0xffffff, "-293|-31|0x000000,-293|36|0x000000,327|-34|0x000000",90,30,1056,715,1333} --多点找色
+	t['创建您的NIKE帐户_出生日期']={0x8d8d8d, "0|-6|0xffffff,0|-10|0x8d8d8d,0|-20|0x8d8d8d,0|-52|0xe5e5e5,0|25|0xe5e5e5",90,77,563,211,778} --多点找色
 	
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
@@ -353,14 +361,26 @@ function reg()
 						input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
 						input(var.account.pwd)
 						d('弹窗_输入的完成',true)
+						if d('创建您的NIKE帐户_出生日期',true,1,3)then
+							for i=1,rd(9,13) do
+								click(228,1001,0.3)
+							end
+							for i=1,rd(2,5)do
+								click(366,1002,0.2)
+							end
+							for i=1,rd(2,5)do
+								click(515,1004,0.2)
+							end
+							click(681,861)
+						end
 					end
 					delay(1)
 				end
-				local sex ={{220,760,0x8d8d8d},{510,760,0x131313},} --男,女
-				click(sex[rd(1,2)][1],sex[1][2])
---				click(126,867)
-				d('注册返回界面',true)
-			elseif d('输入您的生日')then
+				d('创建您的NIKE帐户_男子',true)
+				d('创建您的NIKE帐户_男子_',true)
+				d('创建您的NIKE帐户_男子__',true)
+				d('创建您的NIKE帐户_注册',true,1,4)
+			elseif d('输入您的生日') or d('输入您的出生日期')then
 				click(182,404,2)
 				if d('弹窗_输入的完成')then
 					for i=1,rd(9,13) do
@@ -377,13 +397,13 @@ function reg()
 					click(  373,  562)
 					d('输入您的生日',true)
 				end
-
+				d('输入您的电子邮件_保存',true)
 			elseif d('输入您的电子邮件')then
 				click(639,408)
 				input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
 				input(var.account.login)
 				delay(1)
-				d('输入您的电子邮件',true)
+				d('输入您的电子邮件_保存',true)
 				backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
 			elseif d('主菜单_首页')then
 				if firstUp then
@@ -395,7 +415,7 @@ function reg()
 				elseif d('鞋子详情页面_心_点亮')then
 					moveTo(300,200,300,800-rd(500,600),rd(20,30))	--下滑
 					click(30,83)
-					d('主菜单_首页',true,1)
+					d('主菜单_首页',true,4)
 				elseif d('未收藏的鞋子',true)then
 				elseif d('鞋子详情页面_心',true)then
 				else
@@ -595,6 +615,7 @@ function reg()
 end
 
 
+
 t["我_设置界面_"]={ 0xfbfbfb, "-4|-2|0x0c0c0c,-4|12|0x000000,19|12|0x000000,-356|-3|0x000000", 90, 10, 46, 543, 124}
 t["我_退出登录_红"]={ 0xff3b30, "-4|128|0x007aff", 90, 244, 1073, 516, 1298}
 t['我_未激活']={ 0xb8b8b8, "-26|-21|0xffffff,23|-27|0xffffff,4|6|0xb8b8b8", 90, 601, 1253, 709, 1315 } --多点找色
@@ -743,7 +764,9 @@ function login()
 				return false
 			else
 				log('tips')
+				t['弹窗_输入的完成_black']={0x000000, "12|-7|0x000000,3|-4|0xffffff,-27|-5|0xffffff,-29|-7|0x000000,-18|6|0xffffff",90,623,696,735,1058} --多点找色
 				if d('弹窗_输入的完成',true)then
+				elseif d('弹窗_输入的完成_black',true)then
 				else
 					if errors()then
 						click(705,41)
@@ -1133,6 +1156,7 @@ function look()
 	-- body
 	return true
 end
+
 
 
 if UIvalues.smsPT == "0" then

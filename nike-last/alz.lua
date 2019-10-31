@@ -16,23 +16,35 @@ function get(url)
 	end
 end
 
+function get_(url)
+	local sz = require("sz")
+	local http = require("szocket.http")
+	local res, code = http.request(url);
+	if code == 200 then
+		if res ~= nil then
+			return res
+		end
+	end
+end
 
-function _vCode_ym(User,Pass,PID) --易码平台
-	local User = 'shuaishuai1983'
-	local Pass = 'shuai888@'
-	local PID = '723'
-    local token,uid,number = "",""
+
+function _vCode_ym() --爱尚平台
+	local User = 'shuaishuai87'
+	local Pass = 'shuai888'
+	local PID = '1059'
+    local token,number,pid = "","",""
+	local Urls = 'http://v6.aishangpt.com:88/yhapi.ashx'
     return {
         login=(function() 
             local RetStr
 			for i=1,5,1 do
 				toast("获取token\n"..i.."次共5次")
                 mSleep(1500)
-                RetStr = httpGet('http://i.fxhyd.cn:8080/UserInterface.aspx?action=login&username='..User..'&password='..Pass.."&author=yangmian")
+                RetStr = get_(Urls..'?act=login&ApiName='..User..'&PassWord='..Pass)
 				if RetStr then
 					nLog(RetStr)
 					RetStr = strSplit(RetStr,"|")
-					if RetStr[1] == 'success' then
+					if RetStr[1] == '1' then
 						token = RetStr[2]
 						log('token='..token,true)
 						break
@@ -46,15 +58,37 @@ function _vCode_ym(User,Pass,PID) --易码平台
         end),
 	    getPhone=(function()
             local RetStr=""
-			RetStr = httpGet("http://i.fxhyd.cn:8080/UserInterface.aspx?action=getmobile&excludeno=165&itemid="..PID.."&token="..token.."&timestamp="..os.time())
+			local lx_url = Urls.."?act=getPhone&iid="..PID.."&token="..token
+			log(lx_url)
+			RetStr = get_(lx_url)
 			if RetStr ~= "" and  RetStr ~= nil then
 				log(RetStr,true)
 				RetStr = strSplit(RetStr,"|")
 			end
-			if RetStr[1]== 'success' then
-				number = RetStr[2]
-				log(number,true)
-				return number
+			if RetStr[1]== '1' then
+				pid =  RetStr[2]
+				number = RetStr[5]
+				log(number)
+				local phone_title = (string.sub(number,1,3))
+				local blackPhone = {'165','144','141','142','143','144','145','146','147'}
+				for k,v in ipairs(blackPhone) do
+					if phone_title == v then
+						local lx_url =	Urls..'?act=addBlack&pid='..pid..'&token='..token.."&reason=%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8"
+						get_(lx_url);
+						log("拉黑->"..number)
+						return false
+					end
+				end
+				local self_phone = get('http://39.108.184.74/api/Public/tjj/?service=Nike.Checkphone&phone='..number)
+				if self_phone.data then
+					log("手机号可以使用")
+					return number
+				else
+					toast('自己顶号\n准备拉黑');
+					local lx_url =	Urls..'?act=addBlack&pid='..pid..'&token='..token.."&reason=%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8"
+					get_(lx_url);
+					log("拉黑->"..number)
+				end
 			else
 				log(RetStr[1],true)
 			end
@@ -63,14 +97,12 @@ function _vCode_ym(User,Pass,PID) --易码平台
 			local Msg
             for i=1,25,1 do
                 mSleep(3000)
-                RetStr = httpGet("http://i.fxhyd.cn:8080/UserInterface.aspx?action=getsms&token="..token.."&mobile="..number.."&itemid="..PID.."&release=1&timestamp="..os.time())
+                RetStr = get_(Urls.. "?act=getPhoneCode&pid="..pid.."&token="..token)
 				if RetStr then
 					local arr = strSplit(RetStr,"|") 
-					if arr[1] == 'success' then 
+					if arr[1] == '1' then 
 						Msg = arr[2]
 						log(Msg,true)
-						local i,j = string.find(Msg,"%d+")
-						Msg = string.sub(Msg,i,j)
 					end
 					if type(tonumber(Msg))== "number" then return Msg end
 				end
@@ -79,7 +111,8 @@ function _vCode_ym(User,Pass,PID) --易码平台
             return ""
         end),
         addBlack=(function()
-            return httpGet("http://api.ndd001.com/do.php?action=addBlacklist&token="..token.."&phone="..number.."&sid="..PID)
+			local lx_url =	Urls..'?act=addBlack&pid='..pid..'&token='..token.."&reason=%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8"
+            return get_(lx_url)
         end),
     }
 end

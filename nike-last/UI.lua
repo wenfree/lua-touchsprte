@@ -160,7 +160,7 @@ MyTable = {
 			{
                 ["id"] = "smsPT",
                 ["type"] = "RadioGroup",
-                ["list"] = "0_易码,1_来信,2_165",
+                ["list"] = "0_爱尚,1_来信,2_165",
                 ["select"] = "0",
             },
 			{
