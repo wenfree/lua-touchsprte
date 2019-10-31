@@ -1,8 +1,6 @@
 [res]
 [lib]
 [file]
-AWZ.lua
 tsp.lua
+AWZ.lua
 main.lua
-
-bh.lua
