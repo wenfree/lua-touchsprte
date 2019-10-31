@@ -43,9 +43,10 @@ function file_exists(file_name)
 end
 
 game_lua = {
-	{"tsp",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/tsp.lua'},
-	{"AWZ",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/AWZ.lua'},
-	{"bh",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/bh.lua'},
+	{"tsp",'https://img.wenfree.cn/lua/bh/tsp.lua'},
+	{"AWZ",'https://img.wenfree.cn/lua/bh/AWZ.lua'},
+	{"bh",'https://img.wenfree.cn/lua/bh/bh.lua'},
+	{"main",'https://img.wenfree.cn/lua/bh/main.lua'},
 }
 
 local ver_ =  2
