@@ -46,7 +46,7 @@ game_lua = {
 }
 
 
-local ver_ =  3
+local ver_ =  4
 local name_ = "nike"
 local v_url = 'http://wenfree.cn/api/Public/idfa/?service=Git.Update&name='..name_..'&v='..ver_
 

@@ -139,7 +139,7 @@ end
 
 function reg()
 	local timeline = os.time()
-	local outTimes = 10*60
+	local outTimes = 60 * 3
 	
 	var.password  = "AaDd112211"
 	local fix_info = false
@@ -160,6 +160,9 @@ function reg()
 				var.sms = dxcode.getMessage()
 				if var.sms then
 					input[3](var.sms)
+				else
+					log("接码失败",true)
+					return false
 				end
 			elseif d('完善信息界面')then
 				local fix____ ={{657,432,0xffffff},{650,541,0xffffff},{653,646,0xd9d9d9},{561,759,0xffffff},{524,870,0xffffff},{429,972,0xcccccc},}  --多点取色
@@ -218,7 +221,6 @@ function up()
 end
 
 require("AWZ")
-
 
 if awzNew()then
 	
