@@ -16,8 +16,8 @@ function stringRandom(str,num,offset)
 	return strRandom
 end 
 function DMGetPhone()
-	local url = 'http://api.duomi01.com/api?action=getPhone'
-	local par = "&token=e6d5372929e4ec24f460c3a10a6a454c&sid=11256"
+	local url = "http://api.smskkk.com/api/do.php"
+	local par = "?action=getPhone&sid=1018&token=ln7l0nmn7w7600vvwpwpqk557oov5lb5"
 	while true do
 		local code, header, body = http.tsget(url..par)
 		if code == 200 then 
@@ -37,11 +37,10 @@ function DMGetPhone()
 	end 
 end 
 
-
 function DMGetMsg(phone)  --获取手机短信
 	--sid=项目id&phone=取出来的手机号&token=登录时返回的令牌&author=软件作者 用户名(这里是传作者注册时的用户名)。
-	local url = "http://api.duomi01.com/api?action=getMessage"
-	local par = "&token=e6d5372929e4ec24f460c3a10a6a454c&sid=11256&phone="..phone.."&author=huhai123"
+	local url = "http://api.smskkk.com/api/do.php"
+	local par = "?action=getMessage&sid=1018&token=ln7l0nmn7w7600vvwpwpqk557oov5lb5&phone=" .. phone
 	while true do
 		local code, header, body = http.tsget(url..par)
 		if code == 200 then 
@@ -385,7 +384,8 @@ function GetlocalIP() --获取本机IP
 			if string.find(v[1],"en")~=nil then ip = v[2] break end
 		end
 		if ip == nil then 
-			j = j + 1  if j %4 ==0 then rebootWifi() end 
+			return '4g';
+--			j = j + 1  if j %4 ==0 then rebootWifi() end 
 		else
 			break
 		end 

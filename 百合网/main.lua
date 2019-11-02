@@ -44,8 +44,6 @@ end
 
 game_lua = {
 	{"tsp",'https://img.wenfree.cn/lua/bh/tsp.lua'},
-	{"AWZ",'https://img.wenfree.cn/lua/bh/AWZ.lua'},
-	{"bh",'https://img.wenfree.cn/lua/bh/bh.lua'},
 	{"main",'https://img.wenfree.cn/lua/bh/main.lua'},
 }
 
@@ -93,7 +91,6 @@ if version then
 	end
 end
 
-require("bh")
 
 
 

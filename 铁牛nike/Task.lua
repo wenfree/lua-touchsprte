@@ -189,7 +189,7 @@ function getDevInfo() --获取本机信息
 end
 
 function getAcc()
-	local info = GetLocalInfo()		--首先查看是否存档任务 
+--	local info = GetLocalInfo()		--首先查看是否存档任务 
 	local dev = getDevInfo() 
 	if info ~=nil then  
 		if info.Status == '1'  then  
@@ -375,6 +375,7 @@ function _TaskMain()
 		local _info = getAcc()  
 		doMain(_info)
 		closeApp(_appBid,1)
+		dialog("---once---")
 	end 
 end 
 require "Common"

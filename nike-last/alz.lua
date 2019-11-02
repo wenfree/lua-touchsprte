@@ -40,7 +40,9 @@ function _vCode_ym() --爱尚平台
 			for i=1,5,1 do
 				toast("获取token\n"..i.."次共5次")
                 mSleep(1500)
-                RetStr = get_(Urls..'?act=login&ApiName='..User..'&PassWord='..Pass)
+				local urls = Urls..'?act=login&ApiName='..User..'&PassWord='..Pass
+				log(urls)
+                RetStr = get_(urls)
 				if RetStr then
 					nLog(RetStr)
 					RetStr = strSplit(RetStr,"|")
@@ -97,7 +99,9 @@ function _vCode_ym() --爱尚平台
 			local Msg
             for i=1,25,1 do
                 mSleep(3000)
-                RetStr = get_(Urls.. "?act=getPhoneCode&pid="..pid.."&token="..token)
+				local urls = Urls.. "?act=getPhoneCode&pid="..pid.."&token="..token
+				log(urls)
+                RetStr = get_(urls)
 				if RetStr then
 					local arr = strSplit(RetStr,"|") 
 					if arr[1] == '1' then 
@@ -148,7 +152,9 @@ function _vCode_lx() --来信
         end), 
 		getPhone=(function()
             local RetStr=""
-			RetStr = httpGet("http://api.smskkk.com/api/do.php?action=getPhone&sid="..PID.."&token="..token)
+			local urls = "http://api.smskkk.com/api/do.php?action=getPhone&sid="..PID.."&token="..token
+			log(urls)
+			RetStr = httpGet(urls)
 			if RetStr ~= "" and  RetStr ~= nil then
 				RetStr = strSplit(RetStr,"|")
 			end
@@ -181,7 +187,9 @@ function _vCode_lx() --来信
 			local Msg
             for i=1,25,1 do
                 mSleep(3000)
-                RetStr = httpGet("http://api.smskkk.com/api/do.php?action=getMessage&sid="..PID.."&token="..token.."&phone="..number)
+				local urls = "http://api.smskkk.com/api/do.php?action=getMessage&sid="..PID.."&token="..token.."&phone="..number
+				log(urls)
+                RetStr = httpGet(urls)
 				if RetStr then
 					local arr = strSplit(RetStr,"|") 
 					if arr[1] == '1' then 
