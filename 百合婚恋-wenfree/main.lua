@@ -217,8 +217,8 @@ function reg()
 			else
 				if 	d("弹窗——本地相册",true)then
 				elseif d("弹窗——好-不允许",true)then
-					other_txt = other_txt .. "->头像"
 				elseif d("弹窗——完成",true)then
+					other_txt = other_txt .. "->头像"
 				end
 			end
 		end
