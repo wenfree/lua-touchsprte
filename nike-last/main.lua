@@ -26,9 +26,8 @@ function downFile(url, path)
         return status;
     end
 end
---downFile("http://mu1234.applinzi.com/wechat-reply.txt",
---"/User/Media/TouchSprite/lua/wechat-reply.txt")
-
+--downFile("http://mu1234.applinzi.com/reply.txt",
+--"/User/Media/TouchSprite/lua/reply.txt")
 
 --检测指定文件是否存在
 function file_exists(file_name)
@@ -37,16 +36,17 @@ function file_exists(file_name)
 end
 
 game_lua = {
-	{"UI",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/UI.lua'},
-	{"tsp",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/tsp.lua'},
-	{"nameStr",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/nameStr.lua'},
-	{"alz",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/alz.lua'},
-	{"AWZ",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/AWZ.lua'},
-	{"nike",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/nike-last/nike.lua'},
+	{"UI",'https://img.wenfree.cn/nike-wenfree/UI.lua'},
+	{"tsp",'https://img.wenfree.cn/nike-wenfree/tsp.lua'},
+	{"nameStr",'https://img.wenfree.cn/nike-wenfree/nameStr.lua'},
+	{"alz",'https://img.wenfree.cn/nike-wenfree/alz.lua'},
+	{"AWZ",'https://img.wenfree.cn/nike-wenfree/AWZ.lua'},
+	{"nike",'https://img.wenfree.cn/nike-wenfree/nike.lua'},
+	{"main",'https://img.wenfree.cn/nike-wenfree/main.lua'},
 }
 
 
-local ver_ =  4
+local ver_ =  5
 local name_ = "nike"
 local v_url = 'http://wenfree.cn/api/Public/idfa/?service=Git.Update&name='..name_..'&v='..ver_
 

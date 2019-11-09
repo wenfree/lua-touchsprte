@@ -406,12 +406,15 @@ var collectionView = [[vc rootView] collectionView]
 var navVc = [[[[[UIWindow keyWindow] rootViewController] topViewController] viewControllerMap] objectForKey:0]
 [navVc popToViewController:[vc bottomViewController] animated:YES] --导航控制器返回到底层控制器
 
-分页4 控制器 ONCProfileViewController or ONCSettingsViewController
+分页4 控制器 ONCProfileViewController or 
 
 个人主页控制器 ONCProfileViewController
 
 换头像
-var url = [NSURL URLWithString: @"https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=UIImage%20&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyriht=ndefined&cs=3806547475,570102247&os=561112789,3202358382&simid=0,0&pn=99&rn=1&di=80410&ln=1508&fr=&fmq=1566755759392_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0ist=jit=&bdtype=0&spn=0&pi=0&gsm=3c&objurl=http%3A%2F%2Fimg-blog.csdnimg.cn%2F20190309113305425.jpg&rpstart=0&rpnum=0&adpicid=0&force=undefined&ctd=1566755769188^3_1377X964%1"]
+var url = [NSURL URLWithString: @"https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=UIImage%20&step_word=
+&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyriht=ndefined&cs=3806547475,570102247&os=561112789,3202358382&simid=0,0&pn=99
+&rn=1&di=80410&ln=1508&fr=&fmq=1566755759392_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&ist
+ype=0ist=jit=&bdtype=0&spn=0&pi=0&gsm=3c&objurl=http%3A%2F%2Fimg-blog.csdnimg.cn%2F20190309113305425.jpg&rpstart=0&rpnum=0&adpicid=0&force=undefined&ctd=1566755769188^3_1377X964%1"]
 var image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]]
 var pManger = [ONCProfileManager sharedInstance]
 [pManger saveAndPersistAvatar:image withCompletionBlock:nil]
