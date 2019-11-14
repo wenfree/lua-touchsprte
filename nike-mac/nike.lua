@@ -1180,6 +1180,20 @@ vCode.login()
 --logout()
 --lua_exit()
 
+
+function delay(times)
+	local times = times or 1
+	local timeLine = os.time()
+	
+	while os.time() - timeLine <= times do
+		mSleep(1000)
+		if (times-(os.time() - timeLine) > 3) then
+			log("倒计时->「".. times-(os.time() - timeLine) .."」",true)
+		end
+	end
+end
+
+
 function main()
 	while (true) do
 		

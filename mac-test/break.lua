@@ -60,7 +60,7 @@ function runOs(script)
 	nLog("end")
 end
 
-_appBid = 	'com.nike.onenikecommerce'   --appBID 这里写入你要砸壳的BID
+_appBid = 	'com.nike.onenikecommerce'   --appBID 这里写入你要砸壳的BID	
 _appDataPath = appDataPath(_appBid).."/Documents/" --沙盒路径
 log(_appDataPath)
 
@@ -87,7 +87,7 @@ if _appDataPath  then
 	end
 	if item == "0" then dialog("Clutch 未检测到安装2") lua_exit() end 
 	script ="Clutch -d "..item
-	p = io.popen(script)
+	p = io.popen(script)                   
 	for v in p:lines() do 
 		Showlog(v)
 		if string.find(v,"Finished dumping") ~=nil then 
