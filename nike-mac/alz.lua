@@ -33,7 +33,8 @@ function _vCode_ym() --爱尚平台
 	local Pass = 'shuai888'
 	local PID = '1059'
     local token,number,pid = "","",""
-	local Urls = 'http://v6.aishangpt.com:88/yhapi.ashx'
+	local Urls = 'http://v6.aishangpt.com/yhapi.ashx'
+	local Urls = 'http://v6.fuxiangpaint.com/yhapi.ashx'
     return {
         login=(function() 
             local RetStr
