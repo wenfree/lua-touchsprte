@@ -380,7 +380,7 @@ function _TaskMain()
 end 
 require "Common"
 require "Function"
-require "Cycript"
+--require "Cycript"
 _TaskMain()
 --Dialog(rndPassWord())
 

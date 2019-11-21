@@ -1,3 +1,6 @@
+
+nLog('Cycript-mt')
+mSleep(500)
 dyjit = require("mt")
 _appBid = 'com.nike.onenikecommerce'  --appBID
 _appDataPath  = appDataPath(_appBid)

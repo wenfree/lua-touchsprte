@@ -33,20 +33,22 @@ function ad()
 	local out_time = os.time()
 	local doing = 0
 	local 发送ad = false
+	
+	t['聊天位置']={0xffffff, "-217|-6|0xffffff,-412|-3|0x18454f,-427|-6|0xebda85,52|-8|0x244d58",
+		90,5,654,929,741} --多点找色
+	t['聊天位置_发送']={0x007aff, "2|-3|0xfefeff,-53|-28|0x007aff,-21|18|0x007aff",
+		90,82,596,1257,740} --多点找色
 
 	while (os.time()-out_time < 60*3) do
 		if active(app,10)then
-		elseif UI('聊天','聊天界面')or UI('聊天','聊天界面2')then
-			if UI_pic('聊天','聊天界面_世界频道',true)then
-			elseif UI('聊天','聊天界面_世界频道_界面')then
-				if UI_pic('聊天','聊天界面_世界频道_界面_发送',true)then
-					delay(30)
-					return true
-				elseif UI_pic('聊天','聊天界面_世界频道_界面_发言位置')then
-					click(x+200,y)
-					input(UIdata.adTxt)
-					click(675,712)
-				end
+		elseif d('聊天位置',true)then
+			delay(2)
+			log(UIdata.adTxt)
+			inputStr(UIdata.adTxt)
+			delay(2)
+			if d('聊天位置_发送',true)then
+				delay(30)
+				return true
 			end
 		elseif UI('在地图中','在地图界面')then
 			log("准备发广告")
@@ -100,21 +102,28 @@ function attck()
 	end
 	local TimeLine = os.time()
 	local usedTime = 60*3
+	
+	t['展开聊天']={0xfde479, "0|5|0xf9e792,1|16|0xebdb89,80|3|0xffff8f,74|3|0x125057",90,5,4,173,55} --多点找色
+	t['聊天界面左边人头']={0xe1dc88, "11|-9|0x80a076,23|-2|0x5b91a2,344|5|0xffea88,896|-9|0xf3dd7a,889|-9|0x135157",90,5,2,957,57} --多点找色 --多点找色
+	t['聊天界面详情']={0xf0ef91, "288|-4|0xf3f392,347|11|0xebdb89,419|-4|0x125258,901|-5|0xf4dd78",90,6,1,957,60} --多点找色
+	t['聊天界面详情_反击']={0xebe4ea, "17|5|0xdf5c05,29|6|0x820d0d,-25|7|0xe05d05,-27|10|0x820d0d",90,657,79,779,653} --多点找色
+	t['聊天界面详情_展开群聊']={0xf9f8fa, "-3|7|0x5dae42,0|13|0xdfd7e0,-268|4|0xede9ee,-272|7|0x53a338,-261|7|0xdadadb",90,8,58,354,690} --多点找色
+	t['聊天界面详情_点击群聊']={0x327586, "220|-82|0xf7f4f7,214|-86|0x5bb046,-56|-84|0xefebf0,-60|-80|0x56a23d",90,8,58,354,690} --多点找色
 
 	while (os.time()-TimeLine < usedTime) do
 		if active(app,5)then
 		elseif 在地图界面(false,clickMun,stayTime)then
 			click(1170,699)	--点击对话框
-		elseif d('消息界面_竖')then
-			click(210,86)
-		elseif d('消息详情界面_竖')then	
-			d('消息详情界面_竖_反击',true)
-		elseif d('消息界面') or d('消息界面ios11')then
-			click(483,124)--置顶对话
-		elseif d('消息详情界面')then	
-			if d('消息详情界面_反击',true)then	--反击
-				moveTo(500,500,500,200,10)
+		elseif d('展开聊天',true)then
+		elseif d('聊天界面详情_反击',true)then	--反击
+			delay(1)
+		elseif d('聊天界面左边人头',false)then
+			click(173,115)
+		elseif d('聊天界面详情')then
+			if d('聊天界面详情_反击',true)then	--反击
 				delay(1)
+			elseif d('聊天界面详情_点击群聊',true)then
+			elseif d('聊天界面详情_展开群聊',true)then
 			end
 		elseif d('返回箭头')then
 			if d('返回箭头_世界地图')then
