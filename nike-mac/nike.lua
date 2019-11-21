@@ -7,7 +7,7 @@ require("UI")
 
 local sz = require("sz")
 local json = sz.json
-local ts = require("ts")
+--local ts = require("ts")
 
 
 sys = {
@@ -82,8 +82,8 @@ end
 var={}
 var.bid='com.nike.onenikecommerce'
 var.account={}
-var.account.login = 'bcuvpqbc@hotmail.com'
-var.account.pwd = 'Shuai888'
+var.account.login = ''
+var.account.pwd = ''
 
 --if UIvalues.password_key == '0' then
 --	var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)
@@ -95,7 +95,7 @@ var.account.phone = '18124522139'
 var.looktime = 5
 var.wifitime = 30
 
-file_name = '/var/mobile/Media/TouchSprite/lua/back_account.txt'
+file_name = '/var/mobile/Media/lua/back_account.txt'
 function backWirteFile(file_name,string,way)
 	way = way or 'a'   --w or a
 	local f = assert(io.open(file_name, way))
@@ -134,32 +134,6 @@ function updateNike()
 	end
 end
 
-function UpFtp()
-	local localPath = appDataPath(var.bid).."/Documents/ifkc.plist" --设置 plist 路径
-	local NewPath = appDataPath(var.bid).."/Documents/"..var.account.login..".plist" --设置 plist 路径
-	copyfile(localPath,NewPath);
-	local ftp = sz.ftp--使用 FTP 模块前一定要插入这一句
-	_, err = ftp.upload(NewPath, "ftp://admin:AaDd112211@wenfree.cn/token/")--文件名不可使用中文字符
-	if err then
-		dialog(err, 1)
-	else
-		dialog("token 文件已上传成功", 1)
-		return true
-	end
-end
-
-
-function DownFtp()
-	local NewPath = "ftp://admin:AaDd112211@39.108.184.74/token/"..var.account.token --设置 plist 路径
-	local localPath = appDataPath(var.bid).."/Documents/ifkc.plist"
-	local ftp = sz.ftp--使用 FTP 模块前一定要插入这一句
-	_, err = ftp.download(NewPath, localPath)--文件名不可使用中文字符
-	if err then
-		dialog(err, 1)
-	else
-		dialog("token 文件已下载成功", 1)
-	end
-end
 
 function backId(state)
 	local postUrl = 'http://39.108.184.74/api/Public/tjj/?service=Nike.backId'
@@ -658,9 +632,6 @@ function logout()
 end
 
 
-
-
-
 t['错误_登录失败']={ 0xfe2020, "249|-7|0xfe0000,324|-2|0xfe0000", 90, 20, 140, 723, 703 } --多点找色
 t['错误_选对国家']={ 0x000000, "-72|-5|0xffffff,-339|1|0x000000,340|49|0xb2b2b2", 90, 8, 48, 733, 165 } --多点找色
 t['错误_未中签']={ 0xffffff, "8|-9|0xffffff,-1|-22|0x545455,-23|0|0x545454,22|0|0x545454,-1|22|0x535354", 90, 564, 16, 744, 131 } --多点找色
@@ -692,7 +663,9 @@ function login()
 			else
 				var.account.token = ''
 			end
-			dialog("执行至 "..var.account.id .."\n账号 = "..var.account.login.."\n密码 = "..var.account.pwd,2)
+			local account_txt = "执行至 "..var.account.id .."\n账号 = "..var.account.login.."\n密码 = "..var.account.pwd
+			dialog(account_txt,2)
+			log(account_txt)
 		else
 			dialog("暂无帐号", 60*3)
 			return false

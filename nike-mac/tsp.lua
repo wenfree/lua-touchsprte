@@ -26,6 +26,7 @@ function print_r(t)
 				nLog(indent..tostring(t))
 			end
 		end
+		mSleep(50);
 	end
 	if (type(t)=="table") then
 		nLog(tostring(t).." {")
