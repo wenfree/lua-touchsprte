@@ -554,6 +554,12 @@ function myRand(rnType,rnLen,rnUL)
 	elseif rnType==7 then --生成中文
 		if ZW_txt==nil then
 			file_zw=io.open("/User/Media/TouchSprite/res/中文字库.txt","r")
+			if file_zw == nil then
+				file_zw = io.open("/User/Media/TouchSpriteENT/res/中文字库.txt","r")
+				if file_zw == nil then
+					file_zw = io.open("/User/Media/TouchSpriteENT/lua/中文字库.txt","r")
+				end
+			end
 			ZW_txt=file_zw:read("*all")
 		end
 		ZW_txt=ZW_txt or ""

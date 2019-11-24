@@ -257,12 +257,12 @@ end
 
 require("AWZ")
 
---for var= 1, 5 do
---	local header_unm = rd(100,2400)
---	local imgUrl = 'https://img.wenfree.cn/baihe/img-'.. header_unm ..'.jpg';
---	downFile(imgUrl,"/User/Media/TouchSprite/res/"..header_unm..".jpg");
---	saveImageToAlbum(header_unm .. ".jpg")
---end
+for var= 1, 200 do
+	local header_unm = rd(100,2400)
+	local imgUrl = 'https://img.wenfree.cn/baihe/img-'.. header_unm ..'.jpg';
+	downFile(imgUrl,"/User/Media/TouchSprite/res/"..header_unm..".jpg");
+	saveImageToAlbum(header_unm .. ".jpg")
+end
 
 while (true) do
 	if vpn.on() then

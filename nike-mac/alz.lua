@@ -69,35 +69,37 @@ function _vCode_ym() --爱尚平台
 			log(lx_url)
 			RetStr = get_(lx_url)
 			if RetStr ~= "" and  RetStr ~= nil then
-				log(RetStr,true)
+				log(RetStr,'all')
 				RetStr = strSplit(RetStr,"|")
-			end
-			if RetStr[1]== '1' then
-				pid =  RetStr[2]
-				number = RetStr[5]
-				log(number)
-				local phone_title = (string.sub(number,1,3))
-				local blackPhone = {'165','141','142','143','144','145','146','147'}
-				for k,v in ipairs(blackPhone) do
-					if phone_title == v then
+				if RetStr[1]== '1' then
+					pid =  RetStr[2]
+					number = RetStr[5]
+					log(number)
+					local phone_title = (string.sub(number,1,3))
+					local blackPhone = {'165','141','142','143','144','145','146','147'}
+					for k,v in ipairs(blackPhone) do
+						if phone_title == v then
+							local lx_url =	Urls..'?act=addBlack&pid='..pid..'&token='..token.."&reason=%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8"
+							get_(lx_url);
+							log("拉黑->"..number)
+							return false
+						end
+					end
+
+					if checkPhone(number) then
+						log("手机号可以使用")
+						return number
+					else
+						log('自己顶号\n准备拉黑','all');
 						local lx_url =	Urls..'?act=addBlack&pid='..pid..'&token='..token.."&reason=%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8"
 						get_(lx_url);
 						log("拉黑->"..number)
-						return false
 					end
-				end
-
-				if checkPhone(number) then
-					log("手机号可以使用")
-					return number
 				else
-					log('自己顶号\n准备拉黑','all');
-					local lx_url =	Urls..'?act=addBlack&pid='..pid..'&token='..token.."&reason=%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8"
-					get_(lx_url);
-					log("拉黑->"..number)
+					log(RetStr[1],true)
 				end
 			else
-				log(RetStr[1],true)
+				delay(4)
 			end
         end),
 	    getMessage=(function()

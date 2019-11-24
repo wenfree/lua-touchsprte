@@ -246,7 +246,7 @@ local function mail_rand(length) --随机邮箱
 	mailheader[1] = '@ssnms.com'
 	mailheader[2] = '@zzaha.com'
 	mailheader[3] = '@vvccb.com'
-	mailheader[4] = '@qq.com'
+	
 	local mail_suffix = mailheader[math.random(#mailheader)]
 	for var = 1,length do
 		rnd = math.random(1,string.len(char))
