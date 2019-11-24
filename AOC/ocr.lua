@@ -185,10 +185,10 @@ function AccountInfoBack()
 	
 	local appbid = 'com.lilithgame.sgame'
 	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"
-
---	app_token = "qCOcHlziQlIVaEKWUlhwA37lme6PjEbt"
---	app_uid = "19430454"
---	player_id = "E76A9205-BCE5-4F51-B746-CB5D83E6AE3C"
+	
+--	app_token = "XArb23vYY3cZ0UBdGgzC2TfSY9NENGFO"
+--	app_uid = "20989372"
+--	player_id = "C528661B-AD8F-4656-A0D6-1C31A5B0DC53"
 	
 	local account_ = {}
 	account_['app_token'] = app_token
@@ -209,7 +209,6 @@ function AccountInfoBack()
 	closeApp(appbid)
 	mSleep(2000)
 end
-
 --AccountInfoBack()
 --inputText("66A910713D8049C680271A25506D29D6812A3437")
 

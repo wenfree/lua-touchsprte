@@ -109,6 +109,7 @@ function city()
 					mSleep(1000)
 				elseif d('返回_活动中心_报名活动',true)then
 				elseif UI('返回','活动中心可以抽奖',true)then
+				elseif d("返回_活动中心_圣银可领取",true)then
 				elseif UI_pic('返回','活动右侧例表',true)then
 					right_red_tips = right_red_tips or 1
 					right_red_tips = right_red_tips + 1

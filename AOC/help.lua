@@ -33,20 +33,22 @@ function ad()
 	local out_time = os.time()
 	local doing = 0
 	local 发送ad = false
+	
+	t['聊天位置']={0xffffff, "-217|-6|0xffffff,-412|-3|0x18454f,-427|-6|0xebda85,52|-8|0x244d58",
+		90,5,654,929,741} --多点找色
+	t['聊天位置_发送']={0x007aff, "2|-3|0xfefeff,-53|-28|0x007aff,-21|18|0x007aff",
+		90,82,596,1257,740} --多点找色
 
 	while (os.time()-out_time < 60*3) do
 		if active(app,10)then
-		elseif UI('聊天','聊天界面')or UI('聊天','聊天界面2')then
-			if UI_pic('聊天','聊天界面_世界频道',true)then
-			elseif UI('聊天','聊天界面_世界频道_界面')then
-				if UI_pic('聊天','聊天界面_世界频道_界面_发送',true)then
-					delay(30)
-					return true
-				elseif UI_pic('聊天','聊天界面_世界频道_界面_发言位置')then
-					click(x+200,y)
-					input(UIdata.adTxt)
-					click(675,712)
-				end
+		elseif d('聊天位置',true)then
+			delay(2)
+			log(UIdata.adTxt)
+			inputStr(UIdata.adTxt)
+			delay(2)
+			if d('聊天位置_发送',true)then
+				delay(30)
+				return true
 			end
 		elseif UI('在地图中','在地图界面')then
 			log("准备发广告")
@@ -84,7 +86,7 @@ t['弹窗_开战']={0x52d13f, "-335|-7|0x25a1bd,19|-127|0xf35150", 90, 337, 206,
 t['弹窗_体力']={ 0x91f244, "-375|-24|0x29a9bd,-42|-27|0x49c744", 90, 344, 450, 995, 553 } --多点找色
 
 t['返回箭头']={0xe6e189, "2|-11|0x326c7a,20|10|0xb1c8ca,3|20|0x389371", 90, 5, 1, 99, 69}
-t['返回箭头_世界地图']={ 0x154a51, "12|-10|0xf4f492,14|0|0x11444c", 90, 1237, 667, 1319, 743}
+t['返回箭头_世界地图']={0xe9e78d, "22|-9|0x15484d,36|-680|0x0f3d42,46|-685|0xf1f193",90,1202,6,1333,733} --多点找色
 t['返回箭头_世界地图_前往']={ 0x64de3d, "-7|17|0x97f346,-70|-20|0x45ad58,-3|-42|0x36a657,59|-16|0x28a942", 90, 276, 107, 1110, 689}
 t['返回箭头_世界地图_城市内']={ 0xeee9d4, "7|6|0xa88d50,-341|-1|0xeee9d4,-340|5|0x95732b", 90, 414, 4, 905, 100}
 t['返回箭头_世界地图_城市内_提示']={ 0xd9d8d1, "-21|-8|0xf9f3b9,16|-8|0xfbf4ba,0|10|0xd9d7d0", 90, 0, 0, 1333, 749 } --多点找色
@@ -100,21 +102,28 @@ function attck()
 	end
 	local TimeLine = os.time()
 	local usedTime = 60*3
+	
+	t['展开聊天']={0xfde479, "0|5|0xf9e792,1|16|0xebdb89,80|3|0xffff8f,74|3|0x125057",90,5,4,173,55} --多点找色
+	t['聊天界面左边人头']={0xe1dc88, "11|-9|0x80a076,23|-2|0x5b91a2,344|5|0xffea88,896|-9|0xf3dd7a,889|-9|0x135157",90,5,2,957,57} --多点找色 --多点找色
+	t['聊天界面详情']={0xf0ef91, "288|-4|0xf3f392,347|11|0xebdb89,419|-4|0x125258,901|-5|0xf4dd78",90,6,1,957,60} --多点找色
+	t['聊天界面详情_反击']={0xdf5c05, "9|-68|0x810d0d,-285|-67|0x810d0d,-55|-37|0xffffff",90,355,11,795,653} --多点找色
+	t['聊天界面详情_展开群聊']={0xf9f8fa, "-3|7|0x5dae42,0|13|0xdfd7e0,-268|4|0xede9ee,-272|7|0x53a338,-261|7|0xdadadb",90,8,58,354,690} --多点找色
+	t['聊天界面详情_点击群聊']={0x327586, "220|-82|0xf7f4f7,214|-86|0x5bb046,-56|-84|0xefebf0,-60|-80|0x56a23d",90,8,58,354,690} --多点找色
 
 	while (os.time()-TimeLine < usedTime) do
 		if active(app,5)then
 		elseif 在地图界面(false,clickMun,stayTime)then
 			click(1170,699)	--点击对话框
-		elseif d('消息界面_竖')then
-			click(210,86)
-		elseif d('消息详情界面_竖')then	
-			d('消息详情界面_竖_反击',true)
-		elseif d('消息界面') or d('消息界面ios11')then
-			click(483,124)--置顶对话
-		elseif d('消息详情界面')then	
-			if d('消息详情界面_反击',true)then	--反击
-				moveTo(500,500,500,200,10)
+		elseif d('展开聊天',true)then
+		elseif d('聊天界面详情_反击',true)then	--反击
+			delay(1)
+		elseif d('聊天界面左边人头',false)then
+			click(173,115)
+		elseif d('聊天界面详情')then
+			if d('聊天界面详情_反击',true)then	--反击
 				delay(1)
+			elseif d('聊天界面详情_点击群聊',true)then
+			elseif d('聊天界面详情_展开群聊',true)then
 			end
 		elseif d('返回箭头')then
 			if d('返回箭头_世界地图')then

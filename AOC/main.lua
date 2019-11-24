@@ -26,8 +26,8 @@ function downFile(url, path)
         return status;
     end
 end
---downFile("http://mu1234.applinzi.com/wechat-reply.txt",
---"/User/Media/TouchSprite/lua/wechat-reply.txt")
+--downFile("http://mu1234.applinzi.com/-reply.txt",
+--"/User/Media/TouchSprite/lua/-reply.txt")
 
 function delFile(path)--帮你玩平台禁用此函数
     os.execute("rm -rf "..path);
@@ -40,25 +40,25 @@ function file_exists(file_name)
 end
 
 game_lua = {
-	{"tsp",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/tsp.lua'},
-	{"ui",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/ui.lua'},
-	{"AWZ",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/AWZ.lua'},
-	{"rob",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/rob.lua'},
-	{"service",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/service.lua'},
-	{"newplay",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/newplay.lua'},
-	{"city",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/city.lua'},
-	{"map",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/map.lua'},
-	{"fuzhu",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/fuzhu.lua'},
-	{"arm",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/arm.lua'},
-	{"help",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/help.lua'},
-	{"ocr",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/ocr.lua'},
-	{"file",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/file.lua'},
-	{"game_ui",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/game_ui.lua'},
-	{"main",'https://raw.githubusercontent.com/ouwen000/lua-touchsprte/master/AOC/main.lua'},
+	{"tsp",'https://img.wenfree.cn/aoc/tsp.lua'},
+	{"ui",'https://img.wenfree.cn/aoc/ui.lua'},
+	{"AWZ",'https://img.wenfree.cn/aoc/AWZ.lua'},
+	{"rob",'https://img.wenfree.cn/aoc/rob.lua'},
+	{"service",'https://img.wenfree.cn/aoc/service.lua'},
+	{"newplay",'https://img.wenfree.cn/aoc/newplay.lua'},
+	{"city",'https://img.wenfree.cn/aoc/city.lua'},
+	{"map",'https://img.wenfree.cn/aoc/map.lua'},
+	{"fuzhu",'https://img.wenfree.cn/aoc/fuzhu.lua'},
+	{"arm",'https://img.wenfree.cn/aoc/arm.lua'},
+	{"help",'https://img.wenfree.cn/aoc/help.lua'},
+	{"ocr",'https://img.wenfree.cn/aoc/ocr.lua'},
+	{"file",'https://img.wenfree.cn/aoc/file.lua'},
+	{"game_ui",'https://img.wenfree.cn/aoc/game_ui.lua'},
+	{"main",'https://img.wenfree.cn/aoc/main.lua'},
 	}
 
 
-local ver_ =  8
+local ver_ =  11
 local name_ = "aoc"
 local v_url = 'http://wenfree.cn/api/Public/idfa/?service=Git.Update&name='..name_..'&v='..ver_
 
@@ -86,21 +86,18 @@ if version then
 				local path = "/User/Media/TouchSprite/lua/"..v[1]..".lua"
 				delFile(path)
 				downFile(v[2],path)
-				
 			end
 			local path = "/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua"
 			delFile(path)
 			downFile(v[2],path)
-			
-			mSleep(30)
-			toast(v[1],1)
+			toast('下载->'..v[1],1)
 		end
-		nLog('end->'..os.time()-t1)
+		nLog('end----->'..os.time()-t1)
 	else
 		nLog('无需更新');
 		for i,v in ipairs(game_lua)do
 			if not(file_exists("/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua"))then
-				nLog('文件不存，下载一个->'..v[1])
+				toast('文件不存，下载一个->'..v[1],1)
 				downFile(v[2],"/User/Media/TouchSprite/lua/aoc/"..v[1]..".lua")
 				if v[1] == 'main' then
 					downFile(v[2],"/User/Media/TouchSprite/lua/"..v[1]..".lua")

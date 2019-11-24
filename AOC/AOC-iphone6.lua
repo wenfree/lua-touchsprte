@@ -319,7 +319,9 @@ function 劫车()
 		car()
 	end
 end
-劫车()
+
+adTxt = '夜深了，请注意休息~~~~'
+inputText(adTxt)
 
 
 
