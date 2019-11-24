@@ -27,6 +27,10 @@ function get_(url)
 	end
 end
 
+function checkPhone(phone)
+	local self_phone = get('http://zzaha.com/phalapi/public/?s=App.Nikecheck.Checkphone&phone	='..phone)
+	return self_phone.data
+end
 
 function _vCode_ym() --爱尚平台
 	local User = 'shuaishuai87'
@@ -73,7 +77,7 @@ function _vCode_ym() --爱尚平台
 				number = RetStr[5]
 				log(number)
 				local phone_title = (string.sub(number,1,3))
-				local blackPhone = {'165','144','141','142','143','144','145','146','147'}
+				local blackPhone = {'165','141','142','143','144','145','146','147'}
 				for k,v in ipairs(blackPhone) do
 					if phone_title == v then
 						local lx_url =	Urls..'?act=addBlack&pid='..pid..'&token='..token.."&reason=%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8"
@@ -82,12 +86,12 @@ function _vCode_ym() --爱尚平台
 						return false
 					end
 				end
-				local self_phone = get('http://39.108.184.74/api/Public/tjj/?service=Nike.Checkphone&phone='..number)
-				if self_phone.data then
+
+				if checkPhone(number) then
 					log("手机号可以使用")
 					return number
 				else
-					toast('自己顶号\n准备拉黑');
+					log('自己顶号\n准备拉黑','all');
 					local lx_url =	Urls..'?act=addBlack&pid='..pid..'&token='..token.."&reason=%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8"
 					get_(lx_url);
 					log("拉黑->"..number)
@@ -172,12 +176,11 @@ function _vCode_lx() --来信
 						return false
 					end
 				end
-				local self_phone = get('http://39.108.184.74/api/Public/tjj/?service=Nike.Checkphone&phone='..number)
-				if self_phone.data then
+				if checkPhone(number) then
 					log("手机号可以使用")
 					return number
 				else
-					toast('自己顶号\n准备拉黑');
+					log('自己顶号\n准备拉黑','all');
 					local lx_url =	'http://api.smskkk.com/api/do.php?action=addBlacklist&sid='..PID..'&phone='..number..'&token='..token
 					httpGet(lx_url);
 					log("拉黑->"..number)

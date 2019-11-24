@@ -201,10 +201,10 @@ MyTable = {
 				["color"] = "0,0,0",
 			},
 			{
-                ["id"] = "pay",
-                ["type"] = "RadioGroup",
-                ["list"] = "0_微信,1_支付宝,2_随机",
-                ["select"] = "0",
+				["id"] = "pay",
+				["type"] = "RadioGroup",
+				["list"] = "0_微信,1_支付宝,2_随机",
+				["select"] = "0",
             },
 		}
 	}   

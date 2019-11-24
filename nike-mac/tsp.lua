@@ -6,6 +6,7 @@ nLog(width..'*'..hight)
 function print_r(t)
 	local print_r_cache={}
 	local function sub_print_r(t,indent)
+		mSleep(200);
 		if (print_r_cache[tostring(t)]) then
 			nLog(indent.."*"..tostring(t))
 		else
@@ -26,7 +27,6 @@ function print_r(t)
 				nLog(indent..tostring(t))
 			end
 		end
-		mSleep(50);
 	end
 	if (type(t)=="table") then
 		nLog(tostring(t).." {")

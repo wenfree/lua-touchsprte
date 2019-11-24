@@ -3,7 +3,7 @@ require("tsp")
 require("AWZ")
 require("nameStr")
 require("alz")
-require("UI")
+--require("UI")
 
 local sz = require("sz")
 local json = sz.json
@@ -41,41 +41,6 @@ sys = {
 	end)
 }
 
-function _vCode_zs(User,Pass,PID) --众享平台
-    local token,uid,number = "",""
-    return {
-        login=(function() 
-            local RetStr=""
-            repeat
-                RetStr = httpGet('http://api.jyzszp.com/Api/index/userlogin?uid='..User..'&pwd='..Pass)
-			until(string.match(RetStr,"%d+|.+|%w+"))
-            token = string.match(RetStr,"|(%w+)$")
-         end),
-	    getPhone=(function()
-            local RetStr=""
-            repeat
-                RetStr = httpGet("http://api.jyzszp.com/Api/index/getMobilenum?pid="..PID.."&uid="..User.."&token="..token.."&mobile=&size=1")
-				if RetStr ~= "" then  RetStr = string.match(RetStr,"^(%d+)|") end
-			until(string.len(RetStr) == 11 and RetStr:sub(1,1) == '1')
-            number = RetStr
-            return number
-        end),
-	    getMessage=(function()
-			local Msg
-			mSleep(3000)
-			RetStr = httpGet("http://api.jyzszp.com/Api/index/getVcodeAndReleaseMobile?uid="..User.."&token="..token.."&mobile="..number.."&pid="..PID)
-			if RetStr then
-				local arr = strSplit(RetStr,"|") 
-				if #arr >= 3 then Msg = arr[2] end
-				if Msg then return Msg end
-			end
-			toast(tostring(RetStr))
-        end),
-        addBlack=(function()
-            return httpGet("http://api.jyzszp.com/Api/index/addIgnoreList?uid="..User.."&token="..token.."&mobiles="..number.."&pid="..PID)
-        end),
-    }
-end
 
 
 
@@ -84,14 +49,8 @@ var.bid='com.nike.onenikecommerce'
 var.account={}
 var.account.login = ''
 var.account.pwd = ''
-
---if UIvalues.password_key == '0' then
---	var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)
---else
---	var.account.pwd = UIvalues.password
---end
-
-var.account.phone = '18124522139'
+var.account.address_country = 'CN'
+var.account.phone = ''
 var.looktime = 5
 var.wifitime = 30
 
@@ -113,33 +72,68 @@ function local_token()
 end
 
 function updateNike()
-	local url = 'http://39.108.184.74/api/Public/tjj/?service=Nike.address'
+	local sz = require("sz")
+	local url = 'http://zzaha.com/phalapi/public/'
 	local Arr={}
+	Arr.s = 'Nikesave.Save'
 	Arr.address_mail = var.account.login
 	Arr.address_pwd = var.account.pwd
 	Arr.address_phone = var.account.phone
---	Arr.address_xin = first_name_
---	Arr.address_ming = last_names_
---	Arr.address_sheng = '广东省'
---	Arr.address_shi = '深圳市'
---	Arr.address_qu = '罗湖区'
---	Arr.address_area = var.account.address_area
-	Arr.note = getDeviceName()
+	Arr.address_xin = first_name_
+	Arr.address_ming = last_names_
+	Arr.address_sheng = '广东省'
+	Arr.address_shi = '深圳市'
+	Arr.address_qu = '罗湖区'
+	Arr.address_area = var.account.address_area
+	Arr.address_country = var.account.address_country
+	Arr.iphone = getDeviceName()
+	Arr.imei = sz.system.serialnumber()
 --	Arr.token = local_token()
 	log(Arr)
 	if post(url,Arr)then
 		return true
 	else
-		backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
+--		backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
 	end
 end
 
+--回传手机
+function updatePhone()
+	local sz = require("sz")
+	local url = 'http://zzaha.com/phalapi/public/'
+	local Arr={}
+	Arr.s = 'Nikesave.Phone'
+	Arr.imei = sz.system.serialnumber()
+	Arr.name = getDeviceName()
+	Arr.whos = 'whos'
+	return post(url,Arr)
+end
 
-function backId(state)
-	local postUrl = 'http://39.108.184.74/api/Public/tjj/?service=Nike.backId'
+updatePhone()
+
+function updateNikeLog(workstate)
+	local sz = require("sz")
+	local url = 'http://zzaha.com/phalapi/public/'
+	local Arr={}
+	Arr.s = 'Nikesave.Save'
+	Arr.address_mail = var.account.login
+	Arr.workstate = workstate
+	post(url,Arr)
+end
+
+function backId()
+	local postUrl = 'http://zzaha.com/phalapi/public/'
 	local postArr = {}
+	postArr.s = 'Nikeback.Back'
 	postArr.id = var.account.id
-	postArr.state = state
+	log(post(postUrl,postArr))
+end
+
+function disable()
+	local postUrl = 'http://zzaha.com/phalapi/public/'
+	local postArr = {}
+	postArr.s = 'Nikeback.disable'
+	postArr.id = var.account.id
 	log(post(postUrl,postArr))
 end
 
@@ -193,7 +187,10 @@ t['弹窗_出错了__']={ 0x000000, "-232|-70|0xaaaaaa,200|-70|0xaaaaaa", 90, 10
 t['登录_出错了']={ 0x363636, "-5|-12|0xffffff,11|14|0x363636,8|230|0xfe0000", 90, 567, 33, 732, 556 } --多点找色
 t['登录_出错了_国家/地区']={ 0x000000, "-12|0|0xffffff,-14|0|0x000000,-14|-13|0x000000,-14|13|0x000000,-14|14|0xebebeb,-121|-10|0xffffff,-124|-13|0x000000", 90, 285, 22, 467, 73 } --多点找色
 t['登录_出错了_国家/地区_中国']={ 0xfcfcfc, "-2|-2|0x1d1d1d,7|-3|0xf6f6f6,8|-7|0x131313,8|64|0xc8c7cc,8|125|0x111111,38|132|0x111111,38|133|0xe8e8e8", 90, 33, 1121, 125, 1301 } --多点找色
+t['登录_出错了_国家/地区_美国']={ 0x111111,"-69|476|0xffffff,-65|476|0x111111,578|489|0",90,9,505,735,1293 }
+
 t['登录_出错了_语言']={ 0x1b1b1b, "8|-2|0xf6f6f6,-7|-235|0x000000,315|-234|0xffffff,318|-234|0x000000", 90, 6, 7, 510, 324 } --多点找色
+t['登录_出错了_语言']={0,"-4|3|0xffffff,-4|6|0,-4|8|0xffffff,-4|11|0,-374|9|0",90,6,10,441,84}
 
 t['全屏错误_购买未成功']={0xffffff, "-21|0|0x545454,21|0|0x545454,9|10|0xffffff,1|-17|0x545454",90,601,47,746,171} --多点找色
 
@@ -219,12 +216,18 @@ function errors()
 		delay(2)
 		click(29,80)
 	elseif d('登录_出错了_国家/地区')then
-		moveTo(300,800,300,800-rd(100,200),rd(5,8))	--上滑
+		updateNikeLog('修改地区')
+		moveTo(300,800,300,800-rd(300,400),rd(20,30))	--上滑
 		delay(rd(2,3))
-		d('登录_出错了_国家/地区_中国',true)
+		if d('登录_出错了_国家/地区_美国',true)then
+		elseif d('登录_出错了_国家/地区_中国',true)then
+		end
 	elseif d('登录_出错了_语言')then
+		click(636,274)
 		click(42,1174)
 		click(376,1269,2)
+		var.account.address_country = 'US'
+		updateNike()
 	else
 		return true
 	end
@@ -238,16 +241,19 @@ local function mail_rand(length) --随机邮箱
 	local string = '';
 	local rnd
 	local s
+	local mailheader={}
+	mailheader[0] = '@shuaisports.com'
+	mailheader[1] = '@ssnms.com'
+	mailheader[2] = '@zzaha.com'
+	mailheader[3] = '@vvccb.com'
+	mailheader[4] = '@qq.com'
 	local mail_suffix = mailheader[math.random(#mailheader)]
-	if(mail_suffix == "@qq.com") then
-		char = string.sub(char,1,10)
-	end
 	for var = 1,length do
 		rnd = math.random(1,string.len(char))
 		s = string.sub(char,rnd,rnd+1)
 		string = string..s
 	end
-	return string..os.date("%S")..mail_suffix;
+	return string..os.date("%S")..myRand(4,1,2)..mail_suffix;
 end
 
 function reg()
@@ -260,11 +266,12 @@ function reg()
 	local 填地址 = true
 	local 付款信息 = true
 	local error_times = 0
+	var.account.address_country = "CN"
 	
 	firstUp = true
 	local sendsms = 0
 	
-	var.account.login = mail_rand(rd(7,10))
+	var.account.login = mail_rand(rd(4,7))
 	if UIvalues.password_key == '0' then
 		var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)..myRand(1,2)
 	else
@@ -382,7 +389,7 @@ function reg()
 				input(var.account.login)
 				delay(1)
 				d('输入您的电子邮件_保存',true)
-				backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
+--				backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
 			elseif d('主菜单_首页')then
 				if firstUp then
 					if updateNike()then
@@ -593,7 +600,6 @@ function reg()
 end
 
 
-
 t["我_设置界面_"]={ 0xfbfbfb, "-4|-2|0x0c0c0c,-4|12|0x000000,19|12|0x000000,-356|-3|0x000000", 90, 10, 46, 543, 124}
 t["我_退出登录_红"]={ 0xff3b30, "-4|128|0x007aff", 90, 244, 1073, 516, 1298}
 t['我_未激活']={ 0xb8b8b8, "-26|-21|0xffffff,23|-27|0xffffff,4|6|0xb8b8b8", 90, 601, 1253, 709, 1315 } --多点找色
@@ -642,9 +648,8 @@ t['错误_未输入密码']={ 0x8d8d8d, "-30|40|0xfe0000,550|-2|0xfe0000,307|438
 function login()
 	local timeline = os.time()
 	local outTimes = 3*60
---	log(UIvalues.day)
---	getIdUrl = 'http://wenfree.cn/api/Public/tjj/?service=Nike.getbydi'
-	getIdUrl = 'http://39.108.184.74/api/Public/tjj/?service=Nike.getId&day='..UIvalues.day.."&again="..UIvalues.again
+
+	getIdUrl = 'http://zzaha.com/phalapi/public/?s=Nikeagain.Again&again='..UIvalues.again
 	
 	local data 	= get(getIdUrl);
 	if data ~= nil then
@@ -654,15 +659,10 @@ function login()
 			var.account.pwd = data.data.address_pwd
 			var.account.phone = data.data.address_phone
 			var.account.id = data.data.id
---			log('data.data.token'..data.data.token )
-	
-			if type(data.data.token) == 'string' and UIvalues.work == "1" then 
-				var.account.token = data.data.token
-				local localPath = appDataPath(var.bid).."/Documents/ifkc.plist"
-				downFile(var.account.token, localPath)
-			else
-				var.account.token = ''
-			end
+			var.account.first_name_ = data.data.address_xin
+			var.account.last_names_ = data.data.address_ming
+			var.account.address_country = data.data.address_country
+			
 			local account_txt = "执行至 "..var.account.id .."\n账号 = "..var.account.login.."\n密码 = "..var.account.pwd
 			dialog(account_txt,2)
 			log(account_txt)
@@ -675,6 +675,7 @@ function login()
 	local loginKey = true
 	local pwdKey = true
 	local lookPwd = false
+	updateNikeLog('正在登录')
 	
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
@@ -737,7 +738,8 @@ function login()
 			elseif d('主菜单_首页') then
 				return true
 			elseif lookPwd and d('错误_密码错误')or d('错误_选对国家') then
-				backId('封号')
+				updateNikeLog('密码错误');
+				disable();
 				return false
 			else
 				log('tips')
@@ -1088,7 +1090,7 @@ t['主菜单_首页未激活']={0xffffff,"2|-21|0xb8b8b8,-14|-4|0xb8b8b8,6|1|0xb
 	
 function look()
 	local timeline = os.time()
-	local outTimes = math.random(UIvalues.look_min_time+0,UIvalues.look_max_time)
+	local outTimes = math.random(UIvalues.look_min_time+0,UIvalues.look_max_time+0)
 	
 	local bottom_ = {
 		{   93, 1284, 0x000000},
@@ -1096,6 +1098,8 @@ function look()
 		{  469, 1291, 0xb8b8b8},
 		{  652, 1284, 0xb8b8b8},
 	}
+	
+	updateNikeLog('浏览「'..outTimes..'」')
 
 	while (os.time()-timeline < outTimes) do
 		if active(var.bid,3) then
@@ -1141,14 +1145,7 @@ end
 
 
 
-if UIvalues.smsPT == "0" then
-	vCode = _vCode_ym()
-elseif UIvalues.smsPT == "1" then
-	vCode  = _vCode_lx()
-elseif UIvalues.smsPT == "2" then
-	vCode = _vCode_dm()
-end
-vCode.login()
+
 
 --logout()
 --lua_exit()
@@ -1170,8 +1167,22 @@ end
 function main()
 	while (true) do
 		
-		local vpnKey = false
+		local ui_set = updatePhone()
+		local sz = require('sz')
+		local json = sz.json
+		UIvalues = json.decode( ui_set.data.ui )
+		log(UIvalues)
 		
+		if UIvalues.smsPT == "0" then
+			vCode = _vCode_ym()
+		elseif UIvalues.smsPT == "1" then
+			vCode  = _vCode_lx()
+		elseif UIvalues.smsPT == "2" then
+			vCode = _vCode_dm()
+		end
+		vCode.login()
+		
+		local vpnKey = false
 		if UIvalues.netMode == '1' then
 			setAirplaneMode(true)
 			delay(tonumber(UIvalues.wifitime))
@@ -1201,16 +1212,17 @@ function main()
 			if UIvalues.work == "0" then
 				if reg()then
 					look()
-					logout()
+--					logout()
+					updateNikeLog('刚刚注册')
 					closeX(var.bid)
 					delay(2)
 				end
-			elseif UIvalues.work == "1" or UIvalues.work == "2" then
+			elseif UIvalues.work == "1" then
 				if login()then
 					if look()then
 						backId()
 					end
-					logout()
+--					logout()
 					closeX(var.bid)
 					delay(2)
 				end
@@ -1226,6 +1238,7 @@ while (true) do
 	local ret,errMessage = pcall(main)
 	if ret then
 	else
+		log(errMessage)
 		dialog(errMessage, 15)
 		mSleep(1000)
 		closeApp(frontAppBid())
