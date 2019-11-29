@@ -328,6 +328,7 @@ function Pantheon()
 	local 计时 = os.time()
 	local 超时 = 60*15
 	if UIdata.citySetting.wsd then
+		log('Pantheon')
 		while (os.time()-计时< 超时) do
 
 			if active(app,3)then

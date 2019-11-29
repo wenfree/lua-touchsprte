@@ -103,7 +103,8 @@ end
 function click(x,y,times,stayTime,logtxt)
 	local times = times or 1
 	local stayTime = stayTime or 0.05
-	if logtxt then
+	local logtxt = ''
+	if true or logtxt then
 		nLog("准备点击->"..logtxt.."("..x..","..y..")")
 	end
 	local offset_x = math.random(-3,3)

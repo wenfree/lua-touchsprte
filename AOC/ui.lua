@@ -446,6 +446,7 @@ aoc['回城']={}
 
 
 t['弹窗-关掉对话框']={0xf3df7c, "-7|8|0x244d58,7|8|0x244d58,7|-1|0xf3df7c,0|21|0xa2ada8",90,543,297,1132,439} --多点找色
+t['弹窗-指引提示确定']={0x249dc6, "4|-9|0xfbfdfe,10|-11|0x2099c5,-56|-14|0x289dc4",90,570,573,765,703} --多点找色
 
 --弹窗处理-----------
 function other()
@@ -550,6 +551,7 @@ function other()
 --	elseif d('tips_深渊探险新号点击',true,1)then
 	elseif UI_pic('宝箱','展开',true)then
 	elseif d('弹窗-关掉对话框',true)then
+	elseif d('弹窗-指引提示确定',true)then
 	else
 		other_click_mun = other_click_mun  or 1
 		other_click_mun = other_click_mun + 1

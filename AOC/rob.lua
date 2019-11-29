@@ -246,7 +246,7 @@ function auto_get()
 	找图失败次数 = 0
 	local 开一次地图 = true
 	local 魔镜设置 = true
-	local 公会领取_ = true
+	local 公会领取_ = false
 	
 	while (os.time()-计时< 60 * 15 ) do
 		if active(app,10)then

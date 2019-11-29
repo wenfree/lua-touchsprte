@@ -81,7 +81,7 @@ MyTable = {
             },   
 			{
                 ["type"] = "Label",
-                ["text"] = "原来的脚本设置功能全部改为服务器台后控制\n http://news.wenfree.cn",
+                ["text"] = "脚本设置功能全部改为服务器台后控制\n http://news.wenfree.cn",
                 ["size"] = 16,
                 ["align"] = "center",
                 ["color"] = "0,0,0",
