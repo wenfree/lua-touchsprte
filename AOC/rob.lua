@@ -101,19 +101,18 @@ function yiji_other()
 	delay(0.2)
 end
 
+t['荣誉标记']={0xe9ebf2, "3|-5|0xfefefe",90,244,569,325,715} --多点找色
 
 function touch_move_look()
-	touchDown(1, h/2,w/2+160)
+	touchDown(1, 543,655)
 	mSleep(100)
-	touchMove(1, h/2,w/2-155)
-	mSleep(100)
-	touchDown(1, h/2,w/2-155)
+	touchMove(1, 534,355)
 	mSleep(500)
-	if c_p(aoc['返回']['任务蓝色'],'任务蓝色',false)then
-		touchUp(1, h/2,w/2-155)
+	if d('荣誉标记',false)then
+		touchUp(1,534,355)
 		return true
 	end
-	touchUp(1, h/2,w/2-155)
+	touchUp(1, 534,355)
 end
 
 --[[]]
@@ -125,76 +124,14 @@ function find_kuang()
 	if UI_pic('新手','领取奖励',true)then
 		return false
 	end
-	
-	aoc['返回']['感叹号'][7] = 670
-	aoc['返回']['感叹号'][5] = 93
 
-	for i=1,4 do
-		if UI_pic('返回','感叹号')then
-			keepScreen(true)
-			log('第'..i..'个感叹号'..x..","..y,false,2)
-			aoc['返回']['感叹号'][7] = y - 120
-			aoc['返回']['感叹号'][5] = aoc['返回']['感叹号'][7] - 180
-			local cx,cy = x,y
-			--设置区域
-			f_x = 180
-			f_y = -39
-			f_x_x = 712
-			f_x_y = 47
-			aoc['资源']={}
-			aoc['资源']['水']={ 0x00cbe1, "-23|2|0xeceaee,-17|1|0xa5fefa", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
-			aoc['资源']['金']={ 0xe7e376, "", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
-			aoc['资源']['木']={ 0xc78b59, "", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
-			aoc['资源']['血钻']={ 0xd7121a, "", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
-			aoc['资源']['水晶']={ 0xe240d3, "", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
-			aoc['资源']['密银']={ 0x50f7ec, "14|-4|0xafffb0,19|8|0xb9ffa2", 90, x+f_x, y+f_y, x+f_x_x,y+f_x_y}
-			aoc['返回']['指向目标地']={ 0x9ea495, "1|29|0x999f82", 90, x+686, y-54, x+841, y+29}
---			aoc['资源']['魔镜']={ 0xf7f9fa, "1|0|0x15425a,3|0|0xd9e0e4,-3|0|0xe3e8eb,-3|7|0xe3e8eb", 90, x+75, y-17, x+558, y+26}
-			local zy_mun = 0
-			for k,v in pairs(aoc['资源'])do
-				if k == '水' or k == '密银' or k == '魔镜' then
-					if c_pic(v,k,false)then
-						if UIdata.resource.water and k == '水' then
-							zy_mun = zy_mun + 1
-						elseif UIdata.resource.silver and k == '密银' then
-							zy_mun = zy_mun + 1
-						end
-						zy_mun = zy_mun + 1
-					end			
-				else
-					if c_p(v,k,false)then
-						if UIdata.resource.wood and k == "木" then
-							zy_mun = zy_mun + 1
-						elseif UIdata.resource.gold and k == "金" then
-							zy_mun = zy_mun + 1
-						elseif UIdata.resource.blood and k == "血钻" then
-							zy_mun = zy_mun + 1
-						elseif UIdata.resource.crystal and k == "水晶" then
-							zy_mun = zy_mun + 1
-						end
-						zy_mun = zy_mun + 1
-					end
-				end
-			end
-			keepScreen(false)
-			if UIdata.old and zy_mun >= 2 then
-				log("准备找遗迹")
-				nLog(cx+979 ..",".. cy-25)
-				if c_pic(aoc['返回']['指向目标地'],'指向目标地',true)then
-					delay(2)
-					return true
-				end
-			elseif zy_mun == 1 then
-				nLog(cx+979 ..",".. cy-25)
-				if c_pic(aoc['返回']['指向目标地'],'指向目标地',true)then
-					delay(2)
-					return true
-				end
-			else
-				log("没有矿")
-			end
+	keepScreen(true)
+		t['木头矿']={0xfbfcf4, "-331|21|0x195869,-472|16|0xc48c59,-717|-18|0xfefefe,-718|-40|0x122a31",90,95,289,1001,714} --多点找色
+		if d('木头矿',true)then
+			return true
 		end
-	end
+	keepScreen(false)
+
 	
 	log('上滑动一次')
 	--moveTo(h/2,w/2+320-(math.random(1,100)),h/2,w/2-155,20)
@@ -232,6 +169,12 @@ function find_kuang()
 end	
 --]]
 
+
+t['返回_公会界面']={0xdfdce2, "-127|0|0x65c6dd,-717|0|0xffffff,-751|-5|0x24b3e1",90,156,91,1278,718} --多点找色
+t['返回_公会界面_可领取']={0xf8f390, "-3|4|0xf5f4f0,1|4|0xf5f5f1",90,476,176,1042,633} --多点找色
+t['返回_公会界面_赠品领取']={0xdedbe1, "37|-39|0xcc2b21",90,951,617,1049,714} --多点找色
+t['返回_公会界面_未占领']={0x787d82, "10|1|0x060e19,15|0|0x787d82,35|-11|0x787d82,-16|5|0x787d82,-20|4|0x060e19",90,471,437,1052,619} --多点找色
+
 function auto_get()
 	if not(UIdata.work)then
 		return false
@@ -246,7 +189,7 @@ function auto_get()
 	找图失败次数 = 0
 	local 开一次地图 = true
 	local 魔镜设置 = true
-	local 公会领取_ = false
+	local 公会领取_ = true
 	
 	while (os.time()-计时< 60 * 15 ) do
 		if active(app,10)then
@@ -257,6 +200,7 @@ function auto_get()
 			log('----采矿路上----')
 			delay(1)
 			if 公会领取_ and UI_pic('在地图中','城市奖励' ,true,1)then
+				delay(3)
 			elseif d('在地图界面_声望奖励提示',true,1)then
 				delay(2)
 			elseif UI('在地图中','战争结束',true,2)then
@@ -264,7 +208,6 @@ function auto_get()
 				map_time = os.time()
 				while (点矿 and (os.time() - map_time < 40)) do
 					keepScreen(true)
---					if UI_pic('地图','正在跑路',false)or UI_pic('地图','正在跑路小',false)then
 					if UI_pic('地图','正在跑路',false) then
 						delay(3)
 					else
@@ -367,19 +310,15 @@ function auto_get()
 					UI('返回','返回图标',true,1)
 				end
 			elseif d('返回_公会界面')then
-				if UI_pic('返回','城市界面')then
-					if UI_pic('返回','全部领取',true)then
-					elseif not(UI_pic('返回','全部领取灰',false))then
-						公会领取_ = false
+				if UI_pic('返回','全部领取',true)then
+				elseif d('返回_公会界面_可领取',true)then
+				elseif d('返回_公会界面_赠品领取',true)then
+				else
+					if d('返回_公会界面_未占领',true)then
 						UI('返回','返回图标',true,1)
 					else
-						UI('返回','返回图标',true,1)
+						moveTo(627,518,619,382,5)
 					end
-				elseif UI_pic('返回','赠品领取',true)then
-				elseif UI_pic('返回','公会奖励红点',true)then
-					delay(2)
-				else
-					UI('返回','返回图标',true,1)
 				end
 			else
 				UI('返回','返回图标',true,1)
