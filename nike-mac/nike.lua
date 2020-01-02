@@ -88,6 +88,8 @@ function updateNike()
 	Arr.address_country = var.account.address_country
 	Arr.iphone = getDeviceName()
 	Arr.imei = sz.system.serialnumber()
+	Arr.birthday = var.birthday
+	Arr.moon = var.moon
 --	Arr.token = local_token()
 	log(Arr)
 	if post(url,Arr)then
@@ -108,9 +110,14 @@ function updatePhone()
 	Arr.whos = 'whos'
 	return post(url,Arr)
 end
-
-updatePhone()
-
+--readUI
+function readUI()
+	local url = 'http://zzaha.com/phalapi/public/'
+	local Arr={}
+	Arr.s = 'NikeWebuI.readUI'
+	return post(url,Arr)
+end
+--updateLog
 function updateNikeLog(workstate)
 	local sz = require("sz")
 	local url = 'http://zzaha.com/phalapi/public/'
@@ -256,6 +263,16 @@ local function mail_rand(length) --随机邮箱
 	return string..os.date("%S")..myRand(4,1,2)..mail_suffix;
 end
 
+function click_random(x,y,n)
+	if n > 1 then
+		for i=1,n do
+			click(x,y,0.8)
+		end
+	else
+		click(x,y,0.8)
+	end
+end
+
 function reg()
 	local timeline = os.time()
 	local outTimes = 10*60
@@ -271,9 +288,9 @@ function reg()
 	firstUp = true
 	local sendsms = 0
 	
-	var.account.login = mail_rand(rd(4,7))
+	var.account.login = mail_rand(rd(2,3))
 	if UIvalues.password_key == '0' then
-		var.account.pwd = myRand(4,1,1)..myRand(4,3,2)..myRand(4,5,2)..myRand(1,2)
+		var.account.pwd = myRand(4,1,1)..myRand(4,2,2)..myRand(4,2,2)..myRand(1,2)
 	else
 		var.account.pwd = UIvalues.password
 	end
@@ -314,6 +331,8 @@ function reg()
 								if sms ~= "" then
 									log(sms,true)
 									inputword(sms)
+									delay(2)
+									d('弹窗_输入的完成',true)
 									验证码 = false
 									登录 = true
 								else
@@ -332,31 +351,42 @@ function reg()
 						local str_len = utf8.len(first_names)
 						local str_rnd = (math.random(1,str_len) -1) * 3
 						first_name_ = utf8.char(utf8.codepoint(first_names,str_rnd + 1,str_rnd + 2))
-						input('\b\b\b\b\b\b\b\b\b\b')
+						clearTxt()
 						input(first_name_)
 						d('弹窗_输入的完成',true)
 					elseif i == 2 then
 						local str_len = utf8.len(last_names)
 						local str_rnd = (math.random(1,str_len) -1) * 3
 						last_names_ = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2 + rd(0,1)*3 ))
-						input('\b\b\b\b\b\b\b\b\b\b')
+						clearTxt()
 						input(last_names_)
 						d('弹窗_输入的完成',true)
 					elseif i == 3 then
-						input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
+						clearTxt()
 						input(var.account.pwd)
 						d('弹窗_输入的完成',true)
 						if d('创建您的NIKE帐户_出生日期',true,1,3)then
-							for i=1,rd(9,13) do
-								click(228,1001,0.3)
+							var.birthday = ''
+							var.year = os.date(os.date("%Y"))
+							var.moon = os.date(os.date("%m"))
+							var.day = os.date("%d")
+							local rd__ = rd(9,14)
+							click_random(228,1001,rd__)
+							var.year = (var.year+1-rd__*2)
+							local rd__ = rd(2,5)
+							click_random(364,1053,rd__)
+							var.moon = var.moon-rd__
+							if var.moon <= 0 then
+								var.moon = var.moon + 12
 							end
-							for i=1,rd(2,5)do
-								click(366,1002,0.2)
+							local rd__ = rd(2,5)
+							click_random(508,1053,rd__)
+							var.day = var.day-rd__
+							if var.day <= 0 then
+								var.day = var.day + 30
 							end
-							for i=1,rd(2,5)do
-								click(515,1004,0.2)
-							end
-							click(681,861)
+							var.birthday = var.year ..'-'.. var.moon ..'-'.. var.day
+							click(681,861);
 						end
 					end
 					delay(1)
@@ -368,15 +398,26 @@ function reg()
 			elseif d('输入您的生日') or d('输入您的出生日期')then
 				click(182,404,2)
 				if d('弹窗_输入的完成')then
-					for i=1,rd(9,13) do
-						click(228,1001,0.3)
+					var.birthday = ''
+					var.year = os.date(os.date("%Y"))
+					var.moon = os.date(os.date("%m"))
+					var.day = os.date("%d")
+					local rd__ = rd(9,14)
+					click_random(228,1001,rd__)
+					var.year = (var.year+1-rd__*2)
+					local rd__ = rd(2,5)
+					click_random(364,1053,rd__)
+					var.moon = var.moon-rd__
+					if var.moon <= 0 then
+						var.moon = var.moon + 12
 					end
-					for i=1,rd(2,5)do
-						click(366,1002,0.2)
+					local rd__ = rd(2,5)
+					click_random(508,1053,rd__)
+					var.day = var.day-rd__
+					if var.day <= 0 then
+						var.day = var.day + 30
 					end
-					for i=1,rd(2,5)do
-						click(515,1004,0.2)
-					end
+					var.birthday = var.year ..'-'.. var.moon ..'-'.. var.day
 				end
 				if d('弹窗_输入的完成',true)then
 					click(  373,  562)
@@ -385,7 +426,7 @@ function reg()
 				d('输入您的电子邮件_保存',true)
 			elseif d('输入您的电子邮件')then
 				click(639,408)
-				input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
+				clearTxt()
 				input(var.account.login)
 				delay(1)
 				d('输入您的电子邮件_保存',true)
@@ -429,8 +470,9 @@ function reg()
 				elseif d('配送地址_添加成功',true)then
 					填地址 = false
 				elseif d('配送地址_添加地址',false)then
+					updateNikeLog('填地址');
 					local inputf = function(txt)
-									input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
+--									clearTxt()
 --									inputText(txt)
 									inputStr(txt)
 									d('弹窗_输入地址的完成',true)
@@ -460,7 +502,7 @@ function reg()
 							last_names_ = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2 + rd(0,1)*3 ))
 							inputf(last_names_ or '三')
 						elseif i == 3 then
-							input('\b\b\b\b\b\b\b\b\b\b\b\b\b')
+							clearTxt()
 							inputword(var.account.phone or myRand(2))
 							d('弹窗_输入地址的完成',true)
 						elseif i == 4 or i == 5 or i == 6 then
@@ -518,6 +560,7 @@ function reg()
 					d('配送地址_添加地址',true)
 				
 				elseif d('个人页面_通知开启')then
+					updateNikeLog('通知开启');
 					delay(3)
 					click(30,83)
 					d('个人页面',true,4)
@@ -533,7 +576,7 @@ function reg()
 					d('个人页面_姓别',true)
 			
 					if d('个人页面_未设头像',true)then
-					
+						updateNikeLog('设头像');
 					elseif d('个人页面_鞋码选择',true)then
 						if d('个人页面_鞋码滑表')then
 							for i=1,rd(1,6) do
@@ -637,6 +680,9 @@ function logout()
 	end
 end
 
+local degree = 85
+
+t['主界面_登录NIKE帐号']={0x363636,"-244|83|0xffffff,-239|78|0x111111,-246|86|0x111111,-459|78|0x111111,-453|83|0xffffff",90,106,16,730,255}
 
 t['错误_登录失败']={ 0xfe2020, "249|-7|0xfe0000,324|-2|0xfe0000", 90, 20, 140, 723, 703 } --多点找色
 t['错误_选对国家']={ 0x000000, "-72|-5|0xffffff,-339|1|0x000000,340|49|0xb2b2b2", 90, 8, 48, 733, 165 } --多点找色
@@ -649,7 +695,7 @@ function login()
 	local timeline = os.time()
 	local outTimes = 3*60
 
-	getIdUrl = 'http://zzaha.com/phalapi/public/?s=Nikeagain.Again&again='..UIvalues.again
+	getIdUrl = 'http://zzaha.com/phalapi/public/?s=Nikeagain.Again&again='..UIvalues.again..'&name='..getDeviceName()
 	
 	local data 	= get(getIdUrl);
 	if data ~= nil then
@@ -682,6 +728,7 @@ function login()
 			if d('开屏登录',true)then
 				delay(5)
 			elseif d('错误_验证手机号')then
+				updateNikeLog('重新认证');
 				var.account.phone =  vCode.getPhone()
 				if var.account.phone then
 					t['验证你的手机号_手机号码']={ 0xb3b3b3, 
@@ -689,7 +736,7 @@ function login()
 					
 					if d('验证你的手机号_手机号码',false)then
 						click(  471,  503 ,rd(3,5))
-						input("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b")
+						clearTxt()
 						inputword(var.account.phone)
 						delay(3)
 					end
@@ -712,29 +759,41 @@ function login()
 				if var.account.phone and d('验证你的手机号_继续',true)then
 					delay(rd(8,10))
 				end
-
-			elseif d('登录Nike+帐号')then
+			elseif d('登录Nike+帐号') or d('主界面_登录NIKE帐号')then
 				if d('登录Nike+帐号_使用电子邮件登录',true)then
 					delay(3)
 				elseif loginKey and d('登录Nike+帐号_电子邮件',true)then
+					updateNikeLog('输入帐号..');
 					delay(rd(2,3))
-					input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
+					clearTxt()
 					input(var.account.login)
 					delay(3)
-					loginKey = false
+					if d('登录Nike+帐号_密码',true)then
+						updateNikeLog('输入密码..');
+						delay(3)
+						input(var.account.pwd)
+						loginKey = false
+						pwdKey = false
+						lookPwd = true
+						d('弹窗_输入的完成',true)
+					end
 				elseif pwdKey and d('登录Nike+帐号_密码',true)then
+					updateNikeLog('输入密码..');
 					delay(3)
 					input(var.account.pwd)
 					pwdKey = false
 					lookPwd = true
+					
 				else
-					if d('登录Nike+帐号',true)then
+					if d('登录Nike+帐号_继续',true) or d('登录Nike+帐号',true)then
 						delay(rd(8,10))
 					end
 				end
 			elseif d("错误_未输入密码",true)then
 				input(var.account.pwd)
+				updateNikeLog('登录遇到错误');
 				delay(2)
+				return false
 			elseif d('主菜单_首页') then
 				return true
 			elseif lookPwd and d('错误_密码错误')or d('错误_选对国家') then
@@ -958,7 +1017,7 @@ function buy()
 				elseif d('弹窗_添加配送地址',true)then
 				elseif d('弹窗_继续选择码_继续黑') and d('弹窗_添加配送地址_上部分')then
 					local inputf = function(txt)
-									input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
+									clearTxt()
 --									inputText(txt)
 									inputStr(txt)
 									d('弹窗_输入地址的完成',true)
@@ -1166,12 +1225,21 @@ end
 
 function main()
 	while (true) do
+		--更新手机设置
+		updatePhone()
 		
-		local ui_set = updatePhone()
-		local sz = require('sz')
-		local json = sz.json
-		UIvalues = json.decode( ui_set.data.ui )
-		log(UIvalues)
+		local ui_set = readUI()
+		if ui_set then
+			local sz = require('sz')
+			local json = sz.json
+			UIvalues = json.decode( ui_set.data.webui )
+			log(UIvalues)
+		else
+			setAirplaneMode(true)
+			delay(30)
+			setAirplaneMode(false)
+			delay(30)
+		end
 		
 		if UIvalues.smsPT == "0" then
 			vCode = _vCode_ym()
@@ -1180,7 +1248,10 @@ function main()
 		elseif UIvalues.smsPT == "2" then
 			vCode = _vCode_dm()
 		end
-		vCode.login()
+		--登录打码平台
+		if UIvalues.smsPT ~= "3" then
+			vCode.login()
+		end
 		
 		local vpnKey = false
 		if UIvalues.netMode == '1' then
@@ -1203,6 +1274,7 @@ function main()
 		
 			if UIvalues.clearMode == '0' then
 				sys.clear_bid(var.bid)
+				delay(1)
 			elseif UIvalues.clearMode == '1' then
 				awzNew()
 			elseif UIvalues.clearMode == '2' then
@@ -1229,10 +1301,10 @@ function main()
 			end
 			
 		end
-
 		vpnx()
 	end
 end
+
 
 while (true) do
 	local ret,errMessage = pcall(main)
