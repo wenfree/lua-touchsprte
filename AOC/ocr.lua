@@ -163,14 +163,13 @@ end
 
 --取帐空闲帐号
 function AccountInfoBack()
-	
+
 	local sz = require("sz")
 	local url = 'http://dajin.yzdingding.com/phalapi/public/'
 	local postArr = {}
 	postArr.s="App.Wadd.Get_rest"
-	postArr.whos = UI_v.whos
---	postArr.whos = "ouwen000"
-	local game_data = post(url,postArr)
+--	postArr.whos = UI_v.whos
+--	local game_data = post(url,postArr)
 
 	local json = sz.json	
 	if game_data then
@@ -186,9 +185,9 @@ function AccountInfoBack()
 	local appbid = 'com.lilithgame.sgame'
 	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"
 	
---	app_token = "XArb23vYY3cZ0UBdGgzC2TfSY9NENGFO"
---	app_uid = "20989372"
---	player_id = "C528661B-AD8F-4656-A0D6-1C31A5B0DC53"
+	app_token = "flHgL40uaDexiq7UppjTkZ5VeZkltdJn"
+	app_uid = "22552109"
+	player_id = "B4C9944C-B001-4806-A3FF-821DB4E31344"
 	
 	local account_ = {}
 	account_['app_token'] = app_token
@@ -198,14 +197,14 @@ function AccountInfoBack()
 	account_['nickname'] = "游客"
 	account_['user_type'] = 1
 
-
-	
 	account_ = json.encode(account_)
 	account_ = "["..account_.."]"
 
-	log(account_)
-	
+	require("TSLib")
+	require("tsp")
+
 	writeFileString(AccountInfo,account_)
+	log(account_)
 	closeApp(appbid)
 	mSleep(2000)
 end

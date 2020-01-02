@@ -370,6 +370,7 @@ aoc['other']={}
 	
 	aoc['other']['资源例表']={{709,140,0xf4d765}, {375,298,0xfe4546}, {608,307,0xb8fdb1}, {809,305,0x5e41dc}, }
 	aoc['other']['绿色赠品']={{665,510,0x8cef44},{606,483,0x47bf4b},{744,485,0x32b83f},}
+	t['tips_绿色赠品']={0x80e941, "-51|-21|0x44ab5c,-17|-17|0xfefefe,-38|0|0x6bdf42",90,190,338,1133,463} --多点找色
 	aoc['other']['决战之颠']={{710,692,0x4ace3a},{1091,41,0xd22d0a},{806,45,0xd22d0a},}
 	aoc['other']['打开礼物']={ 0xe9e0ef, "-1|-8|0x3b9346,32|0|0x4ac845,159|-21|0x14874b", 90, 690, 621, 897, 678}
 	aoc['other']['捡到英雄']={{710,677,0x40c7b9}, {739,656,0x2299bb}, {636,652,0x2c92ba}, }
@@ -530,6 +531,7 @@ function other()
 	elseif d('弹窗_魔像弹窗')then
 		click(40,40)
 	elseif UI('other','绿色赠品',true,1)then
+	elseif d('tips_绿色赠品',true,1)then
 	elseif d('弹窗_报名活动_选择参赛时间',true)then
 	elseif UI('other','捡到英雄',true,1)then
 	elseif UI_pic('other','领取_',true,1)then
