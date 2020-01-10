@@ -13,7 +13,38 @@ var.phone = '15033485259'
 var.password = 'AaDd112211'
 t={}
 
-
+sys = {
+	clear_bid = (function(bid)
+		closeApp(bid)
+		delay(1)
+		os.execute("rm -rf "..(appDataPath(bid)).."/Documents/*") --Documents
+		os.execute("rm -rf "..(appDataPath(bid)).."/Library/*") --Library
+		os.execute("rm -rf "..(appDataPath(bid)).."/tmp/*") --tmp
+		clearPasteboard()
+		--[[
+		local path = _G.const.cur_resDir
+		os.execute(
+			table.concat(
+				{
+					string.format("mkdir -p %s/keychain", path),
+					'killall -SIGSTOP SpringBoard',
+					"cp -f -r /private/var/Keychains/keychain-2.db " .. path .. "/keychain/keychain-2.db",
+					"cp -f -r /private/var/Keychains/keychain-2.db-shm " .. path .. "/keychain/keychain-2.db-shm",
+					"cp -f -r /private/var/Keychains/keychain-2.db-wal " .. path .. "/keychain/keychain-2.db-wal",
+					'killall -SIGCONT SpringBoard',
+				},
+				'\n'
+			)
+		)
+		
+		]]
+		clearAllKeyChains()
+		clearIDFAV() 
+		--clearCookies()
+		delay(2)
+		return true
+	end)
+}
 
 
 --get函数
@@ -201,6 +232,7 @@ function reg()
 				return true
 			elseif d('已经注册-世纪侍缘') or d('已经注册-免费打招呼') or d('已经注册-上传头像',true) then
 				dxcode.addBlack()
+				up('注册过拉黑')
 				return false
 			end
 		end
@@ -227,26 +259,20 @@ require("AWZ")
 
 
 function all()
-vpn.off()
-delay(2)
-while true do
---	setAirplaneMode(true)
---	delay(30)
---	setAirplaneMode(false)
---	delay(30)
-	if  false or vpn.on() then
 
-		if awzNew()then
-			if reg()then
-				up('完整注册')
+	while true do
+
+		if  true or vpn.on() then
+
+			if sys.clear_bid(var.appbid)then
+				if reg()then
+					up('完整注册')
+				end
 			end
+
 		end
 
 	end
-
-	vpn.off()
-	delay(2)
-end
 end
 
 while (true) do
