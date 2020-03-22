@@ -1,9 +1,3 @@
--- 积分墙对接
--- tsp.lua  
-
--- Create By TouchSpriteStudio on 13:47:02   
--- Copyright © TouchSpriteStudio . All rights reserved.
-
 width,hight=getScreenSize()
 nLog(width..'*'..hight)
 
@@ -12,43 +6,34 @@ nLog(width..'*'..hight)
 function print_r(t)
 	local print_r_cache={}
 	local function sub_print_r(t,indent)
+		mSleep(200);
 		if (print_r_cache[tostring(t)]) then
 			nLog(indent.."*"..tostring(t))
-			mSleep(50);
 		else
 			print_r_cache[tostring(t)]=true
 			if (type(t)=="table") then
 				for pos,val in pairs(t) do
 					if (type(val)=="table") then
 						nLog(indent.."["..pos.."] = "..tostring(t).." {")
-						mSleep(50);
 						sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
 						nLog(indent..string.rep(" ",string.len(pos)+6).."},")
-						mSleep(50);
 					elseif (type(val)=="string") then
 						nLog(indent..'["'..pos..'"] = "'..val..'",')
-						mSleep(50);
 					else
 						nLog(indent..'["'..pos..'"] = "'..tostring(val)..'"')
-						mSleep(50);
 					end
 				end
 			else
 				nLog(indent..tostring(t))
-				mSleep(100);
 			end
-			mSleep(500);
 		end
 	end
 	if (type(t)=="table") then
 		nLog(tostring(t).." {")
-		mSleep(100);
 		sub_print_r(t,"  ")
 		nLog("}")
-		mSleep(100);
 	elseif (type(t)=="string") then
 		nLog(t)
-		mSleep(100);
 	end
 end
 --解锁
@@ -246,6 +231,10 @@ end
 --多点验证比色-end
 function d(name,clicks,oder,logTxt,s,stayTime)
 --	print_r(t[name])
+	if t[name] == nil then
+		log(name);
+		lua_exit();
+	end
 	if type(t[name][1]) == 'table' then
 		return 多点比色(name,clicks,oder,logTxt,s,stayTime)
 	else
@@ -450,7 +439,6 @@ function readFile(path)
         return _list
     end
 end
---list = readFile("/User/Media/TouchSprite/lua/wechat-reply.txt");
 --参数说明：path为要读取文件的路径。
 --返回值：返回一个table。
 
@@ -653,9 +641,9 @@ function post(url,arr)
 	local headers = {}
 	headers['User-Agent'] = safari
 	headers['Referer'] = url
-	local headers_send = cjson.encode(headers)
-	local post_send = cjson.encode(arr)
-	local post_escaped = http.build_request(post_send)
+	headers_send = cjson.encode(headers)
+	post_send = cjson.encode(arr)
+	post_escaped = http.build_request(post_send)
 	log(post_send)
 	local status_resp, headers_resp, body_resp = http.post(url, 5, headers_send, post_escaped)
 	log(status_resp)
@@ -719,16 +707,18 @@ function clearTxt()
 	keyUp("Clear")
 end
 
+
+
 log('基础函数加载完成')
 local deskbid=frontAppBid();
 if deskbid == nil or deskbid == '' then
 	log('com.apple.springbord')
 else
-	log('前端bid:'..deskbid)
+	log(deskbid)
 end
 
 
---input('5C487985B96440C6AEDE7D679B52CC92723E058C')
+
 
 
 

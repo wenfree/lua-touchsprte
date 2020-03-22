@@ -16,17 +16,17 @@ local var={}
 local jfq={}
 jfq.url = 'https://m.applyape.com/api/'
 jfq.model = ''
-jfq.adid = '217490'
-jfq.appid = '1476137545'
-jfq.kid	= '贵州石油'
+jfq.adid = '217655'
+jfq.appid = '1492988924'
+jfq.kid	= '加油'
 jfq.idfa = ''
 jfq.os_version = ''
 jfq.device = 'iPhone10,2'
 jfq.source = 'pengzhi'
 jfq.udid = ''
 jfq.callback = false
-jfq.name = '51车主加油'
-jfq.bid = 'com.chezhu.chezhu'
+jfq.name = '加油之家加油'
+jfq.bid = 'com.oilHome.www'
 
 
 function start()
@@ -142,7 +142,7 @@ end
 
 function all()
 	vpnx()
-	if(vpn())then
+	if false or (vpn())then
 		awzNew()
 		start()
 		if (idfa_idfaPc())then

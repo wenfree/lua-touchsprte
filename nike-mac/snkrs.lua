@@ -90,14 +90,13 @@ function updateNike()
 	Arr.imei = sz.system.serialnumber()
 	Arr.birthday = var.birthday
 	Arr.moon = var.moon
---	Arr.token = local_token()
+	Arr.codes = var.codes
 	log(Arr)
 	if post(url,Arr)then
 		return true
-	else
---		backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
 	end
 end
+
 
 --回传手机
 function updatePhone()
@@ -108,13 +107,6 @@ function updatePhone()
 	Arr.imei = sz.system.serialnumber()
 	Arr.name = getDeviceName()
 	Arr.whos = 'whos'
-	return post(url,Arr)
-end
---readUI
-function readUI()
-	local url = 'http://zzaha.com/phalapi/public/'
-	local Arr={}
-	Arr.s = 'NikeWebuI.readUI'
 	return post(url,Arr)
 end
 --updateLog
@@ -133,6 +125,15 @@ function backId()
 	local postArr = {}
 	postArr.s = 'Nikeback.Back'
 	postArr.id = var.account.id
+	log(post(postUrl,postArr))
+end
+
+function backphone()
+	local sz = require("sz")
+	local postUrl = 'http://zzaha.com/phalapi/public/'
+	local postArr = {}
+	postArr.s = 'Nikesave.phoneback'
+	postArr.imei = sz.system.serialnumber()
 	log(post(postUrl,postArr))
 end
 
@@ -229,12 +230,12 @@ function errors()
 		if d('登录_出错了_国家/地区_美国',true)then
 		elseif d('登录_出错了_国家/地区_中国',true)then
 		end
-	elseif d('登录_出错了_语言')then
-		click(636,274)
-		click(42,1174)
-		click(376,1269,2)
-		var.account.address_country = 'US'
-		updateNike()
+--	elseif d('登录_出错了_语言')then
+--		click(636,274)
+--		click(42,1174)
+--		click(376,1269,2)
+--		var.account.address_country = 'US'
+--		updateNike()
 	else
 		return true
 	end
@@ -290,11 +291,14 @@ function reg()
 	
 	var.account.login = mail_rand(rd(2,3))
 	if UIvalues.password_key == '0' then
-		var.account.pwd = myRand(4,1,1)..myRand(4,2,2)..myRand(4,2,2)..myRand(1,2)
+		var.account.pwd = myRand(3,1,1)..myRand(3,2,2)..myRand(3,2,2)..myRand(1,3)
+		log(var.account.pwd)
+--		lua_exit()
 	else
 		var.account.pwd = UIvalues.password
 	end
 
+	degree = 90
 	t['登录Nike+帐号']={ 0x000000, "-185|94|0x111111,296|766|0x000000,218|90|0xffffff,213|85|0x111111", 90, 14, 14, 727, 1024}
 	t['登录Nike+帐号_发送验证码']={ 0xe5e5e5, "13|-9|0xe5e5e5,4|-5|0x111111,19|-12|0x111111,-61|-28|0xe5e5e5", 90, 503, 323, 719, 724}
 	t['输入您的电子邮件']={0x363636, "-124|92|0xf0f0f0,-123|91|0x111111,-124|108|0xffffff,-123|107|0x111111,-197|104|0xffffff,-198|102|0x111111",90,102,3,716,238} --多点找色
@@ -302,14 +306,21 @@ function reg()
 	t['输入您的出生日期']={0x363636, "-119|89|0xffffff,-120|90|0x333333,-124|78|0x111111,-169|84|0xf6f6f6,-168|82|0x111111,-191|114|0xf8f8f8,-192|123|0x111111",90,148,24,725,246} --多点找色
 	t['创建您的NIKE帐户_男子']={0x939393, "-1|-17|0x8d8d8d,-26|-49|0xe5e5e5,37|29|0xe5e5e5",90,47,724,373,1156} --多点找色
 	t['创建您的NIKE帐户_男子_']={0x8d8d8d, "-144|-43|0xfe0000,121|34|0xfe0000",90,46,545,376,1225} --多点找色
-	t['创建您的NIKE帐户_男子__']={0x939393, "0|-9|0x939393,-58|-49|0xe5e5e5,67|-49|0xe5e5e5,10|29|0xe5e5e5",90,39,689,366,1093} --多点找色
+	t['创建您的NIKE帐户_男子__']={0x939393, "0|-9|0x939393,-58|-49|0xe5e5e5,67|-49|0xe5e5e5,10|29|0xe5e5e5",90,39,400,366,1093} --多点找色
 	t['创建您的NIKE帐户_注册']={0xffffff, "-293|-31|0x000000,-293|36|0x000000,327|-34|0x000000",90,30,1056,715,1333} --多点找色
 	t['创建您的NIKE帐户_出生日期']={0x8d8d8d, "0|-6|0xffffff,0|-10|0x8d8d8d,0|-20|0x8d8d8d,0|-52|0xe5e5e5,0|25|0xe5e5e5",90,77,563,211,778} --多点找色
+	t['继续——按钮'] = { 0xffffff,"-323|-38|0,275|29|0,291|-597|0x363636,291|-606|0xffffff",degree,27,22,727,847}
+	t['填完资料，点注册'] = { 0xffffff,"0|-5|0,304|-32|0,-317|-34|0,286|39|0,259|140|0x8d8d8d,-260|-258|0xbcbcbc",degree,14,492,736,1168}
+	t['填完资料，点注册2'] = { 0xffffff,"-298|-39|0,323|-39|0,310|36|0,15|99|0,313|129|0xffffff",degree,22,710,733,1328}
 	
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
-			if d('开屏登录',true,2)then
-			elseif d('登录Nike+帐号') or d('登录Nike+帐号_红框') then
+			if d('继续——按钮',true,1,5)then
+			elseif d('填完资料，点注册',false,2)then
+				click(384,922)
+				d('填完资料，点注册',true,1,5)
+			elseif d('开屏登录',true,2)then
+			elseif d('登录Nike+帐号') then
 				if 取号 then
 					var.account.phone =  vCode.getPhone()
 					if var.account.phone then
@@ -326,7 +337,8 @@ function reg()
 						if sendsms >= 2 then
 							return false
 						else
-							if d('登录Nike+帐号_发送验证码',true)then
+							if d('登录Nike+帐号_发送验证码',true,1,2)then
+								click(254,508,2)
 								sms = vCode.getMessage()
 								if sms ~= "" then
 									log(sms,true)
@@ -393,8 +405,9 @@ function reg()
 				end
 				d('创建您的NIKE帐户_男子',true)
 				d('创建您的NIKE帐户_男子_',true)
-				d('创建您的NIKE帐户_男子__',true)
+--				d('创建您的NIKE帐户_男子__',true)
 				d('创建您的NIKE帐户_注册',true,1,4)
+				d('填完资料，点注册2',true,1,5)
 			elseif d('输入您的生日') or d('输入您的出生日期')then
 				click(182,404,2)
 				if d('弹窗_输入的完成')then
@@ -508,11 +521,11 @@ function reg()
 						elseif i == 4 or i == 5 or i == 6 then
 							delay(2)
 							if i == 4 then
-								clici__i = rd(1,30)
+								clici__i = rd(9,9)
 							elseif i == 5 then
-								clici__i = rd(1,6)
+								clici__i = rd(6,6)
 							elseif i == 6 then
-								clici__i = rd(1,6)
+								clici__i = rd(7,7)
 							end
 							for i_=1,clici__i do
 								click(382,1181,0.5)
@@ -691,11 +704,14 @@ t['错误_验证手机号']={ 0xefefef, "537|-6|0xe5e5e5,-22|329|0x000000,604|25
 t['错误_密码错误']={ 0xffffff, "-1|1|0xfe0a0a,312|-214|0x363636,300|552|0x000000", 90, 28, 62, 720, 910}
 t['错误_未输入密码']={ 0x8d8d8d, "-30|40|0xfe0000,550|-2|0xfe0000,307|438|0x000000,27|88|0xfe0000,28|88|0xfff1f1", 90, 13, 355, 713, 928}
 
+t['登录界面n_电子邮件'] = { 0x8f8f8f,"3|5|0xffffff,14|20|0x8d8d8d,155|-2|0x8d8d8d,155|19|0x8d8d8d,152|8|0xffffff,149|3|0x8d8d8d",degree,84,244,701,472}
+t['登录界面n_密码'] = { 0x8d8d8d,"18|0|0x8d8d8d,1|-18|0xffffff,-2|-20|0x8d8d8d,43|-21|0x8d8d8d,42|-5|0x8d8d8d,42|-1|0xffffff,43|1|0x8d8d8d",degree,85,361,155,484}
+
 function login()
 	local timeline = os.time()
 	local outTimes = 3*60
 
-	getIdUrl = 'http://zzaha.com/phalapi/public/?s=Nikeagain.Again&again='..UIvalues.again..'&name='..getDeviceName()
+	getIdUrl = 'http://zzaha.com/phalapi/public/?s=Nikeagain.Again&again='..UIvalues.again..'&sms='..UIvalues.sms..'&name='..getDeviceName()
 	
 	local data 	= get(getIdUrl);
 	if data ~= nil then
@@ -713,6 +729,7 @@ function login()
 			dialog(account_txt,2)
 			log(account_txt)
 		else
+			backphone();
 			dialog("暂无帐号", 60*3)
 			return false
 		end
@@ -733,7 +750,6 @@ function login()
 				if var.account.phone then
 					t['验证你的手机号_手机号码']={ 0xb3b3b3, 
 						"8|-4|0xffffff,8|-6|0xa9a9a9,17|-22|0xa9a9a9,-83|-15|0xa9a9a9,-83|-12|0xffffff,-66|-9|0xa9a9a9,-49|-15|0xffffff,-45|-19|0xfafafa", 90, 155, 475, 514, 537}
-					
 					if d('验证你的手机号_手机号码',false)then
 						click(  471,  503 ,rd(3,5))
 						clearTxt()
@@ -762,33 +778,23 @@ function login()
 			elseif d('登录Nike+帐号') or d('主界面_登录NIKE帐号')then
 				if d('登录Nike+帐号_使用电子邮件登录',true)then
 					delay(3)
-				elseif loginKey and d('登录Nike+帐号_电子邮件',true)then
+				elseif d('登录界面n_电子邮件',true)then
 					updateNikeLog('输入帐号..');
 					delay(rd(2,3))
 					clearTxt()
 					input(var.account.login)
-					delay(3)
-					if d('登录Nike+帐号_密码',true)then
-						updateNikeLog('输入密码..');
-						delay(3)
-						input(var.account.pwd)
-						loginKey = false
-						pwdKey = false
-						lookPwd = true
-						d('弹窗_输入的完成',true)
-					end
-				elseif pwdKey and d('登录Nike+帐号_密码',true)then
+				elseif d('登录界面n_密码',true)then
 					updateNikeLog('输入密码..');
 					delay(3)
 					input(var.account.pwd)
 					pwdKey = false
 					lookPwd = true
-					
 				else
 					if d('登录Nike+帐号_继续',true) or d('登录Nike+帐号',true)then
 						delay(rd(8,10))
 					end
 				end
+				d('弹窗_输入的完成',true)
 			elseif d("错误_未输入密码",true)then
 				input(var.account.pwd)
 				updateNikeLog('登录遇到错误');
@@ -861,288 +867,6 @@ t['分享按钮']={ 0x000000, "-2|-8|0xffffff,-1|-8|0x000000,0|-13|0x000000,-2|9
 				90, 247, 418, 312, 1221}
 
 
-function buy()
-	local timeline = os.time()
-	local outTimes = 10*60
-	
-	local stateKey = '精选'
-	local showmode = '小图'
-	local lookPage = false
-	local liksreds = false
-	local frisdown = true
-	local hotSalls = 0
-	local 精选times = 0
-	local but_other_tips = 0
-	local share_key = true
-	
-	
-	while os.time()-timeline < outTimes do
-		if active(var.bid,3) then
-			if d('主菜单_首页') then
-				if d('精选激活中')then
-					stateKey = '精选'
-					if 精选times == 0 then
-						moveTo(300,300,300,300+rd(300,500),rd(5,20))
-						精选times = 1
-					end
-					delay(rd(5,8))
-					click(366,90)
-				elseif d('热卖激活中',true)then
-					stateKey = '热卖'
-
-					hotSalls = hotSalls + 1
-					if hotSalls > 10 then
-						closeApp(var.bid)
-						delay(1)
-						hotSalls = 0
-					end
-
-					if d('热卖激活中_切换模式',true)then
-					elseif showmode == '大图' then
-						for i=1,rd(3,20) do
-							moveTo(300,900,300,900-rd(300,500),rd(5,20))
-							delay(rd(10,20)/100)
-							log('向下滑动',true)
-						end
-						delay(2)
-						if not(d('热卖激活中_没有第二个商品'))then
-							d('热卖激活中_大图模式',true)
-						end
-					elseif d('热卖激活中_大图模式') then
-						showmode = '大图'
-					end
-				elseif liksreds and d('鞋子详情页面')then
-					log('liksreds')
-					if d('鞋子详情页面_下单按钮')then
-						click(82,1187)
-					else
-						click(82,1187)
-					end
-				elseif lookPage then
-					log('lookPage')
-					if liksreds then
-						if d('鞋子详情页面_下单按钮',true)then
-						else
-							moveTo(300,300,300,300+rd(500,600),rd(10,30))
-						end
-					elseif d('鞋子详情页面_心',true)then
-					elseif d('鞋子详情页面_心_点亮')then
-						if share_key then
-							if d("分享按钮",true)then
-								delay(3)
-								t["微信朋友圈"]={ 0x9fce16, "-212|-35|0x3bbb07,223|45|0xf9cb1e", 90, 18, 935, 733, 1319}
-								if d('微信朋友圈',true)then
-									delay(8)
-									t["发表按钮"]={ 0x07c160, "1|-9|0xffffff,-5|-21|0x07c160", 90, 542, 42, 744, 139}
-									if d("发表按钮",true)then
-										delay(5)
-									end
-									share_key = false
-								end
-							end
-						else
-							for i=1,rd(2,3) do
-								moveTo(300,300,300,600+rd(300,500),rd(15,20))
-								delay(1)
-							end
-							liksreds = true
-						end
-					else
-						if d('未收藏的鞋子',true)then
-							showmode = '小图'
-						else
-							moveTo(300,900,300,900-rd(200,300),rd(5,10))
-							delay(2)
-						end
-					end
-				elseif d('鞋子详情页面')then
-					lookPage = true
-				elseif showmode == '大图' then
-					for i=1,rd(2,5) do
-						moveTo(300,900,300,900-rd(300,500),rd(5,20))
-						delay(2)
-					end
-					log('准备找鞋子')
-					if d('未收藏的鞋子',true)then
-						showmode = '小图'
-					end
-				elseif showmode == '小图' then
-					moveTo(300,500,300,500+rd(300,500),rd(5,20))
-					delay(2)
-				end
-			elseif d('搜索页面_取消',true)then
-			elseif d('为你的订单付款_x',true) or d("为你的订单付款_x_wechat",true) then
---				updateNike()
-				return true
-			else
-				log('tips-buy')
-				if d('弹窗_右上角的x',true)then
-				elseif d('弹窗_普通达',true)then
-				elseif d('弹窗_删除错误地址',false)  and d('弹窗_删除错误地址_红色框')then
-					
-					for i = 4,6 do
-						delay(2)
-						if i == 4 then
-							click(  139,  650,2)
-							clici__i = rd(1,30)
-						elseif i == 5 then  
-							click(  354,  650,2)
-							clici__i = rd(1,6)
-						elseif i == 6 then
-							click(    608,  653,2)
-							clici__i = rd(1,6)
-						end
-						for i_=1,clici__i do
-							click(382,1181,0.5)
-						end
-						d('弹窗_输入地址的完成',true)
-					end
-					
-					t['修改地址_完成']={ 0xffffff, "0|-2|0x1a1a1a,-329|-48|0x1a1a1a,353|45|0x1a1a1a", 90, 13, 1122, 720, 1326}
-					d('修改地址_完成',true)
-					delay(3)
-				
-				elseif d('弹窗_立即购买弹窗',false)then
-					t["支付宝"]={ 0x00aaef, "8|-13|0xffffff,13|-15|0x00aaef", 90, 509, 710, 734, 799}
-					t["支付宝微信"]={ 0x00c800, "-1|-131|0x01aaef,-2|-136|0xffffff", 90, 22, 782, 364, 999}
-					local playKey = math.random(1,100)
-					if d('支付宝',true)then
-						delay(2)
-						if playKey >= 30 then
-							d('支付宝微信',true)
-						end
-						d('弹窗_立即购买弹窗',true)
-					end
-					d('弹窗_立即购买弹窗',true)
-				elseif d('弹窗_添加配送地址',true)then
-				elseif d('弹窗_继续选择码_继续黑') and d('弹窗_添加配送地址_上部分')then
-					local inputf = function(txt)
-									clearTxt()
---									inputText(txt)
-									inputStr(txt)
-									d('弹窗_输入地址的完成',true)
-									end
-					local loc ={{323,440,0xffffff},{694,444,0xffffff},{673,574,0xffffff},
-								{139,703,0xffffff},{402,705,0xf7f7f7},{651,703,0xf7f7f7},
-								{629,837,0xffffff},{624,1097,0xffffff},} 
-					for i,v in ipairs(loc)do
-						click(v[1],v[2])
-						if i == 1 then
-							local str_len = utf8.len(first_names)
-							local str_rnd = (math.random(1,str_len) -1) * 3
-							first_name_ = utf8.char(utf8.codepoint(first_names,str_rnd + 1,str_rnd + 2))
-							log('first_name_->'..first_name_)
-							inputf(first_name_ or '张')
-						elseif i == 2 then
-							local str_len = utf8.len(first_names)
-							local str_rnd = (math.random(1,str_len) -1) * 3
-							last_names_ = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2 + rd(0,1)*3 ))
-							inputf(last_names_ or '三')
-						elseif i == 3 then
-							input('\b\b\b\b\b\b\b\b\b\b\b\b\b')
-							inputword(var.account.phone or myRand(2))
-							d('弹窗_输入地址的完成',true)
-						elseif i == 4 or i == 5 or i == 6 then
-							delay(2)
-							if i == 4 then
-								clici__i = rd(1,30)
-							elseif i == 5 then
-								clici__i = rd(1,6)
-							elseif i == 6 then
-								clici__i = rd(1,6)
-							end
-							for i_=1,clici__i do
-								click(382,1181,0.5)
-							end
-							d('弹窗_输入地址的完成',true)
-						elseif i == 7 then
-							local addr_list = split(street_addrs,",")
-							local addr = addr_list[math.random(1,#addr_list)]
-							
-							local where ={
-								string.format("延芳路4038号 %s%s小区%d%d栋%d0%d%d号",	myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗沙路4099号 %s%s小区%d%d栋%d0%d%d室",	myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("延芳路600号 %s%s小区%d%d栋%d0%d%d室",	myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("延芳路588号 %s%s%s小区%d%d栋%d0%d%d号",	myRand(7,1),myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗湖广岭小区 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗沙路 新世界四季御园 %d%d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("大澎花园 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("中震大厦 %s%s阁%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("通发花园 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗芳苑 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("银丰花园 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("龙泉花园 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("芳春花园 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("深港新村 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("锦绣新村 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("兴华苑 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("华兴花园 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("赤龙新村 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("经二路1号 %s%s小区%d%d栋%d0%d",	myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("经二路3号 %s%s%s小区%d%d栋%d0%d",	myRand(7,1),myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗芳路190号 %s%s%s小区%d%d栋%d0%d",	myRand(7,1),myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("经二路19号名太轩 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("广陵家园 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗湖党校 %d%d栋%d0%d",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("西岭花园 %d%d栋%d0%d",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("安业花园 %d%d栋%d0%d",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-							}
-							var.account.address_area = where[rd(1,#where)]
-							inputf(var.account.address_area)
-						elseif i == 8 then
-							inputf(tostring(rd(100000,999999)))
-						end
-						delay(1)
-					end	
-					d('弹窗_继续选择码_继续黑',true)		
-				elseif d('弹窗_继续选择码') and d('弹窗_继续选择码_上部分')then
-					if d('弹窗_继续选择码_随机可选',true)then
-					else
-						click(29,80)
-						moveTo(300,200,300,733,rd(5,20))
-						delay(2)
-						click(29,80)
-					end
-				elseif d('弹窗_继续选择码_继续黑') and d('弹窗_继续选择码_继续黑_编辑',true)then
-				elseif d('弹窗_继续选择码_继续黑',true)then					
-				elseif d('弹窗_输入地址后上拉一下')then
-					moveTo(300,1215,300,733,rd(5,20))
-				elseif d('弹窗_请输入密码')then
-					input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
---					inputStr(var.account.pwd)
-					inputword(var.account.pwd)
-					input('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b')
-					input(var.account.pwd)
-					delay(1)
-					d('弹窗_请输入密码',true)
-				elseif d('弹窗_输入地址的完成',true)then
-				elseif d('弹窗_密码无效')then
-					backId('封号')
-					return false
-				else
-					if d('弹窗_填地址_上滑了',true)then
-					elseif d('弹窗_卖光了',true)then
-						click(29,80)
-						moveTo(300,200,300,733,rd(5,20))
-						delay(2)
-						click(29,80)
-					else
-						if errors()then
-						but_other_tips = but_other_tips + 1
-							if but_other_tips % 10 == 0 then
-								moveTo(300,200,300,900-rd(200,300),rd(5,10))
-								click(29,80)
-							end
-							log('~')
-						end
-					end
-				end
-				
-			end
-		end
-		delay(1.5)
-	end
-end
 
 
 t['主菜单_首页未激活']={0xffffff,"2|-21|0xb8b8b8,-14|-4|0xb8b8b8,6|1|0xb8b8b8,5|2|0xffffff,12|14|0xffffff",90,56,1258,124,1310}
@@ -1166,26 +890,21 @@ function look()
 				if rd(1,100) < 40 then
 					--80%机率去点击顶部的1,2,3,4
 					local tops_ = {
-						{  199,   85, 0x949494},
-						{  364,   88, 0xb8b8b8},
-						{  548,   83, 0xffffff},
-						{  186,  174, 0xffffff},
-					}
-				
-				moveTo(300,200,300,200+rd(200,300),rd(5,10))
-				local whereKey = rd(1,4)
-				click(tops_[whereKey][1],tops_[whereKey][2],2)
-				moveTo(300,900,300,300,20)
+							{61,87,0xffffff},
+							{175,83,0xffffff},
+							{296,81,0xffffff},
+						}
+
+					moveTo(300,200,300,200+rd(200,300),rd(5,10))
+					local whereKey = rd(1,#tops_)
+					click(tops_[whereKey][1],tops_[whereKey][2],2)
+					moveTo(300,900,300,300,20)
 			
 				elseif rd(1,100) < 40 then 
 					moveTo(300,900,300,300,rd(1,20))
-			
 				elseif rd(1,100) < 20 then
-					
-					
-				local whereKey = rd(1,4)
+					local whereKey = rd(1,4)
 					click(bottom_[whereKey][1],bottom_[whereKey][2],rd(2,5))
-			
 				end
 			elseif d("主菜单_首页未激活",true)then
 			elseif d("弹窗_右上角的x",true)then
@@ -1224,99 +943,16 @@ end
 
 
 function main()
-	while (true) do
-		--更新手机设置
-		updatePhone()
-		
-		local ui_set = readUI()
-		if ui_set then
-			local sz = require('sz')
-			local json = sz.json
-			UIvalues = json.decode( ui_set.data.webui )
-			log(UIvalues)
-		else
-			setAirplaneMode(true)
-			delay(30)
-			setAirplaneMode(false)
-			delay(30)
+	if login()then
+		if look()then
+			backId()
+			updateNikeLog('SNKRS复登完成')
 		end
-		
-		if UIvalues.smsPT == "0" then
-			vCode = _vCode_ym()
-		elseif UIvalues.smsPT == "1" then
-			vCode  = _vCode_lx()
-		elseif UIvalues.smsPT == "2" then
-			vCode = _vCode_dm()
-		end
-		--登录打码平台
-		if UIvalues.smsPT ~= "3" then
-			vCode.login()
-		end
-		
-		local vpnKey = false
-		if UIvalues.netMode == '1' then
-			setAirplaneMode(true)
-			delay(tonumber(UIvalues.wifitime))
-			setAirplaneMode(false)
-			delay(30)
-			vpnKey = true
-		elseif UIvalues.netMode == '0' then
-			if vpn()then
-				vpnKey = true
-			else
-				vpnKey = false
-			end
-		else
-			vpnKey = true
-		end
-		
-		if vpnKey then
-		
-			if UIvalues.clearMode == '0' then
-				sys.clear_bid(var.bid)
-				delay(1)
-			elseif UIvalues.clearMode == '1' then
-				awzNew()
-			elseif UIvalues.clearMode == '2' then
-				awz_()
-			end
-
-			if UIvalues.work == "0" then
-				if reg()then
-					look()
---					logout()
-					updateNikeLog('刚刚注册')
-					closeX(var.bid)
-					delay(2)
-				end
-			elseif UIvalues.work == "1" then
-				if login()then
-					if look()then
-						backId()
-					end
---					logout()
-					closeX(var.bid)
-					delay(2)
-				end
-			end
-			
-		end
-		vpnx()
+		closeX(var.bid)
+		delay(2)
 	end
 end
 
-
-while (true) do
-	local ret,errMessage = pcall(main)
-	if ret then
-	else
-		log(errMessage)
-		dialog(errMessage, 15)
-		mSleep(1000)
-		closeApp(frontAppBid())
-		mSleep(2000)
-	end
-end
 
 
 

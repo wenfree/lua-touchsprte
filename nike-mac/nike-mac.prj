@@ -1,1 +1,1 @@
-{"plugin":[],"res":["中文字库.txt"],"src":["alz.lua","api.lua","AWZ.lua","nameStr.lua","nike.lua","tsp.lua","UI.lua","main.lua"]}
+{"plugin":[],"res":["中文字库.txt"],"src":["alz.lua","api.lua","AWZ.lua","nameStr.lua","snkrs.lua","tsp.lua","UI.lua","main.lua","nike-code.lua","nikecode.lua","other.lua","nikereg.lua","zl.lua"]}

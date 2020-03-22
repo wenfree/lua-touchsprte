@@ -46,12 +46,7 @@ function file_exists(file_name)
 end
 
 game_lua = {
-	{"UI",'https://img.wenfree.cn/nike-wenfree/UI.lua'},
-	{"tsp",'https://img.wenfree.cn/nike-wenfree/tsp.lua'},
-	{"nameStr",'https://img.wenfree.cn/nike-wenfree/nameStr.lua'},
-	{"alz",'https://img.wenfree.cn/nike-wenfree/alz.lua'},
-	{"AWZ",'https://img.wenfree.cn/nike-wenfree/AWZ.lua'},
-	{"nike",'https://img.wenfree.cn/nike-wenfree/nike.lua'},
+	{"jfqhj",'https://img.wenfree.cn/nike-wenfree/jfqhj.lua'},
 	{"main",'https://img.wenfree.cn/nike-wenfree/main.lua'},
 }
 
@@ -99,7 +94,7 @@ if version then
 		end
 	end
 end
-require("jfq")
+require("jfqhj")
 
 
 
