@@ -707,6 +707,8 @@ t['错误_未输入密码']={ 0x8d8d8d, "-30|40|0xfe0000,550|-2|0xfe0000,307|438
 t['登录界面n_电子邮件'] = { 0x8f8f8f,"3|5|0xffffff,14|20|0x8d8d8d,155|-2|0x8d8d8d,155|19|0x8d8d8d,152|8|0xffffff,149|3|0x8d8d8d",degree,84,244,701,472}
 t['登录界面n_密码'] = { 0x8d8d8d,"18|0|0x8d8d8d,1|-18|0xffffff,-2|-20|0x8d8d8d,43|-21|0x8d8d8d,42|-5|0x8d8d8d,42|-1|0xffffff,43|1|0x8d8d8d",degree,85,361,155,484}
 
+t['错误的登录'] = { 0x8d8d8d,"390|-295|0xfe0000,-113|-197|0xfe0000,387|-120|0xfe0000,-60|-2|0x8d8d8d,264|-373|0xfe0000",degree,15,20,725,839}
+
 function login()
 	local timeline = os.time()
 	local outTimes = 3*60
@@ -794,13 +796,15 @@ function login()
 						delay(rd(8,10))
 					end
 				end
+				d('错误的登录',true)
 				d('弹窗_输入的完成',true)
 			elseif d("错误_未输入密码",true)then
 				input(var.account.pwd)
 				updateNikeLog('登录遇到错误');
 				delay(2)
 				return false
-			elseif d('主菜单_首页') then
+			elseif d('错误的登录',true) then
+			elseif d('首页页面') then
 				return true
 			elseif lookPwd and d('错误_密码错误')or d('错误_选对国家') then
 				updateNikeLog('密码错误');
@@ -812,9 +816,7 @@ function login()
 				if d('弹窗_输入的完成',true)then
 				elseif d('弹窗_输入的完成_black',true)then
 				else
-					if errors()then
-						click(705,41)
-					end
+					errors()
 				end
 			end
 		end
@@ -870,50 +872,83 @@ t['分享按钮']={ 0x000000, "-2|-8|0xffffff,-1|-8|0x000000,0|-13|0x000000,-2|9
 
 
 t['主菜单_首页未激活']={0xffffff,"2|-21|0xb8b8b8,-14|-4|0xb8b8b8,6|1|0xb8b8b8,5|2|0xffffff,12|14|0xffffff",90,56,1258,124,1310}
+
+
+t['收件箱页面'] = { 0,"-18|-26|0xffffff,-21|-26|0,18|7|0,12|12|0xffffff,12|11|0",degree,420,1234,523,1322}
+t['我的页面'] = { 0,"-1|-18|0xffffff,-1|-21|0,-16|16|0,12|16|0xffffff,15|16|0",degree,612,1237,702,1319}
+t['浏览页面'] = { 0xffffff,"9|-7|0,-8|10|0,-3|-3|0,-15|-2|0xffffff,-19|-10|0,18|13|0",degree,227,1242,330,1322}
+t['首页页面'] = { 0,"-13|2|0xffffff,-15|13|0,16|11|0,4|-11|0xffffff,13|-19|0",degree,38,1236,143,1323}
+t['按尺码筛选'] = { 0x111111,"6|-1|0xffffff,7|-1|0x111111,28|-1|0x111111,199|-1|0x757575,199|18|0x757575,21|15|0x111111,20|15|0xffffff",degree,7,50,273,112}
+t['购物偏好设置'] = { 0x111111,"0|-8|0xfafafa,-13|-13|0x111111,14|-13|0x111111,178|1109|0x111111,174|1106|0xffffff,174|1101|0xffffff",degree,260,75,720,1304}
+t['鞋子详情页面'] = { 0xffffff,"-1|-23|0x3f3f3f,22|1|0x3f3f3f,-1|23|0x3f3f3f,9|11|0xffffff,-26|3|0x3f3f3f",degree,621,65,716,143}
 	
 function look()
+	if UIvalues == nil then
+		UIvalues = {}
+		UIvalues.look_min_time = 60
+		UIvalues.look_max_time = 150
+	end
+	
 	local timeline = os.time()
 	local outTimes = math.random(UIvalues.look_min_time+0,UIvalues.look_max_time+0)
 	
-	local bottom_ = {
-		{   93, 1284, 0x000000},
-		{  281, 1286, 0xb8b8b8},
-		{  469, 1291, 0xb8b8b8},
-		{  652, 1284, 0xb8b8b8},
-	}
 	
-	updateNikeLog('浏览「'..outTimes..'」')
+--	updateNikeLog('浏览「'..outTimes..'」')
 
 	while (os.time()-timeline < outTimes) do
 		if active(var.bid,3) then
-			if d('主菜单_首页') then
-				if rd(1,100) < 40 then
-					--80%机率去点击顶部的1,2,3,4
-					local tops_ = {
-							{61,87,0xffffff},
-							{175,83,0xffffff},
-							{296,81,0xffffff},
-						}
-
-					moveTo(300,200,300,200+rd(200,300),rd(5,10))
-					local whereKey = rd(1,#tops_)
-					click(tops_[whereKey][1],tops_[whereKey][2],2)
-					moveTo(300,900,300,300,20)
-			
-				elseif rd(1,100) < 40 then 
-					moveTo(300,900,300,300,rd(1,20))
-				elseif rd(1,100) < 20 then
-					local whereKey = rd(1,4)
-					click(bottom_[whereKey][1],bottom_[whereKey][2],rd(2,5))
+			if d('首页页面') then
+				local homes = {
+									{64,85,0xc1c1c1},
+									{174,85,0x757575},
+								}
+				click(homes[rd(1,2)][1],homes[rd(1,2)][2],rd(1,4))
+				moveTo(300,800,300,800-rd(100,500),rd(2,20))
+			elseif d('按尺码筛选') then
+				if rd(1,100)< 80 then
+					moveTo(300,800,300,800-rd(100,500),rd(2,20))
+				elseif rd(1,100) < 50 then
+					moveTo(300,300,300,300+rd(100,500),rd(2,20))
+					local change = {
+										{281,1276,0xffffff},
+										{466,1280,0xffffff},
+										{653,1277,0xb8b8b8},
+									}
+					delay(rd(1,3))
+					click(change[rd(1,3)][1],change[rd(1,3)][2])
+				elseif rd(1,100) < 50 then
+					d('按尺码筛选',true)
+				else
+					click(rd(66,694),rd(202,1225),rd(1,3))
 				end
-			elseif d("主菜单_首页未激活",true)then
-			elseif d("弹窗_右上角的x",true)then
+			elseif d('我的页面') then
+				delay(rd(1,5))
+				click(92,1277)
+			elseif d('浏览页面') then
+				delay(rd(1,5))
+				click(92,1277)
+			elseif d('收件箱页面')then
+				delay(rd(1,5))
+				click(92,1277)
+			elseif d('购物偏好设置') then
+				delay(1,5)
+				d('购物偏好设置',true)
+			elseif d('鞋子详情页面') then
+				delay(1,2)
+				if rd(1,100) < 60 then
+					moveTo(300,300,300,300+rd(100,500),rd(2,20))
+				else
+					d('鞋子详情页面',true)
+				end
 			else
-				local whereKey = rd(1,4)
-				click(bottom_[whereKey][1],bottom_[whereKey][2],rd(2,5))
+				others = others or 0
+				others = others + 1
+				if others > 10 then
+					closeApp(var.bid, 1)
+					others = 0
+				end
 			end
-			
-			delay(rd(1,5))
+			delay(rd(1,3))
 			log('look->'..os.time()-timeline)
 		end
 	end
@@ -954,7 +989,7 @@ function main()
 end
 
 
-
+--look()
 
 
 

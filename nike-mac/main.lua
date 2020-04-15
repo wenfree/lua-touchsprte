@@ -1,4 +1,4 @@
--- nike-mac
+ -- nike-mac
 -- main.lua  
 
 -- Create By TouchSpriteStudio on 23:41:13   
@@ -99,7 +99,8 @@ end
 require('tsp')
 require('AWZ')
 require('other')
-require('zl')
+require('axj')
+require('UI')
 
 --回传手机
 function updatePhone()
@@ -134,43 +135,30 @@ end
 function all()
 	while (true) do
 		--更新手机设置
-		updatePhone()
-		local ui_set = readUIall()
-		if ui_set then
-			log('全体ui')
-			local sz = require('sz')
-			local json = sz.json
-			UIvalues = json.decode( ui_set.data.webui )
-		else
+--		UIvalues 
+		
+		if UIvalues.netMode == '0' then
 			setAirplaneMode(true)
-			delay(10)
+			delay(15)
 			setAirplaneMode(false)
+			setWifiEnable(false)
 			delay(30)
 		end
 		
 		if UIvalues.smsPT == "0" then
-			vCode = _vCode_bm()
+			vCode = _vCode_bm()		--班马
 			vCode.login()
 		elseif UIvalues.smsPT == "1" then
-			vCode = _vCode_reyne()
+			vCode = _vCode_reyne()	--信鸽
 			vCode.login()
 		end
-		
-		setAirplaneMode(true)
-		delay(tonumber(UIvalues.wifitime))
-		setAirplaneMode(false)
-		setWifiEnable(false)
-		delay(30)
-	
-		
---		awzNew()
 		
 		if UIvalues.clearMode == '0' then
 			awzNew()
 		elseif UIvalues.clearMode == '1' then
-			zl_new()
+			axjNew()
 		elseif UIvalues.clearMode == '2' then
-			sys.clear_bid(var.bid)
+			sys.clear_bid('com.nike.onenikecommerce')
 			delay(1)
 		end
 

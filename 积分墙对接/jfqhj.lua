@@ -6,7 +6,6 @@
 	
 
 require("TSLib")
-require("AWZ")
 require('tsp')
 
 
@@ -28,7 +27,7 @@ jfq.bid = ''
 
 var = {}
 
-	
+
 function start()
 	local sz = require('sz')
 --	local info = getOnlineName()
@@ -41,7 +40,6 @@ function start()
 	jfq.medel = 'iPhone10,3'
 --	log(jfq);
 end
-
 
 --input('A4941D558FD54855AB0BB7441F8EB9CE5FDAC218')
 

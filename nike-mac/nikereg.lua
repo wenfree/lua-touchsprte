@@ -136,6 +136,7 @@ t['步骤——保存您的鞋码'] = { 0x80808,"1|-1|0xffffff,-677|-2|0xffffff,
 t['步骤——选择感觉兴趣的内容'] = { 0xffffff,"-405|14|0xffffff,-109|13|0",degree,102,107,624,294}
 
 t['NIKE登录成功'] = { 0x111111,"0|5|0xffffff,0|10|0x111111,0|16|0xffffff,0|20|0x111111,30|22|0x111111",degree,163,1242,268,1324}
+t['NIKE-首页'] = { 0x111111,"0|6|0xffffff,17|11|0x111111,15|9|0xffffff,-16|-9|0xffffff,-18|-9|0x111111",degree,21,1244,124,1323}
 
 t['弹窗_输入的完成']={ 0x007aff, "-43|-20|0x007aff", degree, 646, 594, 742, 956 } --多点找色
 
@@ -192,12 +193,17 @@ function reg()
 				for i,v in ipairs(info)do
 					click(v[1],v[2]);
 					if i == 1 then
-						var.account.xin = myRand(7,1)
+						local str_len = utf8.len(first_names)
+						local str_rnd = (math.random(1,str_len) -1) * 3
+						var.account.xin = utf8.char(utf8.codepoint(first_names,str_rnd + 1,str_rnd + 2))
 						clearTxt();
+						delay(1);
 						input(var.account.xin);
 						d('弹窗_输入的完成',true)
 					elseif i == 2 then
-						var.account.ming = myRand(7,rd(1,2))
+						local str_len = utf8.len(last_names)
+						local str_rnd = (math.random(1,str_len) -1) * 3
+						var.account.ming = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2))
 						clearTxt();
 						input(var.account.ming);
 						d('弹窗_输入的完成',true)
@@ -258,7 +264,7 @@ function reg()
 					end
 				end
 				d('步骤——立即开始',true);
-			elseif d('NIKE登录成功')then
+			elseif d('NIKE登录成功') or d('NIKE-首页')then
 				updateNike();
 				return true
 			else
@@ -318,7 +324,7 @@ function readBirthday()
 
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
-			if d('NIKE登录成功')then
+			if d('NIKE登录成功') or d('NIKE-首页')then
 				d('点击我',true,1,2);
 			elseif d('我的界面-设置',false,1)then
 				if address or readBirthday then
@@ -426,6 +432,7 @@ function readBirthday()
 			else
 				if d('弹窗——验证帐户',true,1,3)then
 				elseif d("弹窗——验证帐户_输密码",true,1,2)then
+					boxshow('密码:'..var.account.pwd);			
 					input(var.account.pwd);
 					click(493,647,2);
 				elseif d('弹窗_选择照片',true)then
