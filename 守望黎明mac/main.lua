@@ -47,6 +47,7 @@ function center()
 end
 
 t['交易'] = { 0xe4c023,"1|-9|0xd5b62b,13|25|0xd57700,21|2|0xffec09",degree,527,737,619,836}
+t['交易2'] = { 0xf7eb19,"-5|-1|0x876919,-32|8|0xd2af23",degree,554,670,713,870}
 t['交易_免费-交易行界面'] = { 0xefd884,"-7|1|0x523910,14|31|0xd9c574,17|-322|0xc6ac74,17|-324|0x55422b",degree,628,59,741,484}
 t['交易_箱子'] = { 0xfef8d3,"-25|52|0xede5c8,-45|-3|0xb37645,25|-12|0xb87b42",degree,34,523,724,1047}
 t['交易_箱子']={{117,642,0xeadcbb},{281,642,0xb07640},{464,644,0x1e1111},{648,640,0xf2e6c5},{110,951,0x281f25},{275,946,0x936031},{467,947,0xe3d6b6},{644,946,0xe8dbbb},}
@@ -62,12 +63,12 @@ function _trade()
 	end
 	click(520,671,2)		--点击交易行
 	log('点击交易中心')
-	if d('交易',true)then
+	if d('交易',true) or d("交易2",true)then
 		if d('交易_免费-交易行界面')then
 			for i,v in ipairs(t['交易_箱子'])do
 				click(v[1],v[2])
 				if not(d('交易_箱子_购买',true,1,2))then
-					d('交易_箱子_购买_关闭')
+					d('交易_箱子_购买_关闭',true)
 				end
 			end
 			return true
@@ -94,8 +95,8 @@ function _foison()
 end
 
 t['英雄招募'] = { 0xfffce6,"4|4|0x5a553c,4|-2|0x1f1a0a,6|1|0xf5f5ed",degree,52,691,95,740}
-t['英雄招募界面']={{39,65,0xfff0d7},{75,46,0x3c2d1a},{700,41,0x312921},{706,34,0xceb27c},}
-t['英雄招募_免费'] = { 0x7a4a27,"2|-1|0xf6f3f0,-2|8|0x7e512e,-2|10|0xffffff,-14|-33|0xbf905e,39|35|0xe4ca7d",degree,205,1216,544,1315}
+t['英雄招募界面'] = { 0xfff6e2,"25|-23|0x3f301a,670|-25|0xc6ac74,671|-27|0x4f3a25",degree,9,11,745,88}
+t['英雄招募_免费'] = { 0xf5efbd,"-2|0|0x6e5018,-106|0|0x604110,89|146|0x5d732d",degree,32,977,360,1242}
 t['英雄招募_X'] = { 0xad9477,"-412|1235|0x3e5e37,-253|1236|0x3e5e37",degree,178,10,744,1331}
 t['英雄招募_完成'] = { 0x7596a7,"28|-21|0x7a9aab,14|-38|0x7997ab",degree,584,630,657,733}
 
@@ -106,26 +107,24 @@ function _hero()
 		_trade__ = 0
 		return true
 	end
-	click(70,720,2)
+	click(6,755,2)
+	local heroface = false
 --	if d('英雄招募',true)then	--点击英雄
 		log('点击英雄招募')
-		local 英雄招募位置 = {{136,701,0x2f2418},{362,711,0x6e4c35},{629,711,0x1d181a},}
 		local ii = 1
-		while (d("英雄招募界面") and ii < 3) do
+		while (d("英雄招募界面") and ii < 5) do
+			heroface = true
+			if d('英雄招募_免费',true)then
+				delay(2)
+				click(40,40,2)
+				delay(2)
+			end
+			click(110,1235,2)
 			ii = ii + 1
-			for i,v in ipairs(英雄招募位置)do
-				click(v[1],v[2],2)
-				if d('英雄招募_免费',true)then
-					delay(2)
-					d('英雄招募_X',true)
-					delay(2)
-				end
-			end
-			moveTo(493,655,251,655,5);
 			delay(2)
-			if d('英雄招募_完成')then
-				return true
-			end
+		end
+		if heroface then
+			return true
 		end
 --	end
 end
@@ -195,16 +194,21 @@ end
 
 t['总部升级'] = { 0xe5ba85,"1|45|0xfce8be,-2|52|0x624326",degree,255,484,372,607}
 	t['未达要求界面'] = { 0x797979,"272|56|0x7d7d7d,410|45|0x606060,588|-1|0x868686,565|68|0x9a9a9a",degree,23,1189,723,1321}
+	t['未达要求界面2'] = { 0x2d2d2d,"189|45|0x555555,476|2|0x7e7e7e,476|0|0x2e2e2e,-78|-1133|0x3e3127,-60|-1146|0xc7a789",degree,5,52,740,1327}
 		t['跳转X'] = { 0xa14b4a,"-10|-9|0x86403f,9|-9|0x86403f",70,451,752,515,1174}
 		t['其它升级'] = { 0xd6ac7b,"-1|42|0xe5cfa9,-2|50|0x5d3d20,9|46|0xe4d4ae",70,377,746,500,944}
 		t['其它升级2'] = { 0xe1b684,"-2|19|0xedcc9c,-3|54|0x614227,-9|49|0xfeeac0,9|48|0xfceac0",70,356,767,480,967}
+		t['其它升级3'] = { 0xe0c193,"1|-25|0xd8ac7b,-19|0|0x9e795b,20|0|0x9d7d60,-5|24|0xe9d4ae",degree,422,720,600,954}
+		t['升级_金币确定'] = { 0xd6b523,"12|-6|0xeed820,17|-6|0x44623e,-50|-33|0xffffff,14|-61|0x17191b",degree,95,420,647,1206}
+		
 	t['升级界面'] = { 0x6f5019,"-7|37|0x403524,-440|-34|0x709b58,-296|34|0xa9d796",degree,22,1180,728,1321}
 		t['派遣'] = { 0xf8f5f3,"6|0|0x744b21,7|-2|0xede7e2,-71|-33|0x583920,42|37|0xe2c577,-85|6|0x8a642a",degree,518,282,722,1206}
+		t['派遣2'] = { 0xdfd4cc,"-2|0|0x7a4a28,-59|27|0x87632d,85|-25|0x65411b",degree,498,144,718,796}
 	t['准备开仓库_前往'] = { 0x7a4b27,"-4|8|0xfbfaf9,13|11|0x845729,7|-16|0xbf9856",degree,519,950,725,1123}
 	t['开仓库界面'] = { 0xd7b493,"23|17|0x3c2e1a,-13|38|0xfff3dd,60|325|0x50404,60|326|0x4e4a3f,64|328|0x1f1e1a",degree,5,8,149,373}
 		t['开仓库界面_使用'] = { 0xf6f3f0,"0|2|0x7a4a29,26|1|0xffffff,9|-27|0xa28353",degree,514,394,740,810}
 			t['开仓库界面_使用_使用'] = { 0x774a25,"6|-1|0xfffefe,-302|-194|0xfef1db,-301|-204|0x9c8156,57|20|0x8a6632",degree,34,464,717,906}
-		t['达成目标'] = { 0xf3c484,"-50|-3|0xf3c484,51|-2|0xf3c484,-51|-39|0x95754e",degree,100,206,750,309}
+		t['达成目标'] = { 0xf3c484,"-46|-5|0xf3c484,50|-5|0xf3c484,-1|-8|0xa88248",degree,1,251,749,305}
 		
 
 function _up_city()
@@ -216,7 +220,7 @@ function _up_city()
 	end
 	click(388,341,2)	--点击总部
 	if d('总部升级',true)then
-		while d("升级界面") or d('未达要求界面') or d('开仓库界面') do
+		while d("升级界面") or d('未达要求界面') or d('未达要求界面2') or d('开仓库界面') do
 			delay(2)
 			if d("跳转X")then
 				click(x+160,y,4)
@@ -225,21 +229,33 @@ function _up_city()
 					click_center_ = click_center_ + 1
 					click(750/2,1334/2+(click_center_%5-2)*20,1)
 					click(750/2,1334/2+(click_center_%5-2)*20,2)
-					d('其它升级',true)
-					d('其它升级2',true)
+					if d('其它升级',true)then
+					elseif d('其它升级2',true)then
+					elseif d('其它升级3',true)then
+					elseif d('升级_金币确定',true)then
+					end
 				end
 			elseif d('开仓库界面')then
 				if d('达成目标')then
 					click(40,40,2)
 				elseif  d('开仓库界面_使用',true)then
-					d('开仓库界面_使用_使用',true)
+					if d('开仓库界面_使用_使用',true)then
+					else
+						return true
+					end
 				end
 			elseif d("升级界面",true)then
 				delay(2)
-				return d("派遣",true)
+				return d("派遣",true) or d("派遣2",true)
 			end
 		end
 	end
+end
+
+
+function _getthing()
+	
+	
 end
 
 
@@ -252,7 +268,7 @@ function game_()
 			local 基地_ = center()
 			delay(rd(2,3))
 			if 基地_ == 'top' then
-				_up_city()
+--				_up_city()
 				step_ = step_ or 1
 				log("step_ --->"..step_)
 				兵营位置={[2]={263,666,0xbba69c},[3]={375,575,0xa6927e},[4]={522,685,0x895f49},}
@@ -277,6 +293,7 @@ function game_()
 				elseif step == 3 and _hero() then
 					step = step + 1
 				elseif step == 4 then
+					toast("准备采矿",2)
 				end
 			end
 		elseif d('游戏正常_城外')then
