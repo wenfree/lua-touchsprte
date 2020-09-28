@@ -406,7 +406,6 @@ function writeFile(tables,way,path)
 		f:write('')
 	end
 	f:close()
-	backWirteFile(tables,'a',backPath)
 end
 --文件按行写入--------------
 --将指定文件中的内容按行读取

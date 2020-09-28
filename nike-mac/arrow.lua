@@ -31,9 +31,9 @@ function getNetIPproxy()
     end
 end
 
--- if t == nil then
---     t={}
--- end
+if t == nil then
+    t={}
+end
 t['vpn-首页-未激活']={0x000000, "0|0|0x000000,1|-2|0xf5f5f5,1|-4|0x222222,0|-19|0x808080",90,65,1243,124,1323}
 t['vpn-首页-激活']={0x4587c2, "0|0|0x4587c2,1|-2|0xf5f5f5,1|-4|0x5d96c9,0|-19|0x4587c2",90,65,1243,124,1323}
     t['vpn-首页-编辑']={0x4587c2, "0|0|0x4587c2,-13|-1|0xffffff,-687|0|0xff9400",90,2,524,739,996}
@@ -46,8 +46,9 @@ t['vpn-首页-编辑节点']={0xed402e, "0|0|0xed402e,1|-7|0xed402e,-14|-18|0xff
     t['vpn-首页-编辑节点-完成']={0xffffff, "0|0|0xffffff,5|-3|0x4386c5,34|-7|0x4386c5,39|-12|0xffffff",90,622,53,727,113}
 t['vpn-其它']={0xffffff, "0|0|0xffffff,22|-15|0x4386c5,399|-5|0xffffff,664|-10|0xffffff,656|3|0x4386c5",90,23,41,729,116}
 
+
 function Shadowrockets()
-    log(whiteip())
+    
     
 	local setp_ = ''
 	local setp__ = ""
@@ -83,21 +84,21 @@ function Shadowrockets()
 		                click(649, 239)
 		                click(301, 781)
 		            end
-		            
+		            log(whiteip())
 		            local vpnList = getNetIPproxy()
-		            local vpnlistWz = {{573, 398, 0xffffff},{571, 484, 0xffffff}}
-		            click( vpnlistWz[1][1],vpnlistWz[1][2] )
+		            local vpnlistWz = {{200, 398, 0xffffff},{200, 484, 0xffffff}}
+		            click( vpnlistWz[1][1],vpnlistWz[1][2],1)
 		            keyDown("Clear")
                     keyUp("Clear")
-                    delay(0.2)
+                    delay(1)
 		            inputText(vpnList['IP'])
-		            delay(0.2)
-		            click( vpnlistWz[2][1],vpnlistWz[2][2] )
+		            delay(1)
+		            click( vpnlistWz[2][1],vpnlistWz[2][2],1)
 		            keyDown("Clear")
                     keyUp("Clear")
-                    delay(0.2)
+                    delay(1)
 		            inputText(vpnList['Port'])
-		            delay(0.2)
+		            delay(1)
 		            if d('vpn-首页-编辑节点-完成',true)then
 		                vpnInputKey = true
 		            end

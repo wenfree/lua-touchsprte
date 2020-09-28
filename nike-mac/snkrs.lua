@@ -705,6 +705,7 @@ t['登录界面n_密码'] = { 0x8d8d8d,"18|0|0x8d8d8d,1|-18|0xffffff,-2|-20|0x8d
 
 t['错误的登录'] = { 0x8d8d8d,"390|-295|0xfe0000,-113|-197|0xfe0000,387|-120|0xfe0000,-60|-2|0x8d8d8d,264|-373|0xfe0000",degree,15,20,725,839}
 
+
 function login()
 	local timeline = os.time()
 	local outTimes = 3*60
@@ -890,8 +891,9 @@ t['look-鞋详情x']={0xffffff, "0|0|0xffffff,9|-9|0xffffff,-11|-9|0xffffff,31|-
 t['look-鞋详情-底黑']={0xffffff, "0|0|0xffffff,-252|-61|0x111111,303|-61|0x111111,276|56|0x111111,-246|56|0x111111",90,24,1168,722,1304}
 t['look-购物偏好设置']={0x111111, "0|0|0x111111,183|1110|0x111111,181|1103|0xffffff,22|-9|0x111111,6|-10|0xfafafa",90,322,82,614,1270}
 t['look-首页未激活']={0xcccccc, "0|0|0xcccccc,-17|-8|0xffffff,-21|-8|0xcccccc,0|-26|0xcccccc,17|3|0xffffff,17|12|0xcccccc",90,36,1235,136,1315}
+t['look-首页-x']={0xffffff, "0|0|0xffffff,0|-10|0x414141,-6|-6|0xfbfbfb,-13|1|0x414141,1|14|0x414141",90,661,56,712,104}
 
-function look()
+function snkrslook()
 	if UIvalues == nil then
 		UIvalues = {}
 		UIvalues.look_min_time = 90
@@ -947,6 +949,8 @@ function look()
 		        setp_ = 'look-购物偏好设置'
 		    elseif d('look-首页未激活',true)then
                 setp_ = 'look-首页未激活'
+		    elseif d('look-首页-x',true)then
+		        setp_ = 'look-首页-x'
             else
                 setp_ = '其它'
 		    end
@@ -998,7 +1002,7 @@ function main()
     if Shadowrockets() then
     	if login()then
     	    get("http://127.0.0.1:8080/api/reportInfo");
-    		if look()then
+    		if snkrslook()then
     			backId()
     			updateNikeLog('SNKRS复登完成')
     		end
@@ -1008,8 +1012,6 @@ function main()
     end
 end
 
-
---look()
 
 
 

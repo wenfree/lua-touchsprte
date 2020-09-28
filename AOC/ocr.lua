@@ -1,5 +1,6 @@
 init('0',1)
 --list = '1234567890k'
+require('tsp')
 
 
 
@@ -60,20 +61,33 @@ function get_info(t)
 		nLog('K--'..k.."--"..show[k])
 	end
 end
+function readFile_(path)
+	local path = path or '/var/mobile/Media/TouchSprite/lua/account.txt'
+    local file = io.open(path,"r");
+    if file then
+        local _list = '';
+        for l in file:lines() do
+            _list = _list..l
+        end
+        file:close();
+        return _list
+    end
+end
 --取帐号token
 function llsGameToken()
-	local appbid = 'com.lilithgame.sgame'
+	local appbid = 'com.lilithgames.rok.ios.offical'
 	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"
-	local account = readFileString(AccountInfo)
-	local sz = require("sz")
-	local json = sz.json
-	if type(account) == 'string' then
-		if account ~= nil  and string.len(account) > 10 then
-			local newTable = json.decode(account)
-			return newTable[1].app_token
-		end
+	local account = readFile_(AccountInfo)
+	if (account) then
+    	local sz = require("sz")
+        local json = sz.json
+        account = json.decode(account)
 	end
+	return account
 end
+log(  llsGameToken()   )
+
+
 --取帐号全部
 function AccountInfo()
 	local appbid = 'com.lilithgame.sgame'
@@ -171,7 +185,7 @@ function AccountInfoBack()
 --	postArr.whos = UI_v.whos
 --	local game_data = post(url,postArr)
 
-	local json = sz.json	
+	local json = sz.json
 	if game_data then
 --		game_date = json.decode(game_date)
 		log(game_data)
