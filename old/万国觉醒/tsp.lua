@@ -1,3 +1,4 @@
+require("TSLib")
 width,hight=getScreenSize()
 nLog(width..'*'..hight)
 
@@ -31,7 +32,7 @@ function print_r(t)
 	end
 	if (type(t)=="table") then
 		nLog(tostring(t).." {")
-		sub_print_r(t,"-->")
+		sub_print_r(t,"  ")
 		nLog("}")
 	elseif (type(t)=="string") then
 		nLog(t)
@@ -102,7 +103,7 @@ function delay(times)
 	local times = times or 1
 	mSleep(times*1000)
 end
-function 多点找色(name,dj,order,logTxt,stayTime)
+function 多点找色(name,dj,order,stayTime)
 	local dj = dj or false
 	local order = order or 1
 	local arr = {}
@@ -122,27 +123,21 @@ function 多点找色(name,dj,order,logTxt,stayTime)
 			for i,v in pairs(new_arr2)do
 				new_arr2[i]=split(v,'|')
 			end
---			print_r(new_arr2)
 			if order == 1 then
-				click(x,y)
+				click(x,y,stayTime)
 			else
-				click(x+new_arr2[order-1][1],y+new_arr2[order-1][2])
+				click(x+new_arr2[order-1][1],y+new_arr2[order-1][2],stayTime)
 			end
-			if type(name) ~= 'table' then
-				log("点击-->( "..order..' )->'..name)
-			end
+			log("点击-->( "..order..' )->'..name)
 		else
-			if type(name) ~= 'table' then
-				log("找到-->( "..order..' )->'..name)
-			end
+			log("找到-->( "..order..' )->'..name)
 		end
---		if logTxt then 	log(logTxt) end
 		return true
 	end
 end
 
 --单点找色
-function c_p(name,dj)
+function c_p(t,name,dj)
 	if t[2] == "" then
 		x,y= findColorInRegionFuzzy(t[1],t[3],t[4],t[5],t[6],t[7])
 	else
@@ -196,7 +191,7 @@ function input(txt,way,times)
 	delay(times)
 end
 --多点验证比色
-function 多点比色(name,clicks,oder,logTxt,s,stayTime)
+function 多点比色(name,clicks,oder,stayTime)
 	local oder = oder or 1
 	local clicks = clicks or false
 	local s = s or 85
@@ -215,27 +210,18 @@ function 多点比色(name,clicks,oder,logTxt,s,stayTime)
 			return false
 		end
 	end
-	if logTxt then
-		nLog(logTxt)
-	else
-		if type(name) == 'table' then
-			nLog(name[1]..'->'..name[2])
-		else
-			nLog('多点比色成功-->'..name)
-		end
-	end
 	if clicks then
 		click(arr[oder][1],arr[oder][2],1,stayTime)
 	end
 	return true
 end
 --多点验证比色-end
-function d(name,clicks,oder,logTxt,s,stayTime)
+function d(name,clicks,oder,stayTime)
 --	print_r(t[name])
 	if type(t[name][1]) == 'table' then
-		return 多点比色(name,clicks,oder,logTxt,s,stayTime)
+		return 多点比色(name,clicks,oder,stayTime)
 	else
-		return 多点找色(name,clicks,oder,logTxt,stayTime)
+		return 多点找色(name,clicks,oder,stayTime)
 	end
 end
 --tab
@@ -632,6 +618,7 @@ function boxshow(txt,x1,y1,x2,y2)
 end
 
 function post(url,arr)
+	log('tsp-post')
 	local sz = require("sz")
 	local cjson = sz.json
 	local http = sz.i82.http
@@ -643,12 +630,16 @@ function post(url,arr)
 	post_send = cjson.encode(arr)
 	post_escaped = http.build_request(post_send)
 	log(post_send)
-	local status_resp, headers_resp, body_resp = http.post(url, 5, headers_send, post_escaped)
+	local status_resp, headers_resp, body_resp = http.post(url, 30, headers_send, post_escaped)
 	log(status_resp)
 	if status_resp == 200 then
 		log(body_resp)
-		local json = sz.json
-		return json.decode(body_resp)
+		if body_resp ~= 'timeout' then
+			local json = sz.json
+			return json.decode(body_resp)
+		else
+			log('超时了')
+		end
 	end
 end
 

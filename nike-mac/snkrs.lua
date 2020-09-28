@@ -1,8 +1,8 @@
 require("TSLib")
 require("tsp")
-require("AWZ")
 require("nameStr")
 require("alz")
+
 --require("UI")
 
 local sz = require("sz")
@@ -111,19 +111,21 @@ function updatePhone()
 end
 --updateLog
 function updateNikeLog(workstate)
-	local sz = require("sz")
-	local url = 'http://zzaha.com/phalapi/public/'
-	local Arr={}
-	Arr.s = 'Nikesave.Save'
-	Arr.address_mail = var.account.login
-	Arr.workstate = workstate
-	post(url,Arr)
+    log(workstate);
+    return '';
+-- 	local sz = require("sz")
+-- 	local url = 'http://zzaha.com/phalapi/public/'
+-- 	local Arr={}
+-- 	Arr.s = 'Nikesave.Save'
+-- 	Arr.address_mail = var.account.login
+-- 	Arr.workstate = workstate
+-- 	post(url,Arr)
 end
 
 function backId()
-	local postUrl = 'http://zzaha.com/phalapi/public/'
+	local postUrl = 'http://nikeapi.honghongdesign.cn/'
 	local postArr = {}
-	postArr.s = 'Nikeback.Back'
+	postArr.s = 'NikeBack.back'
 	postArr.id = var.account.id
 	log(post(postUrl,postArr))
 end
@@ -147,7 +149,7 @@ end
 
 
 t={}
-t['开屏登录']={ 0xffffff, "-375|2|0x111111,149|3|0x111111,-177|-1|0x111111,-536|-4|0xb8b8b8", 90, 16, 1066, 740, 1315 } --登录_加入
+t['开屏登录']={ 0xffffff, "276|-9|0x111111,288|2|0x111111,280|-61|0xffffff,336|56|0xffffff", 90, 28, 1052, 572, 1213 } --登录_加入
 t['登录Nike+帐号']={ 0xffffff, "302|6|0x000000,-334|4|0x000000,-9|-38|0x000000,295|-705|0x363636", 90, 46, 24, 716, 860 } --登录_x
 	t['登录Nike+帐号_使用电子邮件登录']={ 0x8d8d8d, "-13|-192|0x111111,-11|-194|0xefefef,1|-195|0x111111,2|-199|0xefefef", 
 											90, 43, 240, 305, 533 } --多点找色
@@ -230,12 +232,6 @@ function errors()
 		if d('登录_出错了_国家/地区_美国',true)then
 		elseif d('登录_出错了_国家/地区_中国',true)then
 		end
---	elseif d('登录_出错了_语言')then
---		click(636,274)
---		click(42,1174)
---		click(376,1269,2)
---		var.account.address_country = 'US'
---		updateNike()
 	else
 		return true
 	end
@@ -299,15 +295,15 @@ function reg()
 	end
 
 	degree = 90
-	t['登录Nike+帐号']={ 0x000000, "-185|94|0x111111,296|766|0x000000,218|90|0xffffff,213|85|0x111111", 90, 14, 14, 727, 1024}
-	t['登录Nike+帐号_发送验证码']={ 0xe5e5e5, "13|-9|0xe5e5e5,4|-5|0x111111,19|-12|0x111111,-61|-28|0xe5e5e5", 90, 503, 323, 719, 724}
+	t['登录Nike+帐号']={ 0x000000, "-185|94|0x111111,296|766|0x000000,218|90|0xffffff,213|85|0x111111", degree, 14, 14, 727, 1024}
+	t['登录Nike+帐号_发送验证码']={ 0xe5e5e5, "13|-9|0xe5e5e5,4|-5|0x111111,19|-12|0x111111,-61|-28|0xe5e5e5", degree, 503, 323, 719, 724}
 	t['输入您的电子邮件']={0x363636, "-124|92|0xf0f0f0,-123|91|0x111111,-124|108|0xffffff,-123|107|0x111111,-197|104|0xffffff,-198|102|0x111111",90,102,3,716,238} --多点找色
-	t['输入您的电子邮件_保存']={0xffffff, "-3|-2|0x000000,-307|-33|0x000000,312|-33|0x000000,308|31|0x000000",90,25,487,719,716} --多点找色
+	t['输入您的电子邮件_保存']={0xffffff, "-3|-2|0x000000,-307|-33|0x000000,312|-33|0x000000,308|31|0x000000",degree,25,487,719,716} --多点找色
 	t['输入您的出生日期']={0x363636, "-119|89|0xffffff,-120|90|0x333333,-124|78|0x111111,-169|84|0xf6f6f6,-168|82|0x111111,-191|114|0xf8f8f8,-192|123|0x111111",90,148,24,725,246} --多点找色
-	t['创建您的NIKE帐户_男子']={0x939393, "-1|-17|0x8d8d8d,-26|-49|0xe5e5e5,37|29|0xe5e5e5",90,47,724,373,1156} --多点找色
-	t['创建您的NIKE帐户_男子_']={0x8d8d8d, "-144|-43|0xfe0000,121|34|0xfe0000",90,46,545,376,1225} --多点找色
+	t['创建您的NIKE帐户_男子']={0x939393, "-1|-17|0x8d8d8d,-26|-49|0xe5e5e5,37|29|0xe5e5e5",degree,47,724,373,1156} --多点找色
+	t['创建您的NIKE帐户_男子_']={0x8d8d8d, "-144|-43|0xfe0000,121|34|0xfe0000",degree,46,545,376,1225} --多点找色
 	t['创建您的NIKE帐户_男子__']={0x939393, "0|-9|0x939393,-58|-49|0xe5e5e5,67|-49|0xe5e5e5,10|29|0xe5e5e5",90,39,400,366,1093} --多点找色
-	t['创建您的NIKE帐户_注册']={0xffffff, "-293|-31|0x000000,-293|36|0x000000,327|-34|0x000000",90,30,1056,715,1333} --多点找色
+	t['创建您的NIKE帐户_注册']={0xffffff, "-293|-31|0x000000,-293|36|0x000000,327|-34|0x000000",degree,30,1056,715,1333} --多点找色
 	t['创建您的NIKE帐户_出生日期']={0x8d8d8d, "0|-6|0xffffff,0|-10|0x8d8d8d,0|-20|0x8d8d8d,0|-52|0xe5e5e5,0|25|0xe5e5e5",90,77,563,211,778} --多点找色
 	t['继续——按钮'] = { 0xffffff,"-323|-38|0,275|29|0,291|-597|0x363636,291|-606|0xffffff",degree,27,22,727,847}
 	t['填完资料，点注册'] = { 0xffffff,"0|-5|0,304|-32|0,-317|-34|0,286|39|0,259|140|0x8d8d8d,-260|-258|0xbcbcbc",degree,14,492,736,1168}
@@ -713,19 +709,19 @@ function login()
 	local timeline = os.time()
 	local outTimes = 3*60
 
-	getIdUrl = 'http://zzaha.com/phalapi/public/?s=Nikeagain.Again&again='..UIvalues.again..'&sms='..UIvalues.sms..'&name='..getDeviceName()
+	getIdUrl = 'http://nikeapi.honghongdesign.cn/?s=App.NikeSelect.NikeFetch&again='..UIvalues.again
 	
 	local data 	= get(getIdUrl);
 	if data ~= nil then
 		log(data)
 		if type(data.data) == "table" then
-			var.account.login = data.data.address_mail
-			var.account.pwd = data.data.address_pwd
-			var.account.phone = data.data.address_phone
+			var.account.login = data.data.email
+			var.account.pwd = data.data.data.password
+			var.account.phone = data.data.data.verifiedPhone
 			var.account.id = data.data.id
-			var.account.first_name_ = data.data.address_xin
-			var.account.last_names_ = data.data.address_ming
-			var.account.address_country = data.data.address_country
+			var.account.first_name_ = data.data.data.firstName
+			var.account.last_names_ = data.data.data.lastName
+			var.account.address_country = data.data.data.address1
 			
 			local account_txt = "执行至 "..var.account.id .."\n账号 = "..var.account.login.."\n密码 = "..var.account.pwd
 			dialog(account_txt,2)
@@ -882,73 +878,94 @@ t['按尺码筛选'] = { 0x111111,"6|-1|0xffffff,7|-1|0x111111,28|-1|0x111111,19
 t['购物偏好设置'] = { 0x111111,"0|-8|0xfafafa,-13|-13|0x111111,14|-13|0x111111,178|1109|0x111111,174|1106|0xffffff,174|1101|0xffffff",degree,260,75,720,1304}
 t['鞋子详情页面'] = { 0xffffff,"-1|-23|0x3f3f3f,22|1|0x3f3f3f,-1|23|0x3f3f3f,9|11|0xffffff,-26|3|0x3f3f3f",degree,621,65,716,143}
 	
+	
+	
+	
+t['look-首页-菜单']={0x111111, "0|0|0x111111,16|-9|0xffffff,18|-10|0x111111,164|-7|0xcccccc",90,9,1231,328,1321}
+    摘要热卖={{60, 82, 0xffffff},{174, 81, 0xe2e2e2}}
+t['look-首页-按尺码筛选']={0x111111, "0|0|0x111111,7|-1|0xfcfcfc,9|-1|0x111111,91|-20|0x757575,-5|-18|0x111111,-6|-18|0xfcfcfc",90,19,47,258,207}
+    t['look-首页-喜欢心']={0xf6f6f6, "0|0|0xf6f6f6,2|-10|0x111111,-14|-6|0x111111,15|-4|0xf6f6f6,18|-4|0x111111,2|11|0xf6f6f6,2|16|0x111111",90,86,160,148,1332}
+t['look-鞋幻灯x']={0xffffff, "0|0|0xffffff,-6|-12|0x4e4e4e,-10|-9|0xffffff,-112|11|0x4d4d4d,-106|6|0xffffff",90,507,115,720,191}
+t['look-鞋详情x']={0xffffff, "0|0|0xffffff,9|-9|0xffffff,-11|-9|0xffffff,31|-1|0x4e4840,0|33|0x4e4a43",70,626,63,715,148}
+t['look-鞋详情-底黑']={0xffffff, "0|0|0xffffff,-252|-61|0x111111,303|-61|0x111111,276|56|0x111111,-246|56|0x111111",90,24,1168,722,1304}
+t['look-购物偏好设置']={0x111111, "0|0|0x111111,183|1110|0x111111,181|1103|0xffffff,22|-9|0x111111,6|-10|0xfafafa",90,322,82,614,1270}
+t['look-首页未激活']={0xcccccc, "0|0|0xcccccc,-17|-8|0xffffff,-21|-8|0xcccccc,0|-26|0xcccccc,17|3|0xffffff,17|12|0xcccccc",90,36,1235,136,1315}
+
 function look()
 	if UIvalues == nil then
 		UIvalues = {}
-		UIvalues.look_min_time = 60
+		UIvalues.look_min_time = 90
 		UIvalues.look_max_time = 150
 	end
 	
 	local timeline = os.time()
 	local outTimes = math.random(UIvalues.look_min_time+0,UIvalues.look_max_time+0)
 	
-	
---	updateNikeLog('浏览「'..outTimes..'」')
+	local 看鞋向下滑动计数 = 0
+	local 鞋详情下滑计数 = 0
+	local setp_ = ''
+	local setp__ = ""
+	local setp___ = 0
+
+	updateNikeLog('浏览「'..outTimes..'」')
 
 	while (os.time()-timeline < outTimes) do
 		if active(var.bid,3) then
-			if d('首页页面') then
-				local homes = {
-									{64,85,0xc1c1c1},
-									{174,85,0x757575},
-								}
-				click(homes[rd(1,2)][1],homes[rd(1,2)][2],rd(1,4))
-				moveTo(300,800,300,800-rd(100,500),rd(2,20))
-			elseif d('按尺码筛选') then
-				if rd(1,100)< 80 then
-					moveTo(300,800,300,800-rd(100,500),rd(2,20))
-				elseif rd(1,100) < 50 then
-					moveTo(300,300,300,300+rd(100,500),rd(2,20))
-					local change = {
-										{281,1276,0xffffff},
-										{466,1280,0xffffff},
-										{653,1277,0xb8b8b8},
-									}
-					delay(rd(1,3))
-					click(change[rd(1,3)][1],change[rd(1,3)][2])
-				elseif rd(1,100) < 50 then
-					d('按尺码筛选',true)
-				else
-					click(rd(66,694),rd(202,1225),rd(1,3))
-				end
-			elseif d('我的页面') then
-				delay(rd(1,5))
-				click(92,1277)
-			elseif d('浏览页面') then
-				delay(rd(1,5))
-				click(92,1277)
-			elseif d('收件箱页面')then
-				delay(rd(1,5))
-				click(92,1277)
-			elseif d('购物偏好设置') then
-				delay(1,5)
-				d('购物偏好设置',true)
-			elseif d('鞋子详情页面') then
-				delay(1,2)
-				if rd(1,100) < 60 then
-					moveTo(300,300,300,300+rd(100,500),rd(2,20))
-				else
-					d('鞋子详情页面',true)
-				end
-			else
-				others = others or 0
-				others = others + 1
-				if others > 10 then
-					closeApp(var.bid, 1)
-					others = 0
-				end
+		    if (  d('look-首页-菜单')  ) then
+		        setp_ = 'look-首页-菜单'
+		        
+		        看鞋向下滑动计数 = 0
+		        click(摘要热卖[rd(1,2)][1],摘要热卖[1][2],2)
+		        moveTo(300,800,300,800-rd(200,400),rd(20,30))	--向上滑动
+		    elseif d('look-首页-按尺码筛选') then
+		        setp_ = 'look-首页-按尺码筛选'
+                看鞋向下滑动计数 = 看鞋向下滑动计数 + 1
+                if ( 看鞋向下滑动计数 > rd(6,10) ) then
+                    moveTo(300,500,300,500+rd(200,400),rd(20,30))	--向下滑动
+                else
+                    moveTo(300,800,300,800-rd(200,400),rd(20,30))	--向上滑动
+                    if rd(1,100)>50 then
+                        d('look-首页-喜欢心',true,1,'喜欢',2)
+                    end
+    		        if rd(1,100) > 40 then
+    		            log('准备看详情')
+    		            click(rd(88,651),rd(187,946),2)
+    		            鞋详情下滑计数 = 0
+    		        end
+                end
+		    elseif d('look-鞋详情x') or d('look-鞋详情-底黑')then
+		        setp_ = 'look-鞋详情x'
+		        
+                鞋详情下滑计数 = 鞋详情下滑计数 + 1
+                moveTo(300,800,300,800-rd(200,400),rd(20,30))	--向上滑动
+                if rd(1,100) > 90 then
+                    d('look-鞋详情x',true)
+                elseif 鞋详情下滑计数 > rd(5,8) then
+                    d('look-鞋详情x',true)
+                end
+		    elseif d('look-购物偏好设置',true)then
+		        setp_ = 'look-购物偏好设置'
+		    elseif d('look-首页未激活',true)then
+                setp_ = 'look-首页未激活'
+            else
+                setp_ = '其它'
+		    end
+		    
+		    if setp_ == setp__ then
+		        setp___ = setp___ + 1
+		    else
+		        setp__ = setp_
+		    end
+		    if setp___ >= 15 then
+		        click(672, 106)
+		        setp___ = 0
+		    end
+		    log({setp_,setp__,setp___})
+		    if setp_ == '其它' then
+		        delay(0.5)
+		    else
+			    delay(rd(1,3))
 			end
-			delay(rd(1,3))
 			log('look->'..os.time()-timeline)
 		end
 	end
@@ -976,16 +993,19 @@ function delay(times)
 	end
 end
 
-
+require('arrow')
 function main()
-	if login()then
-		if look()then
-			backId()
-			updateNikeLog('SNKRS复登完成')
-		end
-		closeX(var.bid)
-		delay(2)
-	end
+    if Shadowrockets() then
+    	if login()then
+    	    get("http://127.0.0.1:8080/api/reportInfo");
+    		if look()then
+    			backId()
+    			updateNikeLog('SNKRS复登完成')
+    		end
+    		closeX(var.bid)
+    		delay(2)
+    	end
+    end
 end
 
 

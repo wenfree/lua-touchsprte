@@ -87,5 +87,4 @@ function axjNew()
 	end
 	nLog('新机超时')
 end
-
 nLog('AXJ 加截完成')
