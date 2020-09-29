@@ -1002,7 +1002,7 @@ function main()
     if Shadowrockets() then
     	if login()then
     	    get("http://127.0.0.1:8080/api/reportInfo");
-    		if snkrslook()then
+    		if snkrslook() then
     			backId()
     			updateNikeLog('SNKRS复登完成')
     		end

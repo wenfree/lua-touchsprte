@@ -322,8 +322,8 @@ end
 
 --用http.get实现下载文件功能
 local sz = require("sz")
-local cjson = sz.json
-local http = sz.i82.http
+json = sz.json
+http = sz.i82.http
 function downFile(url, path)
     status, headers, body = http.get(url)
     if status == 200 then

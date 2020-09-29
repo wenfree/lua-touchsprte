@@ -71,7 +71,7 @@ function get_(url)
 end
 
 local version = get_(v_url);
-if version then
+if false and version then
 	if version.data then
 		t1=os.time();
 		nLog(t1)

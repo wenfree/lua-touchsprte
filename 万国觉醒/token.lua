@@ -35,6 +35,8 @@ end
 function update_token()
     local RokToken = llsGameToken();
     local info ={}
+    info['cardid']=info.cradid
+    info['phone']=info.phone
     info['token']=RokToken[1]
     info['idfa']=RokToken[2]
     info['s']='Rok.Token'
@@ -73,6 +75,8 @@ function AccountInfoBack()
 
 	account_ = json.encode(account_)
 	account_ = "["..account_.."]"
+	account_ = '[  {    "app_token" : "icin4uStk8954v4v3HBKloEMarZE6Z10",    "user_password" : "",    "app_uid" : "988113",    "player_id" : "16530844161",    "nickname" : "游客",    "user_type" : 2  }]'
+	account_ = '[{"user_type":2,"user_password":"","app_uid":"183337","player_id":"13510892161","app_token":"aHVDrvfQsOO3fBEa40hxqV8FeWgmcdQk"}]'
 
 	writeFile_( account_ ,'w',AccountInfo)
 	log(account_)
@@ -81,7 +85,6 @@ function AccountInfoBack()
 end
 
 -- update_token()
-AccountInfoBack()
+-- AccountInfoBack()
 -- update_token()
-
 
