@@ -6,14 +6,14 @@ nLog(width..'*'..hight)
 function print_r(t)
 	local print_r_cache={}
 	local function sub_print_r(t,indent)
-		mSleep(100);
+-- 		mSleep(100);
 		if (print_r_cache[tostring(t)]) then
 			nLog(indent.."*"..tostring(t))
 		else
 			print_r_cache[tostring(t)]=true
 			if (type(t)=="table") then
 				for pos,val in pairs(t) do
-					mSleep(100);
+				-- 	mSleep(100);
 					if (type(val)=="table") then
 						nLog(indent.."["..pos.."] = "..tostring(t).." {")
 						sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
