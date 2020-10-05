@@ -52,34 +52,27 @@ function writeFile_(info,way,path)
 	f:write('')
     f:close()
 end
+
 --取帐空闲帐号
 function AccountInfoBack()
 
 	local sz = require("sz")
 	local json = sz.json
-
-	
 	local appbid = 'com.lilithgames.rok.ios.offical'
 	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"
-	
-	app_token = "aHVDrvfQsOO3fBEa40hxqV8FeWgmcdQk"
-	app_uid = "183337"
-	player_id = "13510892161"
-	
-	local account_ = {}
-	account_['app_token'] = app_token
-	account_['user_password'] = ""
-	account_['app_uid'] = app_uid
-	account_['player_id'] = player_id
-	account_['user_type'] = 2
 
-	account_ = json.encode(account_)
-	account_ = "["..account_.."]"
-	account_ = '[  {    "app_token" : "icin4uStk8954v4v3HBKloEMarZE6Z10",    "user_password" : "",    "app_uid" : "988113",    "player_id" : "16530844161",    "nickname" : "游客",    "user_type" : 2  }]'
-	account_ = '[{"user_type":2,"user_password":"","app_uid":"183337","player_id":"13510892161","app_token":"aHVDrvfQsOO3fBEa40hxqV8FeWgmcdQk"}]'
+-- 	app_token = "aHVDrvfQsOO3fBEa40hxqV8FeWgmcdQk"
+-- 	app_uid = "183337"
+-- 	player_id = "13510892161"
 
-	writeFile_( account_ ,'w',AccountInfo)
+    local url = 'http://rok.honghongdesign.cn/public/';
+    local arr = {}
+    arr['s']='RokGetToken.Rest'
+
+	local account_ = post(url,arr)
 	log(account_)
+	local token = account_.data.idfa
+	writeFile_( token ,'w',AccountInfo)
 	closeApp(appbid,1)
 	mSleep(2000)
 end

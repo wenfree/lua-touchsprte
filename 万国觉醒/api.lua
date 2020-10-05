@@ -84,8 +84,19 @@ function getMessage()
     log("取手短信出错");
 end
 
+function ocr(x1,y1,x2,y2)
+	local ress = ocrText(x1,y1,x2,y2, 10) or 0
+	if ress == '' then
+		nLog('nil')
+		return 0
+	end
+	return ress
+end
 
-
+-- init(1)
+-- qu={631,663,660,685}
+-- qu = ocr(qu[1],qu[2],qu[3],qu[4])
+-- log(qu)
 
 
 

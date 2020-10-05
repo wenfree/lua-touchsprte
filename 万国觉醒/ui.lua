@@ -20,7 +20,7 @@ MyTable = {
 		{["type"] = "Label", ["text"] = "万国觉醒挂机脚本",["size"] = 25,["align"] = "center",["color"] = "0,100,100", },
 		{["type"] = "Label", ["text"] = "功能设置",["size"] = 14,["align"] = "left",["color"] = "0,0,0", },
 		{["type"] = "Label", ["text"] = "国家选择",["size"] = 14,["align"] = "left", ['width'] = '150', ['nowrap'] = '1', ["color"] = "0,0,0",   },
-		{["type"] = "ComboBox",["list"] = "1罗马,2德国,3不列直,4法兰西,5西班牙,6中国,7日本,8韩国,9阿拉伯,10奥斯曼,11拜占庭",["select"] = "5", ['id'] = '国家', ['width'] = '200' },
+		{["type"] = "ComboBox",["list"] = "1贞德,2孙武,3海尔曼,4贝利撒留,5布狄卡,6西庇阿,7楠木正成", ["select"] = "5", ['id'] = '国家', ['width'] = '200' },
 		{["type"] = "Label", ["text"] = "建筑升级",["size"] = 14,["align"] = "left", ['width'] = '150', ['nowrap'] = '1', ["color"] = "0,0,0",   },
 		{["type"] = "Switch",["size"] = "s",["align"] = "left",["state"] = "on", ['id'] = '升级',  },
 		{["type"] = "Label", ["text"] = "奖励",["size"] = 14,["align"] = "left", ['width'] = '150', ['nowrap'] = '1', ["color"] = "0,0,0",   },

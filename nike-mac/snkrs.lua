@@ -71,6 +71,39 @@ function local_token()
 	return toketext
 end
 
+--读文件
+function readFile_(path)
+	local path = path or '/var/mobile/Media/TouchSprite/lua/account.txt'
+    local file = io.open(path,"r");
+    if file then
+        local _list = '';
+        for l in file:lines() do
+            _list = _list..l
+        end
+        file:close();
+        return _list
+    end
+end
+
+function local_token_()
+	local appbid = 'com.nike.onenikecommerce'
+	local localPath = appDataPath(appbid).."/Documents/ifkc.plist" --设置 plist 路径
+	local toketext = readFile_(localPath)
+	local toketext = string.gsub(toketext,'&','|')
+	local toketext = string.gsub(toketext,'+','^')
+	return toketext
+end
+
+function update_token()
+    local url = 'http://nikeapi.honghongdesign.cn'
+    local arr ={}
+    arr['s']='App.NikeToken.Token'
+    arr['email'] = var.account.login
+    arr['token'] = local_token_()
+    arr['id'] = var.account.id
+    post(url,arr);
+end
+
 function updateNike()
 	local sz = require("sz")
 	local url = 'http://zzaha.com/phalapi/public/'
@@ -270,387 +303,6 @@ function click_random(x,y,n)
 	end
 end
 
-function reg()
-	local timeline = os.time()
-	local outTimes = 10*60
-	local 取号 = true
-	local 验证码 = false
-	local sms = nil
-	local 登录 = false
-	local 填地址 = true
-	local 付款信息 = true
-	local error_times = 0
-	var.account.address_country = "CN"
-	
-	firstUp = true
-	local sendsms = 0
-	
-	var.account.login = mail_rand(rd(2,3))
-	if UIvalues.password_key == '0' then
-		var.account.pwd = myRand(3,1,1)..myRand(3,2,2)..myRand(3,2,2)..myRand(1,3)
-		log(var.account.pwd)
---		lua_exit()
-	else
-		var.account.pwd = UIvalues.password
-	end
-
-	degree = 90
-	t['登录Nike+帐号']={ 0x000000, "-185|94|0x111111,296|766|0x000000,218|90|0xffffff,213|85|0x111111", degree, 14, 14, 727, 1024}
-	t['登录Nike+帐号_发送验证码']={ 0xe5e5e5, "13|-9|0xe5e5e5,4|-5|0x111111,19|-12|0x111111,-61|-28|0xe5e5e5", degree, 503, 323, 719, 724}
-	t['输入您的电子邮件']={0x363636, "-124|92|0xf0f0f0,-123|91|0x111111,-124|108|0xffffff,-123|107|0x111111,-197|104|0xffffff,-198|102|0x111111",90,102,3,716,238} --多点找色
-	t['输入您的电子邮件_保存']={0xffffff, "-3|-2|0x000000,-307|-33|0x000000,312|-33|0x000000,308|31|0x000000",degree,25,487,719,716} --多点找色
-	t['输入您的出生日期']={0x363636, "-119|89|0xffffff,-120|90|0x333333,-124|78|0x111111,-169|84|0xf6f6f6,-168|82|0x111111,-191|114|0xf8f8f8,-192|123|0x111111",90,148,24,725,246} --多点找色
-	t['创建您的NIKE帐户_男子']={0x939393, "-1|-17|0x8d8d8d,-26|-49|0xe5e5e5,37|29|0xe5e5e5",degree,47,724,373,1156} --多点找色
-	t['创建您的NIKE帐户_男子_']={0x8d8d8d, "-144|-43|0xfe0000,121|34|0xfe0000",degree,46,545,376,1225} --多点找色
-	t['创建您的NIKE帐户_男子__']={0x939393, "0|-9|0x939393,-58|-49|0xe5e5e5,67|-49|0xe5e5e5,10|29|0xe5e5e5",90,39,400,366,1093} --多点找色
-	t['创建您的NIKE帐户_注册']={0xffffff, "-293|-31|0x000000,-293|36|0x000000,327|-34|0x000000",degree,30,1056,715,1333} --多点找色
-	t['创建您的NIKE帐户_出生日期']={0x8d8d8d, "0|-6|0xffffff,0|-10|0x8d8d8d,0|-20|0x8d8d8d,0|-52|0xe5e5e5,0|25|0xe5e5e5",90,77,563,211,778} --多点找色
-	t['继续——按钮'] = { 0xffffff,"-323|-38|0,275|29|0,291|-597|0x363636,291|-606|0xffffff",degree,27,22,727,847}
-	t['填完资料，点注册'] = { 0xffffff,"0|-5|0,304|-32|0,-317|-34|0,286|39|0,259|140|0x8d8d8d,-260|-258|0xbcbcbc",degree,14,492,736,1168}
-	t['填完资料，点注册2'] = { 0xffffff,"-298|-39|0,323|-39|0,310|36|0,15|99|0,313|129|0xffffff",degree,22,710,733,1328}
-	
-	while os.time()-timeline < outTimes do
-		if active(var.bid,3) then
-			if d('继续——按钮',true,1,5)then
-			elseif d('填完资料，点注册',false,2)then
-				click(384,922)
-				d('填完资料，点注册',true,1,5)
-			elseif d('开屏登录',true,2)then
-			elseif d('登录Nike+帐号') then
-				if 取号 then
-					var.account.phone =  vCode.getPhone()
-					if var.account.phone then
-						if d('登录Nike+帐号_手机号码',true)then
-							delay(2)
-							inputword(var.account.phone)
-						end
-						取号 = false
-						验证码 = true
-					end
-				elseif 验证码 then
-					if d('登录Nike+帐号_发送验证码')then
-						sendsms = sendsms + 1
-						if sendsms >= 2 then
-							return false
-						else
-							if d('登录Nike+帐号_发送验证码',true,1,2)then
-								click(254,508,2)
-								sms = vCode.getMessage()
-								if sms ~= "" then
-									log(sms,true)
-									inputword(sms)
-									delay(2)
-									d('弹窗_输入的完成',true)
-									验证码 = false
-									登录 = true
-								else
-									return false
-								end
-							end
-						end
-					end
-				elseif d('登录Nike+帐号_继续',true) then
-				end
-			elseif d('注册返回界面')then
-				local NameAndPwd ={{191,420,0xffffff},{554,427,0xffffff},{320,523,0xffffff},}
-				for i,v in ipairs(NameAndPwd) do
-					click(v[1],v[2])
-					if i == 1 then
-						local str_len = utf8.len(first_names)
-						local str_rnd = (math.random(1,str_len) -1) * 3
-						first_name_ = utf8.char(utf8.codepoint(first_names,str_rnd + 1,str_rnd + 2))
-						clearTxt()
-						input(first_name_)
-						d('弹窗_输入的完成',true)
-					elseif i == 2 then
-						local str_len = utf8.len(last_names)
-						local str_rnd = (math.random(1,str_len) -1) * 3
-						last_names_ = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2 + rd(0,1)*3 ))
-						clearTxt()
-						input(last_names_)
-						d('弹窗_输入的完成',true)
-					elseif i == 3 then
-						clearTxt()
-						input(var.account.pwd)
-						d('弹窗_输入的完成',true)
-						if d('创建您的NIKE帐户_出生日期',true,1,3)then
-							var.birthday = ''
-							var.year = os.date(os.date("%Y"))
-							var.moon = os.date(os.date("%m"))
-							var.day = os.date("%d")
-							local rd__ = rd(9,14)
-							click_random(228,1001,rd__)
-							var.year = (var.year+1-rd__*2)
-							local rd__ = rd(2,5)
-							click_random(364,1053,rd__)
-							var.moon = var.moon-rd__
-							if var.moon <= 0 then
-								var.moon = var.moon + 12
-							end
-							local rd__ = rd(2,5)
-							click_random(508,1053,rd__)
-							var.day = var.day-rd__
-							if var.day <= 0 then
-								var.day = var.day + 30
-							end
-							var.birthday = var.year ..'-'.. var.moon ..'-'.. var.day
-							click(681,861);
-						end
-					end
-					delay(1)
-				end
-				d('创建您的NIKE帐户_男子',true)
-				d('创建您的NIKE帐户_男子_',true)
---				d('创建您的NIKE帐户_男子__',true)
-				d('创建您的NIKE帐户_注册',true,1,4)
-				d('填完资料，点注册2',true,1,5)
-			elseif d('输入您的生日') or d('输入您的出生日期')then
-				click(182,404,2)
-				if d('弹窗_输入的完成')then
-					var.birthday = ''
-					var.year = os.date(os.date("%Y"))
-					var.moon = os.date(os.date("%m"))
-					var.day = os.date("%d")
-					local rd__ = rd(9,14)
-					click_random(228,1001,rd__)
-					var.year = (var.year+1-rd__*2)
-					local rd__ = rd(2,5)
-					click_random(364,1053,rd__)
-					var.moon = var.moon-rd__
-					if var.moon <= 0 then
-						var.moon = var.moon + 12
-					end
-					local rd__ = rd(2,5)
-					click_random(508,1053,rd__)
-					var.day = var.day-rd__
-					if var.day <= 0 then
-						var.day = var.day + 30
-					end
-					var.birthday = var.year ..'-'.. var.moon ..'-'.. var.day
-				end
-				if d('弹窗_输入的完成',true)then
-					click(  373,  562)
-					d('输入您的生日',true)
-				end
-				d('输入您的电子邮件_保存',true)
-			elseif d('输入您的电子邮件')then
-				click(639,408)
-				clearTxt()
-				input(var.account.login)
-				delay(1)
-				d('输入您的电子邮件_保存',true)
---				backWirteFile(file_name,var.account.login.."|"..var.account.pwd.."|"..var.account.phone.."\n",'a')
-			elseif d('主菜单_首页')then
-				if firstUp then
-					if updateNike()then
-						delay(rd(2,5))
-						firstUp = false
-						click(300,300)
-					end
-				elseif d('鞋子详情页面_心_点亮')then
-					moveTo(300,200,300,800-rd(500,600),rd(20,30))	--下滑
-					click(30,83)
-					d('主菜单_首页',true,4)
-				elseif d('未收藏的鞋子',true)then
-				elseif d('鞋子详情页面_心',true)then
-				else
-					moveTo(300,800,300,800-rd(100,200),rd(5,8))	--上滑
-				end
-			elseif d('个人页面')then
-				if d('个人页面_设置按钮',true)then
-				elseif d('我_付款信息_界面')then
-					--1,微信
-					--2,支付宝
-					--3,退出
-					local paywhere = {
-							{  143,  316, 0x00c800},
-							{  142,  189, 0x00aaef},
-							{   29,   82, 0x000000},
-						}
-					local payKeys__ = UIvalues.pay + 1
-					if payKeys__ == 3 then
-						payKeys__ = rd(1,2)
-					end
-					click(paywhere[payKeys__][1],paywhere[payKeys__][2])
-					click(paywhere[3][1],paywhere[3][2])
-					付款信息 = false
-				
-				elseif d('配送地址_新地址',true)then
-				elseif d('配送地址_添加成功',true)then
-					填地址 = false
-				elseif d('配送地址_添加地址',false)then
-					updateNikeLog('填地址');
-					local inputf = function(txt)
---									clearTxt()
---									inputText(txt)
-									inputStr(txt)
-									d('弹窗_输入地址的完成',true)
-									end
-					local loc ={
-									{  285,  214, 0xffffff},
-									{  651,  212, 0xffffff},
-									{  554,  349, 0xffffff},
-									{  127,  476, 0xffffff},
-									{  372,  476, 0xf7f7f7},
-									{  584,  476, 0xf7f7f7},
-									{  583,  605, 0xffffff},
-									{  579,  877, 0xffffff},
-								}
-								
-					for i,v in ipairs(loc)do
-						click(v[1],v[2])
-						if i == 1 then
-							local str_len = utf8.len(first_names)
-							local str_rnd = (math.random(1,str_len) -1) * 3
-							first_name_ = utf8.char(utf8.codepoint(first_names,str_rnd + 1,str_rnd + 2))
-							log('first_name_->'..first_name_)
-							inputf(first_name_ or '张')
-						elseif i == 2 then
-							local str_len = utf8.len(first_names)
-							local str_rnd = (math.random(1,str_len) -1) * 3
-							last_names_ = utf8.char(utf8.codepoint(last_names,str_rnd + 1,str_rnd + 2 + rd(0,1)*3 ))
-							inputf(last_names_ or '三')
-						elseif i == 3 then
-							clearTxt()
-							inputword(var.account.phone or myRand(2))
-							d('弹窗_输入地址的完成',true)
-						elseif i == 4 or i == 5 or i == 6 then
-							delay(2)
-							if i == 4 then
-								clici__i = rd(9,9)
-							elseif i == 5 then
-								clici__i = rd(6,6)
-							elseif i == 6 then
-								clici__i = rd(7,7)
-							end
-							for i_=1,clici__i do
-								click(382,1181,0.5)
-							end
-							d('弹窗_输入地址的完成',true)
-						elseif i == 7 then
-							local addr_list = split(street_addrs,",")
-							local addr = addr_list[math.random(1,#addr_list)]
-							
-							local where ={
-								string.format("延芳路4038号 %s%s小区%d%d栋%d0%d%d号",	myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗沙路4099号 %s%s小区%d%d栋%d0%d%d室",	myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("延芳路600号 %s%s小区%d%d栋%d0%d%d室",	myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("延芳路588号 %s%s%s小区%d%d栋%d0%d%d号",	myRand(7,1),myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗湖广岭小区 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗沙路 新世界四季御园 %d%d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("大澎花园 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("中震大厦 %s%s阁%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("通发花园 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗芳苑 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("银丰花园 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("龙泉花园 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("芳春花园 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("深港新村 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("锦绣新村 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("兴华苑 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("华兴花园 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("赤龙新村 %d%d栋%d0%d%d号",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("经二路1号 %s%s小区%d%d栋%d0%d",	myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("经二路3号 %s%s%s小区%d%d栋%d0%d",	myRand(7,1),myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗芳路190号 %s%s%s小区%d%d栋%d0%d",	myRand(7,1),myRand(7,1),myRand(7,1),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("经二路19号名太轩 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("广陵家园 %d%d栋%d%d0%d室",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("罗湖党校 %d%d栋%d0%d",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("西岭花园 %d%d栋%d0%d",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-								string.format("安业花园 %d%d栋%d0%d",	rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9),rd(1,9) ),
-							}
-							var.account.address_area = where[rd(1,#where)]
-							inputf(var.account.address_area)
-						elseif i == 8 then
-							inputf(tostring(rd(100000,999999)))
-						end
-						delay(1)
-					end	
-					d('配送地址_添加地址',true)
-				
-				elseif d('个人页面_通知开启')then
-					updateNikeLog('通知开启');
-					delay(3)
-					click(30,83)
-					d('个人页面',true,4)
-					click(30,83)
-					delay(rd(4,8))
-					return true
-				else
-					t['个人页面_姓别']={
-						0x000000, 
-						"3|22|0xfcfcfc,3|23|0x000000,-41|23|0x222222,-43|23|0xffffff,-45|23|0x000000", 
-						90, 14, 844, 100, 888
-					}
-					d('个人页面_姓别',true)
-			
-					if d('个人页面_未设头像',true)then
-						updateNikeLog('设头像');
-					elseif d('个人页面_鞋码选择',true)then
-						if d('个人页面_鞋码滑表')then
-							for i=1,rd(1,6) do
-								click(374,1116,0.5)
-							end
-						end
-						if d('个人页面_鞋码滑表',true)then
-							delay(2)
---							moveTo(300,900,300,300,20)
-							delay(3)
-						end
-					else
-						t['我_付款信息']={ 0xffffff, "3|-3|0x000000,20|-2|0x000000,655|-2|0xc7c7cc", 90, 11, 846, 736, 913}
-						if 付款信息 then
-							if d('我_付款信息',true)then
-								delay(rd(3,5))
-							else
-								moveTo(300,900,300,900-200,5)
-							end
-						else
-							moveTo(300,900,300,900-300,20)
-							delay(rd(2,3))
-						end
-					end
-					if 填地址 then
-						t["配送信息->"] = { 0xc7c7cc, "-587|10|0x000000,-54|1114|0x0b0b0b", 90, 15, 135, 716, 1312}
-						d("配送信息->",true)
-					else
-						d('个人页面_通知设置',true)
-						delay(1)
-						d('个人页面_启动通知',true)
-					end
-
-				end
-			elseif d('个人页面_照片',true,1)then
-			elseif d('个人页面_时刻',false,1)then
-				moveTo(300,200,300,800-rd(200,600),rd(20,30))	--下滑
-				delay(5)
-				click(rd(31,723),rd(235,1119))
-				click(696, 1265)
-			else
-				log('tips')
-				if d('弹窗_输入的完成',true)then
-				elseif d('弹窗_现在不用',true)then
-					moveTo(300,200,300,800-rd(500,600),rd(20,30))	--下滑
-					delay(2)
-				elseif 登录 then
-					if d('登录Nike+帐号_继续',true)then
-					else
-						errors()
-					end
-				else
-					if errors()then
-						error_times = error_times + 1
-						if error_times%5 == 0 then
-							click(20,20)
-						end
-					end
-				end
-			end
-		end
-		delay(1)
-	end
-end
-
 
 t["我_设置界面_"]={ 0xfbfbfb, "-4|-2|0x0c0c0c,-4|12|0x000000,19|12|0x000000,-356|-3|0x000000", 90, 10, 46, 543, 124}
 t["我_退出登录_红"]={ 0xff3b30, "-4|128|0x007aff", 90, 244, 1073, 516, 1298}
@@ -709,35 +361,11 @@ t['错误的登录'] = { 0x8d8d8d,"390|-295|0xfe0000,-113|-197|0xfe0000,387|-120
 function login()
 	local timeline = os.time()
 	local outTimes = 3*60
-	
 
--- 	getIdUrl = 'http://nikeapi.honghongdesign.cn/?s=App.NikeSelect.NikeFetch&re_login='..UIvalues.again
--- 	local data 	= get(getIdUrl);
---     log(data)
--- 	if data ~= nil and data~= '' and data ~= 'timeout' then
--- 		log(data)
--- 		if type(data.data) == "table" then
--- 			var.account.login = data.data.email
--- 			var.account.pwd = data.data.data.password
--- 			var.account.phone = data.data.data.verifiedPhone
--- 			var.account.id = data.data.id
--- 			var.account.first_name_ = data.data.data.firstName
--- 			var.account.last_names_ = data.data.data.lastName
--- 			var.account.address_country = data.data.data.address1
-			
--- 			local account_txt = "执行至 "..var.account.id .."\n账号 = "..var.account.login.."\n密码 = "..var.account.pwd
--- 			dialog(account_txt,2)
--- 			log(account_txt)
--- 		else
--- 			backphone();
--- 			dialog("暂无帐号", 60*3)
--- 			return false
--- 		end
--- 	end
-	
 	local loginKey = true
 	local pwdKey = true
 	local lookPwd = false
+	local 是否输入过密码 = false
 	updateNikeLog('正在登录')
 	
 	while os.time()-timeline < outTimes do
@@ -789,6 +417,7 @@ function login()
 					input(var.account.pwd)
 					pwdKey = false
 					lookPwd = true
+					是否输入过密码 = true
 				else
 					if d('登录Nike+帐号_继续',true) or d('登录Nike+帐号',true)then
 						delay(rd(8,10))
@@ -803,6 +432,9 @@ function login()
 				return false
 			elseif d('错误的登录',true) then
 			elseif d('look-首页-菜单') then
+			    if 是否输入过密码 then
+			        update_token();
+			    end
 				return true
 			elseif lookPwd and d('错误_密码错误')or d('错误_选对国家') then
 				updateNikeLog('密码错误');
@@ -998,7 +630,7 @@ function delay(times)
 end
 
 
-local arrowbid = "com.liguangming.Shadowrocket"
+
 
 
 function ip()
@@ -1039,8 +671,87 @@ t['vpn-首页-编辑节点']={0xed402e, "0|0|0xed402e,1|-7|0xed402e,-14|-18|0xff
 t['vpn-其它']={0xffffff, "0|0|0xffffff,22|-15|0x4386c5,399|-5|0xffffff,664|-10|0xffffff,656|3|0x4386c5",90,23,41,729,116}
 
 
-function Shadowrockets()
+
+function Shadowrockets_out()
+    local arrowbid = "com.liguangming.Shadowrocket"
     
+	local setp_ = ''
+	local setp__ = ""
+	local setp___ = 0
+	
+	local timeline = os.time()
+	local outTimes = 60
+	while (os.time()-timeline < outTimes) do
+		if active(arrowbid,5) then
+		    if d('vpn-首页-激活')  then
+		        setp_ = 'vpn-首页-激活'
+		        if d('vpn-首页-编辑') then
+		            setp_ = 'vpn-首页-第一页'
+		           
+	                if d('vpn-首页-开关关',true)then
+	                else 
+	                    if d('vpn-首页-开关开')then
+	                        return true
+	                    end
+	                end
+
+		        elseif d('vpn-首页-编辑节点')then
+		            setp_ = 'vpn-首页-编辑节点'
+		            
+		            if d("vpn-首页-编辑节点-HTTP") == nil then
+		                click(649, 239)
+		                click(301, 781)
+		            end
+		            log(whiteip())
+		            local vpnList = getNetIPproxy()
+		            local vpnlistWz = {{200, 398, 0xffffff},{200, 484, 0xffffff}}
+		            click( vpnlistWz[1][1],vpnlistWz[1][2],1)
+		            keyDown("Clear")
+                    keyUp("Clear")
+                    delay(1)
+		            inputText(vpnList['IP'])
+		            delay(1)
+		            click( vpnlistWz[2][1],vpnlistWz[2][2],1)
+		            keyDown("Clear")
+                    keyUp("Clear")
+                    delay(1)
+		            inputText(vpnList['Port'])
+		            delay(1)
+		            if d('vpn-首页-编辑节点-完成',true)then
+		                vpnInputKey = true
+		            end
+		        end
+		    elseif d('vpn-首页-未激活',true)then
+		        setp_ = 'vpn-首页-未激活'
+		    elseif d('vpn-其它',true)then
+		        setp_ = '其它UI'
+            else
+                setp_ = '其它'
+		    end
+		    
+		    if setp_ == setp__ then
+		        setp___ = setp___ + 1
+		    else
+		        setp__ = setp_
+		    end
+		    if setp___ >= 15 then
+		        closeApp(arrowbid,1)
+		        setp___ = 0
+		    end
+		    
+		    log({setp_,setp___,'vpn->'..os.time()-timeline})
+		    if setp_ == '其它' then
+		        delay(0.5)
+		    else
+			    delay(rd(1,3))
+			end
+		end
+	end
+end
+
+
+function Shadowrockets()
+    local arrowbid = "com.liguangming.Shadowrocket"
     
 	local setp_ = ''
 	local setp__ = ""
@@ -1067,31 +778,6 @@ function Shadowrockets()
 		            else
 		                if d('vpn-首页-开关关',true)then
 		                else 
-		                    	                    
-                        	getIdUrl = 'http://nikeapi.honghongdesign.cn/?s=App.NikeSelect.NikeFetch&re_login='..UIvalues.again
-                        	local data 	= get(getIdUrl);
-                        	if data ~= nil and data~= '' and data ~= 'timeout' then
-                        		log(data)
-                        		if type(data.data) == "table" then
-                        			var.account.login = data.data.email
-                        			var.account.pwd = data.data.data.password
-                        			var.account.phone = data.data.data.verifiedPhone
-                        			var.account.id = data.data.id
-                        			var.account.first_name_ = data.data.data.firstName
-                        			var.account.last_names_ = data.data.data.lastName
-                        			var.account.address_country = data.data.data.address1
-                        			
-                        			local account_txt = "执行至 "..var.account.id .."\n账号 = "..var.account.login.."\n密码 = "..var.account.pwd
-                        			dialog(account_txt,2)
-                        			log(account_txt)
-                        		else
-                        			backphone();
-                        			dialog("暂无帐号", 60*3)
-                        			return false
-                        		end
-                        	end
-	
-	                        delay(2)
 		                    d('vpn-首页-编辑',true)
 		                end
 		            end
@@ -1151,9 +837,81 @@ end
 
 nLog('arrow 加截完成')
 
+function get_account()
+    getIdUrl = 'http://nikeapi.honghongdesign.cn/?s=App.NikeSelect.NikeFetch&re_login='..UIvalues.again
+	local data 	= get(getIdUrl);
+	if data ~= nil and data~= '' and data ~= 'timeout' then
+		log(data)
+		if type(data.data) == "table" then
+			var.account.login = data.data.email
+			var.account.pwd = data.data.password
+			var.account.phone = data.data.data.verifiedPhone
+			var.account.id = data.data.id
+			var.account.first_name_ = data.data.data.firstName
+			var.account.last_names_ = data.data.data.lastName
+			var.account.address_country = data.data.data.address1
+			var.account.token = data.data.token
+    
+            log('var.account.token')
+            log(var.account.token)
+            log('var.account.token-end')
+            
+            if var.account.token then
+                if #var.account.token >10 then
+                    AccountInfoBack()
+                end
+            end
+            
+			local account_txt = "执行至 "..var.account.id .."\n账号 = "..var.account.login.."\n密码 = "..var.account.pwd
+			dialog(account_txt,2)
+			log(account_txt)
+		else
+			dialog("暂无帐号", 60*3)
+			return false
+		end
+	end
+    delay(2)
+end
+
+--用http.get实现下载文件功能
+local sz = require("sz")
+local cjson = sz.json
+local http = sz.i82.http
+function downFile(url, path)
+    status, headers, body = http.get(url)
+    if status == 200 then
+        file = io.open(path, "wb")
+        if file then
+            file:write(body)
+            file:close()
+            return true
+        else
+            return -1;
+        end
+    else
+        return status;
+    end
+end
+--还原帐号
+function AccountInfoBack()
+	local sz = require("sz")
+	local json = sz.json
+	local appbid = 'com.nike.onenikecommerce'
+	local AccountInfo = appDataPath(appbid).."/Documents/ifkc.plist"
+    log(AccountInfo);
+	local url = 'http://nikeapi.honghongdesign.cn/' .. var.account.token
+	downFile(url, AccountInfo)
+	toast('下载完成',1)
+	mSleep(2000)
+end
 
 function main()
-    if false or Shadowrockets() then
+    if Shadowrockets_out() then
+        get_account()
+        if UIvalues.netMode == '3' then  
+            Shadowrockets()
+        end
+            
     	if false or login()then
     	    get("http://127.0.0.1:8080/api/reportInfo");
     		if snkrslook() then
@@ -1163,6 +921,7 @@ function main()
     		closeX(var.bid)
     		delay(2)
     	end
+
     end
 end
 

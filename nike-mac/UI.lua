@@ -100,7 +100,7 @@ MyTable = {
 			{
                 ["id"] = "netMode",
                 ["type"] = "RadioGroup",
-                ["list"] = "4G,不断网",
+                ["list"] = "4G,不断网,vpn,rocket",
                 ["select"] = "0",
             },
 			{
