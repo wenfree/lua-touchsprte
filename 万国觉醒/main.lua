@@ -23,27 +23,25 @@ _UI = {}
 
 
 local _key = {}
-_key['on']= true
-_key['off']= false
+
 
 
 _UI.国家 = UIv.国家 + 1
-_UI.升级 = _key[UIv.升级]
-_UI.奖励 = _key[UIv.奖励]
+_UI.升级 = UIv.升级
+_UI.奖励 = UIv.奖励
 _UI.造兵 = {}
-_UI.造兵.key = _key[UIv.造兵key]
-_UI.造兵.步兵 = _key[UIv.步兵]
-_UI.造兵.骑兵 = _key[UIv.骑兵]
-_UI.造兵.弓兵 = _key[UIv.弓兵]
-_UI.造兵.车兵 = _key[UIv.车兵]
-_UI.建造 = _key[UIv.建造]
-_UI.英雄 = _key[UIv.英雄]
+_UI.造兵.key = UIv.造兵key
+_UI.造兵.步兵 = UIv.步兵
+_UI.造兵.骑兵 = UIv.骑兵
+_UI.造兵.弓兵 = UIv.弓兵
+_UI.造兵.车兵 = UIv.车兵
+_UI.建造 = UIv.建造
+_UI.英雄 = UIv.英雄
 _UI.采集 = {}
-_UI.采集.key = _key[UIv.采集key]
+_UI.采集.key = UIv.采集key
 _UI.采集.种类 = UIv.采集种类+1
-_UI.斥候 = _key[UIv.斥候]
-_UI.任务 = _key[UIv.任务]
-
+_UI.斥候 = UIv.斥候
+-- _UI.任务 = UIv.任务
 
 log(_UI)
 
@@ -86,14 +84,17 @@ function _Evevnt()
 		click(t['e-国家选择-位置'][_UI.国家][1],t['e-国家选择-位置'][_UI.国家][2],2)
 		d('e-国家选择',true,1)
 	elseif d('e-服务器选择-继续按扭') then
-	    qu={631,663,670,685}
-        __game.qu = ocr(qu[1],qu[2],qu[3],qu[4])
-        local arr ={}
-        arr['s']='Rok.token'
-        arr['qu'] = __game.qu
-        arr['token'] = __game.token
-        _api_rok(arr)
-         d('e-服务器选择-继续按扭',true,1,3)
+	   -- qu={631,663,670,685}
+    --     __game.qu = ocr(qu[1],qu[2],qu[3],qu[4])
+    --     local arr ={}
+    --     arr['s']='Rok.token'
+    --     arr['qu'] = __game.qu
+    --     arr['token'] = __game.token
+    --     _api_rok(arr)
+    --      d('e-服务器选择-继续按扭',true,1,3)
+    
+        dialog('请选区-点确定后20秒选完\n(帐号原来计划在'..__game.qu,0);
+        delay(20)
 	elseif d('e-文明样式选择')then
 	    click(1100, 659)
 	    d('e-文明样式选择',true)
@@ -162,13 +163,21 @@ t['游戏主界面-夜'] = { 0xf5bd63,"-1|-102|0xf2dc88,-56|-727|0xa507e,27|-731
 	t['游戏主界面-野外'] = { 0xb527f,"0|1|0x3ea0c4,-1|15|0x7fdef5,-1|16|0x4192b3,-21|-2|0x66ddf8,-24|-2|0xa507c",degree,18,640,108,726}
 	t['游戏主界面-城内'] = { 0x2074a0,"0|-10|0xffffff,0|15|0x6ce6ff,10|29|0x24776,15|33|0x82e7fe,-42|32|0x8578f",degree,27,653,106,722}
 t['联盟加入'] = { 0x1274ba,"-60|-12|0xc8f6,-18|20|0xace9,47|1|0xc7ff",degree,586,203,753,269}
+t['联盟加入']={0x1274ba, "0|0|0x1274ba,193|0|0x00c3ff,-72|-10|0x00cffe,93|3|0x00befb",90,495,236,828,294}
 	t['联盟加入不能'] = { 0x939585,"-271|98|0xd3ff",degree,545,87,993,301}
+	t['联盟加入不能']={0xbfc1b7, "0|0|0xbfc1b7,-195|128|0x00c2fe,-377|128|0x00c3fe",90,503,111,930,292}
+t['关闭任务']={0x0e67ad, "0|0|0x0e67ad,9|1|0x1ac5f1,5|-7|0x1063ad,4|6|0x0e6aaa",90,168,171,207,213}	
 	
 function _init()
 	d('游戏主界面-城内',true,2)
-	d('游戏主界面-野外',true,1,3)
+	if d('游戏主界面-野外',false,1,3) then
+	    ocrInfo()
+	    update_token()
+	    d('游戏主界面-野外',true,1,3)
+	end
 	if d('联盟加入',true)then
 		d("联盟加入不能",true)
+	elseif d('关闭任务',true)then
 	elseif d('游戏主界面-城内')then
 		log('初始化完成')
 		return true
@@ -195,13 +204,22 @@ t['弹窗_绑定帐号'] = { 0xd3d1c9,"-274|395|0xc1fe,-497|388|0xc5ff,-591|234|
 t['弹窗_弹出宝箱'] = { 0x9bab6e,"-596|544|0xb77016,-397|533|0xb77016,-501|516|0xffc000,-502|568|0xfca100",degree,487,78,1195,716}
 t['弹窗—回天改命'] = { 0xadafaf,"-595|521|0xb77016,-409|552|0xfeaa00",degree,462,21,1223,740}
 t['弹窗—验证图片'] = { 0x1274ba,"-51|-7|0xd3ff,43|17|0xb5f1,58|-5|0x1077bc,-10|-131|0xffef00",degree,663,90,1029,458}
+t['弹窗—验证图片']={0x1274ba, "0|0|0x1274ba,28|-5|0x00c7ff,-58|-3|0x00c5ff,9|-283|0x000000",90,668,92,1028,452}
 	t['弹窗—验证图片-确定'] = { 0x539ffe,"83|0|0x539ffe,-339|-2|0xffffff,-323|-10|0x7e7e7e,-406|-3|0x7e7e7e",degree,392,644,944,730}
 t['弹窗—app更新'] = { 0xc3ff,"-82|-24|0xd3fd,64|20|0xb5f0,192|-1|0xdf3d33,343|2|0xdd3c33",degree,384,427,966,569}
-t['酒馆—3确定']={0x1274ba, "0|0|0x1274ba,-48|-2|0x00c4ff,288|-1|0xffb000,633|0|0xffb000",90,177,587,1145,697}	
-	
+t['酒馆—3确定']={0x1274ba, "0|0|0x1274ba,-48|-2|0x00c4ff,288|-1|0xffb000,633|0|0xffb000",90,177,587,1145,697}
+t['弹窗—前往按钮']={0x1274ba, "0|0|0x1274ba,-71|-23|0x02cdf9,89|19|0x03aaec",90,550,529,803,660}
+t['弹窗—红蓝点击蓝']={0x00c3ff, "0|0|0x00c3ff,106|-17|0x00cfff,-321|1|0xde3d33,-165|1|0xde3d33",90,431,444,900,538}
+t['弹窗-常见问题']={0x007aff, "0|0|0x007aff,548|4|0x000000,298|0|0xf8f8f8",90,20,7,747,53}
+t['弹窗-王国历史x']={0x906f3f, "0|0|0x906f3f,29|-15|0x724d1b,-592|0|0x8e6b3a",90,558,20,1278,62}
+t['弹窗-appid-取消']={0x007aff, "0|0|0x007aff,306|-5|0x007aff,306|9|0x007aff",90,427,63,904,546}
+t['弹窗-聊天确定']={0xffffff, "0|0|0xffffff,-50|-37|0x0e75e5,56|28|0x0e75e5",90,596,596,736,676}
+t['弹窗-网络错误']={0x007aff, "0|0|0x007aff,12|-6|0x007aff,19|-164|0x000000",90,563,288,769,478}
+
 function _Tips()
 	local tips = {
 		'弹窗-网络断开',
+		'弹窗—红蓝点击蓝',
 		'弹窗-任务x',
 		'弹窗-邮件面板x',
 		'弹窗-资料面板x',
@@ -221,6 +239,12 @@ function _Tips()
 		'弹窗_点击任务_宝石',
 		'弹窗—验证图片',
 		'弹窗-正在加载',
+		'弹窗—前往按钮',
+		'弹窗-常见问题',
+		'弹窗-王国历史x',
+		'弹窗-appid-取消',
+		'弹窗-聊天确定',
+		'弹窗-网络错误',
 		}
 	for k,v in pairs(tips)do
 		if v == "弹窗-正在加载" then
@@ -242,6 +266,10 @@ function _Tips()
 					end
 				end
 				click(20,20);
+			end
+		elseif v == '弹窗-常见问题' then
+		    if d(v)then
+    	        closeApp(_app.bid,1)
 			end
 		else
 			if d(v,true,1,2)then
@@ -275,8 +303,12 @@ t['升级-正在升级中']={0xdea01c, "0|0|0xdea01c,-22|-20|0xeebb37,-52|17|0xd
 t['升级-正在升级中-总部'] = { 0xe3a412,"29|1|0xdea716,-1|-19|0xf1be35,-6|-20|0xf4ece1,-1|23|0xce9408,-35|8|0xf2e3cd,-31|20|0xcf920d",degree,478,344,616,490}
 t['升级-正在升级中-总部']={0xefbe3f, "0|0|0xefbe3f,23|20|0xdf9d10,-1|38|0xd3981b,-16|-10|0xf3f4f0,-29|3|0xf1b525",90,330,347,631,491}
 	t['升级-宝石'] = { 0xfeaf00,"148|-67|0x334e,397|2|0xc1fe,471|29|0x1176bc",degree,325,414,1020,611}
+	t['升级-宝石-立即升级']={0xffaf00, "0|0|0xffaf00,260|-24|0x00cefc,426|24|0x04a2e4",90,639,523,1147,616}
+	t['升级-宝石-不再提示']={0x00334f, "0|0|0x00334f,-16|-10|0x002b43,12|10|0x002b42,-186|68|0xffaf00,195|72|0x00befb",90,357,430,978,577}
+	t['升级-宝石-确认']={0xffb100, "0|0|0xffb100,79|-66|0x078b0a,288|3|0x00c0fe",90,349,434,987,585}
 	t['升级-宝石不足'] = { 0x980e0e,"11|1|0xffa700",degree,754,529,848,626}
 	t['升级-新手保护确定'] = { 0x1274ba,"-115|-4|0xc7ff,114|4|0xc2ff,241|-23|0xd4ff,461|33|0x1176bc",degree,297,456,1040,615}
+	t['升级-新手保护确定']={0x1274ba, "0|0|0x1274ba,64|-11|0x00ccff,257|11|0x00b8f8,422|-16|0x00d2fc",90,369,489,979,594}
 function _build()
 	log("升级")	
 		click(469,218,2)	--点击市政厅
@@ -290,9 +322,10 @@ function _build()
 						dengji = 100
 					end
 		
-					if false and dengji+0 <= 3 and not(d("升级-宝石不足")) then
-						click(766,571)
-						d("升级-宝石",true,1,5)
+					if true and dengji+0 <= 3 and not( d("升级-宝石不足") ) then
+						d('升级-宝石-立即升级',true)
+						d("升级-宝石-不再提示",true,1,2)
+						d("升级-宝石-确认",true,1,2)
 					else
 						if d("升级-升级按钮",true,1,2)then
 							d("升级-新手保护确定",true,1,2)
@@ -430,7 +463,7 @@ t['草-铲子'] = { 0xeb3535,"-24|24|0xe50909,-162|2|0xe4f1f4,-155|-12|0x28a4dc"
 t['草-铲子-是'] = { 0x1274ba,"-98|-19|0xd2ff,473|9|0xbffc",degree,331,450,1019,600}
 function _glass()
 	log("除草")
-	for i=1,10 do
+	for i=1,12 do
 		if d("树-白",false,1,2) or d('草-夜',false,2,2) or d('草-白',false,2,2) or d("树2-白",false,1,2) or d('树-枫树',false,1,2)then
 			
 			if x < 100 then
@@ -462,6 +495,8 @@ t['签到-领取-红'] = { 0,"13|7|0xcddce2,13|-55|0xe20000",degree,987,141,1136
 t['签到-领取-黄'] = { 0xf5b347,"37|-34|0xe20000",degree,767,526,877,629}
 t['签到-领取-绿']={0x258c08, "0|0|0x258c08,-51|-12|0x00d00f,44|15|0x01a60d",90,900,386,1052,472}
 t['签到-领取-红左']={0x0085bd, "0|0|0x0085bd,-1|-87|0xe30000",90,118,344,152,539}
+t['签到-红点']={0xf6c369, "0|0|0xf6c369,38|-25|0xe20000",90,772,518,880,617}
+t['签到-有红点提示']={0xd90000, "0|0|0xd90000,3|-1|0xd50000",90,183,44,205,58}
 function _SignIn()
 	log("签到")
 	if d("签到-vip",true,1,2)then
@@ -469,8 +504,20 @@ function _SignIn()
 		elseif d("签到-领取",true,1,2)then
 		elseif d("签到-领取-红",true,1,2)then
 		elseif d("签到-领取-绿",true,1,2)then
-		elseif d("签到-领取-红左",true,1,2)then    
+		elseif d("签到-领取-红左",true,1,2)then
+    	    local i=0
+    	    while d("签到-领取-红左",true,1,2) and i< 10 do
+    		    i=i+1
+    		    d('签到-红点',true,1,2)
+    	    end
 		end
+		
+		local i=0
+	    while d('签到-有红点提示') and i< 10 do
+	        i=i+1
+	        click(132, 442)
+	        d('签到-红点',true,1,2)
+	    end
 	end
 end
 
@@ -595,6 +642,54 @@ function _Hospital()
 	end
 end
 
+t['邮件-有邮件提醒']={0x156793, "0|0|0x156793,18|14|0x80e7ff,42|-12|0xde0000",90,1260,541,1333,623}
+    t['邮件-邮箱界面']={0xd2b890, "0|0|0xd2b890,26|-2|0x79603a,228|-11|0xd7bd94,228|-1|0x9b855f",90,13,653,455,721}
+        t['邮件-邮箱界面-有红点']={0xc4c0b4, "0|0|0xc4c0b4,70|-1|0xdb0000",90,45,3,1234,43}
+t['邮件-邮件x']={0xd2d1cb, "0|0|0xd2d1cb,-8|-7|0xd3d2c9",90,1256,25,1314,67}
+function _mail()
+    log('读邮件')
+    if d('邮件-有邮件提醒',true)then
+        if d('邮件-邮箱界面')then
+            local i=0
+            while i<10 and d('邮件-邮箱界面-有红点',true) do
+                d('邮件-邮箱界面',true)
+                i=i+1
+            end
+        end
+        d('邮件-邮箱界面',true)
+        d('邮件-邮件x',true)
+    end
+end
+
+t['礼物-木兰']={0xaa463d, "0|0|0xaa463d,25|-23|0xe20000",90,1082,90,1147,145}
+t['礼物-木兰领取']={0x1274ba, "0|0|0x1274ba,-51|1|0x00c2fe",90,608,345,882,508}
+function _gift()
+    log('领木兰')
+    if d('礼物-木兰',true)then
+        d('礼物-木兰领取',true)
+    end
+end
+
+t['日历-有奖励']={0xc07644, "0|0|0xc07644,8|-4|0xf2d3a2,26|-15|0xde0000",90,1265,94,1326,152}
+t['日历-奖励界面x']={0x907147, "0|0|0x907147,11|1|0xa88c6b,1|-9|0xa78a69",90,1137,23,1178,58}
+t['日历-奖励界面-领取']={0x228803, "0|0|0x228803,1|-18|0x00c90e,27|17|0x03a60d",90,993,113,1155,691}
+t['日历-奖励界面-左侧面板']={0x533f21, "0|0|0x533f21,119|-29|0xde0000",90,163,45,440,690}
+    t['日历-奖励界面-稍后查看']={0xffa900, "0|0|0xffa900,-461|-31|0x00caf6",90,370,622,954,715}
+t['日历-奖励界面-红绿']={0x26b455, "0|0|0x26b455,-15|-16|0xe20000",90,466,73,1171,673}
+t['日历-奖励界面-红蓝']={0x2481c1, "0|0|0x2481c1,-10|-20|0xe20000",90,466,73,1171,673}
+
+function _book()
+    log('日历奖励')
+    if d('日历-有奖励',true,1,3)then
+        local i=0
+        while ( d('日历-奖励界面-领取',true,1,2)  or d('日历-奖励界面-左侧面板',true,1,2)  or d('日历-奖励界面-红绿',true)  or d('日历-奖励界面-红蓝',true)) and i< 20 do
+            i=i+1
+            d('日历-奖励界面-稍后查看',true)
+            delay(1)
+        end
+        d('日历-奖励界面x',true)
+    end
+end
 --简单清理
 function clearOneAccount()
 	log('简单清理')
@@ -612,26 +707,38 @@ end
 
 
 t['任务_点击任务'] = { 0xe4b067,"-18|15|0x6d0000,-16|-7|0x560000",degree,18,141,76,196}
-	t['任务_点击任务_前往'] = { 0x1274ba,"-56|-18|0xd4fe,59|7|0xb6f3",degree,937,139,1163,429}
+	t['任务_点击任务_前往'] = { 0x1274ba,"-56|-18|0xd4fe,59|7|0xb6f3",degree,937,139,1163,429 }
+	t['任务_点击任务_前往2']={ 0x1274ba,"-56|-18|0xd4fe,59|7|0xb6f3",degree,957,422,1141,563 }
+	t['任务_点击任务_前往3']={ 0x1274ba,"-56|-18|0xd4fe,59|7|0xb6f3",degree,969,575,1131,676 }
 	t['任务_点击任务_训练'] = { 0xc9ff,"-349|-175|0x14d900,-309|15|0xffac00",degree,595,387,1140,668}
 	t['任务_点击任务_训练_取消'] = { 0xc0fe,"-445|-7|0xfeb200,-264|-67|0x334e",degree,286,356,1070,630}
 t['任务_点击任务_采矿'] = { 0x8c7ff,"162|-26|0x1077bc,162|19|0x1076bd",degree,128,429,1173,600}		
-	
+t['任务_点击任务_科技面板']={0xd2d1ca, "0|0|0xd2d1ca,-447|-4|0x858278,-988|-1|0xb9b6ad,-1083|87|0x0899d3",90,14,27,1220,251}	
+t['任务_点击任务_研究']={0x00bdfb, "0|0|0x00bdfb,10|-19|0x1176bc,-205|-1|0xffad00",90,659,502,1112,602}
+
 function _task()
 	
 	_setp['任务'] = _setp['任务'] + 1
-	if _setp['任务'] > 2 then
+	if _setp['任务'] > 3 then
 		_UI.任务 = false
 		return false
 	end
+	
+	local taskWarr = {
+	    '任务_点击任务_前往',
+	    '任务_点击任务_前往2',
+	    '任务_点击任务_前往3',
+	}
 
 	if d('任务_点击任务',true,1,3)then
-		click(122,336,2)
-		d("奖励-奖励面板-领取",true,1,2)
-		if d("任务_点击任务_前往",true,1,3)then
+		click(122,336,2)    --点到任务
+		d("奖励-奖励面板-领取",true,1,2)    --有奖励就领掉
+		if d( taskWarr[_setp['任务']] ,true,1,3)then
 			
-			if d("任务_点击任务_采矿",true,1,2)then
-				
+			if d('任务_点击任务_科技面板')then
+			    _Arrow()
+			    d('任务_点击任务_研究',true,1,2)
+			elseif d("任务_点击任务_采矿",true,1,2)then
 			else
 				click(809,507,2)
 			end
@@ -650,7 +757,7 @@ function _task()
 				d("任务_点击任务_训练_取消",true,1,2)
 				
 				if d('任务_点击任务_训练',true) or d('造兵-加速') then
-					_UI.任务 = false
+				-- 	_UI.任务 = false
 				end
 			
 			end
@@ -658,6 +765,9 @@ function _task()
 	end
 end
 
+
+
+t['游戏未绑定']={0x09bf07, "0|0|0x09bf07,-729|-10|0x09c107,-482|-517|0xfbe4c5,77|-450|0xfef2e5",90,304,55,1289,670}
 
 function game()
 	local timeline = os.time()
@@ -670,6 +780,9 @@ function game()
 					_glass()
 					_SignIn()
 					_Collect()
+					_gift()
+					_mail()
+				-- 	_book()
 					
 					if _init()then
 						if _Hospital() then
@@ -698,6 +811,8 @@ function game()
 				elseif d("游戏主界面-野外")then
 					click(65,681,2)
 				end
+			elseif d('游戏未绑定')then
+			    return false
 			else
 				if _Evevnt() then
 					_Arrow()
@@ -709,7 +824,8 @@ function game()
 	return 'next'
 end
 	
-	
+
+
 function main()
 	
 	while true do
@@ -718,24 +834,24 @@ function main()
 		_setp['任务'] = 0
 	
 		_UI.国家 = UIv.国家 + 1
-		_UI.升级 = _key[UIv.升级]
-		_UI.奖励 = _key[UIv.奖励]
+		_UI.升级 = UIv.升级
+		_UI.奖励 = UIv.奖励
 		_UI.造兵 = {}
-		_UI.造兵.key = _key[UIv.造兵key]
-		_UI.造兵.步兵 = _key[UIv.步兵]
-		_UI.造兵.骑兵 = _key[UIv.骑兵]
-		_UI.造兵.弓兵 = _key[UIv.弓兵]
-		_UI.造兵.车兵 = _key[UIv.车兵]
-		_UI.建造 = _key[UIv.建造]
-		_UI.英雄 = _key[UIv.英雄]
+		_UI.造兵.key = UIv.造兵key
+		_UI.造兵.步兵 = UIv.步兵
+		_UI.造兵.骑兵 = UIv.骑兵
+		_UI.造兵.弓兵 = UIv.弓兵
+		_UI.造兵.车兵 = UIv.车兵
+		_UI.建造 = UIv.建造
+		_UI.英雄 = UIv.英雄
 		_UI.采集 = {}
-		_UI.采集.key = _key[UIv.采集key]
+		_UI.采集.key = UIv.采集key
 		_UI.采集.种类 = UIv.采集种类+1
-		_UI.斥候 = _key[UIv.斥候]
-		_UI.任务 = _key[UIv.任务]
-			
+		_UI.斥候 = UIv.斥候
+		_UI.任务 = UIv.任务
+	
 		game()
-		
+
 		clearOneAccount();
 		AccountInfoBack();
 		delay(1)
@@ -743,11 +859,46 @@ function main()
 	end
 end
 
+function reg__()
+ 	_setp = {}
+	_setp['任务'] = 0
 
-__game = {}
-__game.token = llsGameToken()[1]
-main()
+	_UI.国家 = UIv.国家 + 1
+	_UI.升级 = UIv.升级
+	_UI.奖励 = UIv.奖励
+	_UI.造兵 = {}
+	_UI.造兵.key = UIv.造兵key
+	_UI.造兵.步兵 = UIv.步兵
+	_UI.造兵.骑兵 = UIv.骑兵
+	_UI.造兵.弓兵 = UIv.弓兵
+	_UI.造兵.车兵 = UIv.车兵
+	_UI.建造 = UIv.建造
+	_UI.英雄 = UIv.英雄
+	_UI.采集 = {}
+	_UI.采集.key = UIv.采集key
+	_UI.采集.种类 = UIv.采集种类+1
+	_UI.斥候 = UIv.斥候
+	_UI.任务 = UIv.任务
+		
+	game()
+	clearOneAccount();
+	delay(1)
 
+end
+
+if not(__reg)  then
+    
+    local sz=require('sz')
+    __game = {}
+    __game.imei = sz.system.serialnumber();
+    __game.phone_name = getDeviceName()
+    __game.note = UIv.note
+    AccountInfoBack();
+    
+    __game.token = llsGameToken()[1]
+    main()
+
+end
 
 
 

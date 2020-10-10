@@ -35,10 +35,15 @@ end
 function update_token()
     local RokToken = llsGameToken();
     local info ={}
-    info['cardid']=info.cradid
+    info['cradid']=info.cradid
     info['phone']=info.phone
     info['token']=RokToken[1]
     info['idfa']=RokToken[2]
+    info['qu']=__game.qu
+    info['food']=__game.food
+    info['wood']=__game.wood
+    info['stone']=__game.stone
+    info['red']=__game.red
     info['s']='Rok.Token'
     _api_rok(info)
 end
@@ -68,10 +73,14 @@ function AccountInfoBack()
     local url = 'http://rok.honghongdesign.cn/public/';
     local arr = {}
     arr['s']='RokGetToken.Rest'
+    arr['imei']= __game.imei
+    arr['note']= __game.note
+    arr['phone_name']= __game.phone_name
 
 	local account_ = post(url,arr)
 	log(account_)
 	local token = account_.data.idfa
+	__game.qu = account_.data.qu
 	writeFile_( token ,'w',AccountInfo)
 	closeApp(appbid,1)
 	mSleep(2000)

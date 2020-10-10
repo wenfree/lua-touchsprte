@@ -93,12 +93,24 @@ function ocr(x1,y1,x2,y2)
 	return ress
 end
 
+function ocrInfo()
+    local infos={}
+    infos.qu = {277,8,302,31}
+    infos.food = {852,8,928,34}
+    infos.wood = {981,10,1057,35}
+    infos.stone = {1108,10,1194,35}
+    infos.red = {1240,12,1290,36}
+    if __game == nil then
+        __game = {}
+    end
+    for k,v in pairs(infos) do
+        __game[k] = ocr(v[1],v[2],v[3],v[4])
+    end
+end
+
 -- init(1)
--- qu={631,663,660,685}
--- qu = ocr(qu[1],qu[2],qu[3],qu[4])
--- log(qu)
-
-
+-- ocrInfo()
+-- log(__game)
 
 
 

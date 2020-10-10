@@ -7,14 +7,12 @@ nLog(width..'*'..hight)
 function print_r(t)
 	local print_r_cache={}
 	local function sub_print_r(t,indent)
-		mSleep(100);
 		if (print_r_cache[tostring(t)]) then
 			nLog(indent.."*"..tostring(t))
 		else
 			print_r_cache[tostring(t)]=true
 			if (type(t)=="table") then
 				for pos,val in pairs(t) do
-					mSleep(100);
 					if (type(val)=="table") then
 						nLog(indent.."["..pos.."] = "..tostring(t).." {")
 						sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
@@ -217,7 +215,10 @@ function 多点比色(name,clicks,oder,stayTime)
 end
 --多点验证比色-end
 function d(name,clicks,oder,stayTime)
---	print_r(t[name])
+    if t[name] == nil then
+        dialog(name,3)
+        return false
+    end
 	if type(t[name][1]) == 'table' then
 		return 多点比色(name,clicks,oder,stayTime)
 	else

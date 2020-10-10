@@ -9,6 +9,7 @@ info.api = 'http://sms.wenfree.cn/public/'
 _app = {}
 _app.bid = 'com.lilithgames.rok.ios.offical'
 
+__reg = true
 
 -- info.phone = '16574509436'
 -- info.smsname = '海豚'
@@ -40,7 +41,7 @@ t['弹窗-提示确认2']={0x007aff, "0|0|0x007aff,39|-163|0x000000",90,543,278,
 t['弹窗-提示取消']={0x007aff, "0|0|0x007aff,273|1|0x007aff,171|-188|0x000000",90,412,265,868,503}
 t['弹窗-游戏提示']={0x1274ba, "0|0|0x1274ba,2|-22|0x00d4ff,-38|65|0x00648e,-70|74|0xc5c2b6,-58|-282|0xc7c4b7",90,397,149,811,634}
 
-function game()
+function reg_game()
 	local timeline = os.time()
 	
 	while os.time()-timeline < 60 * 3 do
@@ -123,9 +124,11 @@ function game()
 end
 	
 function all()
-    vpn()
-    game()
     awzNew()
+    vpn()
+    if(reg_game())then
+        reg__()
+    end
     vpnx()
     delay(2)
 end
