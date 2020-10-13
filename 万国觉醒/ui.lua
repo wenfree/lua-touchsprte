@@ -112,6 +112,7 @@ pages=
                                       },
                                       {
                                       ["type"] = "RadioGroup",
+                                      ["select"] = "1",
                                       ["id"] = "奖励",
                                       ["list"] = "开,关",
                                       },
@@ -124,6 +125,7 @@ pages=
                                       },
                                       {
                                       ["type"] = "RadioGroup",
+                                      ["select"] = "0",
                                       ["id"] = "建造",
                                       ["list"] = "开,关",
                                       },
@@ -188,6 +190,7 @@ pages=
                                       },
                                       {
                                       ["type"] = "RadioGroup",
+                                      ["select"] = "0",
                                       ["id"] = "采集key",
                                       ["list"] = "开,关",
                                       },
@@ -213,6 +216,7 @@ pages=
                                       },
                                       {
                                       ["type"] = "RadioGroup",
+                                      ["select"] = "0",
                                       ["id"] = "斥候",
                                       ["list"] = "开,关",
                                       },
@@ -236,6 +240,49 @@ pages=
                                       ["text"] = "",
                                       ["kbtype"] = "default",
                                       },
+                                      {
+                                      ["type"] = "Label",
+                                      ["color"] = "255,30,2",
+                                      ["size"] = "12",
+                                      ["align"] = "left",
+                                      ["text"] = "打野开关",
+                                      },
+                                      {
+                                      ["type"] = "RadioGroup",
+                                      ["select"] = "0",
+                                      ["id"] = "打野",
+                                      ["list"] = "开,关",
+                                      },
+                                      {
+                                      ["type"] = "Label",
+                                      ["color"] = "255,30,2",
+                                      ["size"] = "12",
+                                      ["align"] = "left",
+                                      ["text"] = "打野次数",
+                                      },
+                                      {
+                                      ["type"] = "Edit",
+                                      ["color"] = "38,38,38",
+                                      ["prompt"] = "打野次数",
+                                      ["size"] = "15",
+                                      ["id"] = "打野次数",
+                                      ["align"] = "left",
+                                      ["text"] = "10",
+                                      ["kbtype"] = "number",
+                                      },
+                                    {
+                                      ["type"] = "Label",
+                                      ["color"] = "255,30,2",
+                                      ["size"] = "12",
+                                      ["align"] = "left",
+                                      ["text"] = "联盟捐献",
+                                      },
+                                      {
+                                      ["type"] = "RadioGroup",
+                                      ["select"] = "0",
+                                      ["id"] = "联盟",
+                                      ["list"] = "开,关",
+                                      },
                                 }
                   },
            
@@ -243,38 +290,39 @@ pages=
 } 
 local MyJsonString = cjson.encode(MyTable);
 UIret,UIv = showUI(MyJsonString)
-
-local uiKey = {['0']=true,['1']=false}
+__UI = {}
 
 if UIret == 1 then
-	
 	for k,v in pairs(UIv)do
 	    if k == '兵种选择' then
-	        UIv['步兵'] = false
-	        UIv['骑兵'] = false
-	        UIv['弓兵'] = false
-	        UIv['车兵'] = false
+	        __UI['步兵'] = false
+	        __UI['骑兵'] = false
+	        __UI['弓兵'] = false
+	        __UI['车兵'] = false
 	        local 兵种选择arr = split(v,'@')
 	        log(兵种选择arr)
 	        for k,v in ipairs(兵种选择arr)do
 	            if v == '0' then
-	                UIv['步兵'] = true
+	                __UI['步兵'] = true
 	            elseif v == '1' then
-	                UIv['骑兵'] = true
+	                __UI['骑兵'] = true
 	            elseif v == '2' then
-	                UIv['弓兵'] = true
+	                __UI['弓兵'] = true
 	            elseif v == '3' then
-	                UIv['车兵'] = true
+	                __UI['车兵'] = true
 	            end
 	        end
-	    elseif k == '国家' then
-	    elseif k == '采集种类' then
-	    elseif k == 'note' then
+	    elseif k == '国家' or k == '采集种类' or k == 'note' or k == '打野次数' then
+	        __UI[k] = v
 	    else
-	       UIv[k] = uiKey[v]
+	        if v == '0' then
+	            __UI[k] = true
+	        elseif v == '1' then
+	            __UI[k] = false
+	        end
 	    end
 	end
-	log(UIv)
+	log(__UI)
 else
 	lua_exit()
 end

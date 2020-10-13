@@ -10,6 +10,7 @@ function print_r(t)
 		if (print_r_cache[tostring(t)]) then
 			nLog(indent.."*"..tostring(t))
 		else
+		    mSleep(100)
 			print_r_cache[tostring(t)]=true
 			if (type(t)=="table") then
 				for pos,val in pairs(t) do

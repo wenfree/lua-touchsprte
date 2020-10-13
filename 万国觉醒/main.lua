@@ -3,11 +3,95 @@
 
 -- Create By TouchSpriteStudio on 13:31:43   
 -- Copyright © TouchSpriteStudio . All rights reserved.
+--unlockDevice()
+-- require("TSLib")
+--require("tsp")
+
+update__ = true
+update__ = false
+
+--res, code = http.request("http://ip.chinaz.com/getip.aspx");
+--用http.get实现下载文件功能
+function downFile(url, path)
+	local sz = require("sz")
+	local http = require("szocket.http")
+	local url = "http://wenfree.cn/api/Public/idfa/?service=Git.Get&url="..url
+	local res, code = http.request(url);
+--	nLog(res)
+    if code == 200 then
+		local json = sz.json
+		local data = json.decode(res)
+		local body = data.data
+        local file = io.open(path, "w+")
+        if file then
+            file:write(body)
+            file:close()
+            return status;
+        else
+            return -1;
+        end
+    else
+        return status;
+    end
+end
+--downFile("http://mu1234.applinzi.com/-reply.txt",
+--"/User/Media/TouchSprite/lua/-reply.txt")
+
+function delFile(path)--帮你玩平台禁用此函数
+    os.execute("rm -rf "..path);
+end
+
+--检测指定文件是否存在
+function file_exists(file_name)
+    local f = io.open(file_name, "r")
+    return f ~= nil and f:close()
+end
+
+game_lua = {
+    {"AWZ",'https://img.wenfree.cn/rok/AWZ.lua'},
+	{"ZZBase64",'https://img.wenfree.cn/rok/ZZBase64.lua'},
+	{"api",'https://img.wenfree.cn/rok/api.lua'},
+	{"phone",'https://img.wenfree.cn/rok/phone.lua'},
+	{"token",'https://img.wenfree.cn/rok/token.lua'},
+	{"tsp",'https://img.wenfree.cn/rok/tsp.lua'},
+	{"ui",'https://img.wenfree.cn/rok/ui.lua'},
+	{"yzm",'https://img.wenfree.cn/rok/yzm.lua'},
+	{"qu",'https://img.wenfree.cn/rok/qu.lua'},
+	{"main",'https://img.wenfree.cn/rok/main.lua'},
+	}
+
+
+function get_(url)
+	local sz = require("sz")
+	local http = require("szocket.http")
+	local res, code = http.request(url);
+	if code == 200 then
+		local json = sz.json
+		if res ~= nil then
+			return json.decode(res)
+		end
+	end
+end
+
+if update__ then
+
+    t1=os.time();
+    nLog(t1)
+    for i,v in ipairs(game_lua)do
+    	nLog(v[1])
+    	nLog(v[2])
+    	local path = "/User/Media/TouchSprite/lua/"..v[1]..".lua"
+    	delFile(path)
+    	downFile(v[2],path)
+    	toast('下载->'..v[1],1)
+    end
+    nLog('end----->'..os.time()-t1)
+    toast('更新完成')
+    
+end
 	
-	
-	
-	
-	
+__UI = {}
+_UI = {}
 require('tsp')
 require('AWZ')
 require('ui')
@@ -19,31 +103,8 @@ require('token')
 init(1)
 _app = {}
 _app.bid = 'com.lilithgames.rok.ios.offical'
-_UI = {}
 
 
-local _key = {}
-
-
-
-_UI.国家 = UIv.国家 + 1
-_UI.升级 = UIv.升级
-_UI.奖励 = UIv.奖励
-_UI.造兵 = {}
-_UI.造兵.key = UIv.造兵key
-_UI.造兵.步兵 = UIv.步兵
-_UI.造兵.骑兵 = UIv.骑兵
-_UI.造兵.弓兵 = UIv.弓兵
-_UI.造兵.车兵 = UIv.车兵
-_UI.建造 = UIv.建造
-_UI.英雄 = UIv.英雄
-_UI.采集 = {}
-_UI.采集.key = UIv.采集key
-_UI.采集.种类 = UIv.采集种类+1
-_UI.斥候 = UIv.斥候
--- _UI.任务 = UIv.任务
-
-log(_UI)
 
 
 t={}
@@ -173,6 +234,10 @@ function _init()
 	if d('游戏主界面-野外',false,1,3) then
 	    ocrInfo()
 	    update_token()
+	    if upimg then
+	        uploadqu()
+	        upimg = false
+	    end
 	    d('游戏主界面-野外',true,1,3)
 	end
 	if d('联盟加入',true)then
@@ -204,8 +269,9 @@ t['弹窗_绑定帐号'] = { 0xd3d1c9,"-274|395|0xc1fe,-497|388|0xc5ff,-591|234|
 t['弹窗_弹出宝箱'] = { 0x9bab6e,"-596|544|0xb77016,-397|533|0xb77016,-501|516|0xffc000,-502|568|0xfca100",degree,487,78,1195,716}
 t['弹窗—回天改命'] = { 0xadafaf,"-595|521|0xb77016,-409|552|0xfeaa00",degree,462,21,1223,740}
 t['弹窗—验证图片'] = { 0x1274ba,"-51|-7|0xd3ff,43|17|0xb5f1,58|-5|0x1077bc,-10|-131|0xffef00",degree,663,90,1029,458}
-t['弹窗—验证图片']={0x1274ba, "0|0|0x1274ba,28|-5|0x00c7ff,-58|-3|0x00c5ff,9|-283|0x000000",90,668,92,1028,452}
+t['弹窗—验证图片']={0x1274ba, "0|0|0x1274ba,28|-5|0x00c7ff,-58|-3|0x00c5ff,9|-283|0x000000",90,668,92,1328,452}
 	t['弹窗—验证图片-确定'] = { 0x539ffe,"83|0|0x539ffe,-339|-2|0xffffff,-323|-10|0x7e7e7e,-406|-3|0x7e7e7e",degree,392,644,944,730}
+	t['弹窗—验证图片-确定-有图']={0x252525, "0|0|0x252525,0|1|0x252525",90,700,40,928,78}
 t['弹窗—app更新'] = { 0xc3ff,"-82|-24|0xd3fd,64|20|0xb5f0,192|-1|0xdf3d33,343|2|0xdd3c33",degree,384,427,966,569}
 t['酒馆—3确定']={0x1274ba, "0|0|0x1274ba,-48|-2|0x00c4ff,288|-1|0xffb000,633|0|0xffb000",90,177,587,1145,697}
 t['弹窗—前往按钮']={0x1274ba, "0|0|0x1274ba,-71|-23|0x02cdf9,89|19|0x03aaec",90,550,529,803,660}
@@ -215,6 +281,9 @@ t['弹窗-王国历史x']={0x906f3f, "0|0|0x906f3f,29|-15|0x724d1b,-592|0|0x8e6b
 t['弹窗-appid-取消']={0x007aff, "0|0|0x007aff,306|-5|0x007aff,306|9|0x007aff",90,427,63,904,546}
 t['弹窗-聊天确定']={0xffffff, "0|0|0xffffff,-50|-37|0x0e75e5,56|28|0x0e75e5",90,596,596,736,676}
 t['弹窗-网络错误']={0x007aff, "0|0|0x007aff,12|-6|0x007aff,19|-164|0x000000",90,563,288,769,478}
+t['弹窗-商人走了']={0x92734a, "0|0|0x92734a,-418|41|0x000000,-403|42|0xcba973",90,469,159,1006,256}
+t['弹窗-与众不同']={0x927560, "0|0|0x927560,11|-15|0x6f5343,-10|-15|0x755542",90,1139,86,1186,130}
+t['弹窗-同意并继续']={0x00a5ff, "0|0|0x00a5ff,-366|-405|0xd30000,-456|-6|0xf7e1c6",90,267,148,1008,604}
 
 function _Tips()
 	local tips = {
@@ -236,8 +305,10 @@ function _Tips()
 		'弹窗_弹出宝箱',
 		'弹窗—回天改命',
 		'酒馆—3确定',
+		'弹窗-与众不同',
 		'弹窗_点击任务_宝石',
 		'弹窗—验证图片',
+		'弹窗-同意并继续',
 		'弹窗-正在加载',
 		'弹窗—前往按钮',
 		'弹窗-常见问题',
@@ -245,6 +316,7 @@ function _Tips()
 		'弹窗-appid-取消',
 		'弹窗-聊天确定',
 		'弹窗-网络错误',
+		'弹窗-商人走了',
 		}
 	for k,v in pairs(tips)do
 		if v == "弹窗-正在加载" then
@@ -256,7 +328,7 @@ function _Tips()
 			if d(v,true,1,5) then
 				local time_ = os.time()
 				while ( os.time() - time_ < 120 ) do
-					if d("弹窗—验证图片-确定")then
+					if d("弹窗—验证图片-确定") and d('弹窗—验证图片-确定-有图') then
 						delay(1)
 						if _yzmsb()then
 							d("弹窗—验证图片-确定",true,1,5)
@@ -273,6 +345,9 @@ function _Tips()
 			end
 		else
 			if d(v,true,1,2)then
+			    if v == '弹窗-商人走了' then
+			        _UI.任务 = false
+			    end
 				return false
 			end
 		end
@@ -306,9 +381,10 @@ t['升级-正在升级中-总部']={0xefbe3f, "0|0|0xefbe3f,23|20|0xdf9d10,-1|38
 	t['升级-宝石-立即升级']={0xffaf00, "0|0|0xffaf00,260|-24|0x00cefc,426|24|0x04a2e4",90,639,523,1147,616}
 	t['升级-宝石-不再提示']={0x00334f, "0|0|0x00334f,-16|-10|0x002b43,12|10|0x002b42,-186|68|0xffaf00,195|72|0x00befb",90,357,430,978,577}
 	t['升级-宝石-确认']={0xffb100, "0|0|0xffb100,79|-66|0x078b0a,288|3|0x00c0fe",90,349,434,987,585}
-	t['升级-宝石不足'] = { 0x980e0e,"11|1|0xffa700",degree,754,529,848,626}
+	t['升级-宝石不足'] ={0x980e0e, "0|0|0x980e0e,4|0|0xffa700,7|0|0x980e0e",90,1078,189,1111,224}
 	t['升级-新手保护确定'] = { 0x1274ba,"-115|-4|0xc7ff,114|4|0xc2ff,241|-23|0xd4ff,461|33|0x1176bc",degree,297,456,1040,615}
 	t['升级-新手保护确定']={0x1274ba, "0|0|0x1274ba,64|-11|0x00ccff,257|11|0x00b8f8,422|-16|0x00d2fc",90,369,489,979,594}
+	t['升级-宝石-大于100']={0xffffff, "0|0|0xffffff,27|0|0xffffff",90,747,573,808,596}
 function _build()
 	log("升级")	
 		click(469,218,2)	--点击市政厅
@@ -321,8 +397,8 @@ function _build()
 					if dengji == "" or dengji== nil then
 						dengji = 100
 					end
-		
-					if true and dengji+0 <= 3 and not( d("升级-宝石不足") ) then
+					
+					if (dengji=='2' or dengji=='3') and not( d("升级-宝石不足") )  and not(d('升级-宝石-大于100'))then
 						d('升级-宝石-立即升级',true)
 						d("升级-宝石-不再提示",true,1,2)
 						d("升级-宝石-确认",true,1,2)
@@ -368,26 +444,32 @@ function _Award()
 end
 
 
-t['造兵-训练'] = { 0xfafeff,"20|-28|0xcffe,-92|-14|0xc5ff",degree,914,574,1137,659}
-t['造兵-加速'] = { 0xd3d1c9,"-151|515|0x1176bc,-232|500|0xd1ff,-38|545|0xb6f3",degree,858,58,1165,680}
+t['造兵-准备训练']={0x0375ac, "0|0|0x0375ac,-151|16|0x1ba80e,-302|-15|0x128bc5",90,147,91,1310,705}
+    t['造兵-训练'] = { 0xfafeff,"20|-28|0xcffe,-92|-14|0xc5ff",degree,914,574,1137,659}
+    t['造兵-加速'] = { 0xd3d1c9,"-151|515|0x1176bc,-232|500|0xd1ff,-38|545|0xb6f3",degree,858,58,1165,680}
+    
 
 function _soldier()
 	log("造兵")
 	local 兵营位置={
-			{{549,449,0x4b3e35},{686,595,0x880ba},},
-			{{549,449,0x4b3e35},{686,595,0x880ba},},
-			{{549,449,0x4b3e35},{686,595,0x880ba},},
-			{{549,449,0x4b3e35},{686,595,0x880ba},},
+			{{549, 449,0x4b3e35},{686,595,0x880ba},},
+			{{535, 75,0x4b3e35},{686,595,0x880ba},},
+			{{925, 373,0x4b3e35},{686,595,0x880ba},},
+			{{1151, 415,0x4b3e35},{686,595,0x880ba},},
 		}
 	local 兵种 = { 
 		"步兵","骑兵","弓兵","车兵",
 		}
 	for k,v in ipairs(兵种) do
 		if _UI.造兵[v] then
+		    log(v)
 			click(兵营位置[k][1][1],兵营位置[k][1][2],2)
-			click(兵营位置[k][1][1],兵营位置[k][1][2],2)
-			click(兵营位置[k][2][1],兵营位置[k][2][2],2)
-			if d('造兵-训练',true) or d('造兵-加速',true,1,2) then
+			if not (  d('造兵-准备训练') )  then
+			    click(兵营位置[k][1][1],兵营位置[k][1][2],2)
+			end
+			d('造兵-准备训练',true,1,2)
+	
+			if d('造兵-训练',true,1,2) or d('造兵-加速',true,1,2) then
 				_UI.造兵[v] = false
 			end
 		end
@@ -529,6 +611,7 @@ t['收集-木材']={0xedae69, "0|0|0xedae69,16|-6|0x8b370f,15|2|0x762805,-8|10|0
 t['收集-木材黄'] = { 0x6e2a08,"-19|2|0xecb87b,-16|21|0xd0905c,-5|7|0x92380b",degree,21,43,1232,712}
 t['收集-石头'] = { 0xd8dfee,"0|-7|0x969fb7,-15|10|0x9da6c1,-16|16|0x606a83,12|11|0x485168",80,50,20,1250,736}
 t['收集-握手'] = { 0xdedee0,"8|-19|0x2f9c01,0|-36|0xfcf2e1,-12|-41|0xffe67e,-12|-25|0x33a600",70,54,85,1224,723}
+t['收集-握手']={0xfeeee1, "0|0|0xfeeee1,-2|-14|0x188ecd,3|13|0x067bbf,2|8|0xd06252,15|0|0x9f5110",90,824,539,946,645}
 function _Collect()
 	log("收集")
 	local 收集 = {"收集-玉米","收集-木材","收集-石头","收集-握手","收集-木材黄"}
@@ -562,8 +645,102 @@ t['采矿-搜索'] = { 0x1274ba,"-69|-29|0xd3fe,81|23|0xb4f0",degree,130,454,120
 	t['采矿-搜索-采集'] = { 0x1273b9,"-85|-29|0xd1fc,93|31|0x1175bb,88|-25|0xd2fe",degree,73,51,1233,739}
 	t['采矿-搜索-采集']={0x1274ba, "0|0|0x1274ba,94|-23|0x08d5fe,-63|17|0x00b0ee",90,73,51,1233,739}
 t['采矿-创建部队'] = { 0x1375ba,"-82|-24|0xd3fd,86|33|0x1175bb",degree,927,14,1195,727}
-t['采矿-创建部队']={0x1274ba, "0|0|0x1274ba,-73|-16|0x03d0ff,90|19|0x00b8f6",90,884,12,1325,370}
+t['采矿-创建部队']={0x1274ba, "0|0|0x1274ba,-73|-16|0x03d0ff,90|19|0x00b8f6",90,884,12,1325,570}
+    t['打野-创建部队-正在返回']={0xb75f02, "0|0|0xb75f02,7|-5|0xfcf8f5,14|-8|0xb25b00",90,1209,58,1322,309}
+    t['打野-创建部队-行军']={0xb67016, "0|0|0xb67016,-90|-10|0xffba00,63|22|0xffa500",90,926,64,1319,394}
 t['采矿-行军'] = { 0xfdae00,"118|-1|0xfeae00,-118|-6|0xfdb100,-340|-14|0xcafd,-208|8|0xbcf8",degree,612,603,1164,719}
+    t['采矿-行军-打不过']={0xfbf1f2, "0|0|0xfbf1f2,-3|2|0xe3680e",90,863,579,1059,620}
+t['采矿-行军2']={0xb67016, "0|0|0xb67016,57|-2|0xffb500,-230|5|0x00c4ff",90,706,577,1274,709}
+
+t['打野-增加开关']={0x1073bd, "-99|93|0x00c0fc,-287|-1|0x1172ba",90,77,369,505,564}
+t['打野-七世']={0x57c0f1, "0|0|0x57c0f1,1|3|0x72d8ff,3|8|0x59c2f1",90,462,138,498,175}
+    t['打野-切换英雄']={0x3395d6, "0|0|0x3395d6,0|-11|0x3097d6",90,187,455,222,492}
+        t['打野-切换英雄-七世']={0xffdcbb, "0|0|0xffdcbb,20|5|0xfdf67e,25|12|0x5a5dee,-26|3|0xc76d1b,-33|13|0x343999",90,12,97,265,623}
+t['打野-搜索']={0x1274ba, "0|0|0x1274ba,10|0|0x06c3fc,-71|-15|0x04d0ff,90|21|0x02aff1",90,632,302,1231,617}
+
+t['打野-正在行军']={0x0e9a00, "0|0|0x0e9a00,-4|-7|0xfdffff,-5|-14|0x0d9c00",90,1279,228,1317,277}
+t['打野-正在战斗']={0xb40000, "0|0|0xb40000,-60|-90|0x20cdf7",90,1209,162,1325,276}
+t['打野-体力不足']={0xcba300, "0|0|0xcba300,-36|7|0x57e011,-16|-12|0xed8a04",90,397,128,486,183}
+
+
+function _monster()
+	log("打野")
+	log({"打野次数记数",打野次数记数,"_UI.打野次数",_UI.打野次数})
+	if 打野次数记数 >  _UI.打野次数  then
+	    _UI.打野 = false
+	end
+	
+	local 采集位置={{269,665,0xb3b0b0},{474,661,0x428a22},{675,662,0xc28f71},{861,659,0x585858},{1064,661,0x878787},}
+	while d('采矿-放大镜') and 打野次数记数 < _UI.打野次数 and _UI.打野 do
+	    
+		local i = 1
+		while i < 60 and ( d('打野-正在行军') or d('打野-正在战斗') )  do
+		    delay(1)
+		    i=i+1
+		end
+		d('采矿-放大镜',true,1,3) 
+		click( 采集位置[1][1],采集位置[1][2],2 )
+
+        if 打野降低key then
+            d('打野-增加开关',true,3,1)
+            打野降低key = false
+        elseif 打野增长key then
+            d('打野-增加开关',true)
+        end
+		if d("采矿-搜索",true,1,3)then
+			click(663,367,2)	--点屏中间
+			log('点屏中间')
+			if d("斥候-搜索-绿")then
+				log("未开荒")
+				_UI.采集.key = false
+				return false
+			end
+			if d('打野-搜索',true)then
+			    打野增长key = false
+			     d("采矿-搜索",true,1,3)
+			else
+    			d("采矿-搜索-攻击",true,1,3)
+    			
+    			if d("采矿-创建部队",false,1,2)  then
+    			    d('打野-创建部队-正在返回',true,1,2)
+    			    if d('打野-创建部队-行军',true,1,3)then
+    			        打野次数记数 = 打野次数记数 + 1
+    			    end
+    			end
+    			 d("采矿-创建部队",true,1,2)
+    			 
+    			if d("采矿-行军")  then
+    			    if not( d('打野-七世')) then
+    			        d('打野-切换英雄',true)
+    			        local qsi = 0
+    			        while qsi < 10 do
+    			            log('准备找埃及7世')
+    			            if d('打野-切换英雄-七世',true,1,2) then
+    			                break
+    			            end
+    			            qsi=qsi + 1
+    			            delay(1)
+    			        end
+    			    end
+    			    
+    			    if d('采矿-行军-打不过')then
+    			        打野增长key = false
+    			        打野降低key = true
+    			    elseif d("采矿-行军",true) then
+    				    log('打野中休息5秒','all')
+    				    delay(5)
+    				    打野次数记数 = 打野次数记数 + 1
+    				    if d('打野-体力不足')then
+    				        _UI.打野 = false
+    				        return
+    				    end
+    				end
+    			end
+    		end
+		end
+	end
+
+end
 
 function _Collection()
 	log("采集")
@@ -591,15 +768,28 @@ function _Collection()
 				d("采矿-搜索-采集",true,1,2)
 				d("采矿-创建部队",true,1,2)
 				
-				if d("采矿-行军",true,1,2) and _Coll_key ~=1 then
-					_UI.采集.key = false
-				elseif _Coll_key == 1 then
-					log('打野中休息15秒','all')
-					delay(15)
-				end
-			end
-		end
-	end
+				if d("采矿-行军")  then
+    			    if not( d('打野-七世')) then
+    			        d('打野-切换英雄',true)
+    			        local qsi = 0
+    			        while qsi < 10 do
+    			            log('准备找埃及7世')
+    			            if d('打野-切换英雄-七世',true,1,2) then
+    			                break
+    			            end
+    			            qsi=qsi + 1
+    			            delay(1)
+    			        end
+    			    end
+    			    
+    			    if d("采矿-行军",true) or d('采矿-行军2',true) then
+    				    _UI.采集.key = false
+    				end
+    			end
+				
+			end	
+	    end
+    end
 end
 
 local 斥候位置={{808,404,0xb2004},{952,564,0x97fb8},}
@@ -648,7 +838,7 @@ t['邮件-有邮件提醒']={0x156793, "0|0|0x156793,18|14|0x80e7ff,42|-12|0xde0
 t['邮件-邮件x']={0xd2d1cb, "0|0|0xd2d1cb,-8|-7|0xd3d2c9",90,1256,25,1314,67}
 function _mail()
     log('读邮件')
-    if d('邮件-有邮件提醒',true)then
+    if d('邮件-有邮件提醒',true,1,3)then
         if d('邮件-邮箱界面')then
             local i=0
             while i<10 and d('邮件-邮箱界面-有红点',true) do
@@ -707,6 +897,7 @@ end
 
 
 t['任务_点击任务'] = { 0xe4b067,"-18|15|0x6d0000,-16|-7|0x560000",degree,18,141,76,196}
+    t['任务_点击任务_王者任务']={0x1274ba, "0|0|0x1274ba,-794|-11|0xf6d58e,-814|-13|0xfa2a39,-798|-52|0xd6dff5,-815|13|0xd32e36",90,181,266,1155,676}
 	t['任务_点击任务_前往'] = { 0x1274ba,"-56|-18|0xd4fe,59|7|0xb6f3",degree,937,139,1163,429 }
 	t['任务_点击任务_前往2']={ 0x1274ba,"-56|-18|0xd4fe,59|7|0xb6f3",degree,957,422,1141,563 }
 	t['任务_点击任务_前往3']={ 0x1274ba,"-56|-18|0xd4fe,59|7|0xb6f3",degree,969,575,1131,676 }
@@ -714,12 +905,48 @@ t['任务_点击任务'] = { 0xe4b067,"-18|15|0x6d0000,-16|-7|0x560000",degree,1
 	t['任务_点击任务_训练_取消'] = { 0xc0fe,"-445|-7|0xfeb200,-264|-67|0x334e",degree,286,356,1070,630}
 t['任务_点击任务_采矿'] = { 0x8c7ff,"162|-26|0x1077bc,162|19|0x1076bd",degree,128,429,1173,600}		
 t['任务_点击任务_科技面板']={0xd2d1ca, "0|0|0xd2d1ca,-447|-4|0x858278,-988|-1|0xb9b6ad,-1083|87|0x0899d3",90,14,27,1220,251}	
-t['任务_点击任务_研究']={0x00bdfb, "0|0|0x00bdfb,10|-19|0x1176bc,-205|-1|0xffad00",90,659,502,1112,602}
+    t['任务_点击任务_研究']={0x00c2fd, "0|0|0x00c2fd,0|-18|0x00cdff,-240|-19|0xffbb00,-367|14|0xffa500",90,663,494,1129,616}
+t['任务-联盟互动']={0xefafa0, "0|0|0xefafa0,25|-41|0x0083e1,-37|-40|0xe0b402",90,207,260,324,673}
+    t['任务-联盟帮助']={0xffb000, "0|0|0xffb000,-47|-23|0xfebc00,118|22|0xffa500",90,508,641,829,725}
+    t['任务-活跃度80+']={0xebbc00, "0|0|0xebbc00,-1|-13|0x04445e",90,950,180,1057,232}
+    t['任务-事半功倍']={0xfcf7f7, "0|0|0xfcf7f7,46|4|0x4b2610,44|143|0x492510,45|283|0x492410",90,197,257,332,673}
+    t['任务-知识之力']={0x1274ba, "0|0|0x1274ba,-750|-58|0xfdee1c,-756|-57|0x834910,-774|2|0x1ab2ff,-780|-10|0xfeffff",90,178,267,1162,678}
+        t['任务-埃及艳后']={0xffddbc, "0|0|0xffddbc,-37|31|0xec7700,19|13|0xfaf974,0|-24|0xfefb7f,-29|-18|0x2c33a0",90,700,40,928,78}
+        t['任务-英雄之力-学习']={0x00c0fd, "0|0|0x00c0fd,231|0|0x00c0fb,-1011|-599|0xd4d4cd",90,11,12,1298,691}
+        t['任务-英雄之力-学习-使用']={0x1274ba, "0|0|0x1274ba,-85|-18|0x00d0fd,53|23|0x01aeeb",90,912,211,1134,669}
+    t['任务-神秘商人界面']={0x007eb9, "0|0|0x007eb9,39|-86|0x858278,99|-85|0xc9c5b6",90,531,65,942,206}
+    t['任务-神秘商人-免费刷新']={0xffffff, "0|0|0xffffff,-23|-21|0x197bbf,-31|0|0x00b6f4",90,957,140,1137,201}
+    t['任务-神秘商人-收费刷新']={0xd4d3cc, "0|0|0xd4d3cc,-26|92|0xffad00,-152|89|0xffaf00",90,946,63,1176,207}
+t['任务-完成']={0x482d13, "0|0|0x482d13,-11|-14|0xd6b124,-5|-19|0x033e57",90,1078,189,1111,224}
+
+function _神秘商店()
+    delay(1)
+    local i = 0
+    while i < 5 and d('任务-神秘商人界面') do
+        local redx = 385
+        for ii = 1,2 do
+            for i=0,3 do
+                t['商店购买-宝石']={0xc81108, "0|0|0xc81108,-6|-10|0xfff7f5,-7|3|0xe85f3e,-1|9|0xfea300",90,redx+i*185,238,redx+185+i*185,556}
+                t['商店购买-物品']={0xffffff, "0|0|0xffffff,-2|-14|0xfec000,-4|13|0xfea300",90,redx+i*185,238,redx+185+i*185,556}
+                if not(d('商店购买-宝石')) then
+                    d('商店购买-物品',true,1,2)
+                end
+            end
+            moveTo(757, 581,759, 376,2,10)
+            delay(2)
+        end
+        if d('任务-神秘商人-免费刷新',true)then
+        elseif d('任务-神秘商人-收费刷新',true) then
+            return
+        end
+        i=i+1
+    end
+end
 
 function _task()
-	
+    
 	_setp['任务'] = _setp['任务'] + 1
-	if _setp['任务'] > 3 then
+	if _setp['任务'] > 2 then
 		_UI.任务 = false
 		return false
 	end
@@ -728,12 +955,52 @@ function _task()
 	    '任务_点击任务_前往',
 	    '任务_点击任务_前往2',
 	    '任务_点击任务_前往3',
-	}
+	} 
 
-	if d('任务_点击任务',true,1,3)then
+    if d('任务-完成')then
+        _UI.任务 = false
+	elseif d('任务_点击任务',true,1,3)then
 		click(122,336,2)    --点到任务
 		d("奖励-奖励面板-领取",true,1,2)    --有奖励就领掉
-		if d( taskWarr[_setp['任务']] ,true,1,3)then
+		d("奖励-奖励面板-领取箱子",true)    --箱子的奖励
+		d("奖励-奖励面板-红色-黄",true,1,2)
+		d("奖励-奖励面板-领取箱子",true) 
+		
+		if not(d('任务_点击任务_王者任务')) or d('任务-联盟互动') then
+		    click(x+777,y+25)
+		    if d('任务-联盟帮助',true,1,2) then
+		    else
+		        click(745, 506)
+                _神秘商店()
+		    end
+		elseif d('任务-活跃度80+') or d('任务-事半功倍') then
+		    for i=0,3 do
+		        moveTo(757, 581,759, 376,10)
+		    end
+		    delay(2)
+		    if d('任务-知识之力',true,1,5) then
+		        
+		        local i = 0
+		        while i<8 do
+		            if d('任务-英雄之力-学习') then
+		                d('任务-埃及艳后',true,1,2)
+		                click(1280, 305)
+		                break;
+		            end
+		            i=i+1
+		        end
+		        for i=0,4 do
+		            d('任务-英雄之力-学习-使用',true)
+		        end
+		    elseif d('任务-联盟互动')then
+    		    click(x+777,y+25)
+    		    if d('任务-联盟帮助',true,1,2) then
+    		    else
+    		        click(745, 506)
+                    _神秘商店()
+    		    end
+            end
+		elseif d( taskWarr[_setp['任务']] ,true,1,3)then
 			
 			if d('任务_点击任务_科技面板')then
 			    _Arrow()
@@ -749,15 +1016,30 @@ function _task()
 				d("采矿-搜索-攻击",true,1,2)
 				d("采矿-搜索-采集",true,1,2)
 				d("采矿-创建部队",true,1,2)
-				if d("采矿-行军",true,1,2)then
-					_UI.任务 = false
-				end
+    			if d("采矿-行军")  then
+    			    if not( d('打野-七世')) then
+    			        d('打野-切换英雄',true)
+    			        local qsi = 0
+    			        while qsi < 10 do
+    			            log('准备找埃及7世')
+    			            if d('打野-切换英雄-七世',true,1,2) then
+    			                break
+    			            end
+    			            qsi=qsi + 1
+    			            delay(1)
+    			        end
+    			    end
+    			    
+    			    if d("采矿-行军",true) or d('采矿-行军2',true) then
+    				    
+    				end
+    			end
 			else
 			
 				d("任务_点击任务_训练_取消",true,1,2)
 				
 				if d('任务_点击任务_训练',true) or d('造兵-加速') then
-				-- 	_UI.任务 = false
+
 				end
 			
 			end
@@ -766,12 +1048,62 @@ function _task()
 end
 
 
-
+t['联盟-展开联盟']={0x044974, "0|0|0x044974,-4|-5|0x6fe6ff,-22|6|0x84e8ff",90,1227,645,1331,746}
+t['联盟-展开联盟-联盟']={0x8ff9ff, "0|0|0x8ff9ff,17|4|0x095383,-16|4|0x0a5585",90,1034,662,1117,737}
+t['联盟-联盟界面']={0xd1d0c9, "0|0|0xd1d0c9,-1090|132|0x03568f,-1066|147|0x0c9fdb",90,12,5,1205,267}
+    t['联盟-礼物']={0xf866f7, "0|0|0xf866f7,43|-46|0xde0000",90,858,505,993,666}
+        t['联盟-礼物-领取']={0x208600, "0|0|0x208600,-41|-13|0x00cd10,45|14|0x03a00c",90,652,100,1170,502}
+        --1160, 44 关闭的点
+    t['联盟-联盟帮助+']={0xfacab6, "0|0|0xfacab6,42|-36|0xde0000",90,993,357,1128,476}
+        t['联盟-联盟帮助']={0xb67016, "0|0|0xb67016,-53|-19|0xffb900,-38|8|0xffa900",90,552,635,720,725}
+        --1163, 60 关闭的点
+    t['联盟-联盟科技']={0x0050de, "0|0|0x0050de,3|-15|0x5fdaf6",90,726,518,837,645}
+        t['联盟-联盟科技+官员推荐']={0xd5f8ff, "0|0|0xd5f8ff,37|-49|0xc20808,-50|-53|0xbf0806",90,174,121,892,696}
+        t['联盟-联盟科技+可研科技']={0xe3e9ec, "0|0|0xe3e9ec,57|5|0x407182",90,652,100,1170,502}
+            t['联盟-联盟科技+捐献']={0x00c7ff, "0|0|0x00c7ff,54|-495|0xd4d3cc,-274|9|0xffae00,-236|8|0xfeb200",90,633,55,1175,652}
+            t['联盟-联盟科技+捐献完成']={0xd3d2cb, "0|0|0xd3d2cb,-68|499|0x898989,-320|503|0xffae00,-441|495|0xffb300",90,633,55,1175,652}
+            t['联盟-联盟科技+研究科技']={0xba9367, "0|0|0xba9367,1|16|0x01b3f3,-9|25|0xc78a56",90,824,539,946,645}
+        
+function _lm()
+    log('联盟研究')
+    if not(d('联盟-展开联盟-联盟')) then
+        d('联盟-展开联盟',true,1)
+    end
+    if d('联盟-展开联盟-联盟',true,1,5) then
+        if d('联盟-礼物',true,1,3)then
+            local i = 0
+            while d('联盟-礼物-领取',true,1,2) and i<5 do
+                i=i+1
+            end
+            click(1160, 44)
+        end
+        if d('联盟-联盟帮助+',true,2) then
+            d('联盟-联盟帮助',true)
+        end
+        
+        if d('联盟-联盟科技',true,1,5) then
+            if d('联盟-联盟科技+官员推荐',true,1,5) or d('联盟-联盟科技+可研科技',true,1,5)then
+                local i =0
+                while d('联盟-联盟科技+捐献',true) and i< 22 do
+                    i=i+1
+                end
+                if d('联盟-联盟科技+捐献完成') or d('联盟-联盟科技+研究科技') then
+                    _UI.联盟 = false
+                end
+            end
+        end
+    end
+end
+        
+    
 t['游戏未绑定']={0x09bf07, "0|0|0x09bf07,-729|-10|0x09c107,-482|-517|0xfbe4c5,77|-450|0xfef2e5",90,304,55,1289,670}
-
 function game()
+    
+    打野降低key = false;
+    打野增长key = true;
+    打野次数记数 = 0;
+    
 	local timeline = os.time()
-	
 	while os.time()-timeline < 60 * 15 do
 		if active(_app.bid,8)then
 			if d('游戏主界面') or d('游戏主界面-夜')then
@@ -800,10 +1132,16 @@ function game()
 							_soldier()
 						elseif _UI.斥候 then
 							_Acouts()
+						elseif _UI.打野 then
+						    if d("游戏主界面-城内",true,1,2)then
+						        _monster()
+						    end
 						elseif _UI.采集.key then
 							if d("游戏主界面-城内",true,1,2)then
 								_Collection()
 							end
+						elseif _UI.联盟 then
+						    _lm()
 						else
 							return 'next'
 						end
@@ -833,23 +1171,28 @@ function main()
 		_setp = {}
 		_setp['任务'] = 0
 	
-		_UI.国家 = UIv.国家 + 1
-		_UI.升级 = UIv.升级
-		_UI.奖励 = UIv.奖励
+		_UI.国家 = __UI.国家 + 1
+		_UI.升级 = __UI.升级
+		_UI.奖励 = __UI.奖励
 		_UI.造兵 = {}
-		_UI.造兵.key = UIv.造兵key
-		_UI.造兵.步兵 = UIv.步兵
-		_UI.造兵.骑兵 = UIv.骑兵
-		_UI.造兵.弓兵 = UIv.弓兵
-		_UI.造兵.车兵 = UIv.车兵
-		_UI.建造 = UIv.建造
-		_UI.英雄 = UIv.英雄
+		_UI.造兵.key = __UI.造兵key
+		_UI.造兵.步兵 = __UI.步兵
+		_UI.造兵.骑兵 = __UI.骑兵
+		_UI.造兵.弓兵 = __UI.弓兵
+		_UI.造兵.车兵 = __UI.车兵
+		_UI.建造 = __UI.建造
+		_UI.英雄 = __UI.英雄
 		_UI.采集 = {}
-		_UI.采集.key = UIv.采集key
-		_UI.采集.种类 = UIv.采集种类+1
-		_UI.斥候 = UIv.斥候
-		_UI.任务 = UIv.任务
+		_UI.采集.key = __UI.采集key
+		_UI.采集.种类 = __UI.采集种类+1
+		_UI.斥候 = __UI.斥候
+		_UI.任务 = __UI.任务
+		_UI.打野 = __UI.打野
+		_UI.打野次数 = tonumber(__UI.打野次数)
+		_UI.联盟 = __UI.联盟
 	
+		upimg = true
+		log(_UI);
 		game()
 
 		clearOneAccount();
@@ -859,34 +1202,10 @@ function main()
 	end
 end
 
-function reg__()
- 	_setp = {}
-	_setp['任务'] = 0
 
-	_UI.国家 = UIv.国家 + 1
-	_UI.升级 = UIv.升级
-	_UI.奖励 = UIv.奖励
-	_UI.造兵 = {}
-	_UI.造兵.key = UIv.造兵key
-	_UI.造兵.步兵 = UIv.步兵
-	_UI.造兵.骑兵 = UIv.骑兵
-	_UI.造兵.弓兵 = UIv.弓兵
-	_UI.造兵.车兵 = UIv.车兵
-	_UI.建造 = UIv.建造
-	_UI.英雄 = UIv.英雄
-	_UI.采集 = {}
-	_UI.采集.key = UIv.采集key
-	_UI.采集.种类 = UIv.采集种类+1
-	_UI.斥候 = UIv.斥候
-	_UI.任务 = UIv.任务
-		
-	game()
-	clearOneAccount();
-	delay(1)
+function all()
 
-end
 
-if not(__reg)  then
     
     local sz=require('sz')
     __game = {}
@@ -898,9 +1217,22 @@ if not(__reg)  then
     __game.token = llsGameToken()[1]
     main()
 
+
+
 end
 
-
+if not(__reg)  then
+    while (true) do
+    	local ret,errMessage = pcall(all)
+    	if ret then
+    	else
+    	    vpnx();
+    		log(errMessage)
+    		dialog(errMessage, 10)
+    		mSleep(2000)
+    	end
+    end
+end
 
 
 

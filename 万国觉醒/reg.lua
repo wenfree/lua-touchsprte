@@ -3,6 +3,7 @@ require('api')
 require('token')
 require("AWZ")
 
+
 init(1)
 info = {}
 info.api = 'http://sms.wenfree.cn/public/'
@@ -11,23 +12,22 @@ _app.bid = 'com.lilithgames.rok.ios.offical'
 
 __reg = true
 
--- info.phone = '16574509436'
--- info.smsname = '海豚'
--- getPhone();
--- inputText(info.phone)
 
--- while (true) do
---     if ( getMessage() ) then
---         log( info )
---         log('----------')
---     else
---         log('22')
---     end
---     delay(3);
--- end
+function update_token()
+    local RokToken = llsGameToken();
+    local info ={}
+    info['cradid']=info.cradid
+    info['phone']=info.phone
+    info['token']=RokToken[1]
+    info['idfa']=RokToken[2]
+    info['s']='Rok.Token'
+    _api_rok(info)
+end
 
 
-t ={}
+if t==nil then
+    t ={}
+end
 t['隐私保护-同意并继续']={0x0ea8fc, "0|0|0x0ea8fc,-136|-8|0xf7e1c6,-362|-406|0xd30000,-378|-402|0xf7e1c6",90,176,88,1130,662}
 t['绑定手机-绑定']={0x09bf06, "0|0|0x09bf06,-228|-4|0x0ac007,-219|-133|0x65615c,-223|-231|0x65615c,-20|-452|0x33312e",90,375,104,712,702}
     t['绑定手机-绑定按钮']={0xffffff, "0|0|0xffffff,-8|-29|0x09c306,14|22|0x09bd07",90,760,526,896,631}
@@ -44,12 +44,13 @@ t['弹窗-游戏提示']={0x1274ba, "0|0|0x1274ba,2|-22|0x00d4ff,-38|65|0x00648e
 function reg_game()
 	local timeline = os.time()
 	
-	while os.time()-timeline < 60 * 3 do
+	while os.time()-timeline < 60 * 5 do
 		if active(_app.bid,8)then
 			
 			if d('隐私保护-同意并继续',true)then
 			    
 			elseif d('绑定手机-绑定')then
+			    
 			 --   {{502, 355, 0xd3cac0},{501, 261, 0xfef3e7}}
 			    if getPhone()  and #(info.phone) >= 11 then
 			        click(502, 355)
@@ -122,13 +123,12 @@ function reg_game()
 		delay(1)
 	end
 end
+
 	
 function all()
     awzNew()
     vpn()
-    if(reg_game())then
-        reg__()
-    end
+    reg_game()
     vpnx()
     delay(2)
 end

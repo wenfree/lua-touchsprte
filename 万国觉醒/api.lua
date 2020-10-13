@@ -95,7 +95,7 @@ end
 
 function ocrInfo()
     local infos={}
-    infos.qu = {277,8,302,31}
+    infos.qu = {277,8,310,31}
     infos.food = {852,8,928,34}
     infos.wood = {981,10,1057,35}
     infos.stone = {1108,10,1194,35}

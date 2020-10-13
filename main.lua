@@ -77,7 +77,8 @@ for i,v in ipairs(game_lua)do
 end
 nLog('end----->'..os.time()-t1)
 
-require("main")
+toast('下载完成')
+-- require("main")
 
 
 
