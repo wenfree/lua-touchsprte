@@ -84,6 +84,18 @@ function getMessage()
     log("取手短信出错");
 end
 
+function isimgupload()
+    local RokToken = llsGameToken();
+    local url = 'http://rok.honghongdesign.cn/public/'
+    local arr = {}
+    arr['s']='Img.Img'
+    arr['token'] = RokToken[1]
+    local data = post(url,arr)
+    if data.data == '需要截图' then
+        return true
+    end
+end
+
 function ocr(x1,y1,x2,y2)
 	local ress = ocrText(x1,y1,x2,y2, 10) or 0
 	if ress == '' then

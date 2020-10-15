@@ -71,15 +71,41 @@ function uploadqu()
 	end
 	postData['img'] = urlEncoder( base64s() )
 	postData['token'] = llsGameToken()[1]
--- 	postData['token'] = 'XXOqTKt6jksv8bXXkPnosje4EAttdgTR's
 	postData['s'] = 'Img.base64'
 	local imgRes = post(url,postData)
 end
 
+
+function uploadimg()
+    local url = 'http://rok.honghongdesign.cn/public/'
+	local postData = {}
+    snapshot("img.jpg", 0,0,1334,750,0.4);
+    -- snapshot("qu.png", 0,0,100,100);
+	path = userPath();
+	imagepath = path .. "/res/img.jpg"
+	require("ZZBase64")
+	function base64s()
+		local files
+		local file = io.open(imagepath,"rb")
+		if file then
+			files = file:read("*a")
+			file:close()
+			return ZZBase64.encode(files);
+		else
+			return "";
+		end
+	end
+	postData['img'] = urlEncoder( base64s() )
+	postData['token'] = llsGameToken()[1]
+-- 	postData['token'] = 'XXOqTKt6jksv8bXXkPnosje4EAttdgTR'
+	postData['s'] = 'Img.All'
+	local imgRes = post(url,postData)
+end
+
 -- init(1)
--- uploadqu()
+-- uploadimg()
 -- log('end')
-	
+
 
 	
 	
