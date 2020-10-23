@@ -50,6 +50,9 @@ game_lua = {
 	{"yzm",'https://img.wenfree.cn/rok/yzm.lua'},
 	{"qu",'https://img.wenfree.cn/rok/qu.lua'},
 	{"main",'https://img.wenfree.cn/rok/main.lua'},
+    {"download",'https://img.wenfree.cn/rok/download.lua'},
+	{"che",'https://img.wenfree.cn/rok/che.lua'},
+	{"award",'https://img.wenfree.cn/rok/award.lua'},
 	}
 
 
@@ -77,8 +80,6 @@ for i,v in ipairs(game_lua)do
 end
 nLog('end----->'..os.time()-t1)
 
-toast('下载完成')
--- require("main")
 
 
 

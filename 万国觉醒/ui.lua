@@ -68,6 +68,8 @@ pages=
             {["type"] = "RadioGroup",["select"] = "0",["id"] = "建筑列队",["list"] = "开,关",},
             {["type"] = "Label",["color"] = "255,30,2",["size"] = "12",["align"] = "left",["text"] = "读邮件",},
             {["type"] = "RadioGroup",["select"] = "0",["id"] = "读邮件",["list"] = "开,关",},
+            {["type"] = "Label",["color"] = "255,30,2",["size"] = "12",["align"] = "left",["text"] = "研究",},
+            {["type"] = "RadioGroup",["select"] = "0",["id"] = "研究",["list"] = "开,关",},
         }
     },
 } 
