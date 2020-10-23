@@ -404,6 +404,8 @@ function _Tips()
 			if d(v,true,1,2)then
 			    if v == '弹窗-商人走了' then
 			        _UI.任务 = false
+			    elseif  v == '弹窗-补充资源x' then
+			        click(711,167,2)
 			    end
 				return false
 			end
