@@ -66,10 +66,6 @@ function AccountInfoBack()
 	local appbid = 'com.lilithgames.rok.ios.offical'
 	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"
 
--- 	app_token = "aHVDrvfQsOO3fBEa40hxqV8FeWgmcdQk"
--- 	app_uid = "183337"
--- 	player_id = "13510892161"
-
     local url = 'http://rok.honghongdesign.cn/public/';
     local arr = {}
     arr['s']='RokGetToken.Rest'
@@ -81,12 +77,16 @@ function AccountInfoBack()
 	log(account_)
 	local token = account_.data.idfa
 	__game.qu = account_.data.qu
+	__game.wei_ui = json.decode( account_.data.web_ui )
 	writeFile_( token ,'w',AccountInfo)
 	closeApp(appbid,1)
 	mSleep(2000)
 end
 
+
+
+
+-- __game={}
 -- update_token()
--- AccountInfoBack()
--- update_token()
+
 

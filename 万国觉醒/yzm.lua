@@ -5,6 +5,15 @@
 -- Copyright © TouchSpriteStudio . All rights reserved.
 require('tsp')
 require('ZZBase64')
+
+function decodeURI(s)
+    s = string.gsub(s, '%%(%x%x)', function(h) return string.char(tonumber(h, 16)) end)
+    return s
+end
+function encodeURI(s)
+    s = string.gsub(s, "([^%w%.%- ])", function(c) return string.format("%%%02X", string.byte(c)) end)
+    return string.gsub(s, " ", "+")
+end
 	
 function _yzmsb()
 	require('tsp')
@@ -69,7 +78,7 @@ function uploadqu()
 			return "";
 		end
 	end
-	postData['img'] = urlEncoder( base64s() )
+	postData['img'] = encodeURI( base64s() )
 	postData['token'] = llsGameToken()[1]
 	postData['s'] = 'Img.base64'
 	local imgRes = post(url,postData)
@@ -95,7 +104,7 @@ function uploadimg()
 			return "";
 		end
 	end
-	postData['img'] = urlEncoder( base64s() )
+	postData['img'] = encodeURI( base64s() )
 	postData['token'] = llsGameToken()[1]
 -- 	postData['token'] = 'XXOqTKt6jksv8bXXkPnosje4EAttdgTR'
 	postData['s'] = 'Img.All'

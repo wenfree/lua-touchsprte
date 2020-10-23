@@ -19,13 +19,14 @@ end
 
 --取手机号
 function getPhone() 
+    
     local postArr = {};
     postArr['s']="App.SmsWenfree.GetPhone";
     local data = post('http://sms.wenfree.cn/public/',postArr);
     if (data) then
         local url = data['data']['url'];
         info.smsname = data['data']['name'];
-        local res = get(url);
+        local res = get_(url);
         log(res)
         
         postArr['s']="SmsWenfree.MakeGetPhone";
@@ -123,10 +124,6 @@ end
 -- init(1)
 -- ocrInfo()
 -- log(__game)
-
-
-
-
 
 
 
