@@ -107,6 +107,7 @@ function reg_game()
 			    return false
 			elseif d('绑定手机-绑定')  then
 			    
+			   
 			    if getPhone() and #info.phone == 11 then
 			        click(502, 355)
 			        keyDown("Clear")
@@ -116,6 +117,7 @@ function reg_game()
 			        delay(1)
 			        click(74, 152)
 	
+	                isreturn = true
 			        if d('绑定手机-获取验证码',true)then
 			            delay(5)
 			            local times_ = 0
@@ -131,10 +133,14 @@ function reg_game()
 			                    delay(1)
 			                    click(74, 152)
 			                    delay(2)
+			                    isreturn = false
 			                    break
 			                else
 			                    delay(3)
 			                end
+			            end
+			            if isreturn then
+			                return
 			            end
 			        end
                     if d('绑定手机-绑定按钮',true)then
@@ -257,8 +263,8 @@ end
 function all()
     awzNew()
     vpn()
-    -- reg_game()
-    login_game()
+    reg_game()
+    -- login_game()
     vpnx()
     delay(2)
 end

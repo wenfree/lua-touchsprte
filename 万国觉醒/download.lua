@@ -53,6 +53,7 @@ game_lua = {
     {"download",'https://img.wenfree.cn/rok/download.lua'},
 	{"che",'https://img.wenfree.cn/rok/che.lua'},
 	{"award",'https://img.wenfree.cn/rok/award.lua'},
+	{"rok11",'https://img.wenfree.cn/rok/rok11.lua'},
 	}
 
 

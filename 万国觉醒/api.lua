@@ -109,9 +109,10 @@ end
 function ocrInfo()
     local infos={}
     infos.qu = {277,8,310,31}
-    infos.food = {852,8,928,34}
-    infos.wood = {981,10,1057,35}
-    infos.stone = {1108,10,1194,35}
+    infos.food = {719,10,808,33}
+    infos.wood = {853,11,926,34}
+    infos.stone = {982,11,1064,34}
+    infos.gold = { 1108,12,1196,34 }
     infos.red = {1240,12,1290,36}
     if __game == nil then
         __game = {}

@@ -34,18 +34,17 @@ end
 
 function update_token()
     local RokToken = llsGameToken();
-    local info ={}
-    info['cradid']=info.cradid
-    info['phone']=info.phone
-    info['token']=RokToken[1]
-    info['idfa']=RokToken[2]
-    info['qu']=__game.qu
-    info['food']=__game.food
-    info['wood']=__game.wood
-    info['stone']=__game.stone
-    info['red']=__game.red
-    info['s']='Rok.Token'
-    _api_rok(info)
+    local info_ ={}
+    info_['token']=RokToken[1]
+    info_['idfa']=RokToken[2]
+    info_['qu']=__game.qu
+    info_['food']=__game.food
+    info_['wood']=__game.wood
+    info_['stone']=__game.stone
+    info_['gold']=__game.gold
+    info_['red']=__game.red
+    info_['s']='Rok.Token'
+    _api_rok(info_)
 end
 
 --写入
@@ -82,8 +81,6 @@ function AccountInfoBack()
 	closeApp(appbid,1)
 	mSleep(2000)
 end
-
-
 
 
 -- __game={}
