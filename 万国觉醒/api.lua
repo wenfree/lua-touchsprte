@@ -21,7 +21,7 @@ end
 function getPhone() 
     
     local postArr = {};
-    postArr['s']="App.SmsWenfree.GetPhone";
+    postArr['s']="App.SmsRokReg.GetPhone";
     local data = post('http://sms.wenfree.cn/public/',postArr);
     if (data) then
         local url = data['data']['url'];
@@ -29,7 +29,7 @@ function getPhone()
         local res = get_(url);
         log(res)
         
-        postArr['s']="SmsWenfree.MakeGetPhone";
+        postArr['s']="SmsRokReg.MakeGetPhone";
         postArr['name']=info.smsname;
         postArr['arr']=json.encode(res) ;
         
@@ -59,7 +59,7 @@ end
 -- //取短信
 function getMessage()
     local postArr = {};
-    postArr['s']="App.SmsWenfree.GetSms";
+    postArr['s']="App.SmsRokReg.GetSms";
     postArr['name']=info.smsname;
     postArr['phone']=info.phone;
     local data = post(info.api,postArr);
@@ -69,7 +69,7 @@ function getMessage()
         log(res.."=>"..#res)
         if #res > 50 then
             log("res-准备上传");
-            postArr['s']="SmsWenfree.MakeGetSms";
+            postArr['s']="SmsRokReg.MakeGetSms";
             postArr['name']=info.smsname;
             postArr['arr']= res ;
             local datas = post(info.api,postArr);

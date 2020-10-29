@@ -1339,6 +1339,7 @@ function _task()
                 		end
 	                end
                     _UI.任务 = false
+                    return
 	            end
 	        end
 	        moveTo(757, 581,759, 376,2)
