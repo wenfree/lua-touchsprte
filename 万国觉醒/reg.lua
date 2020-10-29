@@ -261,10 +261,11 @@ end
 
 	
 function all()
-    awzNew()
-    vpn()
-    reg_game()
-    -- login_game()
+    if vpn() then
+        awzNew()
+        reg_game()
+        -- login_game()
+    end
     vpnx()
     delay(2)
 end
