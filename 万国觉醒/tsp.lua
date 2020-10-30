@@ -588,6 +588,9 @@ function vpn()
 			nLog("VPN 打开状态"..flag.status)
 			if flag.status == '已连接' then
 				return true
+			else
+			    setVPNEnable(true)
+			    delay(6)
 			end
 		else
 			nLog("VPN 关闭状态"..flag.status)

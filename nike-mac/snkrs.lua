@@ -85,13 +85,21 @@ function readFile_(path)
     end
 end
 
+
+function decodeURI(s)
+    s = string.gsub(s, '%%(%x%x)', function(h) return string.char(tonumber(h, 16)) end)
+    return s
+end
+function encodeURI(s)
+    s = string.gsub(s, "([^%w%.%- ])", function(c) return string.format("%%%02X", string.byte(c)) end)
+    return string.gsub(s, " ", "+")
+end
+
 function local_token_()
 	local appbid = 'com.nike.onenikecommerce'
 	local localPath = appDataPath(appbid).."/Documents/ifkc.plist" --设置 plist 路径
 	local toketext = readFile_(localPath)
-	local toketext = string.gsub(toketext,'&','|')
-	local toketext = string.gsub(toketext,'+','^')
-	return toketext
+	return encodeURI(toketext)
 end
 
 function update_token()
@@ -103,6 +111,7 @@ function update_token()
     arr['id'] = var.account.id
     post(url,arr);
 end
+
 
 function updateNike()
 	local sz = require("sz")
@@ -906,7 +915,7 @@ function AccountInfoBack()
 end
 
 function main()
-    if Shadowrockets_out() then
+    if UIvalues.netMode ~= '3' or Shadowrockets_out()  then
         get_account()
         if UIvalues.netMode == '3' then  
             Shadowrockets()

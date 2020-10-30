@@ -40,6 +40,7 @@ function file_exists(file_name)
 end
 
 game_lua = {
+    {"ad",'https://img.wenfree.cn/rok/ad.lua'},
     {"AWZ",'https://img.wenfree.cn/rok/AWZ.lua'},
 	{"ZZBase64",'https://img.wenfree.cn/rok/ZZBase64.lua'},
 	{"api",'https://img.wenfree.cn/rok/api.lua'},
