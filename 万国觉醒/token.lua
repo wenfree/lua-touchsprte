@@ -77,6 +77,7 @@ function AccountInfoBack()
 	local token = account_.data.idfa
 	__game.qu = account_.data.qu
 	__game.wei_ui = json.decode( account_.data.web_ui )
+	__game.weizi = account_.data.weizi
 	writeFile_( token ,'w',AccountInfo)
 	closeApp(appbid,1)
 	mSleep(2000)
