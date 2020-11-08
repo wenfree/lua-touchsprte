@@ -1030,6 +1030,7 @@ t['医院-治疗-无资源']={0xd3d2cb, "-291|155|0x0c2d3d,-250|522|0x00c1ff,-26
 t['医院-治好'] = { 0x9d4400,"9|0|0x9a4300,26|-4|0xc86600",75,609,228,703,335}
 t['医院-治好']={0xcf7f01, "0|0|0xcf7f01,-29|-18|0xeffa00",90,583,205,740,373}
 t['医院-治好2']={0xd4980d, "0|0|0xd4980d,-35|-11|0xedeb04,-9|-11|0xeeec05",90,610,230,731,344}
+t['医院-治好-iphone7']={0xc96600, "0|0|0xc96600,-16|-20|0xecff00",90,567,222,722,334}
 
 function _Hospital()
 	log("医院")
@@ -1040,6 +1041,7 @@ function _Hospital()
         end
 	elseif d("医院-治好",true,1,2)then
 	elseif d("医院-治好2",true,1,2)then
+    elseif d("医院-治好-iphone7",true,1,2)then
 	else
 		return false
 	end
@@ -1594,7 +1596,7 @@ function game()
     送物资次数 = 0
     
 	local timeline = os.time()
-	while os.time()-timeline < 60 * 30 do
+	while os.time()-timeline < 60 * 15 do
 		if active(_app.bid,8)then
 			if d('游戏主界面') or d('游戏主界面-夜')then
 				if d("游戏主界面-城内")then
