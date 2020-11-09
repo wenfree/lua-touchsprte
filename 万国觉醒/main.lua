@@ -958,7 +958,6 @@ function _Collection()
 			        return
 			    end
 			    
-			   
 				click(663,367,2)	--点屏中间
 				if d("斥候-搜索-绿")then
 					log("未开荒")
@@ -980,7 +979,7 @@ function _Collection()
 				if d("采矿-行军")  then
 				    
     			    if tonumber(_UI.采集.种类) == 4 then
-    			        d('采集-行军-有兵-最大',true,1,2)
+    			     --   d('采集-行军-有兵-最大',true,1,2)
     			    end
     			 
     			    if d("采矿-行军") or d('采矿-行军2') then
