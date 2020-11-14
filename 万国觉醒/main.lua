@@ -426,6 +426,7 @@ function _Tips()
 	    log('e');
 	end
 end
+
 	
 t['升级-升级箭头'] = { 0x1faa0f,"12|28|0x9203,-2|-29|0x70d255",degree,478,356,597,477}
 t['升级-升级箭头']={0x4cc332, "0|0|0x4cc332,-13|43|0x049407,7|42|0x039506,-25|-13|0xdff0d8",90,292,323,641,485}
@@ -696,7 +697,7 @@ t['草-铲子-是'] = { 0x1274ba,"-98|-19|0xd2ff,473|9|0xbffc",degree,331,450,10
 function _glass()
 	log("除草")
 	除草次数 = 除草次数 + 1
-	if 除草次数 < 4 then
+	if 除草次数 < 5 then
     	for i=1,12 do
     		if d("树-白",false,1,2) or d('草-夜',false,2,2) or d('草-白',false,2,2) or d("树2-白",false,1,2) or d('树-枫树',false,1,2)then
     			
@@ -836,13 +837,10 @@ function _monster()
 	
 	local 采集位置={{269,665,0xb3b0b0},{474,661,0x428a22},{675,662,0xc28f71},{861,659,0x585858},{1064,661,0x878787},}
 	while d('采矿-放大镜') and 打野次数记数 < _UI.打野次数 and _UI.打野 do
-	    
+	    打野次数记数 = 打野次数记数 + 1
 		local i = 1
-		while i < 60 and ( d('打野-正在行军') or d('打野-正在战斗') or d('打野-正在行军-返回',true,1,5) )  and d('采集-已经有队伍') and d('采集-已经有队伍-正确') and _UI.打野 do
+		while i < 150 and ( d('打野-正在行军') or d('打野-正在战斗') or d('打野-正在行军-返回',true,1,5) )  and d('采集-已经有队伍') and d('采集-已经有队伍-正确') and _UI.打野 do
 		    delay(1)
-		  --  if d('打野-正在挖矿') then
-		  --      _UI.打野 = false
-		  --  end
 		    i=i+1
 		end
 		d('采矿-放大镜',true,1,3) 
@@ -888,12 +886,12 @@ function _monster()
     				        return
     				    end
     				    delay(8)
-    				    打野次数记数 = 打野次数记数 + 1
     				else
     				    打野增长key = false
     				    打野降低key = true
     				end
     			end
+    			d('弹窗-设置面板x',true,2)
     		end
 		end
 	end
@@ -950,8 +948,9 @@ function _Collection()
 			    if 采矿调低一次 then
 			        d('采集-采集前调低',true,1,1)
 			        采矿调低一次 = false
+			    else
+			        d('打野-增加开关',true)
 			    end
-			    d('打野-增加开关',true)
 			end
 			
 			if d("采矿-搜索",true,1,3)then
@@ -979,10 +978,6 @@ function _Collection()
 				d("采矿-创建部队",true,1,2)
 				
 				if d("采矿-行军")  then
-				    
-    			    if tonumber(_UI.采集.种类) == 4 then
-    			     --   d('采集-行军-有兵-最大',true,1,2)
-    			    end
     			 
     			    if d("采矿-行军") or d('采矿-行军2') then
     			        if d('采集-行军-有兵') then
@@ -990,6 +985,7 @@ function _Collection()
     			            d('采矿-行军2',true)
                         else
                             _UI.采集.key = false
+                            d('弹窗-设置面板x',true,2)
     				    end
     				end
     			end
@@ -1269,7 +1265,9 @@ function _task()
 		t['任务_采集类']={ 0x00bffa, "0|0|0x00bffa,-11|-1|0x1274ba,-781|4|0x6f2b00,-784|-22|0xd2e6f6,-833|-55|0xffc379",90,165,250,1162,681}
 		t['任务-联盟互动']={0x00bcfc, "0|0|0x00bcfc,-816|-26|0xeeb5a7,-823|-36|0xa65c4a,-780|-62|0xe3b300,-852|-63|0xd9af01",90,177,246,1147,674}
 	
-	    local taskArrs = {'任务_点击任务_王者任务','任务-知识之力','任务_科技时代','任务-联盟互动','任务_采集类'}
+	    local taskArrs = {'任务_点击任务_王者任务','任务-知识之力','任务_科技时代','任务-联盟互动',
+	       -- '任务_采集类'
+	    }
 	    
 	    local i =0 
 	    while i < 3 do
@@ -1725,8 +1723,6 @@ end
 
 function all()
 
-
-    
     local sz=require('sz')
     __game = {}
     __game.imei = sz.system.serialnumber();
@@ -1737,8 +1733,6 @@ function all()
     
     log(__game.weizi)
     main()
-
-
 
 end
 

@@ -107,7 +107,7 @@ function newRecord()
 		nLog("the result is: " .. result);
 		if result == 3 then
 			--//IP地址重复
-			dialog('ip 地址重复', 3)
+-- 			dialog('ip 地址重复', 3)
 			return true
 		elseif result == 1 then
 			return true
