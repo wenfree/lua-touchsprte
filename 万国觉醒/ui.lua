@@ -105,7 +105,7 @@ function chuangUI(ui_)
 	        for k,v in ipairs(v)do
 	           __UI[v] = true
 	        end
-	    elseif k == '国家' or k == '采集种类' or k == 'note' or k == '打野次数' then
+	    elseif k == '国家' or k == '采集种类' or k == 'note' or k == '打野次数' or k == "monsterlevel" then
 	        __UI[k] = v
 	    else
 	        if v == 0 then

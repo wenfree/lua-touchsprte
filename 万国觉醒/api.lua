@@ -122,11 +122,6 @@ function ocrInfo()
     end
 end
 
--- init(1)
--- ocrInfo()
--- log(__game)
-
-
 
 
 

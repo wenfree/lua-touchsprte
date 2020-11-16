@@ -697,7 +697,7 @@ t['草-铲子-是'] = { 0x1274ba,"-98|-19|0xd2ff,473|9|0xbffc",degree,331,450,10
 function _glass()
 	log("除草")
 	除草次数 = 除草次数 + 1
-	if 除草次数 < 5 then
+	if 除草次数 < 4 then
     	for i=1,12 do
     		if d("树-白",false,1,2) or d('草-夜',false,2,2) or d('草-白',false,2,2) or d("树2-白",false,1,2) or d('树-枫树',false,1,2)then
     			
@@ -709,10 +709,6 @@ function _glass()
     				moveTo(300,600,300,400,10)
     				delay(2)
     			end
-    			
-    -- 			if d("草-铲子",true)then 
-    -- 				d("草-铲子-是",true)
-    -- 			end
     			
     			if d("树-白",true,1,2) or d("树2-白",true,1,2)or d('草-夜',true,2,2) or d('草-白',true,2,2)or d('树-枫树',true,1,2)then
     				log({x,y})
@@ -823,7 +819,7 @@ t['打野-正在行军-返回']={0xdb8100, "0|0|0xdb8100,6|2|0xfefefd,7|14|0xb45
     t['打野-正在挖矿']={0xfeffff, "0|0|0xfeffff,2|13|0x4ff86c,6|0|0x0d9a00,13|2|0x4ff169,-66|-83|0x37e7fd",90,1200,151,1330,285}
     t['打野-正在挖矿']={0xfeffff, "0|0|0xfeffff,5|-1|0x109800,1|4|0x0f9a00,1|13|0x4ffc6b",90,1221,161,1331,458}
     t['打野-敌弱我强']={0x06fd30, "0|0|0x06fd30,0|-3|0x06fd30",90,863,589,1051,615}
-t['打野-正在战斗']={0xb40000, "0|0|0xb40000,-60|-90|0x20cdf7",90,1209,162,1325,276}
+t['打野-正在战斗']={0xb20000, "0|0|0xb20000,-2|0|0xb20000",90,1279,231,1317,271}
 t['打野-体力不足']={0xdaaf00, "0|0|0xdaaf00,-17|-11|0xf18d04,-35|8|0x63e819",90,395,125,485,182}
 t['打野-体力不足2']={0xd3d1cb, "0|0|0xd3d1cb,-188|190|0x0af94b,-343|411|0xffad00,-554|175|0xac1c14",90,340,77,1114,601}
 t['打野-体力不足-iphone7']={0x71f50f, "0|0|0x71f50f,5|-5|0xa9ff56,-7|-9|0x03384e",90,359,125,457,181}
@@ -839,21 +835,34 @@ function _monster()
 	while d('采矿-放大镜') and 打野次数记数 < _UI.打野次数 and _UI.打野 do
 	    打野次数记数 = 打野次数记数 + 1
 		local i = 1
-		while i < 150 and ( d('打野-正在行军') or d('打野-正在战斗') or d('打野-正在行军-返回',true,1,5) )  and d('采集-已经有队伍') and d('采集-已经有队伍-正确') and _UI.打野 do
+		while i < 300 and ( d('打野-正在行军') or d('打野-正在战斗') or d('打野-正在行军-返回',true,1,5) )  and d('采集-已经有队伍') and d('采集-已经有队伍-正确') and _UI.打野 do
 		    delay(1)
 		    i=i+1
 		end
 		d('采矿-放大镜',true,1,3) 
 		click( 采集位置[1][1],采集位置[1][2],2 )
 
-        if 打野降低key then
-            d('打野-增加开关',true,3,1)
-            打野降低key = false
-        elseif 打野增长key then
-            d('打野-增加开关',true)
-            d('打野-增加开关',true)
-            d('打野-增加开关',true)
+        
+        if tonumber(_UI.monsterlevel) == 1  then
+
+            if 打野降低key then
+                d('打野-增加开关',true,3,1)
+                打野降低key = false
+            elseif 打野增长key then
+                d('打野-增加开关',true)
+                d('打野-增加开关',true)
+                d('打野-增加开关',true)
+            end
+            
+        else
+            --设置好打野的位置
+            d('采集-采集前调低',true,1,1)
+            for i = 2,tonumber( _UI.monsterlevel ) do
+                d('打野-增加开关',true,1,0.3)
+            end
+            
         end
+        
 		if d("采矿-搜索",true,1,3)then
 			click(663,367,2)	--点屏中间
 			log('点屏中间')
@@ -879,17 +888,26 @@ function _monster()
     			 
     			if d("采矿-行军")  then
     			    
-    			    if d('打野-敌弱我强') and d("采矿-行军",true,1,3) then
-    				    log('打野中休息8秒','all')
-    				    if d('打野-体力不足') or d('打野-体力不足2',true,1,2) or d('打野-体力不足-iphone7')then
-    				        _UI.打野 = false
-    				        return
-    				    end
-    				    delay(8)
+    			    if _UI.monsteDW ~= '默认' then
+    			        local monsteDW_ = { ['位置1'] = 0 ,  ['位置2'] = 1 ,  ['位置3'] = 2 ,  ['位置4'] = 3 ,  ['位置5'] = 4 }
+    			        click(1150,277 + monsteDW_[_UI.monsteDW] * 60 )
+    			    end
+    			    
+    			    if tonumber(_UI.monsterlevel) > 1 and d("采矿-行军",true,1,3) then
+    			    elseif d('打野-敌弱我强') and d("采矿-行军",true,1,3) then
     				else
     				    打野增长key = false
     				    打野降低key = true
-    				end
+    			    end
+    			    
+				    --查看是否还有体力
+					log('打野一次','all')
+				    if d('打野-体力不足') or d('打野-体力不足2',true,1,2) or d('打野-体力不足-iphone7')then
+				        log('体力不足,结束打野','all')
+				        _UI.打野 = false
+				        return
+				    end
+				    
     			end
     			d('弹窗-设置面板x',true,2)
     		end
@@ -898,7 +916,7 @@ function _monster()
 end
 
 
-t['采集-采集前调低']={0x0eab00, "0|0|0x0eab00,-42|-1|0x0f74be,63|89|0x00c3ff,244|-1|0x1073bd",90,186,363,1195,606}
+t['采集-采集前调低']={0x0eab00, "0|0|0x0eab00,-42|-1|0x0f74be,63|89|0x00c3ff,244|-1|0x1073bd",90,20,363,1195,606}
     t['采集-已经有队伍']={0x1fc9f7, "0|0|0x1fc9f7,-8|11|0x11b9ec",90,1209,162,1249,195}
     t['采集-已经有队伍-正确']={0x000000, "0|0|0x000000,-1|-2|0xffffff",90,1259,166,1297,188}
     t['采集-已经有队伍-1']={0xfefefe, "0|0|0xfefefe,0|4|0xf3f3f3,0|11|0x000000,4|11|0x15180c",90,1262,166,1275,184}
@@ -1363,6 +1381,7 @@ t['队例-有休息的队伍']={0x008cc4, "0|0|0x008cc4,1|9|0xffffff,10|8|0xffff
 t['联盟-人员']={0x0e4161, "0|0|0x0e4161,16|-122|0x0da0de,-4|102|0x105b81",90,1,71,156,566}
     t['联盟-人员-r4-未展开']={0x78b2d1, "0|0|0x78b2d1,-6|-5|0x5f9fc0,7|-7|0x4895c0,0|-7|0x0c73ad",90,1130,249,1174,286}
     t['联盟-人员-资源援助']={0x1274ba, "0|0|0x1274ba,85|-6|0x1274ba,101|-9|0x06d8fe,-93|-1|0x00c6ff,-114|-6|0x1274ba,-175|1|0x00c1fd",90,46,149,1332,745}
+    t['联盟-人员-资源援助-phone7']={0x1274ba, "0|0|0x1274ba,-29|5|0x1274ba,57|-3|0x1274ba,63|-3|0x00ccfe,-209|3|0x00c2fe,-89|5|0x00bffd",90,136,196,1333,740}
         t['联盟-人员-资源援助-资源面板']={0xfbc82d, "0|0|0xfbc82d,-11|101|0xde965d,-2|197|0xa6b0cc,-5|281|0xec9600",90,541,125,651,590}
             t['联盟-人员-资源援助-资源面板-运输']={0x00c0fe, "0|0|0x00c0fe,-4|-20|0x1176bc",90,674,568,940,665}
             t['联盟-人员-资源援助-资源面板-运光了']={0x606060, "0|0|0x606060,1|7|0x8e8e8e,-74|2|0x929292",90,667,560,956,667}
@@ -1407,6 +1426,7 @@ function _songwuzi()
             ,{336, 497, 0x054d6b},{585, 498, 0x05597f},{844, 491, 0x06587a},{1079, 496, 0x055476}}
         click(ren[__game.weizi+0][1],ren[__game.weizi+0][2],2)
         d('联盟-人员-资源援助',true,1,2)
+        d('联盟-人员-资源援助-phone7',true,1,2)
         local mo = {{971, 237, 0x0a2b39},{620, 233, 0xb2f8fc},{620, 325, 0xb6f7fb},{620, 418, 0xb1f9fc}}
         if d('联盟-人员-资源援助-资源面板') then
             for i=1,3 do
@@ -1706,6 +1726,15 @@ function main()
 		_UI.修城墙 = __UI.修城墙
 		_UI.研究 = __UI.研究
 		_UI.送物资 = __UI.送物资
+		
+		_UI.monsterlevel = 1
+		if __UI.monsterlevel then
+		    _UI.monsterlevel = __UI.monsterlevel
+		end
+		_UI.monsteDW = '默认'
+		if __UI.monsteDW then
+		    _UI.monsteDW = __UI.monsteDW
+		end
 	
 		upimg = true
 		allimg = true
