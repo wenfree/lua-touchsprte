@@ -62,7 +62,7 @@ function _yzmsb()
 end
 
 	
-function _yzmsb()
+function _yzmsb_()
 	require('tsp')
 	init(1)
 	local _time1 = os.time()
