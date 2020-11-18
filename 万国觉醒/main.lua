@@ -857,7 +857,8 @@ function _monster()
             end
             
         else
-            t['打野位置记忆位置']={0xacffff, "0|0|0xacffff,-8|0|0x1678b6,8|0|0x1872ab",90,163,393,404,445}
+            t['打野位置记忆位置']={0xacffff, "0|0|0xacffff,-1|-9|0xb9ffff,-1|9|0xa1ffff",80,161,395,412,446}
+            t['打野位置记忆位置-max']={0xa5f5f5, "0|0|0xa5f5f5,7|-1|0x1573af,-8|0|0x1573af",70,339,395,449,441}
             --打野调格记忆
             dayeweizi_M = dayeweizi_M or false;
             --打野调格记忆色彩
@@ -872,7 +873,7 @@ function _monster()
                     d('打野-增加开关',true,1,0.2)
                 end
                 
-                if d('打野位置记忆位置') then
+                if d('打野位置记忆位置')  or d('打野位置记忆位置-max') then
                     dayeweizi_M = {x,y}
                     dayeweizi_M_c = getColor(x, y)
                 end
@@ -892,7 +893,7 @@ function _monster()
 			    打野增长key = false
 			     d("采矿-搜索",true,1,3)
 			else
-    			d("采矿-搜索-攻击",true,1,3)
+    			d("采矿-搜索-攻击",true,1,1)
     			
     			if d("采矿-创建部队",false,1,2)  then
     			    d('打野-创建部队-驻扎',true,1,2)
