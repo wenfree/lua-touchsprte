@@ -630,6 +630,7 @@ function post(url,arr)
 	local headers = {}
 	headers['User-Agent'] = safari
 	headers['Referer'] = url
+	headers['content-type'] = 'application/x-www-form-urlencoded'
 	headers_send = cjson.encode(headers)
 	post_send = cjson.encode(arr)
 	post_escaped = http.build_request(post_send)

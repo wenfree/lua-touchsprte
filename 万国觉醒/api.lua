@@ -1,4 +1,7 @@
 require("tsp");
+require('token');
+require('ZZBase64');
+require('yzm');
 
 function _api_rok(info)
     local url = 'http://rok.honghongdesign.cn/public/';
@@ -108,11 +111,8 @@ end
 
 function ocrInfo()
     local infos={}
-    infos.qu = {277,8,310,31}
-    infos.food = {719,10,808,33}
-    infos.wood = {853,11,926,34}
-    infos.stone = {982,11,1064,34}
-    infos.gold = { 1108,12,1196,34 }
+    -- infos.city = {654,432,686,451}
+    infos.fighting = {121,7,263,38}
     infos.red = {1240,12,1290,36}
     if __game == nil then
         __game = {}
@@ -122,7 +122,84 @@ function ocrInfo()
     end
 end
 
+function uploadquBaiDu()
+    local token = llsGameToken()[1]
+    local url = 'http://rok.honghongdesign.cn/public/'
+	local postData = {}
+    -- snapshot("qu.png", 277,8,312,31);
+    snapshot("qu.png", 274,4,1324,42);
+	path = userPath();
+	imagepath = path .. "/res/qu.png"
+	require("ZZBase64")
+	function base64s(imagepath)
+		local files
+		local file = io.open(imagepath,"rb")
+		if file then
+			files = file:read("*a")
+			file:close()
+			return encodeURI( ZZBase64.encode(files) );
+		else
+			return "";
+		end
+	end
+	local imadata = base64s(imagepath)
+	postData['img'] = imadata
+	postData['token'] = token
+	postData['s'] = 'Img.base64'
+	local imgRes = post(url,postData)
+	log(imgRes)
+end
 
+
+function uploadqu()
+    local url = 'http://rok.honghongdesign.cn/public/'
+	local postData = {}
+    snapshot("qu.png", 277,8,312,31);
+    -- snapshot("qu.png", 0,0,100,100);
+	path = userPath();
+	imagepath = path .. "/res/qu.png"
+	require("ZZBase64")
+	function base64s()
+		local files
+		local file = io.open(imagepath,"rb")
+		if file then
+			files = file:read("*a")
+			file:close()
+			return ZZBase64.encode(files);
+		else
+			return "";
+		end
+	end
+	postData['img'] = encodeURI( base64s() )
+	postData['token'] = llsGameToken()[1]
+	postData['s'] = 'Img.base64'
+	local imgRes = post(url,postData)
+end
+
+function uploadimg()
+    local url = 'http://rok.honghongdesign.cn/public/'
+	local postData = {}
+    snapshot("img.jpg", 0,0,1334,750,0.4);
+    -- snapshot("qu.png", 0,0,100,100);
+	path = userPath();
+	imagepath = path .. "/res/img.jpg"
+	require("ZZBase64")
+	function base64s()
+		local files
+		local file = io.open(imagepath,"rb")
+		if file then
+			files = file:read("*a")
+			file:close()
+			return ZZBase64.encode(files);
+		else
+			return "";
+		end
+	end
+	postData['img'] = encodeURI( base64s() )
+	postData['token'] = llsGameToken()[1]
+	postData['s'] = 'Img.All'
+	local imgRes = post(url,postData)
+end
 
 
 

@@ -1,5 +1,4 @@
 require('tsp')
-require('api')
 
 --读文件
 function readFile_(path)
@@ -31,17 +30,13 @@ function llsGameToken()
 	return account
 end
 
-
 function update_token()
     local RokToken = llsGameToken();
     local info_ ={}
     info_['token']=RokToken[1]
     info_['idfa']=RokToken[2]
-    info_['qu']=__game.qu
-    info_['food']=__game.food
-    info_['wood']=__game.wood
-    info_['stone']=__game.stone
-    info_['gold']=__game.gold
+    -- info_['city']=__game.city
+    info_['fighting']=__game.fighting
     info_['red']=__game.red
     info_['s']='Rok.Token'
     _api_rok(info_)
