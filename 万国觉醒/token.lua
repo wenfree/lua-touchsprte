@@ -1,5 +1,6 @@
 require('tsp')
 
+
 --读文件
 function readFile_(path)
 	local path = path or '/var/mobile/Media/TouchSprite/lua/account.txt'
@@ -74,13 +75,13 @@ function AccountInfoBack()
 	__game.wei_ui = json.decode( account_.data.web_ui )
 	__game.weizi = account_.data.weizi
 	__game.qus = account_.data.qus
+	__game.id = account_.data.id
 	writeFile_( token ,'w',AccountInfo)
 	closeApp(appbid,1)
 	mSleep(2000)
 end
 
 
--- __game={}
--- update_token()
+
 
 

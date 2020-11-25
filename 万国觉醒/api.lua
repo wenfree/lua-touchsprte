@@ -154,7 +154,7 @@ end
 function uploadqu()
     local url = 'http://rok.honghongdesign.cn/public/'
 	local postData = {}
-    snapshot("qu.png", 277,8,312,31);
+    snapshot("qu.png", 281,11,1325,34);
     -- snapshot("qu.png", 0,0,100,100);
 	path = userPath();
 	imagepath = path .. "/res/qu.png"
@@ -202,7 +202,8 @@ function uploadimg()
 end
 
 
-
+-- __game={}
+-- update_token()
 
 
 

@@ -95,6 +95,8 @@ function getallwebUI()
 end
 
 function chuangUI(ui_)
+    __UI['小功能'] ={}
+    __UI['支线功能'] = {}
 	for k,v in pairs(ui_)do
 	    if k == '造兵' then
 	        __UI['步兵'] = false
@@ -107,6 +109,15 @@ function chuangUI(ui_)
 	        end
 	    elseif k == '国家' or k == '采集种类' or k == 'note' or k == '打野次数' or k == "monsterlevel" then
 	        __UI[k] = v
+	    elseif k == '小功能' then
+	        
+	        for kk_,vv_ in ipairs(v) do
+	            __UI['小功能'][vv_] = true
+	        end
+	    elseif k == '支线功能' then
+	        for kk_,vv_ in ipairs(v) do
+	            __UI['支线功能'][vv_] = true
+	        end
 	    else
 	        if v == 0 then
 	            __UI[k] = true

@@ -287,6 +287,7 @@ t['弹窗—验证图片'] = { 0x1274ba,"-51|-7|0xd3ff,43|17|0xb5f1,58|-5|0x1077
 t['弹窗—验证图片']={0x1274ba, "0|0|0x1274ba,28|-5|0x00c7ff,-58|-3|0x00c5ff,9|-283|0x000000",90,668,92,1328,452}
 	t['弹窗—验证图片-确定'] = { 0x539ffe,"83|0|0x539ffe,-339|-2|0xffffff,-323|-10|0x7e7e7e,-406|-3|0x7e7e7e",degree,392,644,944,730}
 	t['弹窗—验证图片-确定-有图']={0x252525, "0|0|0x252525,0|1|0x252525",70,700,40,928,78}
+	t['弹窗—验证图片-确定-有字']={0x727272, "0|0|0x727272",90,703,25,925,91}
 t['弹窗—app更新'] = { 0xc3ff,"-82|-24|0xd3fd,64|20|0xb5f0,192|-1|0xdf3d33,343|2|0xdd3c33",degree,384,427,966,569}
 t['酒馆—3确定']={0x1274ba, "0|0|0x1274ba,-48|-2|0x00c4ff,288|-1|0xffb000,633|0|0xffb000",90,177,587,1145,697}
 t['弹窗—前往按钮']={0x1274ba, "0|0|0x1274ba,-71|-23|0x02cdf9,89|19|0x03aaec",90,550,529,803,660}
@@ -308,10 +309,12 @@ t['弹窗-被攻击中']={0xfff7f2, "0|0|0xfff7f2,-5|-10|0xd20907",90,1219,458,1
 t['弹窗-预警弹窗']={0x1577bc, "0|0|0x1577bc,-3|-4|0x00caff,4|5|0x00bdf9,61|-144|0xd1d0c9",90,191,59,1170,297}
 t['弹窗-补充资源x']={0xd3d2cc, "0|0|0xd3d2cc,9|-9|0xd6d4ce,-8|-8|0xd7d5ce,0|12|0xb7b6a9",90,963,29,1194,253}
 t['弹窗-退出警告']={0xde3e35, "0|0|0xde3e35,295|4|0x00c0fc,230|-180|0xffffff,163|-400|0x858278",90,292,109,1000,590}
+t['弹窗-封号警告']={0x107cc1, "0|0|0x107cc1,-123|-193|0xffffff,-139|-193|0x07638b,-132|-194|0xffffff,-173|-303|0x88867b",90,349,178,984,570}
 
 function _Tips()
 	local tips = {
 	    
+	    '弹窗-封号警告',
 		'弹窗-网络断开',
 		'弹窗-宝箱广告',
 		'弹窗-退出警告',
@@ -348,6 +351,7 @@ function _Tips()
 		'弹窗-对话X',
 		'日历-奖励界面x',
 		'弹窗-补充资源x',
+		'菜单-战役-打不过-时间到',
 		
 		}
 	for k,v in pairs(tips)do
@@ -360,6 +364,18 @@ function _Tips()
 				    closeApp(frontAppBid())
 				end
 			end
+	    elseif v == '弹窗-封号警告' then
+		    if d(v) then
+		        local arr = {}
+		        arr['s']='index.update'
+		        arr['table']='rok_account'
+		        local sz = require('sz')
+		        local json = sz.json
+		        arr['arr']= json.encode({ ['switch'] = 1, ['state']='封号'})
+		        arr['id']= __game.id
+		        _api_rok(arr)
+		       return '封号'
+		    end
 		elseif v == '弹窗-预警弹窗' then
 		    if d('弹窗-预警弹窗',true,1) then
 		        d('弹窗-预警弹窗',true,1,4)
@@ -377,7 +393,7 @@ function _Tips()
 			if d(v,true,1,5) then
 				local time_ = os.time()
 				while ( os.time() - time_ < 120 ) do
-					if d("弹窗—验证图片-确定") and d('弹窗—验证图片-确定-有图') then
+					if d("弹窗—验证图片-确定") and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
 						delay(1)
 						if _yzmsb()then
 							d("弹窗—验证图片-确定",true,1,5)
@@ -394,7 +410,7 @@ function _Tips()
 				return false
 			end
 		elseif v == '弹窗-常见问题' then
-		    if d(v)then
+		    if d(v,true,1)then
     	        closeApp(_app.bid,1)
 		    end
 		elseif v == '弹窗-升级箭头-物质不足' then
@@ -409,6 +425,11 @@ function _Tips()
     		        d('弹窗-物质面板-x',true,1,2)
     		        d(v,true)
 	            end
+            end
+		elseif v == '菜单-战役-打不过-时间到' then
+            if d( v,true,1,2 ) then
+                _UI.远征 = false
+                log('远征结束-tips')
             end
 		else
 			if d(v,true,1,2)then
@@ -448,6 +469,8 @@ t['升级-前往'] = { 0x1274ba,"-37|-18|0xd3fd,63|14|0xace9",degree,671,496,112
 t['升级-前往-升级箭头'] = { 0x17a50a,"-3|22|0x9203,-1|-26|0x5ecb43",degree,448,360,885,607}
 t['升级-正在升级中'] = { 0xe0a10f,"27|-1|0xdea716,-8|-22|0xf0efe9,-1|-22|0xf1c03a,-32|17|0xcf920d,-41|18|0xe6e4d9",degree,470,357,861,570}
 t['升级-正在升级中']={0xdea01c, "0|0|0xdea01c,-22|-20|0xeebb37,-52|17|0xd19618",90,470,357,861,570}
+
+t['升级-升级后点帮助']={0xfeedd8, "0|0|0xfeedd8,1|13|0x2077bb",90,571,243,759,384}
 
 t['升级-正在升级中-总部'] = { 0xe3a412,"29|1|0xdea716,-1|-19|0xf1be35,-6|-20|0xf4ece1,-1|23|0xce9408,-35|8|0xf2e3cd,-31|20|0xcf920d",degree,478,344,616,490}
 t['升级-正在升级中-总部']={0xefbe3f, "0|0|0xefbe3f,23|20|0xdf9d10,-1|38|0xd3981b,-16|-10|0xf3f4f0,-29|3|0xf1b525",90,330,347,631,491}
@@ -508,6 +531,7 @@ function _build()
     end
 	if d("升级-升级箭头",true,1,2) or d('升级-升级箭头时代',true,1,2) or d('升级-升级箭头时代-iphone7',true,1,2) or d('升级-升级箭头-车厂',true,1,2)then
         if _升级子程序() then
+            d('升级-升级后点帮助',true)
             _UI.升级 = false
         end
 	elseif d('升级-正在升级中-总部') or d('升级-升级箭头-车厂-正在升级')then
@@ -1001,9 +1025,9 @@ function _Collection()
 			
 			if d("采矿-搜索",true,1,3)then
 			    
-			    if d('采矿-有人行军中') or d('采矿-有人行军中2') or d('采矿-有人行军中3') then
-			        return
-			    end
+			 --   if d('采矿-有人行军中') or d('采矿-有人行军中2') or d('采矿-有人行军中3') then
+			 --       return
+			 --   end
 			    
 				click(663,367,2)	--点屏中间
 				if d("斥候-搜索-绿")then
@@ -1290,8 +1314,8 @@ end
 
 function _task()
     
-	_setp['任务'] = _setp['任务'] + 1
-	if _setp['任务'] > 3 then
+    任务记数 = 任务记数 + 1
+	if 任务记数 > 3 then
 		_UI.任务 = false
 		return false
 	end
@@ -1396,7 +1420,7 @@ t['联盟-展开联盟-天赋']={0x024672, "0|0|0x024672,7|-2|0x69e4ff,0|-20|0xf
     t['天赋-召唤英雄']={0x1274ba, "0|0|0x1274ba,25|3|0x00befc,30|-81|0xf8a200",90,994,526,1212,687}
     t['天赋-优先升级']={0x2cb101, "0|0|0x2cb101,-7|-5|0x3ac300,2|-5|0x42c300",90,10,84,258,268}
     t['英雄管理-天赋按钮']={0x1274ba, "0|0|0x1274ba,-21|-3|0x00c5ff,289|5|0x00c1fd",90,889,578,1329,691}
-        t['英雄管理-天赋升级界面']={0xdca600, "0|0|0xdca600,216|-41|0x2ec2ee,138|-160|0xcb5236",90,502,203,872,577}
+        t['英雄管理-天赋升级界面']={0x25cef5, "0|0|0x25cef5,5|7|0x0e67ad",90,1245,84,1274,110}
             t['英雄管理-天赋升级-升级']={0x1274ba, "0|0|0x1274ba,-57|-20|0x04d0fd,62|23|0x00abe8",90,109,115,934,745}
             t['英雄管理-天赋升级-强制升级']={0x980e0e, "0|0|0x980e0e,13|-1|0xdd3c33,148|1|0x00bcfb",90,65,102,879,703}
             
@@ -1453,12 +1477,12 @@ function _songwuzi()
         --41
         local ren = {{343, 370, 0x064f71},{596, 368, 0x045d82},{844, 366, 0x05597c},{1095, 368, 0x034a65}
             ,{336, 497, 0x054d6b},{585, 498, 0x05597f},{844, 491, 0x06587a},{1079, 496, 0x055476}}
-        click(ren[__game.weizi+0][1],ren[__game.weizi+0][2],2)
+        click(ren[_UI.R位置+0][1],ren[_UI.R位置+0][2],2)
         d('联盟-人员-资源援助',true,1,2)
         d('联盟-人员-资源援助-phone7',true,1,2)
         local mo = {{971, 237, 0x0a2b39},{620, 233, 0xb2f8fc},{620, 325, 0xb6f7fb},{620, 418, 0xb1f9fc}}
         if d('联盟-人员-资源援助-资源面板') then
-            for i=1,3 do
+            for i=1,4 do
                 moveTo(mo[i+1][1],mo[i+1][2],mo[1][1],mo[i+1][2],5)
             end
             d('联盟-人员-资源援助-资源面板-运输',true,1,3)
@@ -1495,29 +1519,102 @@ function _开帮助()
     end
 end
 
+
+t['菜单-统帅-管理界面']={0x969696, "0|0|0x969696,2|-68|0xd5d2cc",90,4,4,86,122}
+t['菜单-统帅-布狄卡']={0xef503c, "0|0|0xef503c,-6|-32|0xdb3931,-27|19|0xfceb6b,-4|19|0x668490",90,10,133,257,732}
+    t['菜单-统帅-可以升星']={0xbf7104, "0|0|0xbf7104,16|9|0xffa700,13|88|0x007201",90,1202,153,1322,357}
+        t['菜单-统帅-可以升星-自动培养']={0x1274ba, "-164|4|0x00c3ff,-1126|-608|0xd5d2cc",90,2,4,1331,701}
+        
+    t['菜单-统帅-可以加天赋的英雄']={0x70eb00, "0|0|0x70eb00,1|5|0x4fe100",90,8,131,268,676}
+        t['菜单-统帅-技能升级']={0x00c7ff, "0|0|0x00c7ff,16|-17|0xde0000",90,1110,572,1320,687}
+            t['菜单-统帅-技能升级-升级']={0x1274ba, "0|0|0x1274ba,-51|-10|0x00ccff",90,825,547,1121,666}
+        t['菜单-统帅-天赋升级']={0x00c1ff, "0|0|0x00c1ff,20|-23|0xde0000",90,896,579,1114,682}
+
 function _加天赋()
     log('加天赋')
     if not(d('联盟-展开联盟-联盟')) then
         d('联盟-展开联盟',true,1)
     end
-    if d('联盟-展开联盟-天赋',true,1,5) then
+    
+    if d('联盟-展开联盟-天赋',true,1,3) then
         local 加天赋位置= {{480, 504, 0xfffffc},{470, 692, 0xfffff1},{353, 686, 0xccb167},{353, 686, 0xccb167},{353, 686, 0xccb167},
             {314, 415, 0xfffffb},{314, 415, 0xfffffb},{264, 517, 0xf0e1b7},{192, 344, 0xd8bd71}}
-        local i = 0
-        while i< 20 and d('酒馆-返回按钮') do
-            if d('天赋-召唤英雄',true,1,2)then
-                d('弹窗-招到英雄',true,1,2)
-            end
-            d('天赋-优先升级',true,1,2)
-            d('英雄管理-天赋按钮',true,1,3)
-            if d('英雄管理-天赋升级界面') then
-                for k,v in ipairs(加天赋位置) do
-                    click(v[1],v[2])
-                    d('英雄管理-天赋升级-升级',true)
+        local i = os.time()
+        local bdk = true
+        while ( os.time() - i < 60 ) do
+            if d('酒馆-返回按钮') and d('菜单-统帅-管理界面') then
+            
+                if d('天赋-召唤英雄',true,1,3)then
+                    d('弹窗-招到英雄',true,1,3)
                 end
-                return true
+                
+                if bdk then
+                    d("菜单-统帅-布狄卡",true,1,3)
+                    if d('菜单-统帅-可以升星',true,1,3)then
+                        d('菜单-统帅-可以升星-自动培养',true,1,3)
+                        d('菜单-统帅-可以升星-自动培养',true,2,3)
+                    end
+                end
+                
+                local ii = 0
+                while ii < 60 do
+                    ii = ii + 1
+                    if d('菜单-统帅-可以加天赋的英雄',true,3,2) then  break end
+                end
+                
+                if d('菜单-统帅-技能升级',true,1,2)then
+                    d('菜单-统帅-技能升级-升级',true,1,2)
+                    click(50,50)
+                    d('酒馆-返回按钮',true,1,2)
+                elseif d('菜单-统帅-天赋升级',true,1,3)then
+                    if d('英雄管理-天赋升级界面') then
+                        local fx,fy,fx1,fy1 = 100, 350 , 800, 350
+                        touchDown(1,fx,fy);
+                        mSleep(30);
+                        touchDown(2,fx1,fy1);
+                        mSleep(30);
+                        for iii = 1,30 do
+                            fx = fx + 10
+                            fx1 = fx1 - 10
+                            touchMove(1, fx,fy)
+                            touchMove(2, fx1,fy1)
+                            mSleep(50);
+                        end
+                        touchUp(1,fx,fy)
+                        touchUp(2, fx1,fy1)
+                        delay(2)
+                        
+                        t['天赋-通用']={0xfefcf6, "0|0|0xfefcf6,13|0|0xfefdfb,0|12|0xfffffe,14|12|0xfdfbf6,6|17|0xdba400",90,406,374,498,467}
+                        t['天赋-打野']={0xfdfbf7, "0|0|0xfdfbf7,-4|8|0xcf9700,-8|3|0xfefdfb,-12|11|0xfefdfa,-3|25|0x985e0b",90,423,374,495,461}
+                        t['天赋-采集']={0xffffff, "0|0|0xffffff,-1|5|0xd7a000,5|-1|0xc78e00,10|10|0xfdfbf5,2|22|0x985e0b",90,413,352,504,475}
+                        
+                        local threeA = {'天赋-通用','天赋-打野','天赋-采集'}
+                        local threeAs ={}
+                        threeAs[1]={{416, 440, 0xfffff8},{408, 519, 0xfffff9},{404, 575, 0xfbf9ef},{359, 548, 0xfbf3d8},{281, 554, 0xfcf7eb},{267, 658, 0xfaefd8},{344, 408, 0x999888},{290, 383, 0x929292},{291, 439, 0x525252}}
+                        threeAs[2]={{415, 440, 0x99987b},{352, 424, 0x565656},{391, 612, 0x969696},{342, 519, 0x949494},{309, 465, 0x6d6d6d},{260, 577, 0x818181},{225, 503, 0x717171},{189, 569, 0x676767}}
+                        threeAs[3]={{304, 375, 0x787878},{329, 449, 0x979797},{365, 510, 0x969696},{158, 460, 0x949494},{158, 460, 0x949494},{158, 460, 0x949494},{413, 573, 0x6c6c6c},{315, 574, 0x7c7c7c}}
+                        
+                        for k,v in ipairs(threeA) do
+                            if d( v )then
+                                log(v..'->准备加点')
+                                for k__,v__ in ipairs(threeAs[k])do
+                                    log(v__)
+                                    click(v__[1],v__[2],2)
+                                    d('英雄管理-天赋升级-升级',true)
+                                    d('英雄管理-天赋升级-强制升级',true)
+                                end
+                                d('酒馆-返回按钮',true,1,2)
+                                break
+                            end
+                        end
+                    end
+                end
+            elseif d('酒馆-返回按钮',true,1,2) then
+            else
+                click(50,50)
             end
-        end
+        end--60秒内的加天赋
+        _UI.英雄升级加点 = false
     end
 end
 
@@ -1618,6 +1715,10 @@ end
 
 
 t['菜单-战役']={0xf5fefe, "11|22|0x044975",90,831,666,892,720}
+    t['菜单-远征-收集奖励']={0xfffa9d, "0|0|0xfffa9d",90,106,203,160,266}
+    t['菜单-远征-可以购买']={0xfc9a4f, "0|0|0xfc9a4f,33|-31|0xe30000",90,87,76,198,156}
+        t['菜单-远征-可以购买-科斯坦察']={0xfdc202, "0|0|0xfdc202,23|4|0x00baf5",90,763,261,898,312}
+    
     t['菜单-战役-挑战']={0xb67016, "0|0|0xb67016,-78|-15|0xffb900",90,948,624,1209,738}
         t['远征-任务目标-界面']={0xd6d1ce, "0|0|0xd6d1ce,1259|48|0x00c0fc",90,4,4,1331,127}
             t['远征-任务目标-界面-增加部队']={0x3c3d3a, "0|0|0x3c3d3a,-45|-1|0xfff76b,44|2|0xffff61",90,1198,120,1329,417}
@@ -1631,13 +1732,24 @@ t['菜单-战役']={0xf5fefe, "11|22|0x044975",90,831,666,892,720}
             t['远征-战斗界面-部队行军中']={0xfeffff, "0|0|0xfeffff,-5|1|0x109c00,9|0|0x0d9900",90,1274,203,1321,487}
             t['远征-战斗界面-部队战斗中']={0xb10000, "0|0|0xb10000,-1|1|0xb40303",90,1266,204,1324,510}
         t['远征-战斗界面-结束']={0xffffff, "0|0|0xffffff,25|18|0xffff64",90,731,136,882,288}
+    t['菜单-战役-打不过-时间到']={0x1274ba, "0|0|0x1274ba,236|-4|0xffb100,105|-305|0xffffff",90,343,119,973,634}
 
-function 远征()
+function _远征()
+    远征次数 =  远征次数 + 1
+    if 远征次数 > 10 then
+        _UI.远征 = false
+        return
+    end
     if not(d('联盟-展开联盟-联盟')) then
         d('联盟-展开联盟',true,2,3)
     end
     d('菜单-战役',true,1,3)
     click(214, 332,2)
+    d('菜单-远征-收集奖励',true,1,2)
+    if d('菜单-远征-可以购买',true,1,2) then
+        d('菜单-远征-可以购买-科斯坦察',true,1,2)
+        d('菜单-远征-可以购买-科斯坦察',true,1,2)
+    end
     
     local i = 0
     while i < 30 and ( d('菜单-战役-挑战',true,1,3) or d('远征-任务目标-界面')) do
@@ -1671,7 +1783,11 @@ function 远征()
             end
             delay(1)
         end
-
+    end
+    
+    if d('菜单-战役-打不过-时间到',true,1,2)then
+        _UI.远征 = false
+        log('远征结束-正常')
     end
 end
 
@@ -1685,6 +1801,7 @@ function game()
     打野降低key = false;
     打野增长key = true;
     采矿调低一次 = true
+    任务记数 = 0
     打野次数记数 = 0;
     收集次数 = 0
     读邮件次数 = 0
@@ -1700,6 +1817,7 @@ function game()
     造兵次数 = 0
     联盟次数 = 0
     送物资次数 = 0
+    远征次数 = 0
     
 	local timeline = os.time()
 	while os.time()-timeline < 60 * 15 do
@@ -1708,17 +1826,19 @@ function game()
 				if d("游戏主界面-城内")then
 					d('弹窗_绑定帐号',true,1)
 					
-					_glass()
-					_SignIn()
-					_Collect()
+					if _UI.除草 and _glass() then end
+					if _UI.VIP奖励 and _SignIn() then end
+					if _UI.收集资源 and _Collect() then end
 					_gift()
-					_mail()
-					_book()
+					if _UI.读邮件 and _mail() then end
+					if _UI.日历奖励 and _book() then end
 					
 					if _init() then
 						if _Hospital() then
+						elseif _UI.英雄升级加点 then
+						    _加天赋()
 						elseif _UI.远征 then
-						    远征()
+						    _远征()
 						elseif _UI.修城墙 then
 						    _wall()
 						elseif _UI.建造 then
@@ -1765,7 +1885,9 @@ function game()
 			else
 				if _Evevnt() then
 					if not(_Arrow()) then
-					    _Tips()
+					    if _Tips() == '封号' then
+					        return 
+					    end
 					end
 				end
 			end
@@ -1786,9 +1908,6 @@ function main()
 	        local ui_ = getallwebUI()
 	        chuangUI(ui_)
 	    end
-	
-		_setp = {}
-		_setp['任务'] = 0
 	
 		_UI.国家 = __UI.国家 + 1
 		_UI.升级 = __UI.升级
@@ -1814,7 +1933,17 @@ function main()
 		_UI.修城墙 = __UI.修城墙
 		_UI.研究 = __UI.研究
 		_UI.送物资 = __UI.送物资
-		_UI.远征 = false
+		_UI.远征 = __UI['支线功能']['远征']
+		_UI.英雄升级加点 = __UI['支线功能']['英雄升级加点']
+		_UI.除草 = __UI['小功能']['除草']
+		_UI.VIP奖励 = __UI['小功能']['VIP奖励']
+		_UI.收集资源 = __UI['小功能']['收集资源']
+		_UI.读邮件 = __UI['小功能']['读邮件']
+		_UI.日历奖励 = __UI['小功能']['送物资']
+		_UI.R位置 = __UI.R位置
+		if tonumber(__UI.R位置) ==0 and __UI.R位置 ~= '' and __UI.R位置 then
+		    _UI.坐标 = split(__UI.R位置,',')
+		end
 		
 		_UI.monsterlevel = 1
 		if __UI.monsterlevel then
