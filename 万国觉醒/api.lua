@@ -127,7 +127,7 @@ function uploadquBaiDu()
     local url = 'http://rok.honghongdesign.cn/public/'
 	local postData = {}
     -- snapshot("qu.png", 277,8,312,31);
-    snapshot("qu.png", 274,4,1324,42);
+    snapshot("qu.png", 277,12,1333,33);
 	path = userPath();
 	imagepath = path .. "/res/qu.png"
 	require("ZZBase64")
