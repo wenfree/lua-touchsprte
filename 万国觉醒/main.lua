@@ -1154,7 +1154,7 @@ function read_mail()
     log('领邮件奖励')
     领邮件奖励 = 领邮件奖励 + 1
     if 领邮件奖励 > 1 then
-        _UI.读邮件 = false
+        _UI.搜索村庄 = false
     end
     if d('邮件-邮件',true,1,4)then
         local mailtime = os.time()
@@ -1173,7 +1173,7 @@ function read_mail()
                         if d("斥候-搜索-派遣",true,1,2)then
                             派遣次数 = 派遣次数 + 1
                             if 派遣次数 >= 1 then
-                                _UI.读邮件 = false
+                                _UI.搜索村庄 = false
                             end
                         end
                         d('邮件-邮件',true,1,2)
@@ -1902,7 +1902,7 @@ function game()
 							_build()
 						elseif _UI.建筑列队 then
 						    _build_two()
-						elseif _UI.读邮件 then
+						elseif _UI.搜索村庄 then
 						    read_mail()
 						elseif true and _UI.奖励 then
 							_Award()
@@ -1992,6 +1992,7 @@ function main()
 		_UI.读邮件 = __UI['小功能']['读邮件']
 		_UI.日历奖励 = __UI['小功能']['送物资']
 		_UI.联盟名称 = __UI.联盟名称 or ''
+		_UI.搜索村庄 = __UI.搜索村庄
 		_UI.R位置 = __UI.R位置
 		if tonumber(__UI.R位置) == 0 and __UI.R位置 ~= '' and __UI.R位置 then
 		    _UI.坐标 = split(__UI.坐标,',')
