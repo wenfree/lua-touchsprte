@@ -1506,6 +1506,49 @@ function ad()
 end
 
 
+t['广告-收藏夹']={0xb46d12, "0|0|0xb46d12,10|5|0xffa700",90,466,-1,524,40}
+    t['广告-收藏夹-全部点特殊']={0xffffff, "0|0|0xffffff,-234|1|0x098b08",90,188,101,569,186}
+    t['广告-收藏夹-特殊激活']={0xffffff, "0|0|0xffffff,-58|2|0x088508",90,193,114,563,181}
+        t['广告-收藏夹-特殊激活-无书签']={0xffffff, "0|0|0xffffff,113|4|0x066f9a,120|3|0xffffff",90,500,351,788,421}
+	        t['广告-收藏夹-特殊激活-关闭']={0xd3d1ca, "0|0|0xd3d1ca,-11|-9|0xd7d6ce,-9|-2|0x9b9a8d",90,1110,65,1162,107}
+	            t['广告-收藏夹-特殊激活-收藏自己']={0x995200, "0|0|0x995200,56|-3|0x1274ba,-62|-3|0x1075ba",90,160,79,1319,682}
+	            t['广告-收藏夹-特殊激活-收藏完成']={0x007aff, "0|0|0x007aff,49|-5|0x007aff,14|18|0x007aff",90,1017,61,1310,635}
+	            t['广告-收藏夹-特殊激活-确定']={0x1274ba, "0|0|0x1274ba,-59|-17|0x00ccfe,52|17|0x00b7f3",90,273,140,1039,608}
+	   t['广告-收藏夹-特殊激活-有书签']={0x055987, "0|0|0x055987,13|-9|0x025788,14|8|0x005886,9|0|0x1587bf",90,854,190,910,261}
+	    t['广告-收藏夹-世界频道']={0x008fbe, "0|0|0x008fbe,0|-6|0x7b705f,63|2|0xffffff",90,384,74,756,688}
+	    t['广告-收藏夹-世界频道-确定发送']={0x0e75e5, "0|0|0x0e75e5,-20|-12|0xffffff,-201|-3|0xc5b499",90,382,275,936,549}
+
+function ads_()
+    d('游戏主界面-城内',true,2)
+    if d('游戏主界面-野外',false,1,3) then
+        if d('广告-收藏夹',true,1,2) then
+            d('广告-收藏夹-全部点特殊',true,1,3)
+            if d('广告-收藏夹-特殊激活') then
+                if d("广告-收藏夹-特殊激活-有书签",true,1,2) then
+                    if d('广告-收藏夹-世界频道',true,1,2)then
+                        if d('广告-收藏夹-世界频道-确定发送',true,1,2)then
+                            delay(30)
+                            return true
+                        end
+                    end
+                else
+                    log('无书签')
+                    d('广告-收藏夹-特殊激活-关闭',true,1,2)
+                    click(663, 358,2)
+                    d('广告-收藏夹-特殊激活-收藏自己',true,1,2)
+                    click(576, 251,2)
+                    clearTxt()
+                    inputStr( UIv.ad )
+                    delay(2)
+                    d("广告-收藏夹-特殊激活-收藏完成",true,1,2)
+                    d("广告-收藏夹-特殊激活-确定",true,1,2)
+                    return false;
+                end
+            end
+        end
+    end
+end
+
 t['游戏未绑定']={0x09bf07, "0|0|0x09bf07,-729|-10|0x09c107,-482|-517|0xfbe4c5,77|-450|0xfef2e5",90,304,55,1289,670}
 function game()
     
@@ -1519,7 +1562,7 @@ function game()
 					
 					if _init()then
 					    
-					    if	ad() then
+					    if	ads_() then
 	
 						    return 'next'
 						    
@@ -1599,8 +1642,8 @@ function main()
 		allimg = false
 		
 		__game={}
-        if  AccountInfoBackad( getOnlineName() ) then
-           		log(_UI);
+        if AccountInfoBackad( getOnlineName() ) then
+           	log(_UI);
     		game()
         end
         clearOneAccount();
