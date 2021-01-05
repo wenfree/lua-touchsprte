@@ -94,7 +94,7 @@ __UI = {}
 _UI = {}
 require('tsp')
 require('AWZ')
-require('ui')
+-- require('ui')
 require('ZZBase64')
 require("yzm")
 require('api')
@@ -252,7 +252,7 @@ function _init()
 		end
 	    d('游戏主界面-野外',true,1,3)
 	end
-	if #_UI.联盟名称 >0 and d('联盟加入',true)then
+	if d('联盟加入',true)then
 		d("联盟加入不能",true)
 	elseif d('关闭任务',true)then
 	elseif d('游戏主界面-城内')then
@@ -804,12 +804,11 @@ t['收集-木材黄'] = { 0x6e2a08,"-19|2|0xecb87b,-16|21|0xd0905c,-5|7|0x92380b
 t['收集-石头'] = { 0xd8dfee,"0|-7|0x969fb7,-15|10|0x9da6c1,-16|16|0x606a83,12|11|0x485168",80,50,20,1250,736}
 t['收集-握手'] = { 0xdedee0,"8|-19|0x2f9c01,0|-36|0xfcf2e1,-12|-41|0xffe67e,-12|-25|0x33a600",70,54,85,1224,723}
 t['收集-握手']={0xfeeee1, "0|0|0xfeeee1,-2|-14|0x188ecd,3|13|0x067bbf,2|8|0xd06252,15|0|0x9f5110",90,54,85,1224,723}
-t['收集-帮助']={0xffecda, "0|0|0xffecda,-5|1|0xfbc2c1",90,1254,486,1310,538}
+t['收集-帮助']={0xfff4e3, "0|0|0xfff4e3,24|-16|0xe20000",70,1251,453,1324,543}
 -- t['']={0x067cbf, "0|0|0x067cbf,-5|-16|0xfffeed,-18|-22|0xdbaf5a,-6|-18|0xfff8e1",90,530,7,1310,711}
 function _Collect()
 	log("收集")
 	收集次数 = 收集次数 + 1
-	d('收集-帮助',true,2)
 	if 收集次数 < 2 then
     	local 收集 = {"收集-玉米","收集-木材","收集-石头","收集-握手","收集-木材黄"}
     	for k,v in ipairs(收集) do
@@ -827,6 +826,10 @@ t['英雄-放大镜']={0x056599, "0|0|0x056599,-2|-49|0x3bb3e6",90,406,460,520,5
 
 function _Hero()
 	log("英雄")
+	英雄次数 = 英雄次数+ 1
+	if 英雄次数 > 2 then
+	    _UI.英雄 = false
+    end
 	click(314,344,2)
 	if d("英雄-放大镜",true,1,2)then
 		local _opentimes = 0
@@ -890,8 +893,8 @@ function _monster()
         local dwshu_max = { "采集-已经有队伍-1-max", "采集-已经有队伍-2-max", "采集-已经有队伍-3-max", "采集-已经有队伍-4-max","采集-已经有队伍-5-max" }
         
         if d('采集-已经有队伍') and d('采集-已经有队伍-正确') and DWs(dwshu_min) == DWs(dwshu_max) and not(d("行军-已经部队-驻扎")) then
-            _UI.采集.key = false
-            return true
+            _UI.打野 = false
+            return false
         end
 	
 		if 打野次数记数 >=  _UI.打野次数  then
@@ -952,7 +955,7 @@ function _monster()
     			d("采矿-搜索-攻击",true,1,3)
     			
     			if d("采矿-创建部队",false,1,2)  then
-    			    d('打野-创建部队-驻扎',true,1,2)
+    			    d('行军-已经部队-驻扎',true,1,2)
     			    d('打野-创建部队-行军',true,1,3)
     			end
     			
@@ -1027,7 +1030,7 @@ end
 function _Collection()
 	log("采集")
 	采矿次数 = 采矿次数 + 1
-	if  采矿次数 > 6 then
+	if  采矿次数 > 10 then
 	    _UI.采集.key = false
 	end
 	if _UI.采集.key then
@@ -1036,26 +1039,26 @@ function _Collection()
 	    --查询是否要采集
 	    if d('采集-已经有队伍') and d('采集-已经有队伍-正确') then
             local dwshu_min = { "采集-已经有队伍-1", "采集-已经有队伍-2", "采集-已经有队伍-3", "采集-已经有队伍-4","采集-已经有队伍-5" }
-            local dwshu_max = { "采集-已经有队伍-1-max", "采集-已经有队伍-2-max", "采集-已经有队伍-3-max", "采集-已经有队伍-4-max","采集-已经有队伍-5-max" }
-	        
-	        if DWs(dwshu_min) == DWs(dwshu_max) then
-	            _UI.采集.key = false
-	            return true
-	        end
-	        
-	    end
-	        
+            local dwshu_max = { "采集-已经有队伍-1-max", "采集-已经有队伍-2-max", "采集-已经有队伍-3-max", 
+                "采集-已经有队伍-4-max","采集-已经有队伍-5-max" }
+            --查询是否最大例队
+            if DWs(dwshu_min) == DWs(dwshu_max) then
+                _UI.采集.key = false
+                return true
+            end
+        end
+        
+        --开始采集程序
 		if d('采矿-放大镜',true,1,2)then
-		   
-			if tonumber(_UI.采集.种类) >= 5 then
-			    _Coll_key_mun = _Coll_key_mun or 0
-			    _Coll_key_mun = _Coll_key_mun + 1
-				_Coll_key = _Coll_key_mun%2+1
-				click( 采集位置[_Coll_key][1],采集位置[_Coll_key][2],2 )
-			else
-				click( 采集位置[tonumber(_UI.采集.种类)][1],采集位置[tonumber(_UI.采集.种类)][2],2 )
-			end
+            --计算出采集的长度
+            local cj_mun = #_UI.采集.种类
+            _Coll_key_mun = _Coll_key_mun or 0
+            _Coll_key_mun = _Coll_key_mun + 1
+            --计算出采集的种类
+			local _Coll_key = _Coll_key_mun%cj_mun+1
+			click( 采集位置[_UI.采集.种类[_Coll_key]+1][1],采集位置[_UI.采集.种类[_Coll_key]+1][2],2 )
 			
+			--准备点采集
 			if d("采矿-搜索",false,1,3)then
 			    if 采矿调低一次 then
 			        d('采集-采集前调低',true,1,1)
@@ -1065,12 +1068,12 @@ function _Collection()
 			    end
 			end
 			
+			--调的过高后重新来一次
+			if _Coll_key_mun%6 == 0 then
+			    采矿调低一次 = true
+			end
+			--点击点矿后的搜索
 			if d("采矿-搜索",true,1,3)then
-			    
-			 --   if d('采矿-有人行军中') or d('采矿-有人行军中2') or d('采矿-有人行军中3') then
-			 --       return
-			 --   end
-			    
 				click(663,367,2)	--点屏中间
 				if d("斥候-搜索-绿")then
 					log("未开荒")
@@ -1082,26 +1085,25 @@ function _Collection()
 				d('采矿-搜索-采集-iphone7',true,1,2)
 				
 				if d("采矿-创建部队",false,1,2)  then
-    			    if d('打野-创建部队-正在返回',true,1,2)then
-    			    elseif d('打野-创建部队-驻扎',true,1,2) then
-    			    end
-    			    d('打野-创建部队-行军',true,1,3)
-    			end
-				d("采矿-创建部队",true,1,2)
+				    --不再把造旗的带回来
+                    if d('行军-已经部队-驻扎',true,1,2) then
+                        d('打野-创建部队-行军',true,1,3)
+                    end
+				end
 				
+                --创建部队
+				d("采矿-创建部队",true,1,2)
 				if d("采矿-行军")  then
-    			 
-    			    if d("采矿-行军") or d('采矿-行军2') then
-    			        if d('采集-行军-有兵-新') or d("采集-行军-有兵-6") then
-    			            d("采矿-行军",true)
-    			            d('采矿-行军2',true)
+                    if d("采矿-行军") or d('采矿-行军2') then
+                        if d('采集-行军-有兵-新') or d("采集-行军-有兵-6") then
+                            d("采矿-行军",true)
+                            d('采矿-行军2',true)
                         else
                             _UI.采集.key = false
                             d('弹窗-设置面板x',true,2)
-    				    end
-    				end
-    			end
-				
+                        end
+                    end
+                end
 			end	
 	    end
     end
@@ -1486,17 +1488,17 @@ t['联盟-人员']={0x0e4161, "0|0|0x0e4161,16|-122|0x0da0de,-4|102|0x105b81",90
         t['联盟-地图输入-资源援助']={0x1274ba, "0|0|0x1274ba,-11|-9|0x00c8ff,209|-6|0x00c7ff,308|-1|0x00c2ff",90,1018,266,1281,532}
             
 function _songwuzi()
-    log('送物资')
+    log('物资运送')
     
     送物资次数 = 送物资次数 + 1
     if 送物资次数 > 3 then
-        _UI.送物资 = false
+        _UI.物资运送 = false
         return true
     end
     
     d('游戏主界面-城内',true,2)
     
-    if tonumber(_UI.R位置) == 0 then    --地图点人
+    if tonumber(_UI.R位置) == '坐标' then    --地图点人
         local dt__ = {{457, 20, 0x84974e},{644, 151, 0x434c27},{807, 151, 0x494a27},{927, 152, 0x147ebb}}
         for k,v in ipairs( dt__ ) do
             click( v[1] ,v[2],3)
@@ -1542,8 +1544,7 @@ function _songwuzi()
             d('联盟-人员-资源援助',true,1,2)
             d('联盟-人员-资源援助-phone7',true,1,2)
         end
-        
-
+    
     end --地图点人end
     
     local mo = {{971, 237, 0x0a2b39},{620, 233, 0xb2f8fc},{620, 325, 0xb6f7fb},{620, 418, 0xb1f9fc},{620, 508, 0xb1f9fc}}
@@ -1553,7 +1554,7 @@ function _songwuzi()
         end
         d('联盟-人员-资源援助-资源面板-运输',true,1,3)
         if d('联盟-人员-资源援助-资源面板-运光了') then
-            _UI.送物资 = false
+            _UI.物资运送 = false
         end
     end
 end
@@ -1698,7 +1699,7 @@ function _lm()
     log('联盟研究')
     联盟次数 = 联盟次数 + 1
     if 联盟次数 > 2 then
-        _UI.联盟 = false
+        _UI.联盟捐助 = false
         return
     end
     if not(d('联盟-展开联盟-联盟')) then
@@ -1706,15 +1707,16 @@ function _lm()
     end
     if d('联盟-展开联盟-联盟',true,1,5) then
         
-        if #_UI.联盟名称 > 0 and d('联盟-加入按钮',true,1,2) then
+        if d('联盟-加入按钮',true,1,2) then
             d('联盟-搜索框',true,1,2)
-            inputStr(_UI.联盟名称)
+            inputStr('TM-G')
             delay(1)
             d('联盟-搜索-按钮',true,1,2)
             d('联盟-搜索-按钮',true,1,2)
             if d('联盟-搜索-申请加入',true,1,2)then
-                _UI.联盟 = false
+                _UI.联盟捐助 = false
             end
+             _UI.联盟捐助 = false
         elseif d('联盟-礼物',true,1,3)then
             local i = 0
             while d('联盟-礼物-领取',true,1,2) and i<15 do
@@ -1740,15 +1742,12 @@ function _lm()
                     i=i+1
                 end
                 if d('联盟-联盟科技+捐献完成') or d('联盟-联盟科技+研究科技') then
-                    _UI.联盟 = false
+                    _UI.联盟捐助 = false
                 end
             end
         end
     end
 end
-
-
-
 
 
 t['城墙修复']={0x1190cd, "0|0|0x1190cd,-141|5|0x5acc3e,-139|52|0x009406,-287|5|0x0c7cb2",90,723,500,1231,742}
@@ -1906,18 +1905,20 @@ function game()
     联盟次数 = 0
     送物资次数 = 0
     远征次数 = 0
+    英雄次数 = 0
     
 	local timeline = os.time()
-	while os.time()-timeline < 60 * 15 do
+	while os.time()-timeline < 60 * 40 do
 		if active(_app.bid,8)then
 			if d('游戏主界面') or d('游戏主界面-夜')then
 				if d("游戏主界面-城内")then
 					d('弹窗_绑定帐号',true,1)
+					--每次都点帮助
+					d('收集-帮助',true,2)
 					
 					if _UI.除草 and _glass() then end
 					if _UI.VIP奖励 and _SignIn() then end
 					if _UI.收集资源 and _Collect() then end
-					_gift()
 					if _UI.读邮件 and _mail() then end
 					if _UI.日历奖励 and _book() then end
 					
@@ -1959,7 +1960,7 @@ function game()
 							if d("游戏主界面-城内",true,1,2)then
 								_Collection()
 							end
-						elseif _UI.联盟 then
+						elseif _UI.联盟捐助 then
 						    _lm()
 						else
 							return 'next'
@@ -1990,70 +1991,78 @@ function main()
 	
 	while true do
 	    
-        if UIv.ui选择 == '1' then
-            chuangUI( __game.wei_ui )
-        elseif UIv.ui选择 == '2' then
-	        local ui_ = getallwebUI()
-	        chuangUI(ui_)
-	    end
-	
-		_UI.国家 = __UI.国家 + 1
-		_UI.升级 = __UI.升级
-		_UI.奖励 = __UI.奖励
-		_UI.造兵 = {}
-		_UI.造兵.key = __UI.造兵key
-		_UI.造兵.步兵 = __UI.步兵
-		_UI.造兵.骑兵 = __UI.骑兵
-		_UI.造兵.弓兵 = __UI.弓兵
-		_UI.造兵.车兵 = __UI.车兵
-		_UI.建造 = __UI.建造
-		_UI.英雄 = __UI.英雄
-		_UI.采集 = {}
-		_UI.采集.key = __UI.采集key
-		_UI.采集.种类 = __UI.采集种类+1
-		_UI.斥候 = __UI.斥候
-		_UI.任务 = __UI.任务
-		_UI.打野 = __UI.打野
-		_UI.打野次数 = tonumber(__UI.打野次数)
-		_UI.联盟 = __UI.联盟
-		_UI.建筑列队 = __UI.建筑列队
-		_UI.读邮件 = __UI.读邮件
-		_UI.修城墙 = __UI.修城墙
-		_UI.研究 = __UI.研究
-		_UI.送物资 = __UI.送物资
-		_UI.远征 = __UI['支线功能']['远征']
-		_UI.英雄升级加点 = __UI['支线功能']['英雄升级加点']
-		_UI.除草 = __UI['小功能']['除草']
-		_UI.VIP奖励 = __UI['小功能']['VIP奖励']
-		_UI.收集资源 = __UI['小功能']['收集资源']
-		_UI.读邮件 = __UI['小功能']['读邮件']
-		_UI.日历奖励 = __UI['小功能']['日历奖励']
-		_UI.联盟名称 = __UI.联盟名称 or ''
-		_UI.搜索村庄 = __UI.搜索村庄
-		_UI.R位置 = __UI.R位置
-		if tonumber(__UI.R位置) == 0 and __UI.R位置 ~= '' and __UI.R位置 then
-		    _UI.坐标 = split(__UI.坐标,',')
-		end
-		
-		_UI.monsterlevel = 1
-		if __UI.monsterlevel then
-		    _UI.monsterlevel = __UI.monsterlevel
-		end
-		_UI.monsteDW = '默认'
-		if __UI.monsteDW then
-		    _UI.monsteDW = __UI.monsteDW
-		end
-	
-		upimg = true
-		allimg = true
-		
-		log(_UI);
-		game()
-
-		clearOneAccount();
-		AccountInfoBack();
-		delay(1)
-
+	    --拉取帐号
+    	if AccountInfoBack() then
+    	    --读出token
+            __game.token = llsGameToken()[1]
+            --初始化UI设置
+            __UI = __game.wei_ui
+            --完全格式化
+            --小功能
+            _UI.除草 = __UI['小功能']['除草']
+            _UI.VIP奖励 = __UI['小功能']['VIP奖励']
+            _UI.收集资源 = __UI['小功能']['收集资源']
+            _UI.读邮件 = __UI['小功能']['读邮件']
+            _UI.日历奖励 = __UI['小功能']['日历奖励']
+            
+            --支线功能
+            _UI.远征 = __UI['支线功能']['远征']
+            _UI.英雄升级加点 = __UI['支线功能']['英雄升级加点']
+            _UI.日落峡谷 = __UI['支线功能']['日落峡谷']
+            
+            --主线功能
+            _UI.修城墙 = __UI.主线功能.修城墙
+            _UI.建造 = __UI.主线功能.建造
+            _UI.英雄 = __UI.主线功能.酒馆召唤
+            _UI.升级 = __UI.主线功能.升级
+            _UI.搜索村庄 = __UI.搜索村庄
+            _UI.奖励 = __UI.主线功能.奖励
+            _UI.任务 = __UI.主线功能.任务
+            
+            --造兵功能
+            _UI.造兵 = {}
+            _UI.造兵.key = __UI.主线功能.造兵key
+            _UI.造兵.步兵 = false
+            _UI.造兵.骑兵 = false
+            _UI.造兵.弓兵 = false
+            _UI.造兵.车兵 = true
+            
+            --其它功能
+            _UI.斥候 = __UI.主线功能.斥候
+            _UI.打野 = __UI.主线功能.打野
+            _UI.打野次数 = tonumber(__UI.打野次数)
+            _UI.monsterlevel = __UI.monsterlevel or 1
+            _UI.monsteDW = __UI.monsteDW or '默认'
+            
+            --采集设置
+            _UI.采集 = {}
+            _UI.采集.key = __UI.主线功能.采集key
+            _UI.采集.种类 = __UI.采集种类
+            
+            --联盟科技捐助
+            _UI.联盟捐助 = __UI.主线功能.联盟捐助
+            _UI.建筑列队 = false
+            
+            --物资运送
+            _UI.物资运送 = __UI.主线功能.物资运送
+            if __UI.R位置 == '坐标' then
+                _UI.坐标 = split(__UI.坐标,',')
+            end
+            
+            --是否截图
+            upimg = true
+            allimg = true
+            log(_UI);
+            game()
+            --清理帐号
+            clearOneAccount();
+            delay(1)
+            
+        else
+            toast('帐号休息中',9)
+            delay(10);
+            closeApp(_app.bid,1);
+        end
 	end
 end
 
@@ -2064,13 +2073,8 @@ function all()
     __game = {}
     __game.imei = sz.system.serialnumber();
     __game.phone_name = getDeviceName()
-    __game.note = UIv.note
-    AccountInfoBack();
-    __game.token = llsGameToken()[1]
-    
-    log(__game.weizi)
     main()
-
+    
 end
 
 if not(__reg)  then

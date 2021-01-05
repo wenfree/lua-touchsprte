@@ -70,15 +70,20 @@ function AccountInfoBack()
 
 	local account_ = post(url,arr)
 	log(account_)
-	local token = account_.data.idfa
-	__game.qu = account_.data.qu
-	__game.wei_ui = json.decode( account_.data.web_ui )
-	__game.weizi = account_.data.weizi
-	__game.qus = account_.data.qus
-	__game.id = account_.data.id
-	writeFile_( token ,'w',AccountInfo)
-	closeApp(appbid,1)
-	mSleep(2000)
+	if account_.data  == '暂无帐号' then
+	    return false
+	else
+	    local token = account_.data.idfa
+    	__game.qu = account_.data.qu
+    	__game.wei_ui = json.decode( account_.data.web_ui )
+    	__game.weizi = account_.data.weizi
+    	__game.qus = account_.data.qus
+    	__game.id = account_.data.id
+    	writeFile_( token ,'w',AccountInfo)
+    	closeApp(appbid,1)
+    	mSleep(2000);
+    	return true
+	end
 end
 
 
