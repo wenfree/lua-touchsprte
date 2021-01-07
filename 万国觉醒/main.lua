@@ -368,7 +368,8 @@ function _Tips()
 		elseif v == '弹窗-滑动解锁' then
 		    if d(v)then
 		       local right_where = {{499, 541, 0xc9cdd3},{838, 543, 0xe4e4e4}}
-		       moveTo(499,541,838,543,5)
+		      -- moveTo(499,541,838,543,5)
+		       closeApp(frontAppBid())
 		       delay(2)
 		    end
 	    elseif v == '弹窗-封号警告' then
