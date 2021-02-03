@@ -64,7 +64,7 @@ function AccountInfoBack()
     local url = 'http://rok.honghongdesign.cn/public/';
     local arr = {}
     arr['s']='RokGetToken.Rest'
-    arr['imei']= __game.imei
+    arr['imei']= getDeviceID()
     arr['note']= __game.note
     arr['phone_name']= __game.phone_name
 

@@ -202,8 +202,8 @@ function uploadimg()
 end
 
 
--- __game={}
--- update_token()
+__game={}
+update_token()
 
 
 

@@ -93,7 +93,7 @@ end
 __UI = {}
 _UI = {}
 require('tsp')
-require('AWZ')
+-- require('AWZ')
 -- require('ui')
 require('ZZBase64')
 require("yzm")
@@ -368,8 +368,8 @@ function _Tips()
 		elseif v == '弹窗-滑动解锁' then
 		    if d(v)then
 		       local right_where = {{499, 541, 0xc9cdd3},{838, 543, 0xe4e4e4}}
-		      -- moveTo(499,541,838,543,5)
-		       closeApp(frontAppBid())
+		       moveTo(499,541,838,543,5)
+		      -- closeApp(frontAppBid())
 		       delay(2)
 		    end
 	    elseif v == '弹窗-封号警告' then
@@ -874,6 +874,7 @@ t['打野-正在战斗']={0xb20000, "0|0|0xb20000,-2|0|0xb20000",90,1279,231,131
 t['打野-体力不足']={0xdaaf00, "0|0|0xdaaf00,-17|-11|0xf18d04,-35|8|0x63e819",90,395,125,485,182}
 t['打野-体力不足2']={0xd3d1cb, "0|0|0xd3d1cb,-188|190|0x0af94b,-343|411|0xffad00,-554|175|0xac1c14",90,340,77,1114,601}
 t['打野-体力不足-iphone7']={0x71f50f, "0|0|0x71f50f,5|-5|0xa9ff56,-7|-9|0x03384e",90,359,125,457,181}
+    t['打野-创建部队-驻扎']={0x008fc3, "0|0|0x008fc3,6|4|0xffffff,7|3|0x1c9aca,-6|3|0xffffff,-7|3|0x008ec2,6|-4|0xffffff",90,1269,164,1327,654}
 
 function _monster()
 	log("打野")
@@ -956,7 +957,7 @@ function _monster()
     			d("采矿-搜索-攻击",true,1,3)
     			
     			if d("采矿-创建部队",false,1,2)  then
-    			    d('行军-已经部队-驻扎',true,1,2)
+    			    d('打野-创建部队-驻扎',true,1,2)
     			    d('打野-创建部队-行军',true,1,3)
     			end
     			
@@ -1817,10 +1818,15 @@ t['菜单-战役']={0xf5fefe, "11|22|0x044975",90,831,666,892,720}
             t['远征-战斗界面-有空闲部队']={0xffffff, "0|0|0xffffff,2|5|0x008cc5",90,1223,156,1329,499}
             t['远征-战斗界面-左侧敌人']={0xcdc8c4, "0|0|0xcdc8c4,6|0|0xd9d6d3",90,98,155,168,542}
             t['远征-战斗界面-中间攻击']={0xee3838, "0|0|0xee3838,-1|22|0xfaecec",90,285,45,1179,740}
+                t['远征-战斗界面-有多个部队']={0x008fc3, "0|0|0x008fc3,0|138|0x008ec2",90,1239,90,1323,665}
+                t['远征-战斗界面-有多个部队-行军']={0xffa800, "0|0|0xffa800,-18|-12|0xb67016",90,939,657,1157,749}
+                t['远征-战斗界面-单个部队-行军']={0xfdac00, "0|0|0xfdac00,50|-19|0xb67016",90,994,590,994,590}
             t['远征-战斗界面-部队行军中']={0xfeffff, "0|0|0xfeffff,-5|1|0x109c00,9|0|0x0d9900",90,1274,203,1321,487}
             t['远征-战斗界面-部队战斗中']={0xb10000, "0|0|0xb10000,-1|1|0xb40303",90,1266,204,1324,510}
         t['远征-战斗界面-结束']={0xffffff, "0|0|0xffffff,25|18|0xffff64",90,731,136,882,288}
     t['菜单-战役-打不过-时间到']={0x1274ba, "0|0|0x1274ba,236|-4|0xffb100,105|-305|0xffffff",90,343,119,973,634}
+    
+    
 
 function _远征()
     远征次数 =  远征次数 + 1
@@ -1832,6 +1838,7 @@ function _远征()
         d('联盟-展开联盟',true,2,3)
     end
     d('菜单-战役',true,1,3)
+    
     click(214, 332,2)
     d('菜单-远征-收集奖励',true,1,2)
     if d('菜单-远征-可以购买',true,1,2) then
@@ -1863,9 +1870,14 @@ function _远征()
             if d('远征-战斗界面-有空闲部队') then
                 d('远征-战斗界面-左侧敌人',true,1,2)
                 d('远征-战斗界面-中间攻击',true,1,3)
-                
-         	    d('打野-创建部队-驻扎',true,1,2)
-    		    d('打野-创建部队-行军',true,1,3)
+                if d("远征-战斗界面-有多个部队")then
+                    click(1227,710)
+                    d("远征-战斗界面-有多个部队-行军",true,1,3)
+                else
+                    d('打野-创建部队-驻扎',true,1,2)
+    		        d('远征-战斗界面-单个部队-行军',true,1,3)
+                end
+
             elseif d('远征-战斗界面-部队行军中') or d('远征-战斗界面-部队战斗中') then
             elseif d('远征-战斗界面-结束',true,1,5)then
             end
@@ -1879,11 +1891,12 @@ function _远征()
     end
 end
 
-
-
-
-
 t['游戏未绑定']={0x09bf07, "0|0|0x09bf07,-729|-10|0x09c107,-482|-517|0xfbe4c5,77|-450|0xfef2e5",90,304,55,1289,670}
+
+
+
+
+
 function game()
     
     打野降低key = false;
@@ -1907,6 +1920,7 @@ function game()
     送物资次数 = 0
     远征次数 = 0
     英雄次数 = 0
+    arrowKey = 0
     
 	local timeline = os.time()
 	while os.time()-timeline < 60 * 40 do
@@ -1974,11 +1988,14 @@ function game()
 			    return false
 			else
 				if _Evevnt() then
-					if not(_Arrow()) then
+				    arrowKey = arrowKey + 1
+				    
+					if arrowKey%5 ~= 0 or not(_Arrow()) then
 					    if _Tips() == '封号' then
 					        return 
 					    end
 					end
+					
 				end
 			end
 		end
@@ -2072,7 +2089,7 @@ function all()
 
     local sz=require('sz')
     __game = {}
-    __game.imei = sz.system.serialnumber();
+    __game.imei = getDeviceID()
     __game.phone_name = getDeviceName()
     main()
     
