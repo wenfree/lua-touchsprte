@@ -137,6 +137,7 @@ t['e-服务器选择-继续按扭']={0xffaf00, "0|0|0xffaf00,-298|-602|0xffffff,
 t['e-文明样式选择']={0xb67016, "0|0|0xb67016,-88|-13|0xfebc00,77|-10|0xffbc00,73|30|0xffa500",90,981,450,1256,552}
 
 function _Evevnt()
+    log('查询事件')
 	if d('e-国家选择')then
 		if _UI.国家 > 7 then
 			moveTo(1247,663,139,666,10)
@@ -152,10 +153,9 @@ function _Evevnt()
     --     arr['qu'] = __game.qu
     --     arr['token'] = __game.token
     --     _api_rok(arr)
-    --      d('e-服务器选择-继续按扭',true,1,3)
+         d('e-服务器选择-继续按扭',true,1,3)
     
-        dialog('请选区-点确定后20秒选完\n(帐号原来计划在'..__game.qu,0);
-        delay(20)
+        -- dialog('请选区-点确定后20秒选完\n(帐号原来计划在'..__game.qu,0);
 	elseif d('e-文明样式选择')then
 	    click(1100, 659)
 	    d('e-文明样式选择',true)
@@ -167,6 +167,7 @@ end
 
 function _Arrow()
 	
+log('查找箭头')
 local ret = false
 _arrow = _arrow or 0
 
@@ -285,7 +286,7 @@ t['弹窗_弹出宝箱'] = { 0x9bab6e,"-596|544|0xb77016,-397|533|0xb77016,-501|
 t['弹窗—回天改命'] = { 0xadafaf,"-595|521|0xb77016,-409|552|0xfeaa00",degree,462,21,1223,740}
 t['弹窗—验证图片'] = { 0x1274ba,"-51|-7|0xd3ff,43|17|0xb5f1,58|-5|0x1077bc,-10|-131|0xffef00",degree,400,90,1029,458}
 t['弹窗—验证图片']={0x1274ba, "0|0|0x1274ba,28|-5|0x00c7ff,-58|-3|0x00c5ff,9|-283|0x000000",90,668,92,1328,452}
-	t['弹窗—验证图片-确定'] = { 0x539ffe,"83|0|0x539ffe,-339|-2|0xffffff,-323|-10|0x7e7e7e,-406|-3|0x7e7e7e",degree,392,644,944,730}
+	t['弹窗—验证图片-确定'] = { 0x539ffe,"83|0|0x539ffe,-339|-2|0xffffff,-323|-10|0x7e7e7e,-406|-3|0x7e7e7e",90,392,644,944,730}
 	t['弹窗—验证图片-确定-有图']={0x252525, "0|0|0x252525,0|1|0x252525",70,700,40,928,78}
 	t['弹窗—验证图片-确定-有字']={0x727272, "0|0|0x727272",90,703,25,925,91}
 t['弹窗—app更新'] = { 0xc3ff,"-82|-24|0xd3fd,64|20|0xb5f0,192|-1|0xdf3d33,343|2|0xdd3c33",degree,384,427,966,569}
@@ -313,6 +314,9 @@ t['弹窗-封号警告']={0x107cc1, "0|0|0x107cc1,-123|-193|0xffffff,-139|-193|0
 t['弹窗-滑动解锁']={0x1a79ff, "-11|0|0xd1d1d1,-37|1|0x1a79ff,1|-21|0x1a79ff,407|64|0xb3b3b3",90,386,94,941,653}
 
 function _Tips()
+    log('查询弹窗')
+    -- keepScreen(true)
+    local res = ""
 	local tips = {
 	    
 	    '弹窗-封号警告',
@@ -354,8 +358,10 @@ function _Tips()
 		'弹窗-补充资源x',
 		'菜单-战役-打不过-时间到',
 		'弹窗-滑动解锁',
-		}
-	for k,v in pairs(tips)do
+	}
+
+	for k,v in ipairs(tips)do
+	    log('查询-->' .. v )
 		if v == "弹窗-正在加载" then
 			if d(v)then
 				delay(15)
@@ -382,7 +388,7 @@ function _Tips()
 		        arr['arr']= json.encode({ ['switch'] = 1, ['state']='封号'})
 		        arr['id']= __game.id
 		        _api_rok(arr)
-		       return '封号'
+		       res = '封号'
 		    end
 		elseif v == '弹窗-预警弹窗' then
 		    if d('弹窗-预警弹窗',true,1) then
@@ -399,23 +405,22 @@ function _Tips()
 		    end
 		elseif v == "弹窗—验证图片" then
 			if d(v,true,1,5) then
+			    keepScreen(false)
 				local time_ = os.time()
 				while ( os.time() - time_ < 120 ) do
-					if d("弹窗—验证图片-确定") and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
+					if ( d("弹窗—验证图片-确定") ) and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
 						delay(1)
 						if _yzmsb()then
 							d("弹窗—验证图片-确定",true,1,5)
 							delay(6);
-							if d("弹窗—验证图片-确定") then
+							if d("弹窗—验证图片-确定")  then
 							    post('http://api.ttshitu.com/reporterror.json',{['id']=_app.yzmid});
-							    return false
-						    else
-						        return true
 							end
+							break
 						end
 					end
+					delay(1)
 				end
-				return false
 			end
 		elseif v == '弹窗-常见问题' then
 		    if d(v,true,1)then
@@ -446,9 +451,12 @@ function _Tips()
 			    elseif  v == '弹窗-补充资源x' then
 			        click(711,167,2)
 			    end
+			    break
 			end
 		end
 	end
+	
+	keepScreen(false)
 	
 	_other = _other or 0
 	_other = _other + 1
@@ -462,6 +470,8 @@ function _Tips()
 	    click(other_w[1][1],other_w[1][2],1)
 	    log('e');
 	end
+	
+	return res
 end
 
 	
@@ -478,6 +488,7 @@ t['升级-前往'] = { 0x1274ba,"-37|-18|0xd3fd,63|14|0xace9",degree,671,496,112
 t['升级-前往-升级箭头'] = { 0x17a50a,"-3|22|0x9203,-1|-26|0x5ecb43",degree,448,360,885,607}
 t['升级-正在升级中'] = { 0xe0a10f,"27|-1|0xdea716,-8|-22|0xf0efe9,-1|-22|0xf1c03a,-32|17|0xcf920d,-41|18|0xe6e4d9",degree,470,357,861,570}
 t['升级-正在升级中']={0xdea01c, "0|0|0xdea01c,-22|-20|0xeebb37,-52|17|0xd19618",90,470,357,861,570}
+t['升级-正在升级中-修正']={0xfdac00, "0|0|0xfdac00,50|-19|0xb67016",90,994,590,994,590}
 
 t['升级-升级后点帮助']={0xfeedd8, "0|0|0xfeedd8,1|13|0x2077bb",90,571,243,759,384}
 
@@ -519,7 +530,7 @@ function _升级子程序()
 			end
 		elseif d("升级-前往",true,1,2)then
 			if d("升级-前往-升级箭头",true,1,2)then
-			elseif d('升级-正在升级中')then
+			elseif d('升级-正在升级中') or d("升级-正在升级中-修正")then
 				return true
 			end
 		end
@@ -533,11 +544,9 @@ function _build()
 	if 升级次数 > 1 then
         _UI.升级 = false
     end
-    if _UI.升级 == '2' or _UI.升级 == 2 then
-        click(1203, 267)    --点击车厂
-    else
-	    click(469,218,2)	--点击市政厅
-    end
+
+    click(469,218,2)	--点击市政厅
+
 	if d("升级-升级箭头",true,1,2) or d('升级-升级箭头时代',true,1,2) or d('升级-升级箭头时代-iphone7',true,1,2) or d('升级-升级箭头-车厂',true,1,2)
 	or d('升级-升级箭头时代-iphone7-9',true,1,2)
 	then
@@ -598,6 +607,7 @@ end
 
 
 t['造兵-准备训练']={0x0375ac, "0|0|0x0375ac,-151|16|0x1ba80e,-302|-15|0x128bc5",90,50,91,1310,705}
+t['造兵-准备训练']={0xd1e6e9, "0|0|0xd1e6e9,-102|7|0x6dd151,-239|-11|0xd9e7ee,-239|-4|0x26a3d8",90,102,261,1240,743}
     t['造兵-训练'] = { 0xfafeff,"20|-28|0xcffe,-92|-14|0xc5ff",degree,914,574,1137,659}
     t['造兵-加速'] = { 0xd3d1c9,"-151|515|0x1176bc,-232|500|0xd1ff,-38|545|0xb6f3",degree,858,58,1365,680}
     
@@ -614,52 +624,42 @@ t['造兵-车兵工厂-车-正在生产']={0xe0a00c, "0|0|0xe0a00c,3|-24|0xf3f1f
     t['造兵-资源不足-使用-X']={0xd3d2cb, "0|0|0xd3d2cb,-7|-8|0xd8d7ce,-54|21|0xbdbdad,-57|46|0x044a68",90,1026,34,1216,160}
     
 function _soldier()
-	log("造兵")
+	log("<--造兵-->")
 	造兵次数 = 造兵次数 + 1
 	if 造兵次数 > 2 then
 	    _UI.造兵.key = false
 	    return true
 	end
 	
-	local 兵种 = {
-		{"步兵",},
-		{"弓兵","造兵-弓兵工厂"},
-		{"骑兵","造兵-骑兵工厂"},
-		{"车兵","造兵-车兵工厂"},
-		{"车兵","造兵-车兵工厂-车"},
-		{"车兵","造兵-车兵工厂-车-白天"},
-		{"车兵","造兵-车兵工厂-车-夜里"},
-		}
-	for k,v in ipairs(兵种) do
-		if _UI.造兵[v[1]] then
-		    log('准备造'..v[1])
-		    if k == 1 then
-			    click(549, 449,2)
-			    click(549, 449,2)
+	local 兵种_ = {
+	    ["步兵"]={ 571, 477, 0xecc3a7},
+	    ["弓兵"]={ 338, 516, 0xf4caaa},
+	    ["骑兵"]={ 923, 554, 0xfed7b5},
+	    ["车兵"]={ 1066, 435, 0xffbf80}
+	}
+	
+	for k,v in pairs(兵种_) do
+		if _UI.造兵[k] then
+		    log('准备造->'..k )
+            click( v[1],v[2],2)
+			if not (  d('造兵-准备训练') ) then
+			    click( v[1],v[2],2)
 			else
-			    d(v[2],true,1,2)
-			end
-			if not (  d('造兵-准备训练') ) and not(k==1) then
-			    d(v[2],true,1,2)
+			    d('造兵-准备训练',true,1,2)
 			end
 			
-			d('造兵-准备训练',true,1,2)
-			if d('造兵-车兵工厂-车-正在生产') then
-			    _UI.造兵.key = false
-			elseif d('造兵-训练',true,1,2) or d('造兵-加速',true,1,2) then
-			    if d('造兵-资源不足',true,1,2) then
-			        d('造兵-资源不足-使用',true,1,2)
-			        d('造兵-资源不足-使用*',true,1,2)
-			        d('造兵-资源不足-使用-X',true,1,2)
-			        d('造兵-训练',true,1,2)
-			    end
-				_UI.造兵[v] = false
-				if v[1] == '车兵' then
-				    _UI.造兵.key = false
-				end
+            if d('造兵-训练',true,1,2) or d('造兵-加速',true,1,2) then
+                if d('造兵-资源不足',true,1,2) then
+                    d('造兵-资源不足-使用',true,1,2)
+                    d('造兵-资源不足-使用*',true,1,2)
+                    d('造兵-资源不足-使用-X',true,1,2)
+                    d('造兵-训练',true,1,2)
+                end
 			end
 		end
 	end
+	
+	_UI.造兵.key = false
 end
 
 
@@ -798,7 +798,8 @@ end
 
 
 t['收集-玉米'] = { 0xffff6b,"-5|-3|0xffe731,6|8|0x7fe81d,-10|18|0x236602,-12|6|0x5bc40f",70,94,50,1208,716}
-t['收集-玉米']={0x459b12, "0|0|0x459b12,5|-18|0xfff13c,0|-10|0xfec92d,-8|10|0x28700c",80,20,85,1250,745}
+t['收集-玉米']= {0x459b12, "0|0|0x459b12,5|-18|0xfff13c,0|-10|0xfec92d,-8|10|0x28700c",80,20,85,1250,745}
+t['收集-玉米7']={0xfffc5e, "0|0|0xfffc5e,3|8|0x9bf127,-10|3|0xa2eb24,-8|12|0x49b10a",90,63,50,1307,691}
 t['收集-木材'] = { 0xe0e0e1,"-5|-20|0xd3955f,12|-34|0x7a2f0a,2|-35|0xe1702b",70,20,85,1250,745}
 t['收集-木材']={0xedae69, "0|0|0xedae69,16|-6|0x8b370f,15|2|0x762805,-8|10|0xc77847",90,20,85,1250,745}
 t['收集-木材黄'] = { 0x6e2a08,"-19|2|0xecb87b,-16|21|0xd0905c,-5|7|0x92380b",degree,21,43,1232,712}
@@ -806,12 +807,12 @@ t['收集-石头'] = { 0xd8dfee,"0|-7|0x969fb7,-15|10|0x9da6c1,-16|16|0x606a83,1
 t['收集-握手'] = { 0xdedee0,"8|-19|0x2f9c01,0|-36|0xfcf2e1,-12|-41|0xffe67e,-12|-25|0x33a600",70,54,85,1224,723}
 t['收集-握手']={0xfeeee1, "0|0|0xfeeee1,-2|-14|0x188ecd,3|13|0x067bbf,2|8|0xd06252,15|0|0x9f5110",90,54,85,1224,723}
 t['收集-帮助']={0xfff4e3, "0|0|0xfff4e3,24|-16|0xe20000",70,1251,453,1324,543}
--- t['']={0x067cbf, "0|0|0x067cbf,-5|-16|0xfffeed,-18|-22|0xdbaf5a,-6|-18|0xfff8e1",90,530,7,1310,711}
+t['收集-金币']={0xd77100, "0|0|0xd77100,4|-5|0xe49700,-4|-9|0xfbbd00,-5|-15|0xffee00,15|-8|0xfdf700",90,122,92,1218,652}
 function _Collect()
 	log("收集")
 	收集次数 = 收集次数 + 1
-	if 收集次数 < 2 then
-    	local 收集 = {"收集-玉米","收集-木材","收集-石头","收集-握手","收集-木材黄"}
+	if 收集次数 < 3 then
+    	local 收集 = {"收集-玉米","收集-玉米7","收集-木材","收集-石头","收集-握手","收集-木材黄","收集-金币"}
     	for k,v in ipairs(收集) do
     		d(v,true,2,2)
     	end
@@ -874,7 +875,10 @@ t['打野-正在战斗']={0xb20000, "0|0|0xb20000,-2|0|0xb20000",90,1279,231,131
 t['打野-体力不足']={0xdaaf00, "0|0|0xdaaf00,-17|-11|0xf18d04,-35|8|0x63e819",90,395,125,485,182}
 t['打野-体力不足2']={0xd3d1cb, "0|0|0xd3d1cb,-188|190|0x0af94b,-343|411|0xffad00,-554|175|0xac1c14",90,340,77,1114,601}
 t['打野-体力不足-iphone7']={0x71f50f, "0|0|0x71f50f,5|-5|0xa9ff56,-7|-9|0x03384e",90,359,125,457,181}
-    t['打野-创建部队-驻扎']={0x008fc3, "0|0|0x008fc3,6|4|0xffffff,7|3|0x1c9aca,-6|3|0xffffff,-7|3|0x008ec2,6|-4|0xffffff",90,1269,164,1327,654}
+    t['打野-体力不足-免费体力']={0x218701, "0|0|0x218701,-48|-16|0x00cf0f,96|24|0x00b60e",90,891,196,1147,334}
+    t['打野-体力不足-吃体力']={0x1274ba, "0|0|0x1274ba,-48|-12|0x00ccfe,95|18|0x00b8f3",90,903,222,1140,613}
+t['打野-创建部队-驻扎']={0x008fc3, "0|0|0x008fc3,6|4|0xffffff,7|3|0x1c9aca,-6|3|0xffffff,-7|3|0x008ec2,6|-4|0xffffff",90,1269,164,1327,654}
+    
 
 function _monster()
 	log("打野")
@@ -983,12 +987,16 @@ function _monster()
 				--查看是否还有体力
 				log('打野一次','all')
 			    if d('打野-体力不足') or d('打野-体力不足2',true,1,2) or d('打野-体力不足-iphone7')then
-			        log('体力不足,结束打野','all')
-			        _UI.打野 = false
-			        return
+			        if d("打野-体力不足-免费体力",true)then
+			        elseif _UI.打野吃体力 and d("打野-体力不足-吃体力",true,1,2) then
+			        else
+    			        log('体力不足,结束打野','all')
+    			        _UI.打野 = false
+    			        
+    			    end
+    			    return
 			    end
 			    delay(10)
-			    
     			d('弹窗-设置面板x',true,2)
     		end
 		end
@@ -1029,10 +1037,15 @@ function DWs(dwshu)
     end
 end
 
+
+
+
+
+
 function _Collection()
 	log("采集")
 	采矿次数 = 采矿次数 + 1
-	if  采矿次数 > 10 then
+	if  采矿次数 > 12 then
 	    _UI.采集.key = false
 	end
 	if _UI.采集.key then
@@ -1048,10 +1061,11 @@ function _Collection()
                 _UI.采集.key = false
                 return true
             end
-        end
+	    end
         
-        --开始采集程序
-		if d('采矿-放大镜',true,1,2)then
+        if _UI.采集.联盟矿场 and _联盟采矿() then
+            --开始采集程序
+		elseif d('采矿-放大镜',true,1,2)then
             --计算出采集的长度
             local cj_mun = #_UI.采集.种类
             _Coll_key_mun = _Coll_key_mun or 0
@@ -1064,7 +1078,14 @@ function _Collection()
 			if d("采矿-搜索",false,1,3)then
 			    if 采矿调低一次 then
 			        d('采集-采集前调低',true,1,1)
+			        if _UI.采集.采矿等级 > 1 then
+			            for i=2, tonumber(_UI.采集.采矿等级) do
+			                d('打野-增加开关',true)
+			                _Coll_key_mun = _Coll_key_mun + 1
+			            end
+			        end
 			        采矿调低一次 = false
+			        
 			    else
 			        d('打野-增加开关',true)
 			    end
@@ -1085,29 +1106,29 @@ function _Collection()
 				d("采矿-搜索-攻击",true,1,2)
 				d("采矿-搜索-采集",true,1,2)
 				d('采矿-搜索-采集-iphone7',true,1,2)
-				
-				if d("采矿-创建部队",false,1,2)  then
-				    --不再把造旗的带回来
-                    if d('行军-已经部队-驻扎',true,1,2) then
-                        d('打野-创建部队-行军',true,1,3)
-                    end
-				end
-				
-                --创建部队
-				d("采矿-创建部队",true,1,2)
-				if d("采矿-行军")  then
-                    if d("采矿-行军") or d('采矿-行军2') then
-                        if d('采集-行军-有兵-新') or d("采集-行军-有兵-6") then
-                            d("采矿-行军",true)
-                            d('采矿-行军2',true)
-                        else
-                            _UI.采集.key = false
-                            d('弹窗-设置面板x',true,2)
-                        end
-                    end
-                end
 			end	
-	    end
+		end
+        -- 创建部队前
+		if d("采矿-创建部队",false,1,2)  then
+		    --不再把造旗的带回来
+            if d('行军-已经部队-驻扎',true,1,2) then
+                d('打野-创建部队-行军',true,1,3)
+            end
+		end
+		
+        --创建部队
+		d("采矿-创建部队",true,1,2)
+		if d("采矿-行军")  then
+            if d("采矿-行军") or d('采矿-行军2') then
+                if d('采集-行军-有兵-新') or d("采集-行军-有兵-6") then
+                    d("采矿-行军",true)
+                    d('采矿-行军2',true)
+                else
+                    _UI.采集.key = false
+                    d('弹窗-设置面板x',true,2)
+                end
+            end
+        end
     end
 end
 
@@ -1144,6 +1165,7 @@ t['医院-治好'] = { 0x9d4400,"9|0|0x9a4300,26|-4|0xc86600",75,609,228,703,335
 t['医院-治好']={0xcf7f01, "0|0|0xcf7f01,-29|-18|0xeffa00",90,583,205,740,373}
 t['医院-治好2']={0xd4980d, "0|0|0xd4980d,-35|-11|0xedeb04,-9|-11|0xeeec05",90,610,230,731,344}
 t['医院-治好-iphone7']={0xc96600, "0|0|0xc96600,-16|-20|0xecff00",90,567,222,722,334}
+t['医院-治好-无']={0xfefffe, "0|0|0xfefffe,-18|-2|0x2861ae,-104|276|0x0d88bf,159|292|0x0078b5",90,416,127,865,557}
 
 function _Hospital()
 	log("医院")
@@ -1153,6 +1175,7 @@ function _Hospital()
 		    return false
         end
 	elseif d("医院-治好",true,1,2)then
+	    d("医院-治好-无",true,1,2)
 	elseif d("医院-治好2",true,1,2)then
     elseif d("医院-治好-iphone7",true,1,2)then
 	else
@@ -1335,115 +1358,113 @@ t['任务_采集类']={0x00bffa, "0|0|0x00bffa,-11|-1|0x1274ba,-781|4|0x6f2b00,-
     t['任务_采集类-搜索']={0x07c7ff, "0|0|0x07c7ff,71|-91|0x1073bd,-216|-90|0x0d7ec5",90,96,247,1282,631}
 t['任务_科技时代']={0x00baf9, "0|0|0x00baf9,-811|-26|0x37def8,-815|9|0x03693d,-780|-51|0xffde90,-810|-20|0x0f3073",90,184,265,1149,674}
 
+t['神秘商人来了']={0xf59458, "6|6|0x110909,-15|0|0x00bae8",90,520,362,965,634}
+
 function _神秘商店()
     delay(1)
     local i = 0
     while i < 5 and d('任务-神秘商人界面') do
         local redx = 385
-        for ii = 1,2 do
+        for ii = 1,4 do
             for i=0,3 do
-                t['商店购买-玉米']={0x3f930e, "0|0|0x3f930e,2|-11|0xffeb39,-6|-2|0x5caf0d,-6|6|0x266d0a,5|7|0xfea400",90,373,212,1132,674}
-                t['商店购买-木材']={0xd18e5d, "0|0|0xd18e5d,-1|-9|0xe9a666,11|-12|0x81330c,9|-8|0x772604,11|4|0xffa500",90,373,212,1132,674}
-                local i = 0
-                while (  d('商店购买-木材',true,1,2) or d('商店购买-玉米',true,1,2) ) and i < 4 do
-                    i=i+1
-                end
+                t['商店购买-玉米']={0x4fb608, "0|0|0x4fb608,11|1|0x285e00,0|-16|0xffbf00,4|14|0xfb9e00",90,365,234,1144,680}
+                t['商店购买-木材']={0x7a2f0a, "-11|4|0xfbba82,-10|3|0x974827,-4|8|0xeaab6f,-13|19|0xfb9f00",90,343,227,1141,683}
+                d('商店购买-木材',true,1,2) 
+                d('商店购买-玉米',true,1,2)
             end
             moveTo(757, 581,759, 376,2,10)
             delay(2)
         end
         if d('任务-神秘商人-免费刷新',true)then
         elseif d('任务-神秘商人-收费刷新',true) then
+            _UI.神秘商人 = false
             return
         end
         i=i+1
     end
 end
 
+t['任务_点击任务_王者任务']={0x1274ba, "0|0|0x1274ba,-794|-11|0xf6d58e,-814|-13|0xfa2a39,-798|-52|0xd6dff5,-815|13|0xd32e36",90,165,250,1162,681}
+t['任务_采集类']={ 0x00bffa, "0|0|0x00bffa,-11|-1|0x1274ba,-781|4|0x6f2b00,-784|-22|0xd2e6f6,-833|-55|0xffc379",90,165,250,1162,681}
+t['任务-联盟互动']={0x00bcfc, "0|0|0x00bcfc,-816|-26|0xeeb5a7,-823|-36|0xa65c4a,-780|-62|0xe3b300,-852|-63|0xd9af01",90,177,246,1147,674}
+t['任务-增产任务']={0x1476bb, "0|0|0x1476bb,-15|0|0x00bffd,-735|-29|0x4c2815,-780|-30|0x01eade,-782|-36|0xffffff",90,172,256,1165,679}
+	t['任务-增产任务-提升']={0x3be510, "0|0|0x3be510,15|8|0x3ae50c,30|10|0xca7100",90,938,165,1119,317}
+t['任务_采集类-采集增加24小时']={0x3ee911, "0|0|0x3ee911,-57|24|0xc9d9e5,-58|26|0xfdfdfe,-71|-20|0x9db2c6,-58|-29|0xda7ef0",90,162,143,837,693}
+t['任务_采集类-采集增加8小时']={0x3eea12, "0|0|0x3eea12,-58|25|0xc9d9e5,-58|27|0xeff3f7,-62|-24|0x20bcdf,-81|13|0x007ca7",90,177,142,835,689}
+    t['任务_采集类-采集增加24小时-使用']={0x00c3ff, "0|0|0x00c3ff,15|10|0x1274ba",90,915,549,1121,678}
+
+
 function _task()
-    
     任务记数 = 任务记数 + 1
-	if 任务记数 > 3 then
-		_UI.任务 = false
-		return false
-	end
-	
-	if d('任务_点击任务',true,1,3)then
+	if d('任务_点击任务',true,1,3)then      --点开任务
 		click(122,336,2)    --点到任务
 		while d("奖励-奖励面板-领取",true,1,2) do    --有奖励就领掉
         end
 		d("奖励-奖励面板-领取箱子",true)    --箱子的奖励
 		d("奖励-奖励面板-红色-黄",true,1,2) --黄色的箱子
 
-		if d('任务-完成')then
-            _UI.任务 = false
-            return
-        end
-		
-		t['任务_点击任务_王者任务']={0x1274ba, "0|0|0x1274ba,-794|-11|0xf6d58e,-814|-13|0xfa2a39,-798|-52|0xd6dff5,-815|13|0xd32e36",90,165,250,1162,681}
-		t['任务_采集类']={ 0x00bffa, "0|0|0x00bffa,-11|-1|0x1274ba,-781|4|0x6f2b00,-784|-22|0xd2e6f6,-833|-55|0xffc379",90,165,250,1162,681}
-		t['任务-联盟互动']={0x00bcfc, "0|0|0x00bcfc,-816|-26|0xeeb5a7,-823|-36|0xa65c4a,-780|-62|0xe3b300,-852|-63|0xd9af01",90,177,246,1147,674}
-	
-	    local taskArrs = {'任务_点击任务_王者任务','任务-知识之力','任务_科技时代','任务-联盟互动',
-	       -- '任务_采集类'
+	    local taskArrs = { 
+	        '任务-知识之力',
+	        '任务-增产任务',
+	        '任务_采集类',
+	        '任务_科技时代'
 	    }
 	    
-	    local i =0 
-	    while i < 3 do
-	        i=i+1
-	        for k,v in ipairs( taskArrs )do
-	            if d(v,true,2) then
-	                if k == 1 then
-	                    click(809,507,2)
-            			d("任务_点击任务_训练_取消",true,1,2)
-            		    if d('任务_点击任务_训练',true) or d('造兵-加速') then
-                            toast('造兵一次',1)
-            		    end
-	                elseif k == 2 then
-    		            click(1280, 305,2)
-        		        for i=0,4 do
-        		            d('任务-英雄之力-学习-使用',true)
-        		        end
-	                elseif k == 3 then
-                        local i = 0
-                        while i < 10 and d('研究院-科技面板') do
-                            i = i + 1
-                            if d('研究院-未升的科技',true,1,2) then
-                                if d('研究院-研究按钮',1,2)then
-                                    break
-                                end
-                            else
-                                moveTo(800,300,500,300,5)
-                                delay(1)
+        local i =0 
+        while i < 3 do
+            i=i+1
+            local v = taskArrs[任务记数]
+            log('准备查询 -> '..v)
+            if d( v,true,2) then
+                if v == "任务-知识之力" then
+                    click(1280, 305,2)
+                    for i=0,4 do
+                        d('任务-英雄之力-学习-使用',true)
+                    end
+                elseif v == "任务_科技时代" then
+                    local i = 0
+                    while i < 10 and d('研究院-科技面板') do
+                        i = i + 1
+                        if d('研究院-未升的科技',true,1,2) then
+                            if d('研究院-研究按钮',1,2)then
+                                break
+                            end
+                        else
+                            moveTo(800,300,500,300,5)
+                            delay(1)
+                        end
+                    end
+                elseif v == "任务_采集类" then
+                    if d("任务_采集类-采集增加24小时",true,1,2) or d("任务_采集类-采集增加8小时",true,1,2) then
+                        d("任务_采集类-采集增加24小时-使用",true,1,2)
+                    elseif d("采矿-搜索",true,1,3) or d('任务_采集类-搜索',true,1,3)then
+                        click(663,367,2)	--点屏中间
+                        d("采矿-搜索-采集",true,1,2)
+                        d('采矿-搜索-采集-iphone7',true,1,2)
+                        d("采矿-创建部队",true,1,2)
+                        if d("采矿-行军")  then
+                            if d("采矿-行军",true) or d('采矿-行军2',true) then
+                                toast(采矿一次,1)
                             end
                         end
-	                elseif k == 4 then
-                        if d('任务-联盟帮助',true,1,2) then
-            		    else
-            		        click(745, 506)
-                            _神秘商店()
-                        end
-	                elseif k == 5 then
-                        if d("采矿-搜索",true,1,3) or d('任务_采集类-搜索',true,1,3)then
-            		        click(663,367,2)	--点屏中间
-            				d("采矿-搜索-采集",true,1,2)
-            				d('采矿-搜索-采集-iphone7',true,1,2)
-            				d("采矿-创建部队",true,1,2)
-                			if d("采矿-行军")  then
-                			    if d("采矿-行军",true) or d('采矿-行军2',true) then
-                				    toast(采矿一次,1)
-                				end
-                			end
-                		end
-	                end
-                    _UI.任务 = false
-                    return
-	            end
-	        end
-	        moveTo(757, 581,759, 376,2)
-	        delay(1)
-	    end
-	    
+                    end
+                elseif v == "任务-增产任务" then
+                    d("任务-增产任务-提升",true,1,2)
+                    d("任务_采集类-采集增加24小时-使用",true,1,2)
+                end
+                --判断是什么任务
+                break
+            end
+            --真有此任务
+            moveTo(757, 581,759, 376,2)
+            delay(1)
+        end
+	end--任务end
+	
+    --结束任务
+    if 任务记数 >= 4 then
+		_UI.任务 = false
+		return false
 	end
 end
 
@@ -1686,6 +1707,34 @@ function _加天赋()
     end
 end
 
+t['联盟采集-联盟界面-领地']={0xe92b21, "0|0|0xe92b21,-4|44|0x67ff1d",90,865,359,985,489}
+    t['联盟采集-联盟界面-领地-领地建筑']={0x81b7d4, "0|0|0x81b7d4,0|-7|0x0d75ac,-823|-7|0xfefffe,-922|30|0x47c1fd,-923|-37|0x58d6ff",90,150,177,1187,287}
+    t['联盟采集-联盟界面-领地-联盟资源中心']={0xe0a700, "0|0|0xe0a700,-7|-30|0xfeff00,30|-13|0x8c4106",90,143,187,1196,570}
+        t['联盟采集-联盟界面-领地-联盟资源中心-采集中']={0x033043, "0|0|0x033043,-19|25|0x3ac0f8,18|25|0x3ac0f8",90,171,475,959,680}
+        t['联盟采集-联盟界面-领地-联盟资源中心-建造中']={0x022c3e, "0|0|0x022c3e,-9|24|0x06fe2f,14|26|0x06fe2f",90,147,419,989,711}
+        
+    t['联盟采集-采集']={0x1274ba, "0|0|0x1274ba,-56|-22|0x00d1ff,91|24|0x00b3ef",90,158,105,1244,649}
+    t['联盟采集-点击加入']={0x255273, "0|0|0x255273,-74|1|0x8eabbd,-32|-30|0x88cae2,-9|33|0x8ccce2",90,187,287,376,414}
+         
+function _联盟采矿()
+    log('_联盟采矿')
+    _UI.采集.联盟矿场 = false
+    if not(d('联盟-展开联盟-联盟')) then
+        d('联盟-展开联盟',true,1)
+    end
+    if d('联盟-展开联盟-联盟',true,1,5) then
+        d("联盟采集-联盟界面-领地",true,1,2)
+        d("联盟采集-联盟界面-领地-领地建筑",true,1,2)
+        d("联盟采集-联盟界面-领地-联盟资源中心",true,1,2)
+        d("联盟采集-联盟界面-领地-联盟资源中心-采集中",true,1,2)
+        d("联盟采集-联盟界面-领地-联盟资源中心-建造中",true,1,2)
+        click(671,387,1)
+        d("联盟采集-采集",true,1,2)
+        if( d("联盟采集-点击加入",true,1,2)) then
+            return true
+        end
+    end
+end
 
 
 t['联盟-加入按钮']={0x00c1ff, "0|0|0x00c1ff,-14|-32|0x00d1ff,-5|135|0xffb100",90,913,424,1033,680}
@@ -1694,6 +1743,7 @@ t['联盟-加入按钮']={0x00c1ff, "0|0|0x00c1ff,-14|-32|0x00d1ff,-5|135|0xffb1
         t['联盟-搜索-申请加入']={0xb67016, "0|0|0xb67016,-58|-24|0xfebf00",90,891,577,1167,680}
     
     t['联盟-领地资源-提示']={0xde8d10, "0|0|0xde8d10,45|-50|0xe20000",90,881,353,988,483}
+        t['联盟-领地资源-提示-领取RMB']={0x00c20e, "0|0|0x00c20e,-28|-17|0x00d40e,32|14|0x00ae0d",90,853,166,1148,343}
         t['联盟-领地资源-提示-领取']={0x00bffd, "71|-102|0xd4d2ca",90,963,18,1202,173}
     t['联盟-联盟礼物-大奖']={0xffffff, "0|0|0xffffff,108|-67|0xe20000",90,241,301,493,548}
         
@@ -1721,7 +1771,7 @@ function _lm()
              _UI.联盟捐助 = false
         elseif d('联盟-礼物',true,1,3)then
             local i = 0
-            while d('联盟-礼物-领取',true,1,2) and i<15 do
+            while (d("联盟-领地资源-提示-领取RMB",true,1)  or d('联盟-礼物-领取',true,1,2) )and i<15 do
                 i=i+1
             end
             click(1160, 44)
@@ -1740,7 +1790,7 @@ function _lm()
         if d('联盟-联盟科技',true,1,5) then
             if d('联盟-联盟科技+官员推荐',true,1,5) or d('联盟-联盟科技+可研科技',true,1,5)then
                 local i =0
-                while d('联盟-联盟科技+捐献',true) and i< 22 do
+                while d('联盟-联盟科技+捐献',true,1,0.5) and i< 22 do
                     i=i+1
                 end
                 if d('联盟-联盟科技+捐献完成') or d('联盟-联盟科技+研究科技') then
@@ -1826,8 +1876,17 @@ t['菜单-战役']={0xf5fefe, "11|22|0x044975",90,831,666,892,720}
         t['远征-战斗界面-结束']={0xffffff, "0|0|0xffffff,25|18|0xffff64",90,731,136,882,288}
     t['菜单-战役-打不过-时间到']={0x1274ba, "0|0|0x1274ba,236|-4|0xffb100,105|-305|0xffffff",90,343,119,973,634}
     
-    
-
+t['日落峡谷-红点']={0xe20000, "0|0|0xe20000,-94|23|0xfefffe",90,734,374,919,488}
+    t['日落峡谷-挑战界面']={0x00c2fe, "0|0|0x00c2fe,454|-593|0x7d5337,-595|-630|0xd6d3cf",90,4,3,1273,728}
+        t['日落峡谷-红点-历史']={0xf9e9ac, "0|0|0xf9e9ac,30|-15|0xe20000",90,28,272,118,378}
+        t['日落峡谷-红点-历史-x']={0xe0d3c5, "0|0|0xe0d3c5,-30|71|0x1274ba",90,1063,5,1215,148}
+        t['日落峡谷-挑战界面-挑战对象']={0x00c2fe, "-16|-85|0x00bdfb,-14|-174|0x00bdfb,-19|-266|0x00bffd,-18|-355|0x00bdfb,156|-520|0x006e03,-666|-514|0x00bdfb",90,146,75,1116,690}    
+            t['日落峡谷-挑战界面-挑战对象-跳过']={0x098b08, "-3|-10|0x5ff834,37|56|0x1274ba",90,585,600,716,707}
+                t['日落峡谷-挑战界面-挑战对象-跳过-确定']={0x1274ba, "0|0|0x1274ba,-37|-3|0x00c3ff",90,573,651,764,706}
+            t['日落峡谷-挑战界面-挑战对象-无次数']={0xe0d4c6, "0|0|0xe0d4c6,-51|67|0x006e03,-40|54|0x46ff6e",90,1060,15,1197,136}
+            t['日落峡谷-挑战界面-挑战对象-无队伍']={0x730000, "0|0|0x730000,0|-4|0xff6641,0|4|0xe73d28",90,55,129,125,519}
+                t['日落峡谷-挑战界面-挑战对象-无队伍-准备']={0xb67016, "0|0|0xb67016,-34|-9|0xffb300",90,601,582,1068,708}
+                
 function _远征()
     远征次数 =  远征次数 + 1
     if 远征次数 > 10 then
@@ -1839,6 +1898,41 @@ function _远征()
     end
     d('菜单-战役',true,1,3)
     
+    --如果可以打日落峡谷
+    if _UI.日落峡谷 and 日落峡谷次数 < 3 then
+        日落峡谷次数 = 日落峡谷次数 + 1
+        d("日落峡谷-红点",true,1,2)
+        local 日落挑战次数 = 0
+        local rltimeline = os.time()
+        while ( os.time() - rltimeline < 120  and d("日落峡谷-挑战界面") ) do
+            if d( "日落峡谷-红点-历史",true,1,2 ) then
+                d("日落峡谷-红点-历史-x",true,1,2)
+            elseif d("日落峡谷-挑战界面",true,1,2) then
+                if d("日落峡谷-挑战界面-挑战对象",true,rd(1,5),5) then
+                    if ( d("日落峡谷-挑战界面-挑战对象-无次数",true,1,2) )then
+                       _UI.日落峡谷 = false
+                       break
+                    end
+                end
+                
+                if not(d("日落峡谷-挑战界面-挑战对象-无队伍"))then
+                    local duiwu = {{566, 188, 0xcaa084},{463, 177, 0x727292},{451, 271, 0x574f50},{288, 270, 0x776047},{249, 385, 0xd3a67f}}
+                    for k,v in ipairs( duiwu )do
+                       click(v[1],v[2])
+                       d("日落峡谷-挑战界面-挑战对象-无队伍-准备",true,1,2)
+                    end
+                end
+                
+                if not( d("日落峡谷-挑战界面-挑战对象-跳过") ) then
+                    click(614,620)
+                end
+                d("日落峡谷-挑战界面-挑战对象-跳过-确定",true,1,5)
+                click(40,40)
+            end
+        end
+        return
+    end
+    
     click(214, 332,2)
     d('菜单-远征-收集奖励',true,1,2)
     if d('菜单-远征-可以购买',true,1,2) then
@@ -1847,7 +1941,7 @@ function _远征()
     end
     
     local i = 0
-    while i < 30 and ( d('菜单-战役-挑战',true,1,3) or d('远征-任务目标-界面')) do
+    while i < 10 and ( d('菜单-战役-挑战',true,1,3) or d('远征-任务目标-界面')) do
         i= i+ 1
         if d('远征-任务目标-界面-增加部队',true,1,2) then
             d('远征-任务目标-界面-增加部队-准备',true,1,2)
@@ -1857,6 +1951,12 @@ function _远征()
                     _UI.远征 = false
                     return 
                 end
+            end
+        else
+            --部队不足
+            if not( d('远征-任务目标-界面-胜券在握',true,1,5) )then
+                _UI.远征 = false
+                return 
             end
         end
         
@@ -1891,12 +1991,26 @@ function _远征()
     end
 end
 
+t['铁匠铺-生产']={0x006193, "0|0|0x006193,-148|0|0xda9c08,-278|-26|0x0a7bb4",90,907,348,1330,554}
+t['铁匠铺-生产2']={0x0074ad, "0|0|0x0074ad,-137|25|0xda9b07,-272|-3|0xe2f2f7",90,903,278,1330,581}
+function _铁匠铺()
+    log("铁匠铺")
+    click(1125,292,2)
+    click(1125,292,2)
+    if d("铁匠铺-生产",true,1,2) or d("铁匠铺-生产2",true,1,2) then
+        
+        local 材料位置 = { {803, 246, 0x62351e},{895, 249, 0x7a8198},{993, 252, 0x2f120e},{1089, 249, 0xeae8ea} }
+        click( 1089 - (os.time() % 4)*97,246, 1)
+        
+    end
+    _UI.铁匠铺 = false
+end
+
+
+
+
+
 t['游戏未绑定']={0x09bf07, "0|0|0x09bf07,-729|-10|0x09c107,-482|-517|0xfbe4c5,77|-450|0xfef2e5",90,304,55,1289,670}
-
-
-
-
-
 function game()
     
     打野降低key = false;
@@ -1921,10 +2035,11 @@ function game()
     远征次数 = 0
     英雄次数 = 0
     arrowKey = 0
+    日落峡谷次数 = 0
     
 	local timeline = os.time()
 	while os.time()-timeline < 60 * 40 do
-		if active(_app.bid,8)then
+		if active(_app.bid,5)then
 			if d('游戏主界面') or d('游戏主界面-夜')then
 				if d("游戏主界面-城内")then
 					d('弹窗_绑定帐号',true,1)
@@ -1938,7 +2053,12 @@ function game()
 					if _UI.日历奖励 and _book() then end
 					
 					if _init() then
-						if _Hospital() then
+					    
+					    if _UI.神秘商人 and d("神秘商人来了",true,1,2) then
+					        _神秘商店()
+					    elseif _UI.铁匠铺 then
+					        _铁匠铺()
+						elseif _Hospital() then
 						elseif _UI.英雄升级加点 then
 						    _加天赋()
 						elseif _UI.远征 then
@@ -1990,11 +2110,10 @@ function game()
 				if _Evevnt() then
 				    arrowKey = arrowKey + 1
 				    
-					if arrowKey%5 ~= 0 or not(_Arrow()) then
-					    if _Tips() == '封号' then
-					        return 
-					    end
-					end
+				    if _Tips() == '封号' then
+				        return 
+				    end
+		
 					
 				end
 			end
@@ -2027,6 +2146,8 @@ function main()
             _UI.远征 = __UI['支线功能']['远征']
             _UI.英雄升级加点 = __UI['支线功能']['英雄升级加点']
             _UI.日落峡谷 = __UI['支线功能']['日落峡谷']
+            _UI.神秘商人 = __UI['支线功能']['神秘商人']
+            _UI.铁匠铺 = __UI['支线功能']['铁匠铺']
             
             --主线功能
             _UI.修城墙 = __UI.主线功能.修城墙
@@ -2040,15 +2161,16 @@ function main()
             --造兵功能
             _UI.造兵 = {}
             _UI.造兵.key = __UI.主线功能.造兵key
-            _UI.造兵.步兵 = false
-            _UI.造兵.骑兵 = false
-            _UI.造兵.弓兵 = false
-            _UI.造兵.车兵 = true
+            _UI.造兵.步兵 = __UI.主线功能.步兵
+            _UI.造兵.骑兵 = __UI.主线功能.骑兵
+            _UI.造兵.弓兵 = __UI.主线功能.弓兵
+            _UI.造兵.车兵 = __UI.主线功能.车兵
             
             --其它功能
             _UI.斥候 = __UI.主线功能.斥候
             _UI.打野 = __UI.主线功能.打野
             _UI.打野次数 = tonumber(__UI.打野次数)
+            _UI.打野吃体力 = __UI.主线功能.吃体力
             _UI.monsterlevel = __UI.monsterlevel or 1
             _UI.monsteDW = __UI.monsteDW or '默认'
             
@@ -2056,7 +2178,12 @@ function main()
             _UI.采集 = {}
             _UI.采集.key = __UI.主线功能.采集key
             _UI.采集.种类 = __UI.采集种类
-            
+            _UI.采集.联盟矿场 = __UI.主线功能.联盟矿场
+            if __UI.主线功能.采矿等级 then
+                _UI.采集.采矿等级 = tonumber(__UI.主线功能.采矿等级)
+            else
+                _UI.采集.采矿等级 = 1
+            end
             --联盟科技捐助
             _UI.联盟捐助 = __UI.主线功能.联盟捐助
             _UI.建筑列队 = false
