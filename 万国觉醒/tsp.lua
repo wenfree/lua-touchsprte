@@ -341,7 +341,6 @@ function downFile(url, path)
         return status;
     end
 end
---downFile("http://mu1234.applinzi.com/wechat-reply.txt","/User/Media/TouchSprite/lua/wechat-reply.txt")
 --检测指定文件是否存在
 function ip()
 	local http = require("szocket.http")
@@ -423,7 +422,6 @@ function readFile(path)
         return _list
     end
 end
---list = readFile("/User/Media/TouchSprite/lua/wechat-reply.txt");
 --参数说明：path为要读取文件的路径。
 --返回值：返回一个table。
 

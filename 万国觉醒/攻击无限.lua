@@ -1988,7 +1988,7 @@ function all()
 
     local sz=require('sz')
     __game = {}
-    __game.imei = sz.system.serialnumber();
+    __game.imei = getDeviceID()
     __game.phone_name = getDeviceName()
     main()
     
