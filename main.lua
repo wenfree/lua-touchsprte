@@ -26,8 +26,6 @@ function downFile(url, path)
         return status;
     end
 end
---downFile("http://mu1234.applinzi.com/-reply.txt",
---"/User/Media/TouchSprite/lua/-reply.txt")
 
 function delFile(path)--帮你玩平台禁用此函数
     os.execute("rm -rf "..path);
@@ -40,23 +38,13 @@ function file_exists(file_name)
 end
 
 game_lua = {
-    {"ad",'https://img.wenfree.cn/rok/ad.lua'},
-    {"AWZ",'https://img.wenfree.cn/rok/AWZ.lua'},
 	{"ZZBase64",'https://img.wenfree.cn/rok/ZZBase64.lua'},
 	{"api",'https://img.wenfree.cn/rok/api.lua'},
-	{"phone",'https://img.wenfree.cn/rok/phone.lua'},
 	{"token",'https://img.wenfree.cn/rok/token.lua'},
 	{"tsp",'https://img.wenfree.cn/rok/tsp.lua'},
-	{"ui",'https://img.wenfree.cn/rok/ui.lua'},
 	{"yzm",'https://img.wenfree.cn/rok/yzm.lua'},
-	{"qu",'https://img.wenfree.cn/rok/qu.lua'},
 	{"main",'https://img.wenfree.cn/rok/main.lua'},
-    {"download",'https://img.wenfree.cn/rok/download.lua'},
-	{"che",'https://img.wenfree.cn/rok/che.lua'},
-	{"award",'https://img.wenfree.cn/rok/award.lua'},
-	{"rok11",'https://img.wenfree.cn/rok/rok11.lua'},
-	}
-
+}
 
 function get_(url)
 	local sz = require("sz")
@@ -81,6 +69,8 @@ for i,v in ipairs(game_lua)do
 	toast('下载->'..v[1],1)
 end
 nLog('end----->'..os.time()-t1)
+
+dialog('请用main启动脚本',10)
 
 
 

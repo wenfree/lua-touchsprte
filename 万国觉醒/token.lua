@@ -56,6 +56,7 @@ end
 --取帐空闲帐号
 function AccountInfoBack()
 
+    log('准备取帐号')
 	local sz = require("sz")
 	local json = sz.json
 	local appbid = 'com.lilithgames.rok.ios.offical'
@@ -64,10 +65,11 @@ function AccountInfoBack()
     local url = 'http://rok.honghongdesign.cn/public/';
     local arr = {}
     arr['s']='RokGetToken.Rest'
-    arr['imei']= getDeviceID()
-    arr['note']= __game.note
+    arr['imei'] = getDeviceID()
+    arr['note'] = __game.note
     arr['phone_name']= __game.phone_name
-
+    log( arr )
+    
 	local account_ = post(url,arr)
 	log(account_)
 	if account_.data  == '暂无帐号' then
