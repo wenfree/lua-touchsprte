@@ -878,6 +878,7 @@ t['打野-体力不足2']={0xd3d1cb, "0|0|0xd3d1cb,-188|190|0x0af94b,-343|411|0x
 t['打野-体力不足-iphone7']={0x71f50f, "0|0|0x71f50f,5|-5|0xa9ff56,-7|-9|0x03384e",90,359,125,457,181}
     t['打野-体力不足-免费体力']={0x218701, "0|0|0x218701,-48|-16|0x00cf0f,96|24|0x00b60e",90,891,196,1147,334}
     t['打野-体力不足-吃体力']={0x1274ba, "0|0|0x1274ba,-48|-12|0x00ccfe,95|18|0x00b8f3",90,903,222,1140,613}
+        t['打野-体力不足-吃体力*']={0x1274ba, "0|0|0x1274ba,2|-15|0x00d2ff,4|-30|0xcedee5",90,751,208,907,665}
 t['打野-创建部队-驻扎']={0x008fc3, "0|0|0x008fc3,6|4|0xffffff,7|3|0x1c9aca,-6|3|0xffffff,-7|3|0x008ec2,6|-4|0xffffff",90,1269,164,1327,654}
     
 
@@ -889,7 +890,6 @@ function _monster()
 	while d('采矿-放大镜') and 打野次数记数 < _UI.打野次数 and _UI.打野 do
 	    打野次数记数 = 打野次数记数 + 1
 		local i = 1
--- 		while i < 300 and ( d('打野-正在行军')  or d('打野-正在战斗') )   and d('采集-已经有队伍') and d('采集-已经有队伍-正确') and _UI.打野 do
 	    while i < 300 and ( d('打野-正在行军') or d('打野-正在战斗') or d('打野-正在行军-返回',true,1,5) or d('打野-正在行军-返回-iphone6',true,1,5) )  
 	    and d('采集-已经有队伍') and d('采集-已经有队伍-正确') and _UI.打野 do
 		    delay(1)
@@ -967,33 +967,43 @@ function _monster()
     			end
     			
     			d("采矿-创建部队",true,1,3)
-    			d('打野-创建部队-正在回来敌弱我强',true,1,2)
+    -- 			if d('打野-创建部队-正在回来敌弱我强',true,1,2) then
+    			if d('打野-创建部队-正在回来敌弱我强',false,1,2) then
+    			    --如何有多个部队就一起攻击
+        			if d("远征-战斗界面-有多个部队")then
+                        click(1227,710)
+                        d("远征-战斗界面-有多个部队-行军",true,1,3)
+                    else
+                        d('打野-创建部队-驻扎',true,1,2)
+        		        d('远征-战斗界面-单个部队-行军',true,1,3)
+        			end
+    		    end
     			 
-    			if d("采矿-行军")  then
-    			    
-    			    if _UI.monsteDW ~= '默认' then
-    			        local monsteDW_ = { ['位置1'] = 0 ,  ['位置2'] = 1 ,  ['位置3'] = 2 ,  ['位置4'] = 3 ,  ['位置5'] = 4 }
-    			        click(1150,277 + monsteDW_[_UI.monsteDW] * 60 )
-    			    end
-    			    
-    			    if tonumber(_UI.monsterlevel) > 1 and d("采矿-行军",true,1,3) then
-    			    elseif d('打野-敌弱我强') and d("采矿-行军",true,1,3) then
-    				else
-    				    打野增长key = false
-    				    打野降低key = true
-    			    end
-    			   
-    			end
+                if d("采矿-行军")  then
+                    
+                    if _UI.monsteDW ~= '默认' then
+                        local monsteDW_ = { ['位置1'] = 0 ,  ['位置2'] = 1 ,  ['位置3'] = 2 ,  ['位置4'] = 3 ,  ['位置5'] = 4 }
+                        click(1150,277 + monsteDW_[_UI.monsteDW] * 60 )
+                    end
+                    
+                    if tonumber(_UI.monsterlevel) > 1 and d("采矿-行军",true,1,3) then
+                    elseif d('打野-敌弱我强') and d("采矿-行军",true,1,3) then
+                	else
+                	    打野增长key = false
+                	    打野降低key = true
+                    end
+                   
+                end
     			
 				--查看是否还有体力
 				log('打野一次','all')
 			    if d('打野-体力不足') or d('打野-体力不足2',true,1,2) or d('打野-体力不足-iphone7')then
 			        if d("打野-体力不足-免费体力",true)then
 			        elseif _UI.打野吃体力 and d("打野-体力不足-吃体力",true,1,2) then
+			            d("打野-体力不足-吃体力*",true,1,2)
 			        else
     			        log('体力不足,结束打野','all')
     			        _UI.打野 = false
-    			        
     			    end
     			    return
 			    end
