@@ -93,8 +93,6 @@ end
 __UI = {}
 _UI = {}
 require('tsp')
--- require('AWZ')
--- require('ui')
 require('ZZBase64')
 require("yzm")
 require('token')
@@ -264,7 +262,8 @@ function _init()
 end
 	
 
-t['弹窗-任务x'] = { 0xd3d1ca,"-11|-10|0xd7d6ce,-11|-4|0x9c9b8d,6|13|0x9d9a8f,9|9|0xd2cfc6",degree,1113,66,1165,112}	
+t['弹窗-任务x'] = { 0xd3d1ca,"-11|-10|0xd7d6ce,-11|-4|0x9c9b8d,6|13|0x9d9a8f,9|9|0xd2cfc6",degree,1113,66,1165,112}
+t['弹窗-兵营详情-x']={0xd3d1ca, "0|0|0xd3d1ca,0|34|0x04445f,-44|3|0xbdbbae",90,996,45,1201,149}
 t['弹窗-邮件面板x'] = { 0xd3d1c9,"-12|-10|0xd7d4cc,-13|-7|0x9e9991,9|14|0xa09c93",degree,1256,25,1317,70}
 t['弹窗-资料面板x'] = { 0xd3d1ca,"-11|-10|0xd7d5ce,-13|-7|0x9a968e,8|13|0x9c988e",degree,1115,66,1161,110}
 t['弹窗-设置面板x'] = { 0xd3d1ca,"-13|-8|0x9b978f,-9|10|0xd2d0c7,14|12|0x9a968d",degree,1136,24,1187,71}
@@ -319,6 +318,7 @@ function _Tips()
     -- keepScreen(true)
     local res = ""
 	local tips = {
+	    '弹窗-兵营详情-x',
 	    '弹窗-封号警告',
 		'弹窗-宝箱广告',
 		'弹窗-退出警告',
@@ -646,15 +646,16 @@ function _soldier()
 		    log('准备造->'..k )
             click( v[1],v[2],2)
 			if not (  d('造兵-准备训练') ) then
+			    d("弹窗-兵营详情-x",true,1,2)
 			    click( v[1],v[2],2)
 			else
 			    d('造兵-准备训练',true,1,2)
 			end
 			
-			if k ~= "车" and d("造兵-训练-可以升级",true,1,1) and d( "造兵-训练-可以升级-黄色",true,1,2 ) then
-			    log("把垃圾兵升级")
-			elseif k == "车" then
+			if k == "车兵" then
 			    click(657,183)
+			elseif d("造兵-训练-可以升级",true,1,1) and d( "造兵-训练-可以升级-黄色",true,1,2 ) then
+			    log("把垃圾兵升级")
 		    end
 			
             if d('造兵-训练',true,1,2) or d('造兵-加速',true,1,2) then
@@ -1156,21 +1157,25 @@ end
 
 local 斥候位置={{808,404,0xb2004},{952,564,0x97fb8},}
 t['斥候-搜索'] = { 0xffac00,"-91|-29|0xffbf00,83|16|0xffa500",degree,894,263,1159,761}
+    t['斥候-搜索-探索后驻扎5分钟']={0x919292, "0|0|0x919292,162|-57|0xffad00,35|-62|0xffb100,88|-58|0xb67016,186|-161|0x00aeff",90,119,90,1243,730}
 t['斥候-搜索-绿'] = { 0xb67016,"-75|-29|0xffc000,94|22|0xffa400",degree,97,25,1230,722}
 t['斥候-搜索-派遣'] = { 0xb67016,"-8|-19|0xffbe00,-93|-20|0xffbe00,79|25|0xffa500",degree,916,7,1195,572}
+    t['斥候-搜索-派遣-驻扎的']={0x008fc3, "0|0|0x008fc3,-6|5|0xffffff,9|0|0x008ec2",90,1212,33,1318,701}
 t['斥候-搜索-派遣中'] = { 0xffffff,"5|-5|0xb66200,-22|-36|0xbc13eb",degree,1224,158,1332,436}
 t['斥候-休息中'] = { 0xffffff,"7|1|0x7d7d7d,-1|-13|0x7d7d7d,3|8|0xbdbdbd",degree,406,331,471,419}
 function _Acouts()
 	log("斥候")
 	斥候次数 =  斥候次数 + 1
-	if  斥候次数 >= 9999 then
+	if  斥候次数 >= 100 then
 	    _UI.斥候 = false
 	end
 	click(斥候位置[1][1],斥候位置[1][2],2)
 	click(斥候位置[2][1],斥候位置[2][2],2)
 	
 	if d("斥候-搜索",true,1,2)then
+	    d("斥候-搜索-探索后驻扎5分钟",true,1,1)
 		d("斥候-搜索-绿",true,1,2)
+		d("斥候-搜索-派遣-驻扎的",true,1,2)
 		d("斥候-搜索-派遣",true,1,2)
 		if d("斥候-搜索-派遣中")then
 			
@@ -1225,7 +1230,7 @@ t['邮件-有邮件提醒']={0x156793, "0|0|0x156793,18|14|0x80e7ff,42|-12|0xde0
 t['邮件-邮件x']={0xd2d1cb, "0|0|0xd2d1cb,-8|-7|0xd3d2c9",90,1256,25,1314,67}
 
 function read_mail()
-    log('领邮件奖励')
+    log('探索村庄')
     领邮件奖励 = 领邮件奖励 + 1
     if 领邮件奖励 > 1 then
         _UI.搜索村庄 = false
@@ -2132,13 +2137,14 @@ function game()
 			    return false
 			else
 				if _Evevnt() then
-				    arrowKey = arrowKey + 1
-				    
-				    if _Tips() == '封号' then
-				        return 
-				    end
-		
-					
+                    arrowKey = arrowKey + 1
+                    if arrowKey%5 == 0 then
+                        _Arrow()
+                    else
+                        if _Tips() == '封号' then
+                            return 
+                        end
+                    end
 				end
 			end
 		end
