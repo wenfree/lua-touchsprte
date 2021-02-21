@@ -289,6 +289,7 @@ t['弹窗—验证图片']={0x1274ba, "0|0|0x1274ba,28|-5|0x00c7ff,-58|-3|0x00c5
 	t['弹窗—验证图片-确定'] = { 0x539ffe,"83|0|0x539ffe,-339|-2|0xffffff,-323|-10|0x7e7e7e,-406|-3|0x7e7e7e",90,392,644,944,730}
 	t['弹窗—验证图片-确定-有图']={0x252525, "0|0|0x252525,0|1|0x252525",70,700,40,928,78}
 	t['弹窗—验证图片-确定-有字']={0x727272, "0|0|0x727272",90,703,25,925,91}
+	t['弹窗—验证图片-确定-特别难']={0x1c75e4, "0|0|0x1c75e4,-41|-12|0xffffff,-42|-17|0x1c75e4",90,400,25,534,93}
 t['弹窗—app更新'] = { 0xc3ff,"-82|-24|0xd3fd,64|20|0xb5f0,192|-1|0xdf3d33,343|2|0xdd3c33",degree,384,427,966,569}
 t['酒馆—3确定']={0x1274ba, "0|0|0x1274ba,-48|-2|0x00c4ff,288|-1|0xffb000,633|0|0xffb000",90,177,587,1145,697}
 t['弹窗—前往按钮']={0x1274ba, "0|0|0x1274ba,-71|-23|0x02cdf9,89|19|0x03aaec",90,550,529,803,660}
@@ -410,6 +411,9 @@ function _Tips()
 				while ( os.time() - time_ < 120 ) do
 					if ( d("弹窗—验证图片-确定") ) and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
 						delay(1)
+						if d("弹窗—验证图片-确定-特别难") then
+						   return "休息";
+					    end
 						if _yzmsb()then
 							d("弹窗—验证图片-确定",true,1,5)
 							delay(6);
@@ -456,7 +460,7 @@ function _Tips()
 		end
 	end
 	
-	keepScreen(false)
+-- 	keepScreen(false)
 	
 	_other = _other or 0
 	_other = _other + 1
@@ -1411,8 +1415,8 @@ function _神秘商店()
                 d('商店购买-木材',true,1,2) 
                 d('商店购买-玉米',true,1,2)
             end
-            -- moveTo(757, 581,759, 376,2,10)
-            -- delay(1)
+            moveTo(757, 581,759, 376,2,10)
+            delay(1)
         end
         if d('任务-神秘商人-免费刷新',true)then
         elseif d('任务-神秘商人-收费刷新',true) then
@@ -2044,7 +2048,7 @@ function _铁匠铺()
     if d("铁匠铺-生产",true,1,2) or d("铁匠铺-生产2",true,1,2) then
         
         local 材料位置 = { {803, 246, 0x62351e},{895, 249, 0x7a8198},{993, 252, 0x2f120e},{1089, 249, 0xeae8ea} }
-        click( 1089 - (os.time() % 4)*97,246, 1)
+        click( 1089 - (os.time() % 4)*97*0,246, 1)
         
     end
     _UI.铁匠铺 = false
@@ -2156,7 +2160,8 @@ function game()
                     if arrowKey%5 == 0 then
                         _Arrow()
                     else
-                        if _Tips() == '封号' then
+                        local tips_res = _Tips()
+                        if tips_res == '封号'  or tips_res == '休息' then
                             return 
                         end
                     end
