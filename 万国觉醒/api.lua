@@ -150,7 +150,6 @@ function uploadquBaiDu()
 	log(imgRes)
 end
 
-
 function uploadqu()
     local url = 'http://rok.honghongdesign.cn/public/'
 	local postData = {}
@@ -201,6 +200,45 @@ function uploadimg()
 	local imgRes = post(url,postData)
 end
 
+
+--取任务
+function getKingTask()
+
+    log('准备任务')
+	local sz = require("sz")
+	local json = sz.json
+
+    local url = 'https://rokapi.wenfree.cn/';
+    local arr = {}
+    arr['s']='App.RokTask.Get'
+    arr['country'] = UIv.country
+    log( arr )
+    
+	local account_ = post(url,arr)
+	log(account_)
+	if account_.data  == '暂无任务' then
+	    return false
+	else
+    	__game.info = account_.data
+    	return true
+	end
+end
+
+--返回任务状态
+function getKingTaskBack()
+
+    log('准备任务')
+	local sz = require("sz")
+	local json = sz.json
+
+    local url = 'https://rokapi.wenfree.cn/';
+    local arr = {}
+    arr['s']='App.RokTask.back'
+    arr['id'] = __game.info.id
+    log( arr )
+    
+	local account_ = post(url,arr)
+end
 
 __game={}
 update_token()
