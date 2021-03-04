@@ -2059,8 +2059,9 @@ end
 
 t['头衔-搜索']={0xfdfdfc, "0|0|0xfdfdfc,32|-3|0xffa700,42|-7|0xb46d12",90,440,2,519,37}
     t['头衔-搜索-搜索']={0x117cb9, "0|0|0x117cb9,-20|-13|0x117cb9",90,877,90,967,197}
-    t['头衔-头衔冠']={0x995500, "0|0|0x995500,-10|-10|0xffa500,0|16|0xffba00",90,61,77,1233,661}
+    t['头衔-头衔冠']={0x995300, "0|0|0x995300,-12|-6|0xffa800,402|2|0x42c6ee",90,23,91,1273,622}
         t['头衔-头衔冠-确定']={0x1274ba, "0|0|0x1274ba,-13|-3|0x00c3ff,-73|-21|0x00d0ff",90,498,584,831,718}
+    t['头衔-城堡']={0x000000, "0|0|0x000000,4|-7|0x000000",90,426,305,918,726}
 
 function title()
     if d("头衔-搜索-搜索") or d('头衔-搜索',true,1,2) then
@@ -2071,12 +2072,22 @@ function title()
         inputword(__game.info.y)
         delay(2)
         d("头衔-搜索-搜索",true,1,5)
-        click(683,420,2)	--点屏中间
-        d("头衔-头衔冠",true,1,2)
+        if d("头衔-城堡",true,1,2) then
+            log({x,y})
+        else
+            click(628,387)	--点屏中间
+        end
+        if d("头衔-头衔冠",true,1,2) then
+            
+        else
+            log('没有找到-头衔冠')
+        end
         local titlearr = { ['公爵']={544, 413, 0x002031},['大建筑师']={784, 414, 0x002030},['大科学家']={1022, 412, 0x002031}}
         click(titlearr[__game.info.title][1],titlearr[__game.info.title][2],1 )
         if d("头衔-头衔冠-确定",true,1,2)then
-            return true
+            if not( d("头衔-头衔冠-确定") ) then
+                return true
+            end
         end
     end
 end
@@ -2095,7 +2106,7 @@ function game()
 				elseif d("游戏主界面-野外")then
 				    
                     search_times = search_times + 1
-                    if search_times > 5 then
+                    if search_times > 2 then
                         getKingTaskBack()
                         return true
                     end

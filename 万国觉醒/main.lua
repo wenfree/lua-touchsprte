@@ -9,6 +9,7 @@
 
 update__ = true
 update__ = false
+update_account = true
 
 --res, code = http.request("http://ip.chinaz.com/getip.aspx");
 --用http.get实现下载文件功能
@@ -313,13 +314,17 @@ t['弹窗-补充资源x']={0xd2d1cb, "0|0|0xd2d1cb,0|-10|0xb9b6aa,0|12|0xb9b7ab,
 t['弹窗-退出警告']={0xde3e35, "0|0|0xde3e35,295|4|0x00c0fc,230|-180|0xffffff,163|-400|0x858278",90,292,109,1000,590}
 t['弹窗-封号警告']={0x107cc1, "0|0|0x107cc1,-123|-193|0xffffff,-139|-193|0x07638b,-132|-194|0xffffff,-173|-303|0x88867b",90,349,178,984,570}
 t['弹窗-滑动解锁']={0x1a79ff, "-11|0|0xd1d1d1,-37|1|0x1a79ff,1|-21|0x1a79ff,407|64|0xb3b3b3",90,386,94,941,653}
+t['弹窗-顶号']={0x1274ba, "0|0|0x1274ba,4|-2|0x00c2fe,-130|-194|0xfefffe,118|-189|0xfefffe,13|-406|0x858278,373|-394|0xb9b6aa",90,221,88,1100,652}
+t['弹窗-游戏版本过低']={0x638b97, "0|0|0x638b97,-260|47|0xffffff,-325|411|0xffb200",90,549,106,1143,614}
+t['弹窗-失落之地']={0xa9906c, "0|0|0xa9906c,16|-2|0xd6c7a9,10|-11|0xa58d69",90,1099,27,1232,102}
+t['弹窗-最强执政官']={0x7c4d4a, "0|0|0x7c4d4a,0|9|0x910501,11|-2|0x720100",90,1132,60,1188,115}
 
 function _Tips()
     log('查询弹窗')
     -- keepScreen(true)
-    local res = ""
 	local tips = {
-	    '弹窗-兵营详情-x',
+	    "弹窗-游戏版本过低",
+	    "弹窗-顶号",
 	    '弹窗-封号警告',
 		'弹窗-宝箱广告',
 		'弹窗-退出警告',
@@ -359,10 +364,27 @@ function _Tips()
 		'弹窗-补充资源x',
 		'菜单-战役-打不过-时间到',
 		'弹窗-滑动解锁',
+		'弹窗-兵营详情-x',
+		'弹窗-失落之地',
+		'弹窗-最强执政官',
 	}
+	
+	--设置返回值为false
+	local v = false
+	--静止画面
+	keepScreen(true)
+    for k,v_ in ipairs(tips)do
+        if d(v_) then
+            v = v_
+            break
+        end
+    end
+    --解除静止
+    keepScreen(false)
 
-	for k,v in ipairs(tips)do
-	   -- log('查询-->' .. v )
+    --根据v的结果来判断
+    if v then
+	    log('查询-->' .. v )
 		if v == "弹窗-正在加载" then
 			if d(v)then
 				delay(15)
@@ -374,10 +396,16 @@ function _Tips()
 			end
 		elseif v == '弹窗-滑动解锁' then
 		    if d(v)then
+		       movetokey = movetokey or 0
+		       movetokey = movetokey + 1
 		       local right_where = {{499, 541, 0xc9cdd3},{838, 543, 0xe4e4e4}}
-		       moveTo(499,541,838,543,5)
+		       moveTo(499,541,800+(movetokey%3)*20,543,5)
 		      -- closeApp(frontAppBid())
 		       delay(2)
+		    end
+		elseif v == '弹窗-顶号' then
+		    if d(v)then
+                return '休息'
 		    end
 	    elseif v == '弹窗-封号警告' then
 		    if d(v) then
@@ -408,8 +436,9 @@ function _Tips()
 			if d(v,true,1,5) then
 			    keepScreen(false)
 				local time_ = os.time()
-				while ( os.time() - time_ < 120 ) do
-					if ( d("弹窗—验证图片-确定") ) and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
+				while ( os.time() - time_ < 30 ) do
+				    if d( "弹窗—验证图片" ,true,1,2) then
+					elseif ( d("弹窗—验证图片-确定") ) and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
 						delay(1)
 						if d("弹窗—验证图片-确定-特别难") then
 						   return "休息";
@@ -455,13 +484,10 @@ function _Tips()
 			    elseif  v == '弹窗-补充资源x' then
 			        click(711,167,2)
 			    end
-			    break
 			end
 		end
 	end
-	
--- 	keepScreen(false)
-	
+
 	_other = _other or 0
 	_other = _other + 1
 	log('_other->'.._other)
@@ -469,13 +495,14 @@ function _Tips()
 	local other_w_c = _other%(#other_w+1)
     if _other%5 == 0 then
 		moveTo(500,200,500,300,rd(10,20))
+		_Arrow()
 		log('-e-');
 	elseif _other%2== 0 then
 	    click(other_w[1][1],other_w[1][2],1)
 	    log('e');
 	end
-	
-	return res
+
+	return v
 end
 
 	
@@ -898,13 +925,13 @@ t['打野-体力不足-iphone7']={0x71f50f, "0|0|0x71f50f,5|-5|0xa9ff56,-7|-9|0x
     t['打野-体力不足-吃体力']={0x1274ba, "0|0|0x1274ba,-48|-12|0x00ccfe,95|18|0x00b8f3",90,903,222,1140,613}
         t['打野-体力不足-吃体力*']={0x1274ba, "0|0|0x1274ba,2|-15|0x00d2ff,4|-30|0xcedee5",90,751,208,907,665}
 t['打野-创建部队-驻扎']={0x008fc3, "0|0|0x008fc3,6|4|0xffffff,7|3|0x1c9aca,-6|3|0xffffff,-7|3|0x008ec2,6|-4|0xffffff",90,1269,164,1327,654}
-    
+    t['打野-创建部队-驻扎-取消']={0x088908, "0|0|0x088908,5|6|0x31ee23",90,1159,422,1326,675}
+t['打野-创建部队-行军']={0xb67016, "0|0|0xb67016,7|0|0xfeb500",90,945,17,1163,730}
 
 function _monster()
 	log("打野")
 	log({"打野次数记数",打野次数记数,"_UI.打野次数",_UI.打野次数})
-	
-	local 采集位置={{269,665,0xb3b0b0},{474,661,0x428a22},{675,662,0xc28f71},{861,659,0x585858},{1064,661,0x878787},}
+
 	while d('采矿-放大镜') and 打野次数记数 < _UI.打野次数 and _UI.打野 do
 	    打野次数记数 = 打野次数记数 + 1
 		local i = 1
@@ -930,7 +957,7 @@ function _monster()
 		d('采矿-放大镜',true,1,2) 
         
         if tonumber(_UI.monsterlevel) == 1  then
-
+            click( 269,665,2 )
             if 打野降低key then
                 d('打野-增加开关',true,3,1)
                 打野降低key = false
@@ -949,8 +976,10 @@ function _monster()
             dayeweizi_M_c = dayeweizi_M_c or '';
             if dayeweizi_M and dayeweizi_M_c == getColor(dayeweizi_M[1], dayeweizi_M[2]) then
                 --不需要调整
+                log('不需要调整')
             else
-                click( 采集位置[1][1],采集位置[1][2],2 )
+                log('点击打野位置')
+                click( 269,665,2 )
                 --设置好打野的位置
                 d('采集-采集前调低',true,1,1)
                 for i = 2,tonumber( _UI.monsterlevel ) do
@@ -977,7 +1006,7 @@ function _monster()
 			    打野增长key = false
 			     d("采矿-搜索",true,1,3)
 			else
-    			d("采矿-搜索-攻击",true,1,3)
+    			d("采矿-搜索-攻击",true,1,4)
     			
     			if d("采矿-创建部队",false,1,2)  then
     			    d('打野-创建部队-驻扎',true,1,2)
@@ -985,11 +1014,15 @@ function _monster()
     			end
     			
     			d("采矿-创建部队",true,1,3)
-    -- 			if d('打野-创建部队-正在回来敌弱我强',true,1,2) then
-    			if d('打野-创建部队-正在回来敌弱我强',false,1,2) then
+ 
+    			if d('打野-创建部队-行军') then
     			    --如何有多个部队就一起攻击
         			if d("远征-战斗界面-有多个部队")then
                         click(1227,710)
+                        
+                        -- while d("打野-创建部队-驻扎-取消",true,1,1) do
+                        -- end
+                        
                         d("远征-战斗界面-有多个部队-行军",true,1,3)
                     else
                         d('打野-创建部队-驻扎',true,1,2)
@@ -1172,7 +1205,7 @@ t['斥候-休息中'] = { 0xffffff,"7|1|0x7d7d7d,-1|-13|0x7d7d7d,3|8|0xbdbdbd",d
 function _Acouts()
 	log("斥候")
 	斥候次数 =  斥候次数 + 1
-	if  斥候次数 >= 80 then
+	if  斥候次数 >= _UI.斥候次数 then
 	    _UI.斥候 = false
 	end
 	click(斥候位置[1][1],斥候位置[1][2],2)
@@ -1222,8 +1255,7 @@ t['邮件-邮件']={0x6ae6ff, "0|0|0x6ae6ff,-8|-5|0x156793",90,1259,573,1305,615
         t['邮件-邮件-报告激活-探索报告']={0x1f76d4, "0|0|0x1f76d4,42|18|0x431c11",90,48,90,273,226}
         t['邮件-邮件-报告激活-探索报告-7']={0x007ff7, "0|0|0x007ff7,23|15|0xf6c7b0,36|14|0x3d1309",90,38,98,277,203}
             t['邮件-邮件-报告激活-探索报告-有奖励']={0x208600, "0|0|0x208600,-55|-18|0x05d212",90,701,490,1059,616}
-            t['邮件-邮件-报告激活-探索报告-删除']={0x6e5733, "0|0|0x6e5733,-34|1|0xdfbf8c,-30|1|0x9d8057,-34|-6|0xdab685",90,558,667,1148,719}
-            t['邮件-邮件-报告激活-探索报告-删除-7']={0x735b36, "0|0|0x735b36,2|-3|0xc9a56c,-20|3|0xdbbc8a,-27|2|0xdcbc8a,-40|3|0xdbbc8a",90,585,665,1083,721}
+            t['邮件-邮件-报告激活-探索报告-删除']={0x765d38, "0|0|0x765d38,-55|2|0xdbbc8a,-52|1|0x8a7351,-51|-2|0xb29262",90,742,666,1069,722}
         t['邮件-邮件-报告激活-探索报告-部落村庄']={0xf9f8f6, "0|0|0xf9f8f6,-8|11|0x69522f,-636|12|0xffcb50,-620|-14|0xffd44f",90,517,278,1256,649}
             t['邮件-邮件-报告激活-探索报告-部落村庄-太棒了']={0x1274ba, "0|0|0x1274ba,-52|-20|0x00cefb",90,488,140,1153,655}
         t['邮件-邮件-报告激活-探索报告-神秘山洞']={0xfcfcfb, "0|0|0xfcfcfb,-12|9|0x68512e,-622|-1|0x323b3a,-616|-8|0x947c68",90,496,236,1269,659}
@@ -1268,12 +1300,10 @@ function read_mail()
                     else
                         d('邮件-邮件-报告激活-探索报告-有奖励',true)
                         d('邮件-邮件-报告激活-探索报告-删除',true,1,3)
-                        d('邮件-邮件-报告激活-探索报告-删除-7',true,1,2)
                     end
                 else
                     log('不是报告')
                     if d('邮件-邮件-报告激活-探索报告-删除',true,1,3)then
-                    elseif d('邮件-邮件-报告激活-探索报告-删除-7',true,1,2)then
                     end
                 end
             end
@@ -1438,6 +1468,7 @@ t['任务_采集类-采集增加24小时']={0x3ee911, "0|0|0x3ee911,-57|24|0xc9d
 t['任务_采集类-采集增加8小时']={0x3eea12, "0|0|0x3eea12,-58|25|0xc9d9e5,-58|27|0xeff3f7,-62|-24|0x20bcdf,-81|13|0x007ca7",90,177,142,835,689}
     t['任务_采集类-采集增加24小时-使用']={0x00c3ff, "0|0|0x00c3ff,15|10|0x1274ba",90,915,549,1121,678}
 t['任务-知识之力']={0x1274ba, "0|0|0x1274ba,3|-1|0x1eb0ea,-762|-7|0x27b1fc,-770|-11|0xffffff,-778|-6|0x62216f,-589|-61|0x1589bf,-590|-63|0xffffff",90,118,279,1272,735}
+t['任务-空']={0x1a0c05, "0|0|0x1a0c05,27|10|0xfdf5e1,-32|15|0xfcc900,-204|187|0xfefefe",90,817,116,1166,424}
 
 function _task()
     任务记数 = 任务记数 + 1
@@ -1447,6 +1478,11 @@ function _task()
         end
 		d("奖励-奖励面板-领取箱子",true)    --箱子的奖励
 		d("奖励-奖励面板-红色-黄",true,1,2) --黄色的箱子
+		
+	    if d("任务-空") then
+            _UI.任务 = false
+		    return true
+        end
 
 	    local taskArrs = { 
 	        '任务-知识之力',
@@ -2156,15 +2192,12 @@ function game()
 			    return false
 			else
 				if _Evevnt() then
-                    arrowKey = arrowKey + 1
-                    if arrowKey%5 == 0 then
-                        _Arrow()
-                    else
-                        local tips_res = _Tips()
-                        if tips_res == '封号'  or tips_res == '休息' then
-                            return 
-                        end
+    
+                    local tips_res = _Tips()
+                    if tips_res == '封号'  or tips_res == '休息' then
+                        return 
                     end
+         
 				end
 			end
 		end
@@ -2172,6 +2205,9 @@ function game()
 	return 'next'
 end
 	
+	
+-- _Tips()
+-- lua_exit()
 
 
 function main()
@@ -2218,6 +2254,7 @@ function main()
             
             --其它功能
             _UI.斥候 = __UI.主线功能.斥候
+            _UI.斥候次数 = tonumber(__UI.主线功能.斥候次数) or 5
             _UI.打野 = __UI.主线功能.打野
             _UI.打野次数 = tonumber(__UI.打野次数)
             _UI.打野吃体力 = __UI.主线功能.吃体力
@@ -2256,7 +2293,8 @@ function main()
         else
             toast('帐号休息中',9)
             delay(10);
-            closeApp(_app.bid,1);
+            pressHomeKey(0)
+            pressHomeKey(1)
         end
 	end
 end

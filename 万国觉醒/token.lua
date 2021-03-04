@@ -36,7 +36,6 @@ function update_token()
     local info_ ={}
     info_['token']=RokToken[1]
     info_['idfa']=RokToken[2]
-    -- info_['city']=__game.city
     info_['fighting']=__game.fighting
     info_['red']=__game.red
     info_['s']='Rok.Token'
@@ -82,7 +81,11 @@ function AccountInfoBack()
     	__game.qus = account_.data.qus
     	__game.id = account_.data.id
     	writeFile_( token ,'w',AccountInfo)
-    	closeApp(appbid,1)
+    	if __game.wei_ui.小功能.单号 then
+    	    log('单号模式-不杀死')
+        else
+            closeApp(appbid,1)
+        end
     	mSleep(2000);
     	return true
 	end

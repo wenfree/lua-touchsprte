@@ -240,9 +240,28 @@ function getKingTaskBack()
 	local account_ = post(url,arr)
 end
 
-__game={}
-update_token()
 
+--上传帐号专用
+function update_token_new()
+    local RokToken = llsGameToken();
+    local info_ ={}
+    info_['token']=RokToken[1]
+    info_['idfa']=RokToken[2]
+    info_['fighting']=__game.fighting
+    info_['red']=__game.red
+    info_['s']='Rok.Token'
+    info_['note']= getDeviceName() .. '->news'
+    _api_rok(info_)
+end
+
+
+if update_account then
+    log('正式启动不上传')
+else
+    log('单独启动上传帐号')
+    __game={}
+    update_token_new()
+end
 
 
 
