@@ -314,22 +314,27 @@ t['弹窗-补充资源x']={0xd2d1cb, "0|0|0xd2d1cb,0|-10|0xb9b6aa,0|12|0xb9b7ab,
 t['弹窗-退出警告']={0xde3e35, "0|0|0xde3e35,295|4|0x00c0fc,230|-180|0xffffff,163|-400|0x858278",90,292,109,1000,590}
 t['弹窗-封号警告']={0x107cc1, "0|0|0x107cc1,-123|-193|0xffffff,-139|-193|0x07638b,-132|-194|0xffffff,-173|-303|0x88867b",90,349,178,984,570}
 t['弹窗-滑动解锁']={0x1a79ff, "-11|0|0xd1d1d1,-37|1|0x1a79ff,1|-21|0x1a79ff,407|64|0xb3b3b3",90,386,94,941,653}
+t['弹窗-顶号']={0x1274ba, "0|0|0x1274ba,4|-2|0x00c2fe,-130|-194|0xfefffe,118|-189|0xfefffe,13|-406|0x858278,373|-394|0xb9b6aa",90,221,88,1100,652}
+t['弹窗-游戏版本过低']={0x638b97, "0|0|0x638b97,-260|47|0xffffff,-325|411|0xffb200",90,549,106,1143,614}
+t['弹窗-失落之地']={0xa9906c, "0|0|0xa9906c,16|-2|0xd6c7a9,10|-11|0xa58d69",90,1099,27,1232,102}
+t['弹窗-最强执政官']={0x7c4d4a, "0|0|0x7c4d4a,0|9|0x910501,11|-2|0x720100",90,1132,60,1188,115}
+t['弹窗-公告板']={0x46331a, "0|0|0x46331a,-19|-1|0x6d512c,-19|30|0xe9d4a4",90,1077,8,1223,120}
 
 function _Tips()
     log('查询弹窗')
     -- keepScreen(true)
-    local res = ""
 	local tips = {
-	    '弹窗-兵营详情-x',
+	    "弹窗-游戏版本过低",
+	    "弹窗-顶号",
 	    '弹窗-封号警告',
 		'弹窗-宝箱广告',
 		'弹窗-退出警告',
 		'弹窗—红蓝点击蓝',
 		'弹窗-任务x',
+		'弹窗-网络断开',
 		'弹窗-邮件面板x',
 		'弹窗-资料面板x',
 		'弹窗-设置面板x',
-		'弹窗-网络断开',
 		'弹窗-蓝色按钮',
 		'酒馆-返回按钮',
 		'弹窗-招到英雄',
@@ -360,10 +365,28 @@ function _Tips()
 		'弹窗-补充资源x',
 		'菜单-战役-打不过-时间到',
 		'弹窗-滑动解锁',
+		'弹窗-兵营详情-x',
+		'弹窗-失落之地',
+		'弹窗-最强执政官',
+		'弹窗-公告板',
 	}
+	
+	--设置返回值为false
+	local v = false
+	--静止画面
+	keepScreen(true)
+    for k,v_ in ipairs(tips)do
+        if d(v_) then
+            v = v_
+            break
+        end
+    end
+    --解除静止
+    keepScreen(false)
 
-	for k,v in ipairs(tips)do
-	   -- log('查询-->' .. v )
+    --根据v的结果来判断
+    if v then
+	    log('查询-->' .. v )
 		if v == "弹窗-正在加载" then
 			if d(v)then
 				delay(15)
@@ -375,10 +398,16 @@ function _Tips()
 			end
 		elseif v == '弹窗-滑动解锁' then
 		    if d(v)then
+		       movetokey = movetokey or 0
+		       movetokey = movetokey + 1
 		       local right_where = {{499, 541, 0xc9cdd3},{838, 543, 0xe4e4e4}}
-		       moveTo(499,541,838,543,5)
+		       moveTo(499,541,800+(movetokey%3)*20,543,5)
 		      -- closeApp(frontAppBid())
 		       delay(2)
+		    end
+		elseif v == '弹窗-顶号' then
+		    if d(v)then
+                return '休息'
 		    end
 	    elseif v == '弹窗-封号警告' then
 		    if d(v) then
@@ -409,8 +438,9 @@ function _Tips()
 			if d(v,true,1,5) then
 			    keepScreen(false)
 				local time_ = os.time()
-				while ( os.time() - time_ < 120 ) do
-					if ( d("弹窗—验证图片-确定") ) and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
+				while ( os.time() - time_ < 30 ) do
+				    if d( "弹窗—验证图片" ,true,1,2) then
+					elseif ( d("弹窗—验证图片-确定") ) and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
 						delay(1)
 						if d("弹窗—验证图片-确定-特别难") then
 						   return "休息";
@@ -456,13 +486,10 @@ function _Tips()
 			    elseif  v == '弹窗-补充资源x' then
 			        click(711,167,2)
 			    end
-			    break
 			end
 		end
 	end
-	
--- 	keepScreen(false)
-	
+
 	_other = _other or 0
 	_other = _other + 1
 	log('_other->'.._other)
@@ -470,13 +497,14 @@ function _Tips()
 	local other_w_c = _other%(#other_w+1)
     if _other%5 == 0 then
 		moveTo(500,200,500,300,rd(10,20))
+		_Arrow()
 		log('-e-');
 	elseif _other%2== 0 then
 	    click(other_w[1][1],other_w[1][2],1)
 	    log('e');
 	end
-	
-	return res
+
+	return v
 end
 
 	
@@ -2059,6 +2087,7 @@ end
 
 t['头衔-搜索']={0xfdfdfc, "0|0|0xfdfdfc,32|-3|0xffa700,42|-7|0xb46d12",90,440,2,519,37}
     t['头衔-搜索-搜索']={0x117cb9, "0|0|0x117cb9,-20|-13|0x117cb9",90,877,90,967,197}
+    t['头衔-帐号信息面板']={0x1274ba, "0|0|0x1274ba,-6|9|0x60e0f6,-421|9|0xffba00,-227|-21|0xf0f4e8",90,94,46,1329,717}
     t['头衔-头衔冠']={0x995300, "0|0|0x995300,-12|-6|0xffa800,402|2|0x42c6ee",90,23,91,1273,622}
         t['头衔-头衔冠-确定']={0x1274ba, "0|0|0x1274ba,-13|-3|0x00c3ff,-73|-21|0x00d0ff",90,498,584,831,718}
     t['头衔-城堡']={0x000000, "0|0|0x000000,4|-7|0x000000",90,426,305,918,726}
@@ -2077,6 +2106,11 @@ function title()
         else
             click(628,387)	--点屏中间
         end
+        
+        if d("头衔-帐号信息面板") then
+            --发现了帐号信息面板 准备截图
+        end
+    
         if d("头衔-头衔冠",true,1,2) then
             
         else

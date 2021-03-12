@@ -200,6 +200,31 @@ function uploadimg()
 	local imgRes = post(url,postData)
 end
 
+function uploadimg_name(name)
+    local url = 'http://rok.honghongdesign.cn/public/'
+	local postData = {}
+    snapshot("img.jpg", 0,0,1334,750,0.4);
+    -- snapshot("qu.png", 0,0,100,100);
+	path = userPath();
+	imagepath = path .. "/res/"..name..".jpg"
+	require("ZZBase64")
+	function base64s()
+		local files
+		local file = io.open(imagepath,"rb")
+		if file then
+			files = file:read("*a")
+			file:close()
+			return ZZBase64.encode(files);
+		else
+			return "";
+		end
+	end
+	postData['img'] = encodeURI( base64s() )
+	postData['token'] = llsGameToken()[1]
+	postData['s'] = 'Img.All'
+	local imgRes = post(url,postData)
+end
+
 
 --取任务
 function getKingTask()
@@ -254,13 +279,13 @@ function update_token_new()
     _api_rok(info_)
 end
 
-
 if update_account then
     log('正式启动不上传')
 else
     log('单独启动上传帐号')
     __game={}
     update_token_new()
+    log('单独启动上传帐号',"all")
 end
 
 
