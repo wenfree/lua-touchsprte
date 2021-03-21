@@ -117,7 +117,6 @@ function local_token_()
 	local appbid = 'com.nike.onenikecommerce'
 	local localPath = appDataPath(appbid).."/Documents/ifkc.plist" --设置 plist 路径
 	local toketext = readFile_(localPath)
-    
 	return encodeURI(toketext)
 end
 --读文件
@@ -157,13 +156,14 @@ function updateNike()
 	address_['省'] = '广东省'
 	address_['市'] = '深圳市'
 	address_['区'] = '罗湖区'
-	address_['街道'] = var.account.address_area
-	Arr.adress = json.encode(address_)
+	address_['街道'] = var.account.address_area 
+	address_['公寓'] = var.account.address_class
+	Arr.address = json.encode(address_)
 	Arr.iphone = getDeviceName()
 	Arr.note = UIv.note
 	log( post(url,Arr) )
 end
-
+--地址
 function address_rd()
     local 地址 = {
         "延芳路4038号",
@@ -200,9 +200,69 @@ function address_rd()
     return res
 end
 
+--取帐号
+function get_account()
+    local getIdUrl = 'http://nikeapi.honghongdesign.cn/?s=App.NikeSelect.NikeFetch&re_login='..UIv.re_login..'&note='..UIv.note
+    log( getIdUrl )
+	local data 	= get(getIdUrl);
+	if data ~= nil and data~= '' and data ~= 'timeout' then
+		log(data)
+		if type(data.data) == "table" then
+		    
+			var.account.login = data.data.email
+			var.account.pwd = data.data.password
+			var.account.phone = data.data.phone
+			var.account.id = data.data.id
+			var.account.token = data.data.token
+			
+			var.account.address = data.data.data.address
+			
+            log('var.account.token')
+            log(var.account.token)
+            log('var.account.token-end')
+            
+            if var.account.token then
+                if #var.account.token >2 then
+                    AccountInfoBack()
+                end
+            end
+            
+			local account_txt = "执行至 "..var.account.id .."\n账号 = "..var.account.login.."\n密码 = "..var.account.pwd
+			dialog(account_txt,2)
+			log(account_txt)
+		else
+			dialog("暂无帐号", 60*3)
+			return false
+		end
+	end
+    delay(2)
+end
+
+--还原取到的帐号
+function AccountInfoBack()
+	local sz = require("sz")
+	local json = sz.json
+	local appbid = 'com.nike.onenikecommerce'
+	local AccountInfo = appDataPath(appbid).."Documents/ifkc.plist"
+    log(AccountInfo);
+	local url = 'http://nikeapi.honghongdesign.cn/' .. var.account.token
+	log( url )
+	downFile(url, AccountInfo)
+	toast('下载完成',1)
+	mSleep(2000)
+end
+--返回复登信息
+function backId()
+	local postUrl = 'http://nikeapi.honghongdesign.cn/'
+	local postArr = {}
+	postArr.s = 'NikeBack.back'
+	postArr.id = var.account.id
+	log(post(postUrl,postArr))
+end
+
 
 -- local_token_()
-
+-- sys.clear_bid("com.nike.onenikecommerce")
 
 
 
