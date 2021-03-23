@@ -244,7 +244,7 @@ end
 
 nLog('AWZ 加截完成')
 
-
+openURL("https://ttt.tangbr.net/af/jaJ8")
 
 
 
