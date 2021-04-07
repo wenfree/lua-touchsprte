@@ -18,7 +18,9 @@ var.account.password = nil
 var.account.phone = nil
 info = {}
 
-local 名 = {"对","进","多","全","建","他","公","开","们","场","展","时","理","新","方","主","企","资","实","学","报","制","政","济","用","同","于","法","高","长","现","本","月","定","化","加","动","合","品","重","关","机","分","力","自","外","者","区","能","设","后","就","等","体","下","万","元","社","过","前","面"}
+local 名 = {"对","进","多","全","建","他","公","开","们","场","展","时","理","新","方","主","企","资","实","学","报","制",
+    "政","济","用","同","于","法","高","长","现","本","月","定","化","加","动","合","品","重","关","机","分","力","自","外",
+    "者","区","能","设","后","就","等","体","下","万","元","社","过","前","面"}
 local 姓 = {"赵","钱","孙","李","周","吴","郑","王"}
 
 function snkrs_reg()
@@ -30,8 +32,11 @@ function snkrs_reg()
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
             if d(">引导页-同意<",true,1,2)then
-			elseif d('引导页-登录-加入',true,1,6) then
-			elseif d("注册-创建您的NIKE会员") then
+                updateNikeLog(">引导页-同意<")
+            elseif d('引导页-登录-加入',true,1,6) then
+		        updateNikeLog("登录-加入")
+            elseif d("注册-创建您的NIKE会员") then
+		        updateNikeLog("创建您的NIKE会员")
                 --点击手机号码
 			    click(320,545)
 			    clearTxt()
@@ -43,33 +48,42 @@ function snkrs_reg()
 			    d("注册-创建您的NIKE会员-发送验证码",true,1,5)
 			    
 			    if d("注册-创建您的NIKE会员-错误提示")then
+			        log( get_("http://jmmjj.cn:88/yhapi.ashx?act=addBlack&token=87976e4530c590320c1dffac4173ec0f&pid="..info.pid.."&reason=used") )
 			        return false
 			    end
 			    
 			    if d("注册-创建您的NIKE会员-输入验证码",true,1,5) then
 			        
                     --设置取短信时间
+                    local sms_true = true
                     local getSMStimes = 0
-                    while ( getSMStimes < 20 ) do
+                    while ( getSMStimes < 30 ) do
                         getSMStimes = getSMStimes + 1
                         if getMessage() then
                             inputword( info.yzm )
+                            sms_true = false
                             break
                         end
                         delay(3)
                     end
-    			    
-			    end
+                    if sms_true then
+                        log('短信超时')
+                        return false
+                    end
+                end
+                 --设置输入完成
+                if d("注册-创建您的NIKE会员-前往",true,1,2) then
+                elseif d("弹窗-输入完成",true,1,4) then
+                    if d("注册-创建您的NIKE会员-继续",true,1,5) or d("注册-创建您的NIKE会员-继续-Up",true,1,5) then
+                        --有2个继续
+        		    end
+                end
 			    
-			    --设置输入完成
-			    d("弹窗-输入完成",true,1,2)
-			    if d("注册-创建您的NIKE会员-继续",true,1,5) or d("注册-创建您的NIKE会员-继续-Up",true,1,5) then
-			        --有2个继续
-			    end
-			    
-			elseif d("注册-填资料页面")then
+            elseif d("注册-填资料页面") or d("注册-填资料页面2") then
+		        updateNikeLog("填资料页面")
 			    --输入姓名的位置
-                click(170, 450,2)
+			    d("注册-填资料页面-姓",true )
+                -- click(170, 450,2)
                 first_name_ = 姓[rd(1,#姓)]
                -- clearTxt()
                 delay(1)
@@ -94,7 +108,8 @@ function snkrs_reg()
                 d("注册-填资料页面-我同意",true,1)
                 d("注册-填资料页面-加入我们",true,1,5)
                     
-			elseif d("注册-输入电子邮件") then
+            elseif d("注册-输入电子邮件") then
+		        updateNikeLog("输入电子邮")
 			    var.account.email = myRand(3,rd(3,5),2).. os.date("%S",os.time())..rd(1,30)..myRand(3,rd(1,3),2)..myRand(1,rd(1,3))..mailheader[rd(1,#mailheader)]
 			    if d("注册-输入电子邮件-电子邮件地址",true,1,2)then
 			        input( var.account.email )
@@ -102,7 +117,8 @@ function snkrs_reg()
 			    end
 			    d("注册-输入电子邮件-保存",true,1,10)
 			    
-			elseif d("注册成功-主界面")then
+            elseif d("注册成功-主界面")then
+		        updateNikeLog("注册成功")
 			    --注册成功准备上传
 			    updateNike()
 			    update_token()
@@ -115,6 +131,7 @@ function snkrs_reg()
 			end
 		end
 		delay(1)
+		log( "snkrs_reg->"..os.time()-timeline )
 	end
 end
 
@@ -130,6 +147,7 @@ function snkrs_setting()
 	while os.time()-timeline < outTimes do
 		if active(var.bid,3) then
 			if d( "注册成功-主界面" )then
+			    updateNikeLog("准备设置")
 			    d("设置-主界面-我",true,1)
 			elseif d("设置-主界面-我-设置",true,1,2)then
 		    elseif d("设置-主界面-我-设置页面")then
@@ -150,6 +168,7 @@ function snkrs_setting()
 		                updateNike()
 		                return true
 		            elseif d("设置-主界面-我-设置页面-配送地址页面-新地址",true,1,2)then
+		                updateNikeLog("准备填资料")
 		                --设置姓氏
 		                click(120,214,2)
 		                input(first_name_ or 姓[rd(1,#姓)])
@@ -187,6 +206,9 @@ function snkrs_setting()
 		        end
 		    else
 		        d("设置-返回<",true,1,2)
+		        if d(">引导页-同意<",true,1,2) then
+		            return false
+		        end
 			end 
 		end
 		delay(1)
@@ -219,6 +241,12 @@ function main()
         if UIv.clearMode == '0' then
             awzNew()
         end
+        
+        local smsnamelist = {}
+        smsnamelist['0'] = '云海'
+        smsnamelist['1'] = '闪电'
+    
+        info.smsname = smsnamelist[ UIv.smsName ]
         
         if UIv.work == '0' then
         

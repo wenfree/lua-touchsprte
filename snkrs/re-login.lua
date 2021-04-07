@@ -99,24 +99,16 @@ function snkrs_look()
 			
 		end
 	end
+	
 	-- body
+	get("http://127.0.0.1:8080/api/reportInfo");
 	backId()
 	return true
 end
 
 -- get_account()
 -- 0,0,200,100
-function updateNikeLog(txt)
-	adbox = adbox or 0
-	if adbox == 0 then
-		adbox = 1
-		--创建文本视图
-		fwShowWnd("window1",0,0,200,30,1);
-		mSleep(500)
-	end
-	fwShowTextView("window1","text1",txt,"center","FF0000","FFDAB9",10,0,0,0,200,30,0.8);
-	--fwShowTextView("window1","text1","文本视图","center","FF0000","FFDAB9",10,0,0,0,200,30,0.5);
-end
+
 
 
 

@@ -96,6 +96,7 @@ _UI = {}
 require('tsp')
 require('ZZBase64')
 require("yzm")
+
 require('token')
 require('api')
 
@@ -109,7 +110,7 @@ _app.yzmid = 0;
 
 t={}
 degree = 80
-
+require("UIs")
 
 t['箭头向下'] = { 0xab4d21,"6|7|0xf0eca5,0|13|0xa15828,0|15|0xe9cb72,-11|50|0x687782,24|37|0xbbd3ea,4|86|0x596d84",degree,0,0,1334,750}
 t['箭头向下']={0x687c8d, "0|0|0x687c8d,4|-62|0xb47d46,22|-28|0xc0d8ec,2|20|0x536778",degree,0,0,1334,666}
@@ -316,15 +317,20 @@ t['弹窗-退出警告']={0xde3e35, "0|0|0xde3e35,295|4|0x00c0fc,230|-180|0xffff
 t['弹窗-封号警告']={0x107cc1, "0|0|0x107cc1,-123|-193|0xffffff,-139|-193|0x07638b,-132|-194|0xffffff,-173|-303|0x88867b",90,349,178,984,570}
 t['弹窗-滑动解锁']={0x1a79ff, "-11|0|0xd1d1d1,-37|1|0x1a79ff,1|-21|0x1a79ff,407|64|0xb3b3b3",90,386,94,941,653}
 t['弹窗-顶号']={0x1274ba, "0|0|0x1274ba,4|-2|0x00c2fe,-130|-194|0xfefffe,118|-189|0xfefffe,13|-406|0x858278,373|-394|0xb9b6aa",90,221,88,1100,652}
+t['弹窗-联赛规则']={0xd08d36, "0|0|0xd08d36,-1|-14|0xfec649,13|-1|0xfcc247",90,1107,15,1237,111}
+
 t['弹窗-游戏版本过低']={0x638b97, "0|0|0x638b97,-260|47|0xffffff,-325|411|0xffb200",90,549,106,1143,614}
 t['弹窗-失落之地']={0xa9906c, "0|0|0xa9906c,16|-2|0xd6c7a9,10|-11|0xa58d69",90,1099,27,1232,102}
 t['弹窗-最强执政官']={0x7c4d4a, "0|0|0x7c4d4a,0|9|0x910501,11|-2|0x720100",90,1132,60,1188,115}
 t['弹窗-公告板']={0x46331a, "0|0|0x46331a,-19|-1|0x6d512c,-19|30|0xe9d4a4",90,1077,8,1223,120}
+t['弹窗-平板弹窗']={0x1a79ff, "0|0|0x1a79ff,220|37|0xffffff,41|0|0xe4e4e4",90,728,104,1163,321}
 
 function _Tips()
     log('查询弹窗')
     -- keepScreen(true)
 	local tips = {
+	    '酒馆-返回按钮',
+	    '弹窗-失落之地',
 	    "弹窗-游戏版本过低",
 	    "弹窗-顶号",
 	    '弹窗-封号警告',
@@ -332,12 +338,12 @@ function _Tips()
 		'弹窗-退出警告',
 		'弹窗—红蓝点击蓝',
 		'弹窗-任务x',
+		"弹窗-平板弹窗",
 		'弹窗-网络断开',
 		'弹窗-邮件面板x',
 		'弹窗-资料面板x',
 		'弹窗-设置面板x',
 		'弹窗-蓝色按钮',
-		'酒馆-返回按钮',
 		'弹窗-招到英雄',
 		'弹窗-升级确认',
 		'弹窗-开箱确定',
@@ -368,9 +374,9 @@ function _Tips()
 		'菜单-战役-打不过-时间到',
 		'弹窗-滑动解锁',
 		'弹窗-兵营详情-x',
-		'弹窗-失落之地',
 		'弹窗-最强执政官',
 		'弹窗-公告板',
+		'弹窗-联赛规则',
 	}
 	
 	--设置返回值为false
@@ -459,7 +465,7 @@ function _Tips()
 					delay(1)
 				end
 			end
-		elseif v == '弹窗-常见问题' or v == "弹窗-ipad-bug" then
+		elseif v == '弹窗-常见问题' or v == "弹窗-ipad-bug" or v == "弹窗-平板弹窗" then
 		    if d(v,true,1)then
     	        closeApp(_app.bid,1)
 		    end
@@ -939,6 +945,9 @@ t['打野-创建部队-驻扎']={0x008fc3, "0|0|0x008fc3,6|4|0xffffff,7|3|0x1c9a
     t['打野-创建部队-驻扎-取消']={0x088908, "0|0|0x088908,5|6|0x31ee23",90,1159,422,1326,675}
 t['打野-创建部队-行军']={0xb67016, "0|0|0xb67016,7|0|0xfeb500",90,945,17,1163,730}
 
+    t['打野位置记忆位置']={0xacffff, "0|0|0xacffff,-1|-9|0xb9ffff,-1|9|0xa1ffff",80,161,395,412,446}
+    t['打野位置记忆位置-max']={0xa5f5f5, "0|0|0xa5f5f5,7|-1|0x1573af,-8|0|0x1573af",70,339,395,449,441}
+
 function _monster()
 	log("打野")
 	log({"打野次数记数",打野次数记数,"_UI.打野次数",_UI.打野次数})
@@ -979,8 +988,7 @@ function _monster()
             end
             
         else
-            t['打野位置记忆位置']={0xacffff, "0|0|0xacffff,-1|-9|0xb9ffff,-1|9|0xa1ffff",80,161,395,412,446}
-            t['打野位置记忆位置-max']={0xa5f5f5, "0|0|0xa5f5f5,7|-1|0x1573af,-8|0|0x1573af",70,339,395,449,441}
+
             --打野调格记忆
             dayeweizi_M = dayeweizi_M or false;
             --打野调格记忆色彩
@@ -1164,14 +1172,13 @@ function _Collection()
 			            end
 			        end
 			        采矿调低一次 = false
-			        
 			    else
 			        d('打野-增加开关',true)
 			    end
 			end
 			
 			--调的过高后重新来一次
-			if _Coll_key_mun%6 == 0 then
+			if _Coll_key_mun%4 == 0 then
 			    采矿调低一次 = true
 			end
 			--点击点矿后的搜索
@@ -1249,6 +1256,7 @@ t['医院-治好']={0xcf7f01, "0|0|0xcf7f01,-29|-18|0xeffa00",90,583,205,740,373
 t['医院-治好2']={0xd4980d, "0|0|0xd4980d,-35|-11|0xedeb04,-9|-11|0xeeec05",90,610,230,731,344}
 t['医院-治好-iphone7']={0xc96600, "0|0|0xc96600,-16|-20|0xecff00",90,567,222,722,334}
 t['医院-治好-无']={0xfefffe, "0|0|0xfefffe,-18|-2|0x2861ae,-104|276|0x0d88bf,159|292|0x0078b5",90,416,127,865,557}
+t['医院-治-帮助']={0xfff1e3, "0|0|0xfff1e3,-3|-13|0x0083bb,3|16|0x007db5",90,550,200,755,377}
 
 function _Hospital()
 	log("医院")
@@ -1256,7 +1264,8 @@ function _Hospital()
 		d("医院-治疗",true,1,2)
 		if d('医院-治疗-无资源',true,1,2) then
 		    return false
-        end
+		end
+        d("医院-治-帮助",true)
 	elseif d("医院-治好",true,1,2)then
 	    d("医院-治好-无",true,1,2)
 	elseif d("医院-治好2",true,1,2)then
@@ -1846,6 +1855,8 @@ t['联盟-加入按钮']={0x00c1ff, "0|0|0x00c1ff,-14|-32|0x00d1ff,-5|135|0xffb1
     t['联盟-领地资源-提示']={0xde8d10, "0|0|0xde8d10,45|-50|0xe20000",90,881,353,988,483}
         t['联盟-领地资源-提示-领取RMB']={0x00c20e, "0|0|0x00c20e,-28|-17|0x00d40e,32|14|0x00ae0d",90,853,166,1148,343}
         t['联盟-领地资源-提示-领取']={0x00bffd, "71|-102|0xd4d2ca",90,963,18,1202,173}
+        t['联盟-领地资源-提示-一键领取']={0x5088a0, "0|0|0x5088a0,-2|-9|0x044d6c,-16|-8|0x5088a0",90,1124,182,1196,249}
+            t['联盟-领地资源-提示-领取-确定']={0x00c1fe, "0|0|0x00c1fe,-4|0|0x1274ba",90,610,527,737,581}
     t['联盟-联盟礼物-大奖']={0xffffff, "0|0|0xffffff,85|-71|0xe20000",90,246,312,491,540}
         
 function _lm()
@@ -1880,8 +1891,11 @@ function _lm()
         end
         
         if d("联盟-领地资源-提示",true,1,3) then
-            d("联盟-领地资源-提示-领取",true,1,2)
-            d("联盟-领地资源-提示-领取",true,2,2)
+            d("联盟-领地资源-提示-领取",true,1,1)
+            d("联盟-领地资源-提示-领取",true,2,1)
+            if d("联盟-领地资源-提示-一键领取",true,1,1) then
+                d("联盟-领地资源-提示-领取-确定",true,1)
+            end
         end
         
         if d('联盟-联盟帮助+',true,2) then
@@ -2113,8 +2127,6 @@ end
 
 
 
-
-t['游戏未绑定']={0x09bf07, "0|0|0x09bf07,-729|-10|0x09c107,-482|-517|0xfbe4c5,77|-450|0xfef2e5",90,304,55,1289,670}
 function game()
     
     打野降低key = false;
@@ -2140,6 +2152,7 @@ function game()
     英雄次数 = 0
     arrowKey = 0
     日落峡谷次数 = 0
+    全军出击撤回Key = true
     
 	local timeline = os.time() + rd(1,5)*60
 	while os.time()-timeline < 60 * 30  do
@@ -2157,11 +2170,10 @@ function game()
 					if _UI.日历奖励 and _book() then end
 					
 					if _init() then
-					    
-					    if _UI.神秘商人 and d("神秘商人来了",true,1,2) then
-					        _神秘商店()
-					    elseif _UI.铁匠铺 then
-					        _铁匠铺()
+                        if _UI.神秘商人 and d("神秘商人来了",true,1,2) then
+                            _神秘商店()
+                        elseif _UI.铁匠铺 then
+                            _铁匠铺()
 						elseif _Hospital() then
 						elseif _UI.英雄升级加点 then
 						    _加天赋()
@@ -2181,7 +2193,7 @@ function game()
 						    _build_two()
 						elseif _UI.搜索村庄 then
 						    read_mail()
-						elseif true and _UI.奖励 then
+						elseif _UI.奖励 then
 							_Award()
 						elseif _UI.任务 then
 							_task()
@@ -2191,16 +2203,18 @@ function game()
 							_Acouts()
 						elseif _UI.送物资 then
 						    _songwuzi()
+						elseif _UI.主线功能.全军出击 then
+						    _all_arm()
 						elseif _UI.打野 then
 						    if d("游戏主界面-城内",true,1,2)then
 						        _monster()
 						    end
+						elseif _UI.联盟捐助 then
+						    _lm()
 						elseif _UI.采集.key then
 							if d("游戏主界面-城内",true,1,2)then
 								_Collection()
 							end
-						elseif _UI.联盟捐助 then
-						    _lm()
 						else
 							return 'next'
 						end
@@ -2208,8 +2222,6 @@ function game()
 				elseif d("游戏主界面-野外")then
 					click(65,681,2)
 				end
-			elseif d('游戏未绑定')then
-			    return false
 			else
 				if _Evevnt() then
     
@@ -2280,6 +2292,11 @@ function main()
             _UI.打野吃体力 = __UI.主线功能.吃体力
             _UI.monsterlevel = __UI.monsterlevel or 1
             _UI.monsteDW = __UI.monsteDW or '默认'
+            _UI.主线功能 = {}
+            _UI.主线功能.全军出击 = __UI.主线功能.全军出击
+            if _UI.主线功能.全军出击 then
+                _UI.打野 = false
+            end
             
             --采集设置
             _UI.采集 = {}

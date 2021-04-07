@@ -15,26 +15,19 @@ end
 function getPhone() 
     local postArr = {};
     postArr['s']="App.SmsNikeReg.GetPhone";
+    postArr['name'] = info.smsname;
     local data = post('http://sms.wenfree.cn/public/',postArr);
     if (data) then
         local url = data['data']['url'];
         info.smsname = data['data']['name'];
         local res = get_(url);
-        log(res)
-        
-        postArr['s']="App.SmsNikeReg.MakeGetPhone";
-        postArr['name']=info.smsname;
-        postArr['arr']=res ;
-        
-        log(postArr);
-        
-        local datas = post('http://sms.wenfree.cn/public/',postArr);
-        if ( datas )then
-            log('datas')
-            log(datas)
-            if ( datas.data )then
-                info.phone = datas.data;
-                return true;
+        if res then
+            log(res)
+            local resArr = split(res,"|")
+            if resArr[1] == "1" then
+                info.phone = resArr[5]
+                info.pid = resArr[2]
+                return true
             end
         end
     end
@@ -45,24 +38,18 @@ function getMessage()
     local postArr = {};
     postArr['s']="App.SmsNikeReg.GetSms";
     postArr['name']=info.smsname;
-    postArr['phone']=info.phone;
+    postArr['phone']=info.pid;
     local data = post('http://sms.wenfree.cn/public/',postArr);
     if (data) then
         local url = data['data']['url'];
         local res = get_(url);
         -- log(res.."=>"..#res)
         if res then
-            log("res-准备上传");
-            postArr['s']="App.SmsNikeReg.MakeGetSms";
-            postArr['name']=info.smsname;
-            postArr['arr']= res ;
-            local datas = post("http://sms.wenfree.cn/public/",postArr);
-            if datas  then
-                log(datas)
-                if datas.data  then
-                    info.yzm = datas.data;
-                    return true;
-                end
+           log(res)
+            local resArr = split(res,"|")
+            if resArr[1] == "1" then
+                info.yzm = resArr[2]
+                return true
             end
         end
     end
@@ -151,13 +138,14 @@ function updateNike()
 	Arr.password = var.account.password
 	Arr.phone = var.account.phone
 	local address_ = {}
-	address_['姓'] = first_name_
-	address_['名'] = last_names_
-	address_['省'] = '广东省'
-	address_['市'] = '深圳市'
-	address_['区'] = '罗湖区'
-	address_['街道'] = var.account.address_area 
-	address_['公寓'] = var.account.address_class
+	address_['firstName'] = first_name_
+	address_['lastName'] = last_names_
+	address_['country'] = "中国"
+	address_['state'] = '广东省'
+	address_['city'] = '深圳市'
+	address_['county'] = '罗湖区'
+	address_['address1'] = var.account.address_area 
+	address_['address2'] = var.account.address_class
 	Arr.address = json.encode(address_)
 	Arr.iphone = getDeviceName()
 	Arr.note = UIv.note
@@ -260,10 +248,21 @@ function backId()
 	log(post(postUrl,postArr))
 end
 
+function updateNikeLog(txt)
+	adbox = adbox or 0
+	if adbox == 0 then
+		adbox = 1
+		--创建文本视图
+		fwShowWnd("window1",0,0,200,30,1);
+		mSleep(500)
+	end
+	fwShowTextView("window1","text1",txt,"center","FF0000","FFDAB9",10,0,0,0,200,30,0.8);
+	--fwShowTextView("window1","text1","文本视图","center","FF0000","FFDAB9",10,0,0,0,200,30,0.5);
+end
 
 -- local_token_()
 -- sys.clear_bid("com.nike.onenikecommerce")
-
+-- getPhone()
 
 
 

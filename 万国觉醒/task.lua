@@ -9,6 +9,7 @@
 
 update__ = true
 update__ = false
+update_account = true
 
 --res, code = http.request("http://ip.chinaz.com/getip.aspx");
 --用http.get实现下载文件功能
@@ -319,6 +320,8 @@ t['弹窗-游戏版本过低']={0x638b97, "0|0|0x638b97,-260|47|0xffffff,-325|41
 t['弹窗-失落之地']={0xa9906c, "0|0|0xa9906c,16|-2|0xd6c7a9,10|-11|0xa58d69",90,1099,27,1232,102}
 t['弹窗-最强执政官']={0x7c4d4a, "0|0|0x7c4d4a,0|9|0x910501,11|-2|0x720100",90,1132,60,1188,115}
 t['弹窗-公告板']={0x46331a, "0|0|0x46331a,-19|-1|0x6d512c,-19|30|0xe9d4a4",90,1077,8,1223,120}
+t['游戏未绑定']={0x09bf07, "0|0|0x09bf07,-729|-10|0x09c107,-482|-517|0xfbe4c5,77|-450|0xfef2e5",90,304,55,1289,670}
+
 
 function _Tips()
     log('查询弹窗')
@@ -2086,6 +2089,7 @@ end
 
 
 t['头衔-搜索']={0xfdfdfc, "0|0|0xfdfdfc,32|-3|0xffa700,42|-7|0xb46d12",90,440,2,519,37}
+t['头衔-输入的x']={0xfefffe, "0|0|0xfefffe,58|1|0x007aff,-1|-12|0xcccccc",90,1026,249,1171,430}
     t['头衔-搜索-搜索']={0x117cb9, "0|0|0x117cb9,-20|-13|0x117cb9",90,877,90,967,197}
     t['头衔-帐号信息面板']={0x1274ba, "0|0|0x1274ba,-6|9|0x60e0f6,-421|9|0xffba00,-227|-21|0xf0f4e8",90,94,46,1329,717}
     t['头衔-头衔冠']={0x995300, "0|0|0x995300,-12|-6|0xffa800,402|2|0x42c6ee",90,23,91,1273,622}
@@ -2093,7 +2097,16 @@ t['头衔-搜索']={0xfdfdfc, "0|0|0xfdfdfc,32|-3|0xffa700,42|-7|0xb46d12",90,44
     t['头衔-城堡']={0x000000, "0|0|0x000000,4|-7|0x000000",90,426,305,918,686}
 
 function title()
+    titleKey = false
     if d("头衔-搜索-搜索") or d('头衔-搜索',true,1,2) then
+        click(463,149,2)
+        d("头衔-输入的x",true,1,2)
+        if __game.info.country_lost and #__game.info.country_lost > 4 then
+            inputword(__game.info.country_lost)
+            delay(1)
+        else
+            inputword(__game.info.country)
+        end
         click(663,151,1)    --点击x
         inputword(__game.info.x)
         delay(2)
@@ -2118,16 +2131,21 @@ function title()
         end
         local titlearr = { ['公爵']={544, 413, 0x002031},['大建筑师']={784, 414, 0x002030},['大科学家']={1022, 412, 0x002031}}
         click(titlearr[__game.info.title][1],titlearr[__game.info.title][2],1 )
-        if d("头衔-头衔冠-确定",true,1,2)then
-            if not( d("头衔-头衔冠-确定") ) then
-                return true
-            end
+        
+        local i = 0
+        while i < 5 and d("头衔-头衔冠-确定",true,1,2) do
+            i=i+1
+            titleKey = true
+        end
+        if titleKey and not( d("头衔-头衔冠-确定") ) then
+            log('执行成功')
+            return true
         end
     end
 end
 
 
-function game()
+function __titlegame()
 
     local search_times = 0
 	local timeline = os.time()
@@ -2144,11 +2162,11 @@ function game()
                         getKingTaskBack()
                         return true
                     end
+                    
                     local titleres = title()
-
                     if titleres then
                         getKingTaskBack()
-                        delay(45*1)
+                        delay(__game.info.resttime*1)
                         return true
                     end
                         
@@ -2172,8 +2190,217 @@ function game()
 	end
 	return 'next'
 end
-	
 
+
+
+function game()
+    
+    打野降低key = false;
+    打野增长key = true;
+    采矿调低一次 = true
+    任务记数 = 0
+    打野次数记数 = 0;
+    收集次数 = 0
+    读邮件次数 = 0
+    日历奖励 = 0
+    除草次数 = 0
+    建造次数 = 0
+    采矿次数 = 0
+    升级次数 = 0
+    斥候次数 = 0
+    领邮件奖励 = 0
+    修理城墙 = 0
+    研究次数 = 0
+    造兵次数 = 0
+    联盟次数 = 0
+    送物资次数 = 0
+    远征次数 = 0
+    英雄次数 = 0
+    arrowKey = 0
+    日落峡谷次数 = 0
+    全军出击撤回Key = true
+    
+	local timeline = os.time() + rd(1,5)*60
+	while os.time()-timeline < 60 * 30  do
+		if active(_app.bid,12)then
+			if d('游戏主界面') or d('游戏主界面-夜')then
+				if d("游戏主界面-城内")then
+					d('弹窗_绑定帐号',true,1)
+					--每次都点帮助
+					d('收集-帮助',true,2)
+					
+					if _UI.除草 and _glass() then end
+					if _UI.VIP奖励 and _SignIn() then end
+					if _UI.收集资源 and _Collect() then end
+					if _UI.读邮件 and _mail() then end
+					if _UI.日历奖励 and _book() then end
+					
+					if _init() then
+                        if _UI.神秘商人 and d("神秘商人来了",true,1,2) then
+                            _神秘商店()
+                        elseif _UI.铁匠铺 then
+                            _铁匠铺()
+						elseif _Hospital() then
+						elseif _UI.英雄升级加点 then
+						    _加天赋()
+						elseif _UI.远征 then
+						    _远征()
+						elseif _UI.修城墙 then
+						    _wall()
+						elseif _UI.建造 then
+							_NewBuild()
+						elseif _UI.研究 then
+						    _study()
+						elseif _UI.英雄 then
+							_Hero()
+						elseif _UI.升级 then
+							_build()
+						elseif _UI.建筑列队 then
+						    _build_two()
+						elseif _UI.搜索村庄 then
+						    read_mail()
+						elseif _UI.奖励 then
+							_Award()
+						elseif _UI.任务 then
+							_task()
+						elseif _UI.造兵.key  then
+							_soldier()
+						elseif _UI.斥候 then
+							_Acouts()
+						elseif _UI.送物资 then
+						    _songwuzi()
+						elseif _UI.主线功能.全军出击 then
+						    _all_arm()
+						elseif _UI.打野 then
+						    if d("游戏主界面-城内",true,1,2)then
+						        _monster()
+						    end
+						elseif _UI.联盟捐助 then
+						    _lm()
+						elseif _UI.采集.key then
+							if d("游戏主界面-城内",true,1,2)then
+								_Collection()
+							end
+						else
+							return 'next'
+						end
+					end
+				elseif d("游戏主界面-野外")then
+					click(65,681,2)
+				end
+			elseif d('游戏未绑定')then
+			    return false
+			else
+				if _Evevnt() then
+    
+                    local tips_res = _Tips()
+                    if tips_res == '封号'  or tips_res == '休息' then
+                        return 
+                    end
+         
+				end
+			end
+		end
+	end
+	return 'next'
+end
+	
+-- delay(1)
+-- d("头衔-输入的x",true,1,2)
+-- log({x,y})
+-- lua_exit()
+
+function __games()
+
+    --拉取帐号
+	if AccountInfoBack() then
+	    --读出token
+        __game.token = llsGameToken()[1]
+        --初始化UI设置
+        __UI = __game.wei_ui
+        --完全格式化
+        --小功能
+        _UI.除草 = __UI['小功能']['除草']
+        _UI.VIP奖励 = __UI['小功能']['VIP奖励']
+        _UI.收集资源 = __UI['小功能']['收集资源']
+        _UI.读邮件 = __UI['小功能']['读邮件']
+        _UI.日历奖励 = __UI['小功能']['日历奖励']
+        
+        --支线功能
+        _UI.远征 = __UI['支线功能']['远征']
+        _UI.英雄升级加点 = __UI['支线功能']['英雄升级加点']
+        _UI.日落峡谷 = __UI['支线功能']['日落峡谷']
+        _UI.神秘商人 = __UI['支线功能']['神秘商人']
+        _UI.铁匠铺 = __UI['支线功能']['铁匠铺']
+        
+        --主线功能
+        _UI.修城墙 = __UI.主线功能.修城墙
+        _UI.建造 = __UI.主线功能.建造
+        _UI.英雄 = __UI.主线功能.酒馆召唤
+        _UI.升级 = __UI.主线功能.升级
+        _UI.搜索村庄 = __UI.主线功能.搜索村庄
+        _UI.奖励 = __UI.主线功能.奖励
+        _UI.任务 = __UI.主线功能.任务
+        
+        --造兵功能
+        _UI.造兵 = {}
+        _UI.造兵.key = __UI.主线功能.造兵key
+        _UI.造兵.步兵 = __UI.主线功能.步兵
+        _UI.造兵.骑兵 = __UI.主线功能.骑兵
+        _UI.造兵.弓兵 = __UI.主线功能.弓兵
+        _UI.造兵.车兵 = __UI.主线功能.车兵
+        
+        --其它功能
+        _UI.斥候 = __UI.主线功能.斥候
+        _UI.斥候次数 = tonumber(__UI.主线功能.斥候次数) or 5
+        _UI.打野 = __UI.主线功能.打野
+        _UI.打野次数 = tonumber(__UI.打野次数)
+        _UI.打野吃体力 = __UI.主线功能.吃体力
+        _UI.monsterlevel = __UI.monsterlevel or 1
+        _UI.monsteDW = __UI.monsteDW or '默认'
+        _UI.主线功能 = {}
+        _UI.主线功能.全军出击 = __UI.主线功能.全军出击
+        if _UI.主线功能.全军出击 then
+            _UI.打野 = false
+        end
+        
+        --采集设置
+        _UI.采集 = {}
+        _UI.采集.key = __UI.主线功能.采集key
+        _UI.采集.种类 = __UI.采集种类
+        _UI.采集.联盟矿场 = __UI.主线功能.联盟矿场
+        if __UI.主线功能.采矿等级 then
+            _UI.采集.采矿等级 = tonumber(__UI.主线功能.采矿等级)
+        else
+            _UI.采集.采矿等级 = 1
+        end
+        --联盟科技捐助
+        _UI.联盟捐助 = __UI.主线功能.联盟捐助
+        _UI.建筑列队 = false
+        
+        --物资运送
+        _UI.物资运送 = __UI.主线功能.物资运送
+        if __UI.R位置 == '坐标' then
+            _UI.坐标 = split(__UI.坐标,',')
+        end
+        
+        --是否截图
+        upimg = true
+        allimg = true
+        log(_UI);
+        game()
+        --清理帐号
+        clearOneAccount();
+        delay(1)
+        
+    else
+        toast('帐号休息中',9)
+        delay(10);
+        pressHomeKey(0)
+        pressHomeKey(1)
+    end
+
+end
 
 function main()
 	
@@ -2181,20 +2408,19 @@ function main()
             
         if getKingTask() then
             log( __game.info )
-            game()
+            __titlegame()
             --清理帐号
             -- clearOneAccount();
             delay(1)
         else
-            pressHomeKey(0)
-            pressHomeKey(1)
-            delay(5)
+            
+            __games()
+            
         end
             
 	end
 	
 end
-
 
 function all()
 
