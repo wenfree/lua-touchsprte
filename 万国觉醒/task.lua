@@ -2166,7 +2166,7 @@ function __titlegame()
                     local titleres = title()
                     if titleres then
                         getKingTaskBack()
-                        delay(__game.info.resttime*1)
+                        delay(5)
                         return true
                     end
                         

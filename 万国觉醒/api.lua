@@ -235,7 +235,7 @@ function getKingTask()
 
     local url = 'https://rokapi.wenfree.cn/';
     local arr = {}
-    arr['s']='App.RokTask.Get'
+    arr['s']='App.RokTaskTest.Get'
     arr['country'] = UIv.country
     log( arr )
     
