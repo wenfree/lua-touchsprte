@@ -279,6 +279,15 @@ function update_token_new()
     _api_rok(info_)
 end
 
+--上传帐号专用/打野/采集/验证码
+function show_state(show_state__)
+    local info_ ={}
+    info_['token'] = __game.token
+    info_['s']='RokShowState.show'
+    info_['show_state']= show_state__
+    _api_rok(info_)
+end
+
 if update_account then
     log('正式启动不上传')
 else
@@ -287,6 +296,9 @@ else
     update_token_new()
     log('单独启动上传帐号',"all")
 end
+
+
+
 
 
 

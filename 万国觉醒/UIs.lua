@@ -71,6 +71,8 @@ function _all_arm()
     
     
     for i= 1, 5 do
+        
+        
         if not(d("头衔-城堡",true,1,2))  then
             click(663,367,2)--点屏中间
             log('点屏中间')
