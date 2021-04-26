@@ -1164,7 +1164,7 @@ function _Collection()
         采矿次数 = 采矿次数 + 1
         if  采矿次数 > 12 then _UI.采集.key = false; return end
 
-        local 采集位置={{466, 662, 0x8ab039},{661, 667, 0xe1ba7b},{868, 664, 0x404355},{1069, 667, 0x747474}}   --玉米.木材,石头,金币,随机( 不采金币 )
+        local 采集位置={{466, 662, 0x8ab039},{713,663, 0xe1ba7b},{868, 664, 0x404355},{1069, 667, 0x747474}}   --玉米.木材,石头,金币,随机( 不采金币 )
         --查询是否要采集
         if d('采集-已经有队伍') and d('采集-已经有队伍-正确') then
             local dwshu_min = { "采集-已经有队伍-1", "采集-已经有队伍-2", "采集-已经有队伍-3", "采集-已经有队伍-4","采集-已经有队伍-5" }
@@ -2151,6 +2151,18 @@ function _铁匠铺()
     _UI.铁匠铺 = false
 end
 
+function showLog(txt)
+	adbox = adbox or 0
+	if adbox == 0 then
+		adbox = 1
+		--创建文本视图
+		fwShowWnd("window1",0,0,200,30,1);
+		mSleep(500)
+	end
+	fwShowTextView("window1","text1",txt,"center","FF0000","FFDAB9",10,0,0,0,200,30,0.8);
+	--fwShowTextView("window1","text1","文本视图","center","FF0000","FFDAB9",10,0,0,0,200,30,0.5);
+end
+
 t['头衔-搜索']={0xfdfdfc, "0|0|0xfdfdfc,32|-3|0xffa700,42|-7|0xb46d12",90,440,2,519,37}
 t['头衔-输入的x']={0xfefffe, "0|0|0xfefffe,58|1|0x007aff,-1|-12|0xcccccc",90,1026,249,1171,430}
     t['头衔-搜索-搜索']={0x117cb9, "0|0|0x117cb9,-20|-13|0x117cb9",90,877,90,967,197}
@@ -2158,9 +2170,11 @@ t['头衔-输入的x']={0xfefffe, "0|0|0xfefffe,58|1|0x007aff,-1|-12|0xcccccc",9
     t['头衔-头衔冠']={0x995300, "0|0|0x995300,-12|-6|0xffa800,402|2|0x42c6ee",90,23,91,1273,622}
         t['头衔-头衔冠-确定']={0x1274ba, "0|0|0x1274ba,-13|-3|0x00c3ff,-73|-21|0x00d0ff",90,498,584,831,718}
     t['头衔-城堡']={0x000000, "0|0|0x000000,4|-7|0x000000",90,426,305,918,686}
+    t['头衔-城堡-mini']={0x060606, "0|0|0x060606,-2|0|0x000000",80,573,354,711,423}
 
 function title()
     titleKey = false
+    showLog( __game.info.x..":"..__game.info.x..__game.info.title  ) 
     if d("头衔-搜索-搜索") or d('头衔-搜索',true,1,2) then
         click(463,149,2)
         d("头衔-输入的x",true,1,2)
@@ -2177,10 +2191,14 @@ function title()
         inputword(__game.info.y)
         delay(2)
         d("头衔-搜索-搜索",true,1,5)
-        if d("头衔-城堡",true,1,2) then
+        if d("头衔-城堡-mini") then
+            click(x,y-43)
             log({x,y})
+        -- elseif d("头衔-城堡",true,1,2) then
+        --     log({x,y})
         else
-            click(628,387)	--点屏中间
+            log("--点屏中间")
+            click(677,387)	--点屏中间
         end
         
         if d("头衔-帐号信息面板") then

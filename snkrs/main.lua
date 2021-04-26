@@ -10,14 +10,10 @@ require("TSLib")
 function downFile(url, path)
 	local sz = require("sz")
 	local http = require("szocket.http")
-	local url = "http://wenfree.cn/api/Public/idfa/?service=Git.Get&url="..url
-	nLog( url )
 	local res, code = http.request(url);
 --	nLog(res)
     if code == 200 then
-		local json = sz.json
-		local data = json.decode(res)
-		local body = data.data
+		local body = res
         local file = io.open(path, "w+")
         if file then
             file:write(body)
