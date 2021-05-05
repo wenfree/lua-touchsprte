@@ -73,7 +73,7 @@ function _Evevnt()
         click(860,664)--选布狄卡
         d("e-请选择统帅",true)
     elseif d('e-服务器选择-继续按扭') then
-        dialog('请选服',0)
+        -- dialog('请选服',0)
         delay(5)
         d('e-服务器选择-继续按扭',true,1,3)
     elseif d('e-选区后-继续',true) then
@@ -159,9 +159,7 @@ function _init()
                 选区开关 = false
                 return
             end
-        end
-        
-        if allimg then
+        elseif allimg then
             if isimgupload() then
                 uploadimg()
                 _开帮助()
@@ -254,6 +252,7 @@ function _Tips()
     log('查询弹窗')
     -- keepScreen(true)
 	local tips = {
+	    '弹窗-掉档',
 	    '酒馆-返回按钮',
 	    '弹窗-失落之地',
 	    "弹窗-游戏版本过低",
@@ -303,7 +302,7 @@ function _Tips()
 		'弹窗-公告板',
 		'弹窗-联赛规则',
 		'弹窗-选择聊天x',
-		'弹窗-掉档',
+		
 	}
 	
 	--设置返回值为false
