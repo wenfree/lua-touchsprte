@@ -20,7 +20,7 @@ function _选区()
             local res = ocrText(x1,y1,x2,y2, 10) or 0
             log( res )
             res = tonumber( res )
-            if res - tonumber(__game.qus) < 10 then
+            if res - tonumber(__game.qus) < 8 then
                 log('差值少于10')
                 local _cha = res - __game.qus
                 function y_n(_cha)
