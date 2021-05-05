@@ -157,6 +157,7 @@ function _init()
         if 选区开关 then
             if _选区() then
                 选区开关 = false
+                return
             end
         end
         
@@ -166,6 +167,7 @@ function _init()
                 _开帮助()
             end
             allimg = false
+            return
         elseif upimg then
             ocrInfo()
             d('游戏主界面-野外-玉米',true,1,2)
@@ -2329,13 +2331,14 @@ function main()
 	
 	while true do
 	    
-        -- require('new')
-        -- vpnx()
-        -- delay(3)
-        -- vpn()
-        -- awzNew()
-        -- 选区开关 = true
-        -- active(_app.bid,12)
+        require('new')
+        vpnx()
+        delay(3)
+        vpn()
+        awzNew()
+        选区开关 = true
+        active(_app.bid,8)
+        
         选区开关 = false
             
 	    --拉取帐号
