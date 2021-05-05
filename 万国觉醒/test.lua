@@ -44,6 +44,23 @@ sys = {
 	end)
 }
 
-sys.clear_bid("com.lilithgames.rok.ios.offical")
+-- sys.clear_bid("com.lilithgames.rok.ios.offical")
+-- log( readPasteboard() )
+
+-- input("15902479469")
+-- input("cjh66432059")
+
+
+log( appDataPath("com.saurik.Cydia") )
+
+
+
+
+
+
+
+
+
+
 
 

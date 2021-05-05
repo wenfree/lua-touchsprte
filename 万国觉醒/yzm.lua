@@ -15,15 +15,26 @@ function encodeURI(s)
     return string.gsub(s, " ", "+")
 end
 
+function _getYzmAccount()
+    local url = 'http://rok.honghongdesign.cn/public/';
+    local postArr = {}
+    postArr['s']="RokYzm.GetAccount"
+    postArr['token'] = llsGameToken()[1]
+    local data = post(url,postArr)
+    if (data ) then
+        return { data.data.st_username,data.data.st_password}
+    end
+end
 	
 function _yzmsb()
 	require('tsp')
 	init(1)
 	local _time1 = os.time()
-	url = 'http://api.ttshitu.com/imageXYPlus'
+	local url = 'http://api.ttshitu.com/imageXYPlus'
+	local st_account = _getYzmAccount()
 	postData = {}
-	postData['username'] = 'ouwen000'
-	postData['password'] = 'AaDd112211'
+	postData['username'] = st_account[1]
+	postData['password'] = st_account[2]
 	postData['typeid'] = '27'
 	--postData['typename'] = '万国觉醒'
 
@@ -66,10 +77,11 @@ function _yzmsb()
 	require('tsp')
 	init(1)
 	local _time1 = os.time()
-	url = 'http://api.ttshitu.com/imageXYPlus'
+	local url = 'http://api.ttshitu.com/imageXYPlus'
+	local st_account = _getYzmAccount()
 	postData = {}
-	postData['username'] = 'ouwen000'
-	postData['password'] = 'AaDd112211'
+	postData['username'] = st_account[1]
+	postData['password'] = st_account[2]
 	postData['typeid'] = '47'
 	--postData['typename'] = '万国觉醒'
     path = userPath();
@@ -114,8 +126,6 @@ function _yzmsb()
 	end
 end
 	
-
-
 -- init(1)
 -- uploadimg()
 -- log('end')

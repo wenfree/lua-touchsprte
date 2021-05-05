@@ -2174,7 +2174,7 @@ t['头衔-输入的x']={0xfefffe, "0|0|0xfefffe,58|1|0x007aff,-1|-12|0xcccccc",9
 
 function title()
     titleKey = false
-    showLog( __game.info.x..":"..__game.info.x..__game.info.title  ) 
+    showLog( __game.info.x..":"..__game.info.y..__game.info.title  ) 
     if d("头衔-搜索-搜索") or d('头衔-搜索',true,1,2) then
         click(463,149,2)
         d("头衔-输入的x",true,1,2)

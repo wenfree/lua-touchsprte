@@ -281,6 +281,7 @@ end
 
 --上传帐号专用/打野/采集/验证码
 function show_state(show_state__)
+    showLog(show_state__)
     local info_ ={}
     info_['token'] = __game.token
     info_['s']='RokShowState.show'

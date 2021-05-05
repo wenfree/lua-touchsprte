@@ -63,7 +63,7 @@ function AccountInfoBack()
 
     local url = 'http://rok.honghongdesign.cn/public/';
     local arr = {}
-    arr['s']='RokGetToken.Rest'
+    arr['s']='RokGetToken.NewRest'
     arr['imei'] = __game.phone_name
     arr['note'] = __game.note
     arr['phone_name']= __game.phone_name
@@ -71,14 +71,16 @@ function AccountInfoBack()
     
 	local account_ = post(url,arr)
 	log(account_)
-	if account_.data  == '暂无帐号' then
-	    return false
+	
+	
+	if account_.data.msg  == '休息' then
+	    showLog(account_.data.show )
 	else
 	    local token = account_.data.idfa
     	__game.qu = account_.data.qu
     	__game.wei_ui = json.decode( account_.data.web_ui )
     	__game.weizi = account_.data.weizi
-    	__game.qus = account_.data.qus
+    	__game.qus = tonumber(account_.data.qus)
     	__game.id = account_.data.id
     	writeFile_( token ,'w',AccountInfo)
     	if __game.wei_ui.小功能.单号 then
