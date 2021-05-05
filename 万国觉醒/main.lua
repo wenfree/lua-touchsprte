@@ -167,7 +167,6 @@ function _init()
                 _开帮助()
             end
             allimg = false
-            return
         elseif upimg then
             ocrInfo()
             d('游戏主界面-野外-玉米',true,1,2)
@@ -249,6 +248,7 @@ t['弹窗-最强执政官']={0x7c4d4a, "0|0|0x7c4d4a,0|9|0x910501,11|-2|0x720100
 t['弹窗-公告板']={0x46331a, "0|0|0x46331a,-19|-1|0x6d512c,-19|30|0xe9d4a4",90,1077,8,1223,120}
 t['弹窗-平板弹窗']={0x1a79ff, "0|0|0x1a79ff,220|37|0xffffff,41|0|0xe4e4e4",90,728,104,1163,321}
 t['弹窗-选择聊天x']={0xd94608, "0|0|0xd94608,229|-27|0xf7e2c0,511|-2|0xf7e2c0",90,284,27,987,313}
+t['弹窗-掉档']={0x0391fe, "0|0|0x0391fe,-472|267|0x09c007,-695|387|0xeb1c26,-693|396|0xffffff",90,333,73,1248,694}
 
 function _Tips()
     log('查询弹窗')
@@ -303,6 +303,7 @@ function _Tips()
 		'弹窗-公告板',
 		'弹窗-联赛规则',
 		'弹窗-选择聊天x',
+		'弹窗-掉档',
 	}
 	
 	--设置返回值为false
@@ -343,6 +344,18 @@ function _Tips()
 		    if d(v)then
                 return '休息'
 		    end
+		elseif v == '弹窗-掉档' then
+		    if d(v)then
+		        local arr = {}
+		        arr['s']='index.update'
+		        arr['table']='rok_account'
+		        local sz = require('sz')
+		        local json = sz.json
+		        arr['arr']= json.encode({ ['switch'] = 1, ['state']='掉档'})
+		        arr['id']= __game.id
+		        _api_rok(arr)
+                return '休息'
+		    end
 	    elseif v == '弹窗-封号警告' then
 		    if d(v) then
 		        local arr = {}
@@ -353,7 +366,7 @@ function _Tips()
 		        arr['arr']= json.encode({ ['switch'] = 1, ['state']='封号'})
 		        arr['id']= __game.id
 		        _api_rok(arr)
-		       res = '封号'
+		        res = '封号'
 		    end
 		elseif v == '弹窗-预警弹窗' then
 		    if d('弹窗-预警弹窗',true,1) then
