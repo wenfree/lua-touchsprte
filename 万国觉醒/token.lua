@@ -72,24 +72,28 @@ function AccountInfoBack()
 	local account_ = post(url,arr)
 	log(account_)
 	
-	
 	if account_.data.msg  == '休息' then
 	    showLog(account_.data.show )
 	else
+	    
 	    local token = account_.data.idfa
     	__game.qu = account_.data.qu
     	__game.wei_ui = json.decode( account_.data.web_ui )
     	__game.weizi = account_.data.weizi
     	__game.qus = tonumber(account_.data.qus)
     	__game.id = account_.data.id
-    	writeFile_( token ,'w',AccountInfo)
-    	if __game.wei_ui.小功能.单号 then
-    	    log('单号模式-不杀死')
-        else
-            closeApp(appbid,1)
+    	__game.note = account_.data.note
+    	
+    	if setAWZ( __game.id  ) then
+        	writeFile_( token ,'w',AccountInfo)
+        	if __game.wei_ui.小功能.单号 then
+        	    log('单号模式-不杀死')
+            else
+                closeApp(appbid,1)
+            end
+        	mSleep(2000);
+        	return true
         end
-    	mSleep(2000);
-    	return true
 	end
 end
 

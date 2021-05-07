@@ -264,6 +264,7 @@ function _Tips()
 		'弹窗-任务x',
 		"弹窗-平板弹窗",
 		'弹窗-网络断开',
+		'弹窗-正在加载',
 		'弹窗-邮件面板x',
 		'弹窗-资料面板x',
 		'弹窗-设置面板x',
@@ -281,7 +282,6 @@ function _Tips()
 		'弹窗_点击任务_宝石',
 		'弹窗—验证图片',
 		'弹窗-同意并继续',
-		'弹窗-正在加载',
 		'弹窗—前往按钮',
 		'弹窗-常见问题',
 		'弹窗-ipad-bug',
@@ -323,7 +323,7 @@ function _Tips()
 	    log('查询-->' .. v )
 		if v == "弹窗-正在加载" then
 			if d(v)then
-				delay(15)
+				delay(10)
 				loadding___ = loadding___ or 0
 				loadding___ = loadding___ + 1
 				if loadding___%10 == 0 then
@@ -406,7 +406,7 @@ function _Tips()
 				end
 			end
 		elseif v == '弹窗-常见问题' or v == "弹窗-ipad-bug" or v == "弹窗-平板弹窗" then
-		    if d(v,true,1)then
+		    if d(v,true,1) then
     	        closeApp(_app.bid,1)
 		    end
 		elseif v == '弹窗-升级箭头-物质不足' then
@@ -439,20 +439,22 @@ function _Tips()
 		end
 	end
 
-	_other = _other or 0
-	_other = _other + 1
-	log('_other->'.._other)
-	local other_w = {{50,50},{1128,44},}
-	local other_w_c = _other%(#other_w+1)
-    if _other%5 == 0 then
-		moveTo(500,200,500,300,rd(10,20))
-		_Arrow()
-		log('-e-');
-	elseif _other%2== 0 then
-	    click(other_w[1][1],other_w[1][2],0.2)
-	    log('e');
-	end
-
+    if tipsKey > 8 then
+        _other = _other or 0
+        _other = _other + 1
+        log('_other->'.._other)
+        local other_w = {{50,50},{1128,44},}
+        local other_w_c = _other%(#other_w+1)
+        if _other%5 == 0 then
+        	moveTo(500,200,500,300,rd(10,20))
+        	_Arrow()
+        	log('-e-');
+        elseif _other%2== 0 then
+            click(other_w[1][1],other_w[1][2],0.2)
+            log('e');
+        end
+    end
+    
 	return v
 end
 
@@ -485,7 +487,6 @@ t['升级-正在升级中-总部'] = { 0xe1a30f, "0|0|0xe1a30f,7|-21|0xf2bf37,7|
 	t['升级-新手保护确定']={0x1274ba, "0|0|0x1274ba,64|-11|0x00ccff,257|11|0x00b8f8,422|-16|0x00d2fc",90,369,489,979,594}
 	t['升级-宝石-大于100']={0xffffff, "0|0|0xffffff,27|0|0xffffff",90,747,573,808,596}
     t['升级-购买战争之书']={0xffffff, "0|0|0xffffff,-4|-10|0xffb000,-30|-193|0xe33c42,0|-191|0xbc2739,-7|-180|0xfefc76",90,539,272,799,575}
-
 
 t['加速-面板x']={0xd3d1ca, "0|0|0xd3d1ca,4|39|0x044561,0|19|0xb9b6aa",90,1098,65,1167,145}
     t['加速max']= {0x1274ba, "0|0|0x1274ba,-5|4|0x00c2ff",90,915,494,1125,566}
@@ -1920,6 +1921,8 @@ t['联盟-加入按钮']={0x00c1ff, "0|0|0x00c1ff,-14|-32|0x00d1ff,-5|135|0xffb1
         t['联盟-领地资源-提示-一键领取']={0x5088a0, "0|0|0x5088a0,-2|-9|0x044d6c,-16|-8|0x5088a0",90,1124,182,1196,249}
             t['联盟-领地资源-提示-领取-确定']={0x00c1fe, "0|0|0x00c1fe,-4|0|0x1274ba",90,610,527,737,581}
     t['联盟-联盟礼物-大奖']={0xffffff, "0|0|0xffffff,85|-71|0xe20000",90,246,312,491,540}
+    t['联盟-礼物提示-普通']={0x055c80, "0|0|0x055c80,76|-21|0xe20000",90,645,182,1109,247}
+        t['联盟-礼物提示-普通-一键领取']={0x5088a0, "0|0|0x5088a0,-342|-17|0xe20000",90,651,176,1198,252}
         
 function _lm()
     log('联盟研究')
@@ -1945,7 +1948,7 @@ function _lm()
              _UI.联盟捐助 = false
         elseif d('联盟-礼物',true,1,3)then
             local i = 0
-            while (d("联盟-领地资源-提示-领取RMB",true,1)  or d('联盟-礼物-领取',true,1,2) )and i<15 do
+            while ( d("联盟-礼物提示-普通-一键领取",true,1) or d("联盟-领地资源-提示-领取RMB",true,1) or d('联盟-礼物-领取',true,1,2) or d("联盟-礼物提示-普通",true,1,2) ) and i < 30 do
                 i=i+1
             end
             d('联盟-联盟礼物-大奖',true,1,2)
@@ -2189,7 +2192,7 @@ end
 
 
 --临时增加的 temporary
-t['临时-免费女王']={0xf94728, "0|0|0xf94728,-16|-35|0xfffdb8,20|-39|0xe20000,21|-13|0xffaa00",90,916,81,1174,161}
+t['临时-免费女王']={0xf94728, "0|0|0xf94728,-16|-35|0xfffdb8,20|-39|0xe20000,21|-13|0xffaa00",90,800,81,1274,161}
     t['临时-免费女王-领取']={0x1274ba, "0|0|0x1274ba,-39|-18|0x00cffe",90,752,416,997,535}
 
 
@@ -2343,16 +2346,16 @@ function main()
 	
 	while true do
 	    
+	    选区开关 = false
+	    
         require('new')
-        vpnx()
-        delay(3)
-        vpn()
-        awzNew()
-        选区开关 = true
-        active(_app.bid,8)
+        -- vpnx()
+        -- delay(3)
+        -- vpn()
+        -- awzNew()
+        -- 选区开关 = true
+        -- active(_app.bid,8)
         
-        -- 选区开关 = false
-            
 	    --拉取帐号
     	if AccountInfoBack() then
     	    --读出token

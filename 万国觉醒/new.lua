@@ -2,63 +2,28 @@ require("TSLib")
 awzbid = 'AWZ'
 
 function locks()
-	flag = deviceIsLock();
+	local flag = deviceIsLock();
 	if flag == 0 then
 	--	log("未锁定");
 	else
 		unlockDevice(); --解锁屏幕
 	end
 end
+
+
 function activeawz(app,t)
 	t = t or 0.5
 	locks()
-	bid = frontAppBid();
-	if bid ~= app then
-		nLog(app.."，准备启动")
-		runApp(app)
+	local bid = frontAppBid();
+	if bid == app then
 		mSleep(t*1000)
 		return true
+	else
+	    nLog(app.."，准备启动")
+		runApp(app)
 	end
 end
 
-function awz()
-	openURL("IGG://cmd/newrecord");
-	mSleep(3000)
-	local logTxt = '/var/mobile/iggresult.txt'
-	out_time = os.time()
-	while os.time()-out_time <= 10 do
-		if activeawz(awzbid,2)then
-		elseif file_exists(logTxt)then
-			local new = readFile(logTxt)[1]
-			if new == "1" then
-				return true
-			elseif new == "3" then
-				toast('IP-->重复请注意',1)
-				return true
-			elseif new == '2' then
-				toast('一键新机中',2)
-			end
-			mSleep(2000)
-		end
-		mSleep(1000* 3)
-	end
-end
-
-function awz_()
-	openURL("IGG://cmd/open");
-	mSleep(2000)
-	local logTxt = '/var/mobile/iggresult.txt'
-	local out_time = os.time()
-	while os.time()-out_time <= 10 do
-		if activeawz(awzbid,2)then
-		else
-			openURL("IGG://cmd/newrecord");
-			mSleep(3000)
-			return true
-		end
-		mSleep(1000* 3)
-	end
-end
 
 function awz_next()
 	function nextrecord()
@@ -97,13 +62,16 @@ function renameCurrentRecord(name)
 		return true
 	end	
 end
+
+
 function reName(newName)
 	timeLine = os.time()
 	outTime = 60 * 0.5
 	while (os.time()-timeLine < outTime) do
 		if activeawz(awzbid,3)then
-		elseif renameCurrentRecord(newName)then
-			return true
+		    if renameCurrentRecord(newName)then
+			    return true
+		    end
 		end
 		mSleep(1000)
 	end
@@ -120,12 +88,12 @@ function newRecord()
 		nLog("the result is: " .. result);
 		if result == 3 then
 			--//IP地址重复
-			dialog('ip 地址重复', 3)
+-- 			dialog('ip 地址重复', 3)
 			return true
 		elseif result == 1 then
 			return true
 		elseif result == 2 then
-			toast('正在一键新机ing',1)
+-- 			toast('正在一键新机ing',1)
 		end
 	end	
 end
@@ -136,14 +104,14 @@ function awzNew()
 
 	while (os.time()-timeLine < outTime) do
 		if activeawz(awzbid,3)then
-		elseif newRecord() then
-			return true
+		    if newRecord() then
+			    return true
+			end
 		end
 		mSleep(1000)
 	end
 	nLog('新机超时')
 end
-
 
 function setCurrentRecordLocation(location)
 	local sz = require("sz");
@@ -201,10 +169,7 @@ function getAllmun()
 	nLog('设置超时')
 end
 
-
-
 ----获取当前名
-
 function getOnlineName()
 	function getName()
 		local sz = require("sz");
@@ -216,7 +181,6 @@ function getOnlineName()
 			nLog("the result is: " .. result);
 			if tonumber(result) == 1 then
 				jg = readFile('/var/mobile/iggparams.txt')
-		
 				nLog(jg[1])
 				awz_online_name = strSplit(jg[1],'/')
 				awz_online_name[2] = awz_online_name[2] or 'AOC'
@@ -225,7 +189,6 @@ function getOnlineName()
 			end
 		end	
 	end
-	
 	
 	timeLine = os.time()
 	outTime = 60 * 0.5
@@ -238,8 +201,6 @@ function getOnlineName()
 	end
 	nLog('设置超时')
 end
-
-
 
 function getTrueName_awz()
 	function getTrueName()
@@ -267,6 +228,77 @@ function getTrueName_awz()
 		mSleep(1000)
 	end
 end
+
+--new 新封装
+function new_fun(todos)
+    local timeLine = os.time()
+    local outTime = 10
+    while (os.time()-timeLine < outTime) do
+        if activeawz(awzbid,3)then
+        	local sz = require("sz");
+        	local http = require("szocket.http");
+        	local res, code = http.request("http://127.0.0.1:1688/cmd?fun="..todos);
+        	if code == 200 then
+            	local resJson = sz.json.decode(res);
+        		local result = resJson.result;
+        		return result
+        	end
+        end
+    end
+end
+
+require('tsp')
+
+
+-- reName('2506')
+function setAWZ(id)
+    if  new_fun( 'getallrecordnames')  == 1 then
+        jg = readFile('/var/mobile/iggrecords.txt')
+        log( jg )
+        for k,v in ipairs( jg ) do
+            local a,b = string.find(v,id)
+            if ( a ) then
+                new_fun( "activerecord&record="..v )
+                delay(1)
+                reName(id..'-'..__game.note)
+                delay(1)
+                return true
+            end
+        end
+        awzNew()
+        reName(id..'-'..__game.note)
+        local i = 0
+        while i < 20 do
+            if active(_app.bid,5)then
+                if d("e-同意并继续",true,1,2) or d("弹窗-掉档") then
+                    return true
+                end
+            end
+            i=i+1
+            delay(1)
+        end
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 nLog('AWZ 加截完成')
