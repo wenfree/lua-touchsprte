@@ -957,7 +957,7 @@ t['采矿-搜索'] = { 0x1274ba,"-69|-29|0xd3fe,81|23|0xb4f0",degree,130,454,120
 t['采矿-创建部队'] = { 0x1375ba,"-82|-24|0xd3fd,86|33|0x1175bb",degree,927,14,1195,727}
 t['采矿-创建部队']={0x1274ba, "0|0|0x1274ba,-73|-16|0x03d0ff,90|19|0x00b8f6",90,884,12,1325,570}
     t['打野-创建部队-正在返回']={0xb75f02, "0|0|0xb75f02,7|-5|0xfcf8f5,14|-8|0xb25b00",90,1209,58,1322,309}
-    t['打野-创建部队-选择驻扎']={0x00d6ff, "0|0|0x00d6ff,-5|17|0xffffff,1|12|0x008fc3,5|17|0xffffff,5|18|0x008ec3",90,1204,50,1328,738}
+    t['打野-创建部队-驻扎']={0xffffff, "0|0|0xffffff,-3|-6|0x008ec2,15|1|0x00d3fb",90,1212,41,1323,450}
     t['打野-创建部队-行军']={0xb67016, "0|0|0xb67016,-90|-10|0xffba00,63|22|0xffa500",90,926,64,1319,394}
     t['打野-创建部队-正在回来敌弱我强']={0xffb200, "0|0|0xffb200,28|-6|0xb67016,12|-47|0x24ac36",90,943,93,1162,254}
     t['行军-已经部队-驻扎']={0xffffff, "0|0|0xffffff,-4|-4|0x00d6ff,6|5|0x008ec2,7|6|0x00d7ff,5|0|0x008ec2",90,1276,190,1318,284}
@@ -1082,8 +1082,8 @@ function _monster()
 			else
                 d("采矿-搜索-攻击",true,1,2)
                 
-                if d("采矿-创建部队")  then
-                    if d('打野-创建部队-选择驻扎',true,1,2) then
+                if d("采矿-创建部队",false,1,2)  then
+                    if d('打野-创建部队-驻扎',true,1,2) then
                         d('打野-创建部队-行军',true,1,3)
                     end
                 end
@@ -2257,11 +2257,6 @@ function game()
     全军出击撤回Key = true
     tipsKey = 0
     升级车产次数 = 0
-    静止画面 = 0
-    dayeweizi_M_c = {
-        "111",
-        "222",
-    }
     
 	local timeline = os.time() + rd(1,5)*60
 	while os.time()-timeline < 60 * 30  do
@@ -2368,6 +2363,7 @@ function game()
 
 			else
 			    --这是记录是否出弹窗的参数值
+			    tipsKey = tipsKey + 1
 				if _Evevnt() then
                     local tips_res = _Tips()
                     if tips_res == '封号'  or tips_res == '休息' then
@@ -2375,31 +2371,10 @@ function game()
                     end
 				end
 				
-				tipsKey = tipsKey + 1
 				--长时间在不正常的状态下,查一下是否是在引导下
 				if ( tipsKey > 5 ) then
 				    _Arrow()
 				end
-				
-				local colorweizi = {
-                    {142, 145, 0x9bb05b},
-                    {1140, 628, 0x91a954}
-				}
-    			--静止记录
-                -- if dayeweizi_M_c[1] == getColor(colorweizi[1][1], colorweizi[1][2])  and dayeweizi_M_c[2] == getColor(colorweizi[2][1], colorweizi[2][2])  then
-                --     log('--静止画面-->'..静止画面.."tipsKey->"..tipsKey)
-                --     静止画面 = 静止画面 + 1
-                --     if 静止画面 > 180 then
-                --         静止画面 = 0
-                --         closeApp( _app.bid )
-                --         delay(2)
-                --     end
-                -- else
-                --     log('--非静止画面--')
-                --     静止画面 = 0
-                --     dayeweizi_M_c[1] = getColor(colorweizi[1][1], colorweizi[1][2])
-                --     dayeweizi_M_c[2] = getColor(colorweizi[2][1], colorweizi[2][2])
-                -- end
 				
 			end
 		end
@@ -2424,12 +2399,12 @@ function main()
 	    选区开关 = false
         require('new')
         
-        -- showLog('断开VPN')
-        -- vpnx()
-        -- delay(3)
-        -- showLog('连接VPN')
-        -- vpn()
-        -- 选区开关 = true
+        showLog('断开VPN')
+        vpnx()
+        delay(3)
+        showLog('连接VPN')
+        vpn()
+        选区开关 = true
         
 	    --拉取帐号
     	if AccountInfoBack() then

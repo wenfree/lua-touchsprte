@@ -108,6 +108,7 @@ function _all_arm()
                     gji = gji + 1
                     delay(1)
     	        end
+	            break
             end
 	    end
 		 

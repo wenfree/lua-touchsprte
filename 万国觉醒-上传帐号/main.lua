@@ -2,6 +2,7 @@ require("tsp");
 require('token');
 require('ZZBase64');
 require('yzm');
+require('ui');
 
 function _api_rok(info)
     local url = 'http://rok.honghongdesign.cn/public/';
@@ -31,7 +32,6 @@ function getPhone()
         info.smsname = data['data']['name'];
         local res = get_(url);
         log(res)
-        
         postArr['s']="SmsRokReg.MakeGetPhone";
         postArr['name']=info.smsname;
         postArr['arr']=json.encode(res) ;
@@ -274,8 +274,9 @@ function update_token_new()
     info_['idfa']=RokToken[2]
     info_['fighting']=__game.fighting
     info_['red']=__game.red
+    info_['user_id'] = UIv.user_id
     info_['s']='Rok.Token'
-    info_['note']= getDeviceName() .. '->news'
+    info_['note']= getDeviceName() .. '新上传'
     _api_rok(info_)
 end
 
