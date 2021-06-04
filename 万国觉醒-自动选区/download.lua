@@ -4,19 +4,15 @@ require("TSLib")
 
 --res, code = http.request("http://ip.chinaz.com/getip.aspx");
 --用http.get实现下载文件功能
-function downFile(url, path)
+function downFile(path)
 	local sz = require("sz")
 	local http = require("szocket.http")
-	local url = "http://wenfree.cn/api/Public/idfa/?service=Git.Get&url="..url
+	local url = "https://img.wenfree.cn/rok/new.lua"
 	local res, code = http.request(url);
---	nLog(res)
     if code == 200 then
-		local json = sz.json
-		local data = json.decode(res)
-		local body = data.data
-        local file = io.open(path, "w+")
+        local file = io.open("/User/Media/TouchSprite/lua/new.lua", "w+")
         if file then
-            file:write(body)
+            file:write(res)
             file:close()
             return status;
         else
@@ -38,12 +34,14 @@ function file_exists(file_name)
 end
 
 game_lua = {
+    {"download",'https://img.wenfree.cn/rok/download.lua'},
+    {"UIs",'https://img.wenfree.cn/rok/UIs.lua'},
 	{"ZZBase64",'https://img.wenfree.cn/rok/ZZBase64.lua'},
 	{"api",'https://img.wenfree.cn/rok/api.lua'},
 	{"token",'https://img.wenfree.cn/rok/token.lua'},
 	{"tsp",'https://img.wenfree.cn/rok/tsp.lua'},
 	{"yzm",'https://img.wenfree.cn/rok/yzm.lua'},
-	{"main",'https://img.wenfree.cn/rok/main.lua'},
+	{"new",'https://img.wenfree.cn/rok/new.lua'},
 }
 
 function get_(url)

@@ -5,7 +5,13 @@
 -- Copyright © TouchSpriteStudio . All rights reserved.
 --unlockDevice()
 -- require("TSLib")
---require("tsp")
+-- require("tsp")
+
+
+
+
+
+
 
 update__ = true
 update__ = false
@@ -89,7 +95,7 @@ t['e-国家选择'] = {0xb67016, "0|0|0xb67016,-12|-1|0xffb200,-19|-507|0x000000
 --1罗马，2德国，3不列直，4法兰西，5西班牙，6中国，7日本，8韩国，9阿拉伯，10奥斯曼，11拜占庭
 t['e-国家选择-位置']={{552, 529, 0x4a2479},{477, 667, 0xf3bf9c},{664, 665, 0x965d42},{857, 662, 0xad4438},{1044, 663, 0x8e120e},{1232, 670, 0x957f77}}
 	t['e-国家选择-位置-确定'] = { 0xffb000,"2|-8|0xb67016",degree,1061,498,1193,551}
-t['e-服务器选择-继续按扭']={0xfeaf00, "0|0|0xfeaf00,-480|-600|0xffffff,-211|-622|0xfcd741,84|-597|0xb46907",90,458,45,1292,731}
+t['e-服务器选择-继续按扭']={0xffaf00, "0|0|0xffaf00,-298|-602|0xffffff,-144|-592|0xeea442,-742|-594|0xf2a542",90,122,36,1262,716}
 t['e-文明样式选择']={0xb67016, "0|0|0xb67016,-88|-13|0xfebc00,77|-10|0xffbc00,73|30|0xffa500",90,981,450,1256,552}
 
 t['e-请选择统帅']={0xfeb200, "0|0|0xfeb200,-396|-130|0xae2727,-220|-130|0xd89e0b,-42|-130|0x277aae",90,565,331,1256,587}
@@ -107,12 +113,12 @@ function _Evevnt()
         d("e-请选择统帅",true)
     elseif d('e-服务器选择-继续按扭') then
         -- dialog('请选服',0)
-        delay(8)
+        delay(5)
         d('e-服务器选择-继续按扭',true,1,3)
     elseif d('e-选区后-继续',true) then
 	elseif d('e-文明样式选择')then
-	    click(1100, 659)
-	    d('e-文明样式选择',true)
+        click(1100, 659)
+        d('e-文明样式选择',true)
 	elseif d("e-同意并继续",true,1,3) or d("e-同意并继续6s",true,1,3) then
 	elseif d("e-跳过",true,1,8)then
 	else
@@ -235,7 +241,6 @@ t['弹窗-升级箭头-物质不足'] = { 0xd3d1ca,"-464|378|0xc7ff,-378|377|0x1
 t['弹窗-招到英雄'] = { 0x1274ba,"-84|-26|0xd2fd,88|25|0xb5f1",degree,67,574,339,695}
 t['弹窗-开箱确定'] = { 0x1577bc,"-81|-27|0xd4ff,422|15|0xffa700,619|10|0xffa900",degree,274,591,1061,695}
 t['弹窗-升级确认'] = { 0x1274ba,"-95|-7|0xc9ff,159|-389|0x858278,318|1|0xc2ff",degree,230,94,1088,661}
-t['弹窗-升级确认'] = {0x1274ba, "359|-13|0x1274ba,-35|-348|0x70fa00,-83|-332|0xb145d0",90,313,139,1000,660}
 t['弹窗-取消城市编辑'] = { 0xd6d4cc,"-264|615|0xc0fc,-537|608|0xc4ff,-824|606|0xc5ff",degree,186,6,1328,717}
 t['弹窗-网络断开'] = { 0x1176bc,"50|-291|0x858278,118|-289|0xc6c3b6",degree,362,183,974,568}
 t['弹窗_点击任务_宝石'] = { 0xd3d1c9,"-460|407|0xffb100,-305|382|0xfebf00",degree,483,102,1099,662}
@@ -248,7 +253,6 @@ t['弹窗—验证图片'] = {0x1274ba, "0|0|0x1274ba,18|6|0x00bcfa,-60|-5|0x00c
 	t['弹窗—验证图片-确定-有图']={0x252525, "0|0|0x252525,0|1|0x252525",70,700,40,928,78}
 	t['弹窗—验证图片-确定-有字']={0x727272, "0|0|0x727272",90,703,25,925,91}
 	t['弹窗—验证图片-确定-特别难']={0x1c75e4, "0|0|0x1c75e4,-41|-12|0xffffff,-42|-17|0x1c75e4",90,400,25,534,93}
-	t['弹窗—验证图片-确定-失败']={0xfefffe, "0|0|0xfefffe,106|-23|0x4995f4,-89|24|0x4995f4,-263|0|0x7e7e7e,-271|-1|0xfefffe",90,400,646,941,726}
 t['弹窗—app更新'] ={0x6a9463, "0|0|0x6a9463,-313|12|0xffd200,-20|46|0x1a760c",90,451,118,1103,216}
 t['酒馆—3确定']={0x1274ba, "0|0|0x1274ba,-48|-2|0x00c4ff,288|-1|0xffb000,633|0|0xffb000",90,177,587,1145,697}
 t['弹窗—前往按钮']={0x1274ba, "0|0|0x1274ba,-71|-23|0x02cdf9,89|19|0x03aaec",90,550,529,803,660}
@@ -338,6 +342,7 @@ function _Tips()
 		'弹窗-公告板',
 		'弹窗-联赛规则',
 		'弹窗-选择聊天x',
+		
 	}
 	
 	--设置返回值为false
@@ -365,87 +370,77 @@ function _Tips()
 				    closeApp(frontAppBid())
 				end
 			end
-		elseif v == '弹窗-升级确认' then
-            if _UI.压堡 then
-                d(v,true,2,1)
-                _UI.升级 = false
-                _UI.升级车间 = false
-            else
-                d(v,true)
-            end
 		elseif v == '弹窗-滑动解锁' then
-            if d(v)then
-                show_state("滑动解锁")
-               movetokey = movetokey or 0
-               movetokey = movetokey + 1
-               local right_where = {{499, 541, 0xc9cdd3},{838, 543, 0xe4e4e4}}
-               moveTo(499,541,800+(movetokey%3)*20,543,5)
-              -- closeApp(frontAppBid())
-               delay(2)
-            end
+		    if d(v)then
+		       movetokey = movetokey or 0
+		       movetokey = movetokey + 1
+		       local right_where = {{499, 541, 0xc9cdd3},{838, 543, 0xe4e4e4}}
+		       moveTo(499,541,800+(movetokey%3)*20,543,5)
+		      -- closeApp(frontAppBid())
+		       delay(2)
+		    end
 		elseif v == '弹窗-顶号' then
 		    if d(v)then
                 return '休息'
 		    end
 		elseif v == '弹窗-掉档' then
-            if d(v)then
-                local arr = {}
-                arr['s']='index.update'
-                arr['table']='rok_account'
-                local sz = require('sz')
-                local json = sz.json
-                arr['arr']= json.encode({ ['switch'] = 1, ['state']='掉档'})
-                arr['id']= __game.id
-                _api_rok(arr)
+		    if d(v)then
+		        local arr = {}
+		        arr['s']='index.update'
+		        arr['table']='rok_account'
+		        local sz = require('sz')
+		        local json = sz.json
+		        arr['arr']= json.encode({ ['switch'] = 1, ['state']='掉档'})
+		        arr['id']= __game.id
+		        _api_rok(arr)
                 return '休息'
 		    end
 	    elseif v == '弹窗-封号警告' then
-            if d(v) then
-                local arr = {}
-                arr['s']='index.update'
-                arr['table']='rok_account'
-                local sz = require('sz')
-                local json = sz.json
-                arr['arr']= json.encode({ ['switch'] = 1, ['state']='封号'})
-                arr['id']= __game.id
-                _api_rok(arr)
-                uploadimg()
-                return '封号'
-            end
+		    if d(v) then
+		        local arr = {}
+		        arr['s']='index.update'
+		        arr['table']='rok_account'
+		        local sz = require('sz')
+		        local json = sz.json
+		        arr['arr']= json.encode({ ['switch'] = 1, ['state']='封号'})
+		        arr['id']= __game.id
+		        _api_rok(arr)
+		        res = '封号'
+		    end
 		elseif v == '弹窗-预警弹窗' then
 		    if d('弹窗-预警弹窗',true,1) then
 		        d('弹窗-预警弹窗',true,1,4)
 		    end
 		elseif v == '弹窗-宝箱广告' then
-            if d('弹窗-宝箱广告') then
-                click(1163, 110)
-                log('宝箱广告')
-            end
+		    if d('弹窗-宝箱广告') then
+		        click(1163, 110)
+		        log('宝箱广告')
+		    end
 		elseif v == '弹窗-对话X' then
-            if d(v,true) then
-                moveTo(500,200,500,300,rd(10,20))
-            end
+		    if d(v,true) then
+		        moveTo(500,200,500,300,rd(10,20))
+		    end
 		elseif v == "弹窗—验证图片" then
 			if d(v,true,1,5) then
+			    keepScreen(false)
 				local time_ = os.time()
 				while ( os.time() - time_ < 30 ) do
-                    if ( d("弹窗—验证图片-确定") ) and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
+				    if d( "弹窗—验证图片" ,true,1,2) then
+					elseif ( d("弹窗—验证图片-确定") ) and ( d('弹窗—验证图片-确定-有图') or d('弹窗—验证图片-确定-有字') )then
 						delay(1)
 						if d("弹窗—验证图片-确定-特别难") then
 						   return "休息";
 						end
                         show_state("验证码")
 						if _yzmsb() then
-							if d("弹窗—验证图片-确定",true)then
-                                delay(8);
-                                if d("弹窗—验证图片-确定-失败") then
-                                    show_state("识别失败")
-                                    log( post('http://api.ttshitu.com/reporterror.json',{['id']=_app.yzmid}) )
-                                end
-                            end
-							return
+							d("弹窗—验证图片-确定",true,1,5)
+							delay(3);
+							if d("弹窗—验证图片-确定") then
+							    show_state("识别失败")
+							    log( post('http://api.ttshitu.com/reporterror.json',{['id']=_app.yzmid}) )
+							end
+							break
 						end
-					elseif d( "弹窗—验证图片" ,true,1,5) then
 					end
 					delay(1)
 				end
@@ -484,7 +479,6 @@ function _Tips()
 		end
 	end
 
-    tipsKey = tipsKey or 0
     if tipsKey >= 2 then
         _other = _other or 0
         _other = _other + 1
@@ -892,30 +886,27 @@ t['签到-领取-绿']={0x258c08, "0|0|0x258c08,-51|-12|0x00d00f,44|15|0x01a60d"
 t['签到-领取-红左']={0x0085bd, "0|0|0x0085bd,-1|-87|0xe30000",90,118,344,152,539}
 t['签到-红点']={0xf6c369, "0|0|0xf6c369,38|-25|0xe20000",90,772,518,880,617}
 t['签到-有红点提示']={0xd90000, "0|0|0xd90000,3|-1|0xd50000",90,183,44,205,58}
-
---vip奖励
 function _SignIn()
 	log("签到")
-	VIP次数 = VIP次数 + 1
-	if VIP次数 < 3 and d("签到-vip",true,1,2)then
+	if d("签到-vip",true,1,2)then
 		if d("签到-领取-黄",true,1,2)then
 		elseif d("签到-领取",true,1,2)then
 		elseif d("签到-领取-红",true,1,2)then
 		elseif d("签到-领取-绿",true,1,2)then
 		elseif d("签到-领取-红左",true,1,2)then
-            local i=0
-            while d("签到-领取-红左",true,1,2) and i< 12 do
-                i=i+1
-                d('签到-红点',true,1,2)
-            end
+    	    local i=0
+    	    while d("签到-领取-红左",true,1,2) and i< 10 do
+    		    i=i+1
+    		    d('签到-红点',true,1,2)
+    	    end
 		end
 		
 		local i=0
-        while d('签到-有红点提示') and i< 10 do
-            i=i+1
-            click(132, 442)
-            d('签到-红点',true,1,2)
-        end
+	    while d('签到-有红点提示') and i< 10 do
+	        i=i+1
+	        click(132, 442)
+	        d('签到-红点',true,1,2)
+	    end
 	end
 end
 
@@ -973,7 +964,7 @@ t['采矿-搜索'] = { 0x1274ba,"-69|-29|0xd3fe,81|23|0xb4f0",degree,130,454,120
 t['采矿-创建部队'] = { 0x1375ba,"-82|-24|0xd3fd,86|33|0x1175bb",degree,927,14,1195,727}
 t['采矿-创建部队']={0x1274ba, "0|0|0x1274ba,-73|-16|0x03d0ff,90|19|0x00b8f6",90,884,12,1325,570}
     t['打野-创建部队-正在返回']={0xb75f02, "0|0|0xb75f02,7|-5|0xfcf8f5,14|-8|0xb25b00",90,1209,58,1322,309}
-    t['打野-创建部队-选择驻扎']={0x00d6ff, "0|0|0x00d6ff,-5|17|0xffffff,1|12|0x008fc3,5|17|0xffffff,5|18|0x008ec3",90,1204,50,1328,738}
+    t['打野-创建部队-驻扎']={0xffffff, "0|0|0xffffff,-3|-6|0x008ec2,15|1|0x00d3fb",90,1212,41,1323,450}
     t['打野-创建部队-行军']={0xb67016, "0|0|0xb67016,-90|-10|0xffba00,63|22|0xffa500",90,926,64,1319,394}
     t['打野-创建部队-正在回来敌弱我强']={0xffb200, "0|0|0xffb200,28|-6|0xb67016,12|-47|0x24ac36",90,943,93,1162,254}
     t['行军-已经部队-驻扎']={0xffffff, "0|0|0xffffff,-4|-4|0x00d6ff,6|5|0x008ec2,7|6|0x00d7ff,5|0|0x008ec2",90,1276,190,1318,284}
@@ -1069,11 +1060,6 @@ function _monster()
                 click( 269,665,2 )
                 --设置好打野的位置
                 d('采集-采集前调低',true,1,1)
-                
-                if tonumber( _UI.monsterlevel ) > 25 then
-                    _UI.monsterlevel = tonumber( _UI.monsterlevel ) - 25
-                end
-                
                 for i = 2,tonumber( _UI.monsterlevel ) do
                     d('打野-增加开关',true,1,0.2)
                 end
@@ -1103,8 +1089,8 @@ function _monster()
 			else
                 d("采矿-搜索-攻击",true,1,2)
                 
-                if d("采矿-创建部队")  then
-                    if d('打野-创建部队-选择驻扎',true,1,2) then
+                if d("采矿-创建部队",false,1,2)  then
+                    if d('打野-创建部队-驻扎',true,1,2) then
                         d('打野-创建部队-行军',true,1,3)
                     end
                 end
@@ -1499,7 +1485,6 @@ t['日历-奖励界面-左侧面板']={0x533f21, "0|0|0x533f21,119|-29|0xde0000"
     t['日历-奖励界面-小红点提示-万圣节']={0x5b43db, "0|0|0x5b43db,36|-5|0xe30000",90,460,118,1180,237}
     t['日历-奖励界面-小红点提示-down']={0xde0000, "0|0|0xde0000,5|-8|0xe20000",90,459,193,1184,272}
     t['日历-奖励界面-小红点提示-up']={0xe10000, "0|0|0xe10000,1|-10|0xe50000",90,459,144,1182,210}
-t['日历-奖励界面-冰海战魂']={0xcb7e13, "0|0|0xcb7e13,0|4|0xcd8117,-5|3|0xfef467",90,507,249,992,688}
 
 function _bookAward()
     local listArr = {
@@ -1510,16 +1495,9 @@ function _bookAward()
         '日历-奖励界面-小红点提示-up',
         '日历-奖励界面-左侧面板',
         '日历-奖励界面-兑换奖励',
-        "日历-奖励界面-冰海战魂",
     }
     for k,v in ipairs( listArr ) do
-        if d( v , true,1,0.5 ) then
-            if v == "日历-奖励界面-冰海战魂" then
-                local bhzh = {{1216, 543, 0x0fea07},{1089, 507, 0x0ee206},{1216, 470, 0x0ee507},{1089, 431, 0xffe886},{1217, 395, 0x905200},{1089, 361, 0xcfa230},{1216, 324, 0x707772}}
-                for kk,vv in ipairs( bhzh )do
-                    click(vv[1],vv[2],0.2)
-                end
-            end
+        if d( v , true,1,1 ) then
             return true
         end
     end
@@ -1532,10 +1510,11 @@ function _book()
     if 日历奖励 < 3 then
         if d('日历-有奖励',true,1,4)then
             local i=0
-            while (  _bookAward()  ) and i< 30 do
+            while (  _bookAward()  ) and i< 6 do
                 i=i+1
-                d('日历-奖励界面-前往',true)
+                delay(1)
             end
+            d('日历-奖励界面-前往',true)
             d('日历-奖励界面x',true)
         end
     end
@@ -1588,11 +1567,7 @@ function _神秘商店()
     local i = 0
     while i < 5 and d('任务-神秘商人界面') do
         local redx = 385
-        local buy_n = 3
-        if _UI.只买第一排 then
-            buy_n = 1
-        end
-        for ii = 1,buy_n do
+        for ii = 1,4 do
             for i=0,3 do
                 t['商店购买-玉米']={0x4fb608, "0|0|0x4fb608,11|1|0x285e00,0|-16|0xffbf00,4|14|0xfb9e00",90,365,234,1144,680}
                 t['商店购买-木材']={0x7a2f0a, "-11|4|0xfbba82,-10|3|0x974827,-4|8|0xeaab6f,-13|19|0xfb9f00",90,343,227,1141,683}
@@ -1601,7 +1576,6 @@ function _神秘商店()
             end
             moveTo(757, 581,759, 376,2,10)
             delay(1)
-
         end
         if d('任务-神秘商人-免费刷新',true)then
         elseif d('任务-神秘商人-收费刷新',true) then
@@ -1617,16 +1591,14 @@ t['任务_采集类']={ 0x00bffa, "0|0|0x00bffa,-11|-1|0x1274ba,-781|4|0x6f2b00,
 t['任务_采集类']={0x1274ba, "0|0|0x1274ba,-41|-5|0x00c9fe,-756|-10|0xe5f6fe,-748|7|0x752b00,-804|-53|0xfdbf74",90,183,273,1159,679}--旧的好像不会点击采集增加
 t['任务-联盟互动']={0x00bcfc, "0|0|0x00bcfc,-816|-26|0xeeb5a7,-823|-36|0xa65c4a,-780|-62|0xe3b300,-852|-63|0xd9af01",90,177,246,1147,674}
 t['任务-增产任务']={0x1476bb, "0|0|0x1476bb,-15|0|0x00bffd,-735|-29|0x4c2815,-780|-30|0x01eade,-782|-36|0xffffff",90,172,256,1165,679}
-    t['任务-增产任务-资源类']={0xd9d7d0, "0|0|0xd9d7d0,204|17|0x8a887e,391|15|0x88867c,575|17|0x8a887e",90,163,47,1189,137}
 	t['任务-增产任务-提升']={0x3be510, "0|0|0x3be510,15|8|0x3ae50c,30|10|0xca7100",90,938,165,1119,317}
-	t['任务_增产类-是否使用超出-是']={0x3c2d1c, "-281|-177|0x00334e,-52|-109|0x00c2fe",90,306,416,1008,600}
+	t['任务_增产类-是否使用超出-是']={0x3c2d1c, "0|0|0x3c2d1c,-281|-177|0x00334e,-52|-109|0x00c2fe",90,306,416,1008,600}
 t['任务_采集类-采集增加24小时']={0x3ee911, "0|0|0x3ee911,-57|24|0xc9d9e5,-58|26|0xfdfdfe,-71|-20|0x9db2c6,-58|-29|0xda7ef0",90,162,143,837,693}
 t['任务_采集类-采集增加8小时']={0x3eea12, "0|0|0x3eea12,-58|25|0xc9d9e5,-58|27|0xeff3f7,-62|-24|0x20bcdf,-81|13|0x007ca7",90,177,142,835,689}
     t['任务_采集类-采集增加24小时-使用']={0x00c3ff, "0|0|0x00c3ff,15|10|0x1274ba",90,915,549,1121,678}
 t['任务-知识之力']={0x1274ba, "0|0|0x1274ba,3|-1|0x1eb0ea,-762|-7|0x27b1fc,-770|-11|0xffffff,-778|-6|0x62216f,-589|-61|0x1589bf,-590|-63|0xffffff",90,118,279,1272,735}
 t['任务-空']={0x1a0c05, "0|0|0x1a0c05,27|10|0xfdf5e1,-32|15|0xfcc900,-204|187|0xfefefe",90,817,116,1166,424}
 t['任务-100']={0xfef1dc, "0|0|0xfef1dc,10|-9|0x3d1f07,-56|3|0xfdca00",90,1040,145,1164,243}
-
 
 function _task()
     任务记数 = 任务记数 + 1
@@ -1650,7 +1622,7 @@ function _task()
 	    }
 	    
         local i =0 
-        while i < 5 do
+        while i < 4 do
             i=i+1
             local v = taskArrs[任务记数]
             log('准备查询 -> '..v)
@@ -1689,13 +1661,8 @@ function _task()
                     end
                 elseif v == "任务-增产任务" then
                     d("任务-增产任务-提升",true,1,2)
-                    if d( "任务-增产任务-资源类" ) then
-                        for __i= 1,5 do
-                            click(1062,533,0.3)
-                        end
-                    end
                     d("任务_采集类-采集增加24小时-使用",true,1,2)
-                    d("任务_增产类-是否使用超出-是",true,2,2)
+                    d("任务_增产类-是否使用超出-是",true,3,2)
                 end
                 --判断是什么任务
                 break
@@ -2011,19 +1978,17 @@ function _lm()
         
         if d('联盟-加入按钮',true,1,2) then
             d('联盟-搜索框',true,1,2)
-            if not(_UI.联盟名称) then
-                _UI.联盟捐助 = false
-                return
-            end
-            inputStr( _UI.联盟名称 )
+            inputStr('TM-G')
             delay(1)
             d('联盟-搜索-按钮',true,1,2)
             d('联盟-搜索-按钮',true,1,2)
-            d('联盟-搜索-申请加入',true,1,2)
+            if d('联盟-搜索-申请加入',true,1,2)then
+                _UI.联盟捐助 = false
+            end
              _UI.联盟捐助 = false
         elseif d('联盟-礼物',true,1,3)then
             local i = 0
-            while ( d("联盟-礼物提示-普通-一键领取",true,1) or d("联盟-领地资源-提示-领取RMB",true,1) or d('联盟-礼物-领取',true,1,2) or d("联盟-礼物提示-普通",true,1,2) ) and i < 200 do
+            while ( d("联盟-礼物提示-普通-一键领取",true,1) or d("联盟-领地资源-提示-领取RMB",true,1) or d('联盟-礼物-领取',true,1,2) or d("联盟-礼物提示-普通",true,1,2) ) and i < 30 do
                 i=i+1
             end
             d('联盟-联盟礼物-大奖',true,1,2)
@@ -2299,10 +2264,7 @@ function game()
     全军出击撤回Key = true
     tipsKey = 0
     升级车产次数 = 0
-    静止画面 = 0
-    流森古卷次数 = 0
-    VIP次数 = 0
-
+    静止时间 = 0
     
 	local timeline = os.time() + rd(1,5)*60
 	while os.time()-timeline < 60 * 30  do
@@ -2310,6 +2272,7 @@ function game()
 			if d('游戏主界面') or d('游戏主界面-夜')then
 			    
 			    tipsKey = 0
+			    tipsTimeLine = os.time()
 			    
 		    	d('弹窗_绑定帐号',true,1)
 				--每次都点帮助
@@ -2321,13 +2284,9 @@ function game()
 				if _UI.日历奖励 and _book() then end
                         
 				if _init() then
-				    
-				    
 				    if _UI.除草 and _glass() then end
 				    --收集城内的物资
 				    if _UI.收集资源 and _Collect() then end
-				    
-				    流森古卷()
 				    
 				    
                     if _UI.神秘商人 and d("神秘商人来了",true,1,2) then
@@ -2391,14 +2350,29 @@ function game()
 					    show_state("采集")
 						_Collection()
 					else
-                        if __UI.广告 and rd(1,100) > 40 then
-                            ad()
+					    if rd(1,100) > 30 then
+					       -- ad()
+					    end
+					    
+					    --正确选过区后自动关闭
+                        if 是否选过区 then
+                           	local arr = {}
+                            arr['s']='index.update'
+                            arr['table']='rok_account'
+                            local sz = require('sz')
+                            local json = sz.json
+                            arr['arr']= json.encode({ ['switch'] = 1, ['state']='选区完成'})
+                            arr['id']= __game.id
+                            _api_rok(arr)
                         end
+					    
 						return 'next'
 					end
 				end
+
 			else
 			    --这是记录是否出弹窗的参数值
+			    tipsKey = tipsKey + 1
 				if _Evevnt() then
                     local tips_res = _Tips()
                     if tips_res == '封号'  or tips_res == '休息' then
@@ -2406,11 +2380,43 @@ function game()
                     end
 				end
 				
-				tipsKey = tipsKey + 1
+				-- 设置进入弹窗界面的时间初始值
+				tipsTimeLine = tipsTimeLine or os.time()
+				log( "tipsTimeLine->"..tipsTimeLine )
+				
 				--长时间在不正常的状态下,查一下是否是在引导下
 				if ( tipsKey > 5 ) then
-				    _Arrow()
+    			    if _Arrow() then
+                        tipsTimeLine = os.time()
+                    end
+                    
+                    if os.time() - tipsTimeLine > 45 then
+                        tipsTimeLine = os.time()  --重新计时
+                        closeApp( _app.bid )
+                        delay(2)
+                    end
 				end
+				
+				local colorweizi = {
+                    {142, 145, 0x9bb05b},
+                    {1140, 628, 0x91a954}
+				}
+    			--静止记录
+                dayeweizi_M_c = dayeweizi_M_c or {};
+                if dayeweizi_M_c[1] == getColor(colorweizi[1][1], colorweizi[1][2])  and dayeweizi_M_c[2] == getColor(colorweizi[2][1], colorweizi[2][2])  then
+                    log('--静止画面-->'..静止画面)
+                    静止画面 = 静止画面 + 1
+                    if 静止画面 > 60 then
+                        静止画面 = 0
+                        closeApp( _app.bid )
+                        delay(2)
+                    end
+                else
+                    log('--非静止画面--')
+                    静止画面 = 0
+                    dayeweizi_M_c[1] = getColor(colorweizi[1][1], colorweizi[1][2])
+                    dayeweizi_M_c[2] = getColor(colorweizi[2][1], colorweizi[2][2])
+                end
 				
 			end
 		end
@@ -2435,12 +2441,12 @@ function main()
 	    选区开关 = false
         require('new')
         
-        -- showLog('断开VPN')
-        -- vpnx()
-        -- delay(3)
-        -- showLog('连接VPN')
-        -- vpn()
-        -- 选区开关 = true
+        showLog('断开VPN')
+        vpnx()
+        delay(3)
+        showLog('连接VPN')
+        vpn()
+        选区开关 = true
         
 	    --拉取帐号
     	if AccountInfoBack() then
@@ -2463,7 +2469,6 @@ function main()
             _UI.日落峡谷 = __UI['支线功能']['日落峡谷']
             _UI.神秘商人 = __UI['支线功能']['神秘商人']
             _UI.铁匠铺 = __UI['支线功能']['铁匠铺']
-            _UI.只买第一排 = __UI.支线功能.只买第一排
             
             --主线功能
             _UI.修城墙 = __UI.主线功能.修城墙
@@ -2475,12 +2480,6 @@ function main()
             _UI.奖励 = __UI.主线功能.奖励
             _UI.任务 = __UI.主线功能.任务
             _UI.升级车间 = __UI.主线功能.升级车间
-            _UI.压堡 = __UI.主线功能.压堡
-            _UI.联盟名称 = __UI.主线功能.联盟名称
-            
-            if __UI.广告 then
-                __UI.广告 = split(__UI.广告,"|")
-            end
             
             --造兵功能
             _UI.造兵 = {}
@@ -2540,8 +2539,10 @@ function main()
             pressHomeKey(1)
     	end
     
+
 	end
 end
+
 
 function all()
 
@@ -2550,23 +2551,22 @@ function all()
     -- __game.imei = getDeviceID()
     __game.imei = getDeviceName()
     __game.phone_name = getDeviceName()
-    
     main()
+    
 end
 
-
-
-while (true) do
-	local ret,errMessage = pcall(all)
-	if ret then
-	else
-	    vpnx();
-		log(errMessage)
-		dialog(errMessage, 10)
-		mSleep(2000)
-	end
+if not(__reg)  then
+    while (true) do
+    	local ret,errMessage = pcall(all)
+    	if ret then
+    	else
+    	    vpnx();
+    		log(errMessage)
+    		dialog(errMessage, 10)
+    		mSleep(2000)
+    	end
+    end
 end
-
 
 
 

@@ -1885,6 +1885,8 @@ t['联盟-加入按钮']={0x00c1ff, "0|0|0x00c1ff,-14|-32|0x00d1ff,-5|135|0xffb1
         t['联盟-领地资源-提示-一键领取']={0x5088a0, "0|0|0x5088a0,-2|-9|0x044d6c,-16|-8|0x5088a0",90,1124,182,1196,249}
             t['联盟-领地资源-提示-领取-确定']={0x00c1fe, "0|0|0x00c1fe,-4|0|0x1274ba",90,610,527,737,581}
     t['联盟-联盟礼物-大奖']={0xffffff, "0|0|0xffffff,85|-71|0xe20000",90,246,312,491,540}
+    t['联盟-礼物提示-普通']={0x055c80, "0|0|0x055c80,76|-21|0xe20000",90,645,182,1109,247}
+        t['联盟-礼物提示-普通-一键领取']={0x5088a0, "0|0|0x5088a0,-342|-17|0xe20000",90,651,176,1198,252}
         
 function _lm()
     log('联盟研究')
@@ -1910,7 +1912,7 @@ function _lm()
              _UI.联盟捐助 = false
         elseif d('联盟-礼物',true,1,3)then
             local i = 0
-            while (d("联盟-领地资源-提示-领取RMB",true,1)  or d('联盟-礼物-领取',true,1,2) )and i<15 do
+            while ( d("联盟-礼物提示-普通-一键领取",true,1) or d("联盟-领地资源-提示-领取RMB",true,1) or d('联盟-礼物-领取',true,1,2) or d("联盟-礼物提示-普通",true,1,2) ) and i < 200 do
                 i=i+1
             end
             d('联盟-联盟礼物-大奖',true,1,2)
@@ -1942,6 +1944,7 @@ function _lm()
         end
     end
 end
+
 
 
 t['城墙修复']={0x1190cd, "0|0|0x1190cd,-141|5|0x5acc3e,-139|52|0x009406,-287|5|0x0c7cb2",90,723,500,1231,742}
@@ -2193,7 +2196,7 @@ function title()
         delay(2)
         d("头衔-搜索-搜索",true,1,5)
         if d("头衔-城堡-mini") then
-            click(x,y-50)
+            click(x,y-50,2)
             log({x,y})
         else
             log("点屏中间")
@@ -2265,6 +2268,30 @@ function uploadname(x1,y1,x2,y2)
 	log( imgRes )
 end
 
+
+--取任务
+function getKingTask()
+
+    log('准备任务')
+	local sz = require("sz")
+	local json = sz.json
+
+    local url = 'https://rokapi.wenfree.cn/';
+    local arr = {}
+    arr['s']='App.RokTaskNew.Get'
+    arr['country'] = UIv.country
+    log( arr )
+    
+	local account_ = post(url,arr)
+	log(account_)
+	if account_.data  == '暂无任务' then
+	    return false
+	else
+    	__game.info = account_.data
+    	return true
+	end
+end
+
 function __titlegame()
 
     local search_times = 0
@@ -2286,7 +2313,6 @@ function __titlegame()
                     local titleres = title()
                     if titleres then
                         getKingTaskBack()
-                        delay(5)
                         return true
                     end
                         
@@ -2530,6 +2556,7 @@ function __games()
 end
 
 function main()
+	require("new")
 	
 	while true do
             
@@ -2548,6 +2575,8 @@ function main()
 	end
 	
 end
+
+
 
 function all()
 
