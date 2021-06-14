@@ -1,6 +1,4 @@
 require('tsp')
-
-
 --读文件
 function readFile_(path)
 	local path = path or '/var/mobile/Media/TouchSprite/lua/account.txt'

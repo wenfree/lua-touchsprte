@@ -395,7 +395,7 @@ function _Tips()
 		        arr['table']='rok_account'
 		        local sz = require('sz')
 		        local json = sz.json
-		        arr['arr']= json.encode({ ['switch'] = 1, ['state']='封号'})
+		        arr['arr']= json.encode({ ['switch'] = 1, ['state']='封号' })
 		        arr['id']= __game.id
 		        _api_rok(arr)
 		        res = '封号'

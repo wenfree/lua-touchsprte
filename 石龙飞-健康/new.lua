@@ -116,8 +116,9 @@ end
 if not(t) then
     t = {}
 end
-t['awz-一键新机横']={0xffffff, "-9|-110|0xffffff,0|-187|0x6f7179,-1|73|0x6f7179,-28|-65|0x6f7179", 90, 577, 445, 654, 724}
-t['awz-一键新机竖']={0xffffff, "112|-4|0xffffff,189|0|0x6f7179,-72|0|0x6f7179,64|-28|0x6f7179", 90, 19, 585, 301, 653}
+
+-- t['awz-一键新机横']={0xffffff, "-9|-110|0xffffff,0|-187|0x6f7179,-1|73|0x6f7179,-28|-65|0x6f7179", 90, 577, 445, 654, 724}
+t['awz-一键新机竖']={0xffffff, "0|0|0xffffff,-42|-18|0x6f7179,87|24|0x6f7179,150|1|0x6f7179",90,16,562,312,660}
 
 function clickNew()
     closeApp(awzbid,0)
@@ -126,7 +127,7 @@ function clickNew()
 	local outTime = 60 * 0.5
 	while (os.time()-timeLine < outTime) do
 		if activeawz(awzbid,3)then
-            if d("awz-一键新机横",true) or d("awz-一键新机竖",true) then
+            if d("awz-一键新机竖",true) then
                 return true
             end
 		end
@@ -291,9 +292,9 @@ function setAWZ(id)
         local i = 0
         while i < 20 do
             if active(_app.bid,5)then
-                if d("弹窗-掉档") or d("e-同意并继续-台服",true,1,3) then
+                if d("弹窗-掉档") then
                     return true
-                elseif d("e-同意并继续6s",true) then
+                elseif d("e-同意并继续",true,1,2) or d("e-同意并继续6s",true) then
                 end
             end
             i=i+1

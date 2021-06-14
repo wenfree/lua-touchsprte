@@ -32,7 +32,9 @@ pages=
     {
         { 
             {["type"] = "Label",["color"] = "255,30,2",["size"] = "12",["align"] = "left",["text"] = "设置帐号",},
-            {["type"] = "Edit",["color"] = "38,38,38",["prompt"] = "设置帐号",["size"] = "15",["id"] = "user_id",["align"] = "left",["text"] = "2",["kbtype"] = "default",},
+            {["type"] = "Edit",["color"] = "38,38,38",["prompt"] = "设置帐号",["size"] = "15",["id"] = "user_id",["align"] = "left",["text"] = "",["kbtype"] = "default",},
+            {["type"] = "Label",["color"] = "255,30,2",["size"] = "12",["align"] = "left",["text"] = "服务器选择",},
+            { ["type"] = "RadioGroup", ["select"] = "0", ["id"] = "locals", ["list"] = "国服,国际服,台服", },
         }
     },
 } 

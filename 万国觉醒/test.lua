@@ -48,12 +48,12 @@ sys = {
 -- log( readPasteboard() )
 
 -- input("3625858761")
-input("yzh14754364458")
+input("dbc9204d-ffbb-49ed-bab7-c8d7f02d541e")
 
 
 -- log( appDataPath("com.saurik.Cydia") )
 
-
+-- openURL("https://web.lanshuapi.com/aff/pWVx")
 
 
 

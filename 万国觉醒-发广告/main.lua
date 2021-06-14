@@ -2273,129 +2273,24 @@ t['临时-免费女王']={0xffffee, "0|0|0xffffee,27|-33|0xe20000,12|-24|0xfb57a
 
 function game()
     
-    打野降低key = false;
-    打野增长key = true;
-    采矿调低一次 = true
-    任务记数 = 0
-    打野次数记数 = 0;
-    收集次数 = 0
-    读邮件次数 = 0
-    日历奖励 = 0
-    除草次数 = 0
-    建造次数 = 0
-    采矿次数 = 0
-    升级次数 = 0
-    斥候次数 = 0
-    领邮件奖励 = 0
-    修理城墙 = 0
-    研究次数 = 0
-    造兵次数 = 0
-    联盟次数 = 0
-    送物资次数 = 0
-    远征次数 = 0
-    英雄次数 = 0
-    arrowKey = 0
-    日落峡谷次数 = 0
-    全军出击撤回Key = true
+    删除旧广告key = true
     tipsKey = 0
-    升级车产次数 = 0
-    静止画面 = 0
-    流森古卷次数 = 0
-    VIP次数 = 0
 
-    
 	local timeline = os.time() + rd(1,5)*60
 	while os.time()-timeline < 60 * 30  do
 		if active(_app.bid,12)then
 			if d('游戏主界面') or d('游戏主界面-夜')then
-			    
-			    tipsKey = 0
-			    
-		    	d('弹窗_绑定帐号',true,1)
-				--每次都点帮助
-				d('收集-帮助',true,2)
-				if d("临时-免费女王",true) then  d("临时-免费女王-领取",true)   end
-				
-				if _UI.VIP奖励 and _SignIn() then end
-				if _UI.读邮件 and _mail() then end
-				if _UI.日历奖励 and _book() then end
-                        
+                tipsKey = 0
 				if _init() then
-				    
-				    
-				    if _UI.除草 and _glass() then end
-				    --收集城内的物资
-				    if _UI.收集资源 and _Collect() then end
-				    
-				    流森古卷()
-				    
-				    
-                    if _UI.神秘商人 and d("神秘商人来了",true,1,2) then
-                        show_state("神秘商人")
-                        _神秘商店()
-                    elseif _UI.铁匠铺 then
-                        show_state("铁匠铺")
-                        _铁匠铺()
-					elseif _Hospital() then
-					elseif _UI.英雄升级加点 then
-					    show_state("英雄升级加点")
-					    _加天赋()
-					elseif _UI.远征 then
-					    show_state("远征")
-					    _远征()
-					elseif _UI.修城墙 then
-					    show_state("修城墙")
-					    _wall()
-					elseif _UI.建造 then
-					    show_state("新建筑")
-						_NewBuild()
-					elseif _UI.英雄 then
-					    show_state("酒馆召唤")
-						_Hero()
-					elseif _UI.升级车间 then
-					    show_state("升级车间")
-						_build_Che()
-					elseif _UI.升级 then
-					    show_state("升级主城")
-						_升级()
-					elseif _UI.搜索村庄 then
-					    show_state("搜索村庄")
-					    read_mail()
-					elseif _UI.奖励 then
-					    show_state("奖励")
-						_Award()
-					elseif _UI.任务 then
-					    show_state("任务")
-						_task()
-					elseif _UI.造兵.key  then
-					    show_state("造兵")
-						_soldier()
-					elseif _UI.斥候 then
-					    show_state("斥候")
-						_Acouts()
-                    elseif _UI.送物资 then
-                        show_state("送物资")
-                        _songwuzi()
-                    elseif _UI.主线功能.全军出击 then
-                        show_state("全军出击")
-                        _all_arm()
-                    elseif _UI.打野 then
-                        show_state("打野")
-                        if d("游戏主界面-城内",true,1,2)then
-                            _monster()
+                    if _UI.广告 then
+                        if ads_() then
+                            return 'next'
                         end
-                    elseif _UI.联盟捐助 then
-                        show_state("联盟捐助")
-                        _lm()
-                    elseif _UI.采集.key then
-					    show_state("采集")
-						_Collection()
-					else
-                        if __UI.广告 and rd(1,100) > 40 then
-                            ad()
-                        end
-						return 'next'
-					end
+                    else
+                        show_state("未设广告词")
+                        delay(3)
+                        return 'next'
+                    end
 				end
 			else
 			    --这是记录是否出弹窗的参数值
@@ -2415,7 +2310,7 @@ function game()
 			end
 		end
 	end
-	show_state("--")
+    show_state("--")
 	return 'next'
 end
 	
@@ -2430,100 +2325,20 @@ end
 function main()
 	
 	while true do
-	    
-	    是否选过区 = false
-	    选区开关 = false
+        是否选过区 = false
+        选区开关 = false
         require('new')
         
-        -- showLog('断开VPN')
-        -- vpnx()
-        -- delay(3)
-        -- showLog('连接VPN')
-        -- vpn()
-        -- 选区开关 = true
-        
-	    --拉取帐号
-    	if AccountInfoBack() then
-    	    --读出token
+        --拉取帐号
+        if AccountInfoBack() then
+        --读出token
             __game.token = llsGameToken()[1]
             --初始化UI设置
-            __UI = __game.wei_ui
+            _UI = __game.wei_ui
             --完全格式化
-            _UI.国家 = 5
-            --小功能
-            _UI.除草 = __UI['小功能']['除草']
-            _UI.VIP奖励 = __UI['小功能']['VIP奖励']
-            _UI.收集资源 = __UI['小功能']['收集资源']
-            _UI.读邮件 = __UI['小功能']['读邮件']
-            _UI.日历奖励 = __UI['小功能']['日历奖励']
-            
-            --支线功能
-            _UI.远征 = __UI['支线功能']['远征']
-            _UI.英雄升级加点 = __UI['支线功能']['英雄升级加点']
-            _UI.日落峡谷 = __UI['支线功能']['日落峡谷']
-            _UI.神秘商人 = __UI['支线功能']['神秘商人']
-            _UI.铁匠铺 = __UI['支线功能']['铁匠铺']
-            _UI.只买第一排 = __UI.支线功能.只买第一排
-            
-            --主线功能
-            _UI.修城墙 = __UI.主线功能.修城墙
-            _UI.建造 = __UI.主线功能.建造
-            _UI.英雄 = __UI.主线功能.酒馆召唤
-            _UI.升级 = __UI.主线功能.升级
-            _UI.吃加速 = __UI.主线功能.吃加速
-            _UI.搜索村庄 = __UI.主线功能.搜索村庄
-            _UI.奖励 = __UI.主线功能.奖励
-            _UI.任务 = __UI.主线功能.任务
-            _UI.升级车间 = __UI.主线功能.升级车间
-            _UI.压堡 = __UI.主线功能.压堡
-            _UI.联盟名称 = __UI.主线功能.联盟名称
-            
-            if __UI.广告 then
-                __UI.广告 = split(__UI.广告,"|")
+            if _UI.广告 then
+                _UI.广告 = split(_UI.广告,"|")
             end
-            
-            --造兵功能
-            _UI.造兵 = {}
-            _UI.造兵.key = __UI.主线功能.造兵key
-            _UI.造兵.步兵 = __UI.主线功能.步兵
-            _UI.造兵.骑兵 = __UI.主线功能.骑兵
-            _UI.造兵.弓兵 = __UI.主线功能.弓兵
-            _UI.造兵.车兵 = __UI.主线功能.车兵
-            
-            --其它功能
-            _UI.斥候 = __UI.主线功能.斥候
-            _UI.斥候次数 = tonumber(__UI.主线功能.斥候次数) or 5
-            _UI.打野 = __UI.主线功能.打野
-            _UI.打野次数 = tonumber(__UI.打野次数)
-            _UI.打野吃体力 = __UI.主线功能.吃体力
-            _UI.monsterlevel = __UI.monsterlevel or 1
-            _UI.monsteDW = __UI.monsteDW or '默认'
-            _UI.主线功能 = {}
-            _UI.主线功能.全军出击 = __UI.主线功能.全军出击
-            if _UI.主线功能.全军出击 then
-                _UI.打野 = false
-            end
-            
-            --采集设置
-            _UI.采集 = {}
-            _UI.采集.key = __UI.主线功能.采集key
-            _UI.采集.种类 = __UI.采集种类
-            _UI.采集.联盟矿场 = __UI.主线功能.联盟矿场
-            if __UI.主线功能.采矿等级 then
-                _UI.采集.采矿等级 = tonumber(__UI.主线功能.采矿等级)
-            else
-                _UI.采集.采矿等级 = 1
-            end
-            --联盟科技捐助
-            _UI.联盟捐助 = __UI.主线功能.联盟捐助
-            _UI.建筑列队 = false
-            
-            --物资运送
-            _UI.物资运送 = __UI.主线功能.物资运送
-            if __UI.R位置 == '坐标' then
-                _UI.坐标 = split(__UI.坐标,',')
-            end
-            
             --是否截图
             upimg = true
             allimg = true
@@ -2532,35 +2347,29 @@ function main()
             --清理帐号
             clearOneAccount();
             delay(1)
-            
         else
             log('帐号休息中')
             delay(10);
             pressHomeKey(0)
             pressHomeKey(1)
-    	end
-    
-	end
+        end
+    end
 end
 
 function all()
-
     local sz=require('sz')
     __game = {}
-    -- __game.imei = getDeviceID()
     __game.imei = getDeviceName()
     __game.phone_name = getDeviceName()
-    
     main()
 end
-
-
 
 while (true) do
 	local ret,errMessage = pcall(all)
 	if ret then
+	    
 	else
-	    vpnx();
+	   -- vpnx();
 		log(errMessage)
 		dialog(errMessage, 10)
 		mSleep(2000)
