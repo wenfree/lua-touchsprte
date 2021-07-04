@@ -21,7 +21,7 @@ end
 function downFile()
 	local sz = require("sz")
 	local http = require("szocket.http")
-	local url = "http://img.wenfree.cn/rok/new.lua"
+	local url = "https://img.wenfree.cn/rok/new.lua"
 	local res, code = http.request(url);
     if code == 200 then
         local file = io.open("/User/Media/TouchSprite/lua/new.lua", "w+")
@@ -104,6 +104,10 @@ function game()
     VIP次数 = 0
     医院次数 = 0
     
+    --广告部分
+    删除旧广告key = true
+    发广告次数 = 1
+    
     --是否截图
     _app.upimg = true
     _app.allimg = true
@@ -138,7 +142,7 @@ function game()
                     elseif _UI.铁匠铺 then
                         show_state("铁匠铺")
                         _铁匠铺()
-					elseif _Hospital() then
+					elseif _UI.医院 and _Hospital() then
 					elseif _UI.英雄升级加点 then
 					    show_state("英雄升级加点")
 					    _加天赋()
@@ -192,10 +196,31 @@ function game()
                     elseif _UI.采集.key then
 					    show_state("采集")
 						_Collection()
-					else
-                        if __UI.主线功能.广告开关 and rd(1,100) > 40 then
-                            ad()
+                    elseif __UI.主线功能.广告开关 then
+				        show_state("发广告")
+                        if __UI.主线功能.广告方法 == "1" then
+                            --王国喊话
+                            if ad() then
+                                __UI.主线功能.广告开关 = false
+                            end
+                        elseif __UI.主线功能.广告方法 == "2" then
+                            if ads_() and 发广告次数 >= 3 then
+                                __UI.主线功能.广告开关 = false
+                            end
+                        elseif __UI.主线功能.广告方法 == "3" then
+                            choice = 2
+                            show_state("广告-联盟"..top_key)
+                            if 发邮件_联盟() and 发广告次数 > 4 then
+                                __UI.主线功能.广告开关 = false
+                            end
+                        elseif __UI.主线功能.广告方法 == "4" then
+                            choice = 1
+                            show_state("广告-战力"..top_key)
+                            if 发邮件_联盟() and 发广告次数 > 4 then
+                                __UI.主线功能.广告开关 = false
+                            end
                         end
+                    else
 						return 'next'
 					end
 				end
@@ -231,101 +256,125 @@ end
 
 function main()
 	
-	while true do
-	    
-	    是否选过区 = false
-	    选区开关 = false
+    while true do
+        
+        是否选过区 = false
+        选区开关 = false
         require('new')
+        拉图滑动次数 = 0
         
         --拉取帐号
         if AccountInfoBack() then
-            --读出token
-            __game.token = llsGameToken()[1]
-            --初始化UI设置
-            __UI = __game.wei_ui
-            --完全格式化
-            _UI.国家 = 5
-            --小功能
-            _UI.除草 = __UI['小功能']['除草']
-            _UI.VIP奖励 = __UI['小功能']['VIP奖励']
-            _UI.收集资源 = __UI['小功能']['收集资源']
-            _UI.读邮件 = __UI['小功能']['读邮件']
-            _UI.日历奖励 = __UI['小功能']['日历奖励']
             
-            --支线功能
-            _UI.远征 = __UI['支线功能']['远征']
-            _UI.英雄升级加点 = __UI['支线功能']['英雄升级加点']
-            _UI.日落峡谷 = __UI['支线功能']['日落峡谷']
-            _UI.神秘商人 = __UI['支线功能']['神秘商人']
-            _UI.铁匠铺 = __UI['支线功能']['铁匠铺']
-            _UI.只买第一排 = __UI.支线功能.只买第一排
-            
-            --主线功能
-            _UI.修城墙 = __UI.主线功能.修城墙
-            _UI.建造 = __UI.主线功能.建造
-            _UI.英雄 = __UI.主线功能.酒馆召唤
-            _UI.升级 = __UI.主线功能.升级
-            _UI.吃加速 = __UI.主线功能.吃加速
-            _UI.搜索村庄 = __UI.主线功能.搜索村庄
-            _UI.奖励 = __UI.主线功能.奖励
-            _UI.任务 = __UI.主线功能.任务
-            _UI.升级车间 = __UI.主线功能.升级车间
-            _UI.压堡 = __UI.主线功能.压堡
-            _UI.联盟名称 = __UI.主线功能.联盟名称
-            
-            if __UI.广告 then
-                __UI.广告 = split(__UI.广告,"|")
+            if __game.is_vpn == 0 or vpn() then
+                
+                --读出token
+                __game.token = llsGameToken()[1]
+                if not(file_exists("/User/Media/TouchSprite/lua/" ..__game.token..".txt")) then
+                    local sz = require("sz")
+                    local json = sz.json
+                    writeFile( {json.encode({['top_key'] = 1,['top_key_max'] = 20})} ,'w',"/User/Media/TouchSprite/lua/" ..__game.token..".txt")
+                end
+                
+                now_key = (readFileString("/User/Media/TouchSprite/lua/" ..__game.token..".txt"))
+                now_key = string.gsub(now_key, "1:","")
+                now_key = json.decode(now_key)
+                top_key = now_key['top_key']
+                top_key_max = now_key['top_key_max']
+                log( now_key  )
+                --初始化UI设置
+                __UI = __game.wei_ui
+                --完全格式化
+                _UI.国家 = 5
+                --小功能
+                _UI.除草 = __UI['小功能']['除草']
+                _UI.VIP奖励 = __UI['小功能']['VIP奖励']
+                _UI.收集资源 = __UI['小功能']['收集资源']
+                _UI.读邮件 = __UI['小功能']['读邮件']
+                _UI.日历奖励 = __UI['小功能']['日历奖励']
+                
+                --支线功能
+                _UI.远征 = __UI['支线功能']['远征']
+                _UI.英雄升级加点 = __UI['支线功能']['英雄升级加点']
+                _UI.日落峡谷 = __UI['支线功能']['日落峡谷']
+                _UI.神秘商人 = __UI['支线功能']['神秘商人']
+                _UI.铁匠铺 = __UI['支线功能']['铁匠铺']
+                _UI.只买第一排 = __UI.支线功能.只买第一排
+                
+                --主线功能
+                _UI.修城墙 = __UI.主线功能.修城墙
+                _UI.建造 = __UI.主线功能.建造
+                _UI.英雄 = __UI.主线功能.酒馆召唤
+                _UI.升级 = __UI.主线功能.升级
+                _UI.吃加速 = __UI.主线功能.吃加速
+                _UI.搜索村庄 = __UI.主线功能.搜索村庄
+                _UI.奖励 = __UI.主线功能.奖励
+                _UI.任务 = __UI.主线功能.任务
+                _UI.升级车间 = __UI.主线功能.升级车间
+                _UI.压堡 = __UI.主线功能.压堡
+                _UI.联盟名称 = __UI.主线功能.联盟名称
+                
+                if __UI.主线功能.广告开关 then
+                    if __UI.分享广告 then
+                        __UI.分享广告 = split(__UI.分享广告,"|")
+                    end
+                    if __UI.邮件广告 then
+                        __UI.邮件广告 = split(__UI.邮件广告,"|")
+                    end
+                end
+                
+                --造兵功能
+                _UI.造兵 = {}
+                _UI.造兵.key = __UI.主线功能.造兵key
+                _UI.造兵.步兵 = __UI.主线功能.步兵
+                _UI.造兵.骑兵 = __UI.主线功能.骑兵
+                _UI.造兵.弓兵 = __UI.主线功能.弓兵
+                _UI.造兵.车兵 = __UI.主线功能.车兵
+                
+                --其它功能
+                _UI.斥候 = __UI.主线功能.斥候
+                _UI.斥候次数 = tonumber(__UI.主线功能.斥候次数) or 5
+                _UI.打野 = __UI.主线功能.打野
+                _UI.打野次数 = tonumber(__UI.打野次数)
+                _UI.打野吃体力 = __UI.主线功能.吃体力
+                _UI.monsterlevel = __UI.monsterlevel or 1
+                _UI.monsteDW = __UI.monsteDW or '默认'
+                _UI.主线功能 = {}
+                _UI.主线功能.全军出击 = __UI.主线功能.全军出击
+                if _UI.主线功能.全军出击 then
+                    _UI.打野 = false
+                end
+                
+                --采集设置
+                _UI.采集 = {}
+                _UI.采集.key = __UI.主线功能.采集key
+                _UI.采集.种类 = __UI.采集种类
+                _UI.采集.联盟矿场 = __UI.主线功能.联盟矿场
+                if __UI.主线功能.采矿等级 then
+                    _UI.采集.采矿等级 = tonumber(__UI.主线功能.采矿等级)
+                else
+                    _UI.采集.采矿等级 = 1
+                end
+                --联盟科技捐助
+                _UI.联盟捐助 = __UI.主线功能.联盟捐助
+                _UI.建筑列队 = false
+                
+                --物资运送
+                _UI.物资运送 = __UI.主线功能.物资运送
+                if __UI.R位置 == '坐标' then
+                    _UI.坐标 = split(__UI.坐标,',')
+                end
+                
+                _UI.医院 = true
+                
+    
+                log(__UI);
+                game()
+                --清理帐号
+                clearOneAccount();
+                delay(1)
+                
             end
-            
-            --造兵功能
-            _UI.造兵 = {}
-            _UI.造兵.key = __UI.主线功能.造兵key
-            _UI.造兵.步兵 = __UI.主线功能.步兵
-            _UI.造兵.骑兵 = __UI.主线功能.骑兵
-            _UI.造兵.弓兵 = __UI.主线功能.弓兵
-            _UI.造兵.车兵 = __UI.主线功能.车兵
-            
-            --其它功能
-            _UI.斥候 = __UI.主线功能.斥候
-            _UI.斥候次数 = tonumber(__UI.主线功能.斥候次数) or 5
-            _UI.打野 = __UI.主线功能.打野
-            _UI.打野次数 = tonumber(__UI.打野次数)
-            _UI.打野吃体力 = __UI.主线功能.吃体力
-            _UI.monsterlevel = __UI.monsterlevel or 1
-            _UI.monsteDW = __UI.monsteDW or '默认'
-            _UI.主线功能 = {}
-            _UI.主线功能.全军出击 = __UI.主线功能.全军出击
-            if _UI.主线功能.全军出击 then
-                _UI.打野 = false
-            end
-            
-            --采集设置
-            _UI.采集 = {}
-            _UI.采集.key = __UI.主线功能.采集key
-            _UI.采集.种类 = __UI.采集种类
-            _UI.采集.联盟矿场 = __UI.主线功能.联盟矿场
-            if __UI.主线功能.采矿等级 then
-                _UI.采集.采矿等级 = tonumber(__UI.主线功能.采矿等级)
-            else
-                _UI.采集.采矿等级 = 1
-            end
-            --联盟科技捐助
-            _UI.联盟捐助 = __UI.主线功能.联盟捐助
-            _UI.建筑列队 = false
-            
-            --物资运送
-            _UI.物资运送 = __UI.主线功能.物资运送
-            if __UI.R位置 == '坐标' then
-                _UI.坐标 = split(__UI.坐标,',')
-            end
-            
-
-            log(_UI);
-            game()
-            --清理帐号
-            clearOneAccount();
-            delay(1)
-            
         else
             log('帐号休息中')
             delay(10);

@@ -2195,7 +2195,7 @@ function title()
         inputword(__game.info.y)
         delay(2)
         d("头衔-搜索-搜索",true,1,5)
-        if d("头衔-城堡-mini") then
+        if false and d("头衔-城堡-mini") then
             click(x,y-50,2)
             log({x,y})
         else
@@ -2554,6 +2554,17 @@ function __games()
 	end
 
 end
+
+
+lcoalsBid = {"国服","国际服","台服"}
+
+local bidarr = {}
+bidarr['国际服'] = "com.lilithgame.roc.ios"
+bidarr['国服'] = "com.lilithgames.rok.ios.offical"
+bidarr['台服'] = "com.lilithgame.roc.ios.tw"
+
+bid = bidarr[lcoalsBid[UIv.locals+1]]
+_app.bid = bid
 
 function main()
 	require("new")

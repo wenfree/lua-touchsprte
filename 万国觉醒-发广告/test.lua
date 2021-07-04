@@ -4,7 +4,7 @@ require('tsp')
 -- require("yzm")
 -- require('api')
 -- require('token')
-init(1)
+init(0)
 -- t={}
 -- t['弹窗-兵营详情-x']={0xd3d1ca, "0|0|0xd3d1ca,0|34|0x04445f,-44|3|0xbdbbae",90,996,45,1201,149}
 -- t['头衔-头衔冠']={0x995300, "0|0|0x995300,-12|-6|0xffa800,402|2|0x42c6ee",90,23,91,1273,622}
@@ -48,8 +48,14 @@ sys = {
 -- log( readPasteboard() )
 
 -- input("3625858761")
-input("yzh14754364458")
 
+input("14.17.114.29")
+click(684,1293)
+input("18546")
+click(684,1293)
+input("3577470c-1cf1-4be1-84f3-a5f6f6c51bfc")
+click(684,1293)
+input("45")
 
 -- log( appDataPath("com.saurik.Cydia") )
 

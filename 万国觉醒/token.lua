@@ -59,10 +59,9 @@ function AccountInfoBack()
 	local sz = require("sz")
 	local json = sz.json
 
-
     local url = 'http://rok.honghongdesign.cn/public/';
     local arr = {}
-    arr['s']='RokGetToken.NewRest'
+    arr['s']='RokGetToken.newRest'
     arr['imei'] = __game.phone_name
     arr['note'] = __game.note
     arr['phone_name']= __game.phone_name
@@ -83,6 +82,10 @@ function AccountInfoBack()
         __game.note = account_.data.note
         __game.locals = account_.data.locals
         __game.is_awz = tonumber(account_.data.is_awz)
+        __game.is_vpn = tonumber(account_.data.is_vpn)
+        __game.showText = account_.data.showText
+        
+        dialog(__game.showText,10)
         
         local bidarr = {}
         bidarr['国际服'] = "com.lilithgame.roc.ios"
@@ -92,7 +95,6 @@ function AccountInfoBack()
         local AccountInfo = appDataPath( _app.bid ).."/Documents/AccountInfo.json"
         
         if __game.is_awz == 0 or setAWZ( __game.id  ) then
-            
             writeFile_( token ,'w',AccountInfo)
             if __game.wei_ui.小功能.单号 then
                 log('单号模式-不杀死')

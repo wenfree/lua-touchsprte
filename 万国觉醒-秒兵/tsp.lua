@@ -83,7 +83,6 @@ function log(txt,show,times)
 		nLog(txt)
 	end
 end
---
 function click(x,y,times,stayTime,logtxt)
 	local times = times or 1
 	local stayTime = stayTime or 0.05
@@ -401,11 +400,7 @@ function writeFile(tables,way,path)
 			if v == nil or v == '' or v == null then
 				v = 'null'
 			end
--- 			if type( k ) == 'number' then
--- 			    local txt = v.."\n"
--- 			else
-			    local txt = k ..":".. v.."\n"
--- 			end
+			local txt = k ..":".. v.."\n"
 			f:write(txt)
 		end
 	else

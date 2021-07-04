@@ -16,7 +16,7 @@ function readFile_(path)
 end
 --取帐号token
 function llsGameToken()
-	local appbid = 'com.lilithgames.rok.ios.offical'
+	local appbid = _app.bid
 	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"
 	local account = readFile_(AccountInfo)
 	if (account) then
@@ -58,12 +58,10 @@ function AccountInfoBack()
     log('准备取帐号')
 	local sz = require("sz")
 	local json = sz.json
-	local appbid = 'com.lilithgames.rok.ios.offical'
-	local AccountInfo = appDataPath(appbid).."/Documents/AccountInfo.json"
 
     local url = 'http://rok.honghongdesign.cn/public/';
     local arr = {}
-    arr['s']='RokGetToken.NewRest'
+    arr['s']='RokGetToken.Rest'
     arr['imei'] = __game.phone_name
     arr['note'] = __game.note
     arr['phone_name']= __game.phone_name
@@ -73,27 +71,34 @@ function AccountInfoBack()
 	log(account_)
 	
 	if account_.data.msg  == '休息' then
-	    showLog(account_.data.show )
+        showLog(account_.data.show )
 	else
-	    
-	    local token = account_.data.idfa
-    	__game.qu = account_.data.qu
-    	__game.wei_ui = json.decode( account_.data.web_ui )
-    	__game.weizi = account_.data.weizi
-    	__game.qus = tonumber(account_.data.qus)
-    	__game.id = account_.data.id
-    	__game.note = account_.data.note
-    	__game.is_awz = tonumber(account_.data.is_awz)
-    	
-    	if __game.is_awz == 0 or setAWZ( __game.id  ) then
-        	writeFile_( token ,'w',AccountInfo)
-        	if __game.wei_ui.小功能.单号 then
-        	    log('单号模式-不杀死')
+        local token = account_.data.idfa
+        __game.qu = account_.data.qu
+        __game.wei_ui = json.decode( account_.data.web_ui )
+        __game.weizi = account_.data.weizi
+        __game.qus = tonumber(account_.data.qus)
+        __game.id = account_.data.id
+        __game.note = account_.data.note
+        __game.locals = account_.data.locals
+        __game.is_awz = tonumber(account_.data.is_awz)
+        
+        local bidarr = {}
+        bidarr['国际服'] = "com.lilithgame.roc.ios"
+        bidarr['国服'] = "com.lilithgames.rok.ios.offical"
+        bidarr['台服'] = "com.lilithgame.roc.ios.tw"
+        _app.bid = bidarr[__game.locals]
+        local AccountInfo = appDataPath( _app.bid ).."/Documents/AccountInfo.json"
+        
+        if __game.is_awz == 0 or setAWZ( __game.id  ) then
+            writeFile_( token ,'w',AccountInfo)
+            if __game.wei_ui.小功能.单号 then
+                log('单号模式-不杀死')
             else
-                closeApp(appbid,1)
+                closeApp(_app.bid,1)
             end
-        	mSleep(2000);
-        	return true
+            mSleep(2000);
+            return true
         end
 	end
 end

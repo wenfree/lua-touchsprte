@@ -36,6 +36,7 @@ function _yzmsb()
 	postData['username'] = st_account[1]
 	postData['password'] = st_account[2]
 	postData['typeid'] = '27'
+	postData['softid'] = '15ebbebcee0243eea1e5e93ee5160604'
 	--postData['typename'] = '万国觉醒'
 
 	snapshot("yzm.jpg", 400,21,934,640);
@@ -83,6 +84,7 @@ function _yzmsb()
 	postData['username'] = st_account[1]
 	postData['password'] = st_account[2]
 	postData['typeid'] = '47'
+	postData['softid'] = '15ebbebcee0243eea1e5e93ee5160604'
 	--postData['typename'] = '万国觉醒'
     path = userPath();
     imagepath = path .. "/res/yzm.jpg"

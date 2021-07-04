@@ -28,11 +28,13 @@ MyTable = {
 ["timer"] = "30",
 ["cancelname"] = "取消",
 ["okname"] = "确定",
-pages=        
+pages=
     {
-        { 
+        {
             {["type"] = "Label",["color"] = "255,30,2",["size"] = "12",["align"] = "left",["text"] = "选择国家",},
-            {["type"] = "Edit",["color"] = "38,38,38",["prompt"] = "打野次数",["size"] = "15",["id"] = "country",["align"] = "left",["text"] = "2",["kbtype"] = "number",},
+            {["type"] = "Edit",["color"] = "38,38,38",["prompt"] = "设置王国",["size"] = "15",["id"] = "country",["align"] = "left",["text"] = "",["kbtype"] = "number",},
+            {["type"] = "Label",["color"] = "255,30,2",["size"] = "12",["align"] = "left",["text"] = "服务器选择",},
+            {["type"] = "RadioGroup", ["select"] = "0", ["id"] = "locals", ["list"] = "国服,国际服,台服", },
         }
     },
 } 
