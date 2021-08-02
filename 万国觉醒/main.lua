@@ -54,6 +54,7 @@ init(1)
 _app = {}
 _app.bid = 'com.lilithgames.rok.ios.offical'
 -- com.lilithgame.roc.ios.tw
+-- com.lilithgames.rok.ios.jp
 _app.yzmid = 0;
 
 
@@ -103,6 +104,7 @@ function game()
     流森古卷次数 = 0
     VIP次数 = 0
     医院次数 = 0
+    打码次数 = 0
     
     --广告部分
     删除旧广告key = true
@@ -122,7 +124,6 @@ function game()
 		    	d('弹窗_绑定帐号',true,1)
 				--每次都点帮助
 				d('收集-帮助',true,2)
-				if d("临时-免费女王",true) then  d("临时-免费女王-领取",true)   end
 				
 				if _UI.VIP奖励 and _SignIn() then end
 				if _UI.读邮件 and _mail() then end

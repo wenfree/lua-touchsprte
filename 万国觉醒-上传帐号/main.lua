@@ -72,12 +72,14 @@ function update_token_new()
     _api_rok(info_)
 end
 
-lcoalsBid = {"国服","国际服","台服"}
+lcoalsBid = {"国服","国际服","台服","日服"}
 
 local bidarr = {}
 bidarr['国际服'] = "com.lilithgame.roc.ios"
 bidarr['国服'] = "com.lilithgames.rok.ios.offical"
 bidarr['台服'] = "com.lilithgame.roc.ios.tw"
+bidarr['日服'] = "com.lilithgames.rok.ios.jp"
+
 
 bid = bidarr[lcoalsBid[UIv.locals+1]]
 

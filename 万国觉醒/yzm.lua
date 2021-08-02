@@ -90,7 +90,7 @@ function _yzmsb()
     imagepath = path .. "/res/yzm.jpg"
 	imagetitle = path .. "/res/yzmtitle.jpg"
 	
-	snapshot("yzm.jpg", 400,105,933,638);
+	snapshot("yzm.jpg", 400,105,933,638,0.5);
 	snapshot("yzmtitle.jpg", 687,20,942,101);
 	
 	require("ZZBase64")

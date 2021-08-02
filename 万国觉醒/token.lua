@@ -91,6 +91,7 @@ function AccountInfoBack()
         bidarr['国际服'] = "com.lilithgame.roc.ios"
         bidarr['国服'] = "com.lilithgames.rok.ios.offical"
         bidarr['台服'] = "com.lilithgame.roc.ios.tw"
+        bidarr['日服'] = "com.lilithgames.rok.ios.jp"
         _app.bid = bidarr[__game.locals]
         local AccountInfo = appDataPath( _app.bid ).."/Documents/AccountInfo.json"
         

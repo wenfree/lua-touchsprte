@@ -49,13 +49,13 @@ sys = {
 
 -- input("3625858761")
 
-input("14.17.114.29")
+input("45.195.9.230")
 click(684,1293)
-input("18546")
+input("1080")
 click(684,1293)
-input("3577470c-1cf1-4be1-84f3-a5f6f6c51bfc")
+input("a3621d4f-0fda-4109-8db2-8b59a565892e")
 click(684,1293)
-input("45")
+input("财代付")
 
 -- log( appDataPath("com.saurik.Cydia") )
 
