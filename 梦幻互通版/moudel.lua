@@ -5,7 +5,7 @@ function WaitingAndClick(waitpage,clickicon,unit,timeout,sleeptime,fuzzy)
     timeout = timeout or 3000 --默认超时时间3000毫秒
     fuzzy = fuzzy or 90 --默认相似度90%
     unit = unit or 0 --内面内部部件，默认标签为0
-     
+
     --单点模糊比色
     local function IsColor(pixelpoint,fuzzy)
         local fl,abs = math.floor,math.abs
